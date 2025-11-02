@@ -53,17 +53,18 @@ export default defineConfig({
     outDir: 'build',
   },
   server: {
-    host: '0.0.0.0',       // ⭐ Changed: Allow external access
-    port: 3000,            // ✅ Kept: Your preferred port
-    strictPort: false,     // ⭐ Added: Allow fallback ports
+    host: '0.0.0.0',              // ⭐ ADDED: Allow Replit proxy access
+    port: 3000,                   // ✅ KEPT: Your original port
+    strictPort: false,            // ⭐ ADDED: Allow fallback ports if 3000 busy
     hmr: {
-      clientPort: 443,     // ⭐ Added: HTTPS for Replit proxy
+      clientPort: 443,            // ⭐ ADDED: Fix Hot Module Reload over HTTPS
+      protocol: 'wss',            // ⭐ ADDED: WebSocket secure protocol
     },
-    allowedHosts: [        // ⭐⭐ THE KEY FIX ⭐⭐
-      '.replit.dev',       // Matches all *.replit.dev subdomains
-      '.repl.co',          // Legacy Replit domains
-      'localhost',         // Local development
+    allowedHosts: [               // ⭐⭐ THE MAIN FIX ⭐⭐
+      '.replit.dev',              // All Replit preview domains
+      '.repl.co',                 // Legacy Replit domains
+      'localhost',                // Local development
     ],
-    // ❌ Removed: open: true (doesn't work in Replit)
+    // ❌ REMOVED: open: true (doesn't work in Replit)
   },
 });
