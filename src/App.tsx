@@ -25,18 +25,24 @@ import { Settings } from './pages/Settings';
 type AppMode = 'public' | 'login' | 'admin';
 
 export default function App() {
-  const [showWelcome, setShowWelcome] = useState(true);
+  const [showWelcome, setShowWelcome] = useState(() => {
+    const welcomeDone = sessionStorage.getItem('welcomeDone');
+    return welcomeDone !== 'true';
+  });
   const [appMode, setAppMode] = useState<AppMode>('public');
   const [activePage, setActivePage] = useState('home');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowWelcome(false);
-    }, 2500); // 2.5s to match loading animation duration
+    if (showWelcome) {
+      const timer = setTimeout(() => {
+        setShowWelcome(false);
+        sessionStorage.setItem('welcomeDone', 'true');
+      }, 2500);
 
-    return () => clearTimeout(timer);
-  }, []);
+      return () => clearTimeout(timer);
+    }
+  }, [showWelcome]);
 
   // Scroll to top instantly on page change (Y:0 reset)
   useEffect(() => {
@@ -54,8 +60,7 @@ export default function App() {
   };
 
   // Handle login
-  const handleLogin = (username: string, password: string) => {
-    // In a real app, validate credentials
+  const handleLogin = () => {
     setIsAuthenticated(true);
     setAppMode('admin');
     setActivePage('dashboard');
@@ -117,20 +122,18 @@ export default function App() {
   return (
     <ToastProvider>
       <AnimatePresence mode="wait">
-        {showWelcome && <WelcomeScreen key="welcome" />}
-      </AnimatePresence>
-      
-      {!showWelcome && (
-        <AnimatePresence mode="wait">
-          {/* Public Interface */}
-          {appMode === 'public' && (
-            <motion.div
-              key="public"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
-            >
+        {showWelcome ? (
+          <WelcomeScreen key="welcome" />
+        ) : (
+          <motion.div
+            key={appMode}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            style={{ minHeight: '100vh' }}
+          >
+            {appMode === 'public' && (
               <PublicLayout 
                 activePage={activePage} 
                 onNavigate={handlePublicNavigate}
@@ -148,34 +151,16 @@ export default function App() {
                   </motion.div>
                 </AnimatePresence>
               </PublicLayout>
-            </motion.div>
-          )}
+            )}
 
-          {/* Login Page */}
-          {appMode === 'login' && (
-            <motion.div
-              key="login"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
-            >
+            {appMode === 'login' && (
               <Login 
                 onLogin={handleLogin}
                 onBackToPublic={handleBackToPublic}
               />
-            </motion.div>
-          )}
+            )}
 
-          {/* Admin Interface */}
-          {appMode === 'admin' && isAuthenticated && (
-            <motion.div
-              key="admin"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
-            >
+            {appMode === 'admin' && isAuthenticated && (
               <AdminLayout
                 activePage={activePage}
                 onNavigate={setActivePage}
@@ -195,10 +180,10 @@ export default function App() {
                   </AnimatePresence>
                 </div>
               </AdminLayout>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      )}
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </ToastProvider>
   );
 }

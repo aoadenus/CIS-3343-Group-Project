@@ -7,7 +7,7 @@ import { Card } from '../../components/ui/card';
 import { useToast } from '../../components/ToastContext';
 
 interface LoginProps {
-  onLogin: (username: string, password: string) => void;
+  onLogin: () => void;
   onBackToPublic: () => void;
 }
 
@@ -31,7 +31,7 @@ export function Login({ onLogin, onBackToPublic }: LoginProps) {
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     showToast('success', 'Welcome back, Emily!');
-    onLogin(username, password);
+    onLogin();
     setIsLoading(false);
   };
 
