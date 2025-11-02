@@ -1,10 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useMotionValue, useTransform, PanInfo } from 'motion/react';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence, PanInfo } from 'motion/react';
 import { ArrowRight, Heart, Award, Clock, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Card, CardContent } from '../../components/ui/card';
-import { ImageWithFallback } from '../../components/figma/ImageWithFallback';
 import { LazyImage } from '../../components/Loading/LazyImage';
-import { SkeletonCard } from '../../components/Loading/SkeletonCard';
 
 // Weekly Spotlight Cakes
 const spotlightCakes = [
@@ -70,21 +68,6 @@ const testimonials = [
 export function PublicHome() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
-  const x = useMotionValue(0);
-
-  // Simulate initial page load
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const handleImageLoad = (id: number) => {
-    setLoadedImages(prev => new Set([...prev, id]));
-  };
 
   // Auto-rotate carousel every 4 seconds
   useEffect(() => {
@@ -106,7 +89,7 @@ export function PublicHome() {
   };
 
   // Handle swipe gestures
-  const handleDragEnd = (e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+  const handleDragEnd = (_e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     setIsDragging(false);
     const swipeThreshold = 50;
     
@@ -306,7 +289,6 @@ export function PublicHome() {
                           objectFit: 'cover',
                           pointerEvents: 'none'
                         }}
-                        onLoad={() => handleImageLoad(spotlightCakes[currentSlide].id)}
                       />
                     </div>
 
@@ -734,7 +716,6 @@ export function PublicHome() {
                 fontSize: 'clamp(14px, 3vw, 16px)',
                 color: '#5A3825',
                 lineHeight: 1.6,
-                marginBottom: 'clamp(24px, 5vw, 32px)',
                 maxWidth: '600px',
                 margin: '0 auto',
                 marginBottom: 'clamp(24px, 5vw, 32px)'
