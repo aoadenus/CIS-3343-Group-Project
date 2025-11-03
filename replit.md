@@ -90,10 +90,14 @@ The application runs on port 5000 and is configured for the Replit environment.
 
 ## Recent Changes
 - November 3, 2025: Navigation & Footer UX Improvements
-  - **Navigation bar with Heart icon**:
-    - 40px Heart icon filled with cream color (#F8EBD7) next to brand name
-    - Clean horizontal layout with proper spacing
-    - Navigation bar at 64px height
+  - **Professional minimal navigation bar**:
+    - Reduced height from 64px to 60px for sleeker appearance
+    - 32px Heart icon (cream #F8EBD7) with smaller brand text: clamp(16px, 3.5vw, 22px)
+    - Compact navigation links: 14px font, minimal gap-1 spacing, whiteSpace: nowrap
+    - Responsive Staff Login button: "Login" on lg, "Staff Login" on xl screens
+    - Optimized padding: px-3 (mobile), px-4 (sm), px-6 (lg) for better fit
+    - All text guaranteed to fit without wrapping on all screen sizes
+    - flex-shrink-0 on logo and right section to prevent compression
   - **Enhanced carousel navigation arrows**:
     - Upgraded from 40px to 48px solid raspberry (#C44569) buttons
     - Replaced text arrows with white Chevron icons (24px, strokeWidth 3) from Lucide React

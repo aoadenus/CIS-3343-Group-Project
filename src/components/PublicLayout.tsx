@@ -44,26 +44,26 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
           boxShadow: scrolled ? '0 4px 16px rgba(90, 56, 37, 0.2)' : 'none',
           backdropFilter: scrolled ? 'blur(10px)' : 'none',
           zIndex: 9999,
-          height: '64px',
-          overflow: 'visible'
+          height: '60px'
         }}
       >
-        <div className="container mx-auto px-4 sm:px-6 h-full">
+        <div className="container mx-auto px-3 sm:px-4 lg:px-6 h-full">
           <div className="flex items-center justify-between h-full">
             {/* Logo */}
             <button
               onClick={() => onNavigate('home')}
-              className="flex items-center gap-2 cursor-pointer hover:opacity-90 transition-opacity"
+              className="flex items-center gap-1.5 sm:gap-2 cursor-pointer hover:opacity-90 transition-opacity flex-shrink-0"
               style={{ background: 'none', border: 'none', padding: 0 }}
             >
-              <Heart size={40} fill="#F8EBD7" color="#F8EBD7" />
+              <Heart size={32} fill="#F8EBD7" color="#F8EBD7" className="flex-shrink-0" />
               <span
                 style={{
                   fontFamily: 'Playfair Display, serif',
                   fontWeight: 700,
-                  fontSize: 'clamp(20px, 4vw, 26px)',
+                  fontSize: 'clamp(16px, 3.5vw, 22px)',
                   color: 'white',
-                  letterSpacing: '-0.5px'
+                  letterSpacing: '-0.3px',
+                  whiteSpace: 'nowrap'
                 }}
               >
                 Emily Bakes Cakes
@@ -71,22 +71,22 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
             </button>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-2 lg:gap-4">
+            <div className="hidden lg:flex items-center gap-1">
               {navItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => onNavigate(item.id)}
-                  className="relative px-3 py-2 transition-all"
+                  className="relative px-2.5 py-2 transition-all"
                   style={{
                     fontFamily: 'Poppins, sans-serif',
                     fontWeight: 500,
-                    fontSize: '15px',
+                    fontSize: '14px',
                     color: 'white',
                     background: 'none',
                     border: 'none',
                     cursor: 'pointer',
-                    minHeight: '44px',
-                    opacity: activePage === item.id ? 1 : 0.9
+                    opacity: activePage === item.id ? 1 : 0.9,
+                    whiteSpace: 'nowrap'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.opacity = '1';
@@ -109,21 +109,21 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
             </div>
 
             {/* Right Section - Icons */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-shrink-0">
               {/* Staff Login Button */}
               <button
                 onClick={onAdminAccess}
-                className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg transition-all"
+                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all"
                 style={{
                   background: 'rgba(255, 255, 255, 0.15)',
                   border: '1px solid rgba(255, 255, 255, 0.3)',
                   color: 'white',
                   fontFamily: 'Poppins, sans-serif',
                   fontWeight: 600,
-                  fontSize: '14px',
+                  fontSize: '13px',
                   cursor: 'pointer',
-                  minHeight: '44px',
-                  backdropFilter: 'blur(10px)'
+                  backdropFilter: 'blur(10px)',
+                  whiteSpace: 'nowrap'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)';
@@ -132,8 +132,9 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
                   e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
                 }}
               >
-                <User size={18} />
-                Staff Login
+                <User size={16} />
+                <span className="hidden xl:inline">Staff Login</span>
+                <span className="xl:hidden">Login</span>
               </button>
 
               {/* Mobile Menu Button */}
@@ -157,7 +158,7 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
       />
 
       {/* Main Content */}
-      <main className="flex-1 pt-16 md:pt-18">
+      <main className="flex-1" style={{ paddingTop: '60px' }}>
         {children}
       </main>
 
