@@ -50,7 +50,9 @@ The application is built using React 18.3.1 with TypeScript, Vite 6.3.5, and Tai
   - **Mobile Menu Close Button Fix**: Replaced Lucide icon with inline SVG (48x48px) to prevent dot rendering on mobile devices
   - **Shop Page Sorting Dropdown**: Added z-index: 100 to ensure dropdown appears above CTA section
   - **Inquiry Form Redesign**: Compact 2-column layout (Name/Email, Phone/Date) with full-width message field, fits within 700px height without scrolling
-  - **Inquiry Form Header**: Enhanced with cake emoji, improved typography (24px title), corrected messaging ("submit your inquiry" not "place order")
+  - **Inquiry Form Header Styling**: Bold uppercase title (36px, 800 weight) with text shadow and drop shadow effects for modern look
+  - **Inquiry Form Product Highlight**: Product name in stylish pink-tinted box with left border accent (18px, 600 weight)
+  - **Inquiry Form Spacing**: Enhanced padding under subtitle (20px margin), 32px top padding between header and form content
   - **Inquiry Form Close Button**: Highly visible 48x48px button with inline SVG X icon (28px), clear positioning in top-right corner
   - **Inquiry Form Inputs**: Reduced to h-11 (44px), smaller icons (16px), compact spacing for better visual density
   - **Inquiry Form Buttons**: Border-top separator, h-11 buttons with gradient submit button

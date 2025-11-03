@@ -223,38 +223,62 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
 
                 {/* Title and Instructions */}
                 <div style={{ paddingRight: '60px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
-                    <span style={{ fontSize: '32px', lineHeight: 1 }}>🎂</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '12px' }}>
+                    <span 
+                      style={{ 
+                        fontSize: '36px', 
+                        lineHeight: 1,
+                        filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))'
+                      }}
+                    >
+                      🎂
+                    </span>
                     <h3
                       style={{
                         fontFamily: 'Playfair Display',
-                        fontSize: '32px',
-                        fontWeight: 700,
-                        letterSpacing: '0.5px',
+                        fontSize: '36px',
+                        fontWeight: 800,
+                        letterSpacing: '1px',
                         margin: 0,
-                        lineHeight: 1.2
+                        lineHeight: 1.1,
+                        textShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                        textTransform: 'uppercase'
                       }}
                     >
                       Cake Inquiry
                     </h3>
                   </div>
-                  <p
+                  
+                  <div
                     style={{
-                      fontSize: '16px',
-                      fontFamily: 'Poppins',
-                      fontWeight: 400,
-                      color: 'rgba(255, 255, 255, 0.95)',
-                      marginBottom: '8px',
-                      lineHeight: 1.4
+                      background: 'rgba(255, 255, 255, 0.15)',
+                      padding: '12px 16px',
+                      borderRadius: '8px',
+                      marginBottom: '20px',
+                      borderLeft: '4px solid rgba(255, 255, 255, 0.4)'
                     }}
                   >
-                    {productName}
-                  </p>
+                    <p
+                      style={{
+                        fontSize: '18px',
+                        fontFamily: 'Poppins',
+                        fontWeight: 600,
+                        color: '#FFFFFF',
+                        margin: 0,
+                        lineHeight: 1.3,
+                        letterSpacing: '0.3px'
+                      }}
+                    >
+                      {productName}
+                    </p>
+                  </div>
+                  
                   <p
                     style={{
                       fontSize: '14px',
-                      fontFamily: 'Open Sans',
-                      color: 'rgba(255, 255, 255, 0.8)',
+                      fontFamily: 'Poppins',
+                      fontWeight: 400,
+                      color: 'rgba(255, 255, 255, 0.9)',
                       fontStyle: 'italic',
                       lineHeight: 1.5,
                       margin: 0
