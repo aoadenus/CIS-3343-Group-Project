@@ -166,14 +166,11 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
                 style={{
                   background: 'linear-gradient(135deg, #C44569 0%, #A03355 100%)',
                   color: 'white',
-                  borderBottom: '3px solid rgba(255, 255, 255, 0.2)',
-                  paddingLeft: '26px',
-                  paddingRight: '26px',
-                  paddingTop: '0px',
-                  paddingBottom: '34px'
+                  borderBottom: '2px solid rgba(255, 255, 255, 0.15)',
+                  padding: '24px 32px 32px 32px'
                 }}
               >
-                {/* Close Button - Highly Visible */}
+                {/* Close Button */}
                 <button
                   type="button"
                   onClick={(e) => {
@@ -181,16 +178,14 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
                     e.stopPropagation();
                     onClose();
                   }}
-                  className="absolute rounded-lg transition-all"
+                  className="absolute rounded-xl transition-all"
                   style={{ 
-                    top: '24px',
-                    right: '38px',
-                    width: '54px', 
-                    height: '54px',
-                    minWidth: '54px',
-                    minHeight: '54px',
-                    background: 'rgba(255, 255, 255, 0.25)',
-                    border: '2px solid rgba(255, 255, 255, 0.6)',
+                    top: '20px',
+                    right: '24px',
+                    width: '48px', 
+                    height: '48px',
+                    background: 'rgba(255, 255, 255, 0.2)',
+                    border: '2px solid rgba(255, 255, 255, 0.5)',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
@@ -199,112 +194,85 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
                     zIndex: 20
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.4)';
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.35)';
                     e.currentTarget.style.transform = 'scale(1.05)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)';
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
                     e.currentTarget.style.transform = 'scale(1)';
                   }}
                   aria-label="Close"
                 >
                   <svg
-                    width="30"
-                    height="30"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="white"
                     strokeWidth="3"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    style={{
-                      display: 'block',
-                      flexShrink: 0
-                    }}
                   >
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                   </svg>
                 </button>
 
-                {/* Title and Instructions */}
-                <div>
-                  {/* Icon and Title Row */}
-                  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                    <span 
-                      style={{ 
-                        fontSize: '48px',
-                        width: '48px',
-                        height: '48px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        lineHeight: 1,
-                        filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))',
-                        marginRight: '18px',
-                        flexShrink: 0
-                      }}
-                    >
-                      🎂
-                    </span>
+                {/* Content Container */}
+                <div style={{ paddingRight: '60px' }}>
+                  {/* Icon and Title */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '8px' }}>
+                    <span style={{ fontSize: '40px', lineHeight: 1 }}>🎂</span>
                     <h3
                       style={{
                         fontFamily: 'Playfair Display',
-                        fontSize: '2.4rem',
-                        fontWeight: 900,
-                        letterSpacing: '1px',
+                        fontSize: '2.5rem',
+                        fontWeight: 700,
+                        letterSpacing: '0.5px',
                         margin: 0,
                         lineHeight: 1.1,
-                        textShadow: '0 2px 8px rgba(0,0,0,0.15)',
-                        textTransform: 'uppercase'
+                        textShadow: '0 2px 6px rgba(0,0,0,0.15)'
                       }}
                     >
                       Cake Inquiry
                     </h3>
                   </div>
                   
-                  {/* Subtitle Bar */}
+                  {/* Product Name Chip */}
                   <div
                     style={{
-                      background: 'rgba(224, 92, 135, 0.22)',
-                      height: '46px',
-                      borderRadius: '8px',
-                      paddingLeft: '26px',
-                      paddingRight: '26px',
-                      paddingTop: '0px',
-                      paddingBottom: '24px',
-                      display: 'flex',
-                      alignItems: 'center'
+                      display: 'inline-block',
+                      background: 'rgba(255, 255, 255, 0.2)',
+                      padding: '10px 20px',
+                      borderRadius: '20px',
+                      marginBottom: '16px',
+                      border: '1px solid rgba(255, 255, 255, 0.3)'
                     }}
                   >
                     <p
                       style={{
-                        fontSize: '18px',
+                        fontSize: '1rem',
                         fontFamily: 'Poppins',
                         fontWeight: 600,
                         color: '#FFFFFF',
                         margin: 0,
-                        lineHeight: 1.3,
-                        letterSpacing: '0.3px'
+                        lineHeight: 1.3
                       }}
                     >
                       {productName}
                     </p>
                   </div>
                   
-                  {/* Instruction Text */}
+                  {/* Instructions */}
                   <p
                     style={{
-                      fontSize: '1.12rem',
+                      fontSize: '0.95rem',
                       fontFamily: 'Poppins',
                       fontWeight: 400,
                       color: 'rgba(255, 255, 255, 0.9)',
                       fontStyle: 'italic',
                       lineHeight: 1.5,
-                      margin: 0,
-                      marginTop: '24px',
-                      marginLeft: '46px',
-                      paddingBottom: '10px'
+                      margin: 0
                     }}
                   >
                     Please fill out all required fields (*) to submit your inquiry
