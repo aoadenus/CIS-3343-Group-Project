@@ -78,3 +78,16 @@ The application is built using React 18.3.1 with TypeScript, Vite 6.3.5, and Tai
   - **Inquiry Modal Image Upload**: Added inspiration image upload (up to 3 images), file previews with hover removal, proper state management and form reset
   - **Admin Inquiries Page**: New admin portal page to view customer cake inquiries with status filters (pending/reviewed/contacted), contact details, event dates, messages, and inspiration images
   - **Gold Star Ratings**: Maintained color-coded rating system (gold for 5-star, orange for 4.8+, raspberry for others)
+
+- November 3, 2025: Shop Page Layout Optimization & Inquiry Modal UX Improvements
+  - **Reduced Scrolling**: Reordered layout with title first, filters second, CTA third (moved down) to show products earlier on desktop view
+  - **Centered Category Filters**: Added justify-center to category button container for better visual alignment with search bar
+  - **Centered Sorting Dropdown**: Added text-center class and adjusted padding (px-5 pr-11) for proper text centering within border
+  - **Ultra-Compact CTA**: Further reduced to p-4, text-lg heading, 44px button height, smaller sparkle icon (20px)
+  - **Reduced Spacing**: Changed all mb-12 to mb-6 throughout Shop page for more compact desktop layout
+  - **Smaller Title**: Reduced from text-4xl md:text-5xl to text-3xl md:text-4xl with proportionally smaller underline
+  - **CTA Button Navigation**: Properly linked "Create Your Custom Cake" button to custom builder using onNavigate('builder') callback
+  - **Inquiry Modal Visibility**: Solid white background (#FFFFFF) instead of transparent, solid backdrop (rgba(0,0,0,0.75))
+  - **Form Input Contrast**: All inputs use solid backgrounds (#F8F8F8) with clear borders (#E0E0E0) and dark text (#2B2B2B)
+  - **Instant Close Button**: Added e.preventDefault() and e.stopPropagation() to X button and Cancel button for immediate response
+  - **Enhanced Close Button**: Close X now has visible background (rgba(255,255,255,0.15)) with border and hover states
