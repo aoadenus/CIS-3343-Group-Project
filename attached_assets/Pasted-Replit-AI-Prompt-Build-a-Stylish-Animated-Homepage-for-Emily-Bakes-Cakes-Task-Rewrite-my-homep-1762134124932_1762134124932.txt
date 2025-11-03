@@ -1,0 +1,77 @@
+Replit AI Prompt: Build a Stylish Animated Homepage for "Emily Bakes Cakes"
+Task:
+Rewrite my homepage using my provided global.css and the following goals. Create a modern, interactive, and visually-engaging bakery homepage using React, Tailwind (from global.css), and best practices for animation, accessibility, and branding.
+
+Design System:
+Use global.css containing:
+
+Animated mesh gradient layers: .animated-gradient-hero, .gradient-layer-1, .gradient-layer-2, .gradient-layer-3
+
+Brand colors (Raspberry, Cream, Charcoal)
+
+Modern, accessible font system (Poppins, Playfair Display, Open Sans)
+
+Utility, button, card classes for clean UI
+
+New Homepage Features (Step-by-Step):
+
+Animated Hero Section:
+
+Add a full-screen hero with animated mesh gradient layers behind a lifestyle cake image.
+
+Headline in large geometric font, with accent color for some words ("Where Every Bite Inspires").
+
+Subheadline describing cakes and handcrafted quality.
+
+Primary CTA button ("Order Your Custom Cake") with micro-interactions on hover.
+
+Spotlight Cakes Carousel:
+
+Display featured cake cards (name, image, price, description).
+
+Auto-rotate every 6s, swipe/click to change, animated entry transitions.
+
+Use modern card styling with elevation, round corners, responsive layout.
+
+Features Grid:
+
+3 columns for "Handcrafted with Love", "Award Winning", "On-Time Delivery".
+
+Use brand iconography (Lucide icons). Add gradient-hover depth on card hover.
+
+Testimonials:
+
+3 customer cards, each with text, name, star ratings.
+
+Animated fade/slide-in when entering viewport.
+
+Final CTA:
+
+Full-width, modern card with call to action, "Start Building" and "Contact Emily" buttons (primary and secondary styles).
+
+Accessibility & Mobile:
+
+Use large, contrast-friendly text and background colors.
+
+All touch targets >= 44x44px, fully responsive on mobile.
+
+Keyboard navigable, focus outlines.
+
+Instructions for Replit AI:
+
+Use all styles and utilities from the provided global.css.
+
+Use React functional components and Framer Motion for animation (install if missing).
+
+Use Lucide React icons for visual polish.
+
+Code must be readable, well-commented, and split into logical sections.
+
+Use Tailwind classes where possible for spacing, positioning, responsiveness.
+
+Explain technical terms (animated mesh gradient, WCAG accessibility, micro-interactions, etc.) in comments for every major section.
+
+Output the code as a single file (e.g., Home.jsx) unless modularization is requested.
+
+Make the new homepage visually impressive, fully interactive, and easy to customize further.
+
