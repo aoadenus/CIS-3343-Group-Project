@@ -47,7 +47,7 @@ app.get('/api/customers/:id', async (req, res) => {
 
 app.get('/api/orders', async (req, res) => {
   try {
-    const orders = await storage.getAllOrders();
+    const orders = await storage.getAllOrdersWithCustomers();
     res.json(orders);
   } catch (error) {
     console.error('Error fetching orders:', error);

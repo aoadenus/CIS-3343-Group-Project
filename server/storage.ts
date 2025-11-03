@@ -71,6 +71,32 @@ export async function getAllOrders() {
   return await db.select().from(orders).orderBy(desc(orders.createdAt));
 }
 
+export async function getAllOrdersWithCustomers() {
+  return await db
+    .select({
+      id: orders.id,
+      customerId: orders.customerId,
+      customerName: customers.name,
+      customerEmail: customers.email,
+      customerPhone: customers.phone,
+      orderType: orders.orderType,
+      occasion: orders.occasion,
+      flavor: orders.flavor,
+      design: orders.design,
+      servings: orders.servings,
+      eventDate: orders.eventDate,
+      message: orders.message,
+      additionalNotes: orders.additionalNotes,
+      inspirationImages: orders.inspirationImages,
+      status: orders.status,
+      priority: orders.priority,
+      createdAt: orders.createdAt,
+    })
+    .from(orders)
+    .leftJoin(customers, eq(orders.customerId, customers.id))
+    .orderBy(desc(orders.createdAt));
+}
+
 export async function getOrdersByCustomerId(customerId: number) {
   return await db.select().from(orders)
     .where(eq(orders.customerId, customerId))

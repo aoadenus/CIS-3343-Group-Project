@@ -3,8 +3,28 @@ import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { motion } from 'motion/react';
 import { Clock, User, Package, AlertCircle, Check } from 'lucide-react';
-import { Order } from '../../data/mockData';
 import { Card, CardContent } from '../../components/ui/card';
+
+// Database Order interface (matches API response from getAllOrdersWithCustomers)
+interface Order {
+  id: number;
+  customerId: number;
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string | null;
+  orderType: string;
+  occasion: string;
+  flavor: string;
+  design: string;
+  servings: number | null;
+  eventDate: Date | null;
+  message: string | null;
+  additionalNotes: string | null;
+  inspirationImages: string | null;
+  status: 'pending' | 'preparing' | 'ready' | 'completed';
+  priority: 'low' | 'medium' | 'high';
+  createdAt: Date;
+}
 
 const ItemType = 'ORDER';
 
@@ -53,7 +73,7 @@ function OrderCard({ order }: OrderCardProps) {
           <div className="flex justify-between items-start mb-3">
             <div>
               <h4 style={{ fontFamily: 'Poppins, sans-serif', fontSize: '16px', fontWeight: 600, color: '#2B2B2B', marginBottom: '4px' }}>
-                {order.product}
+                {order.occasion} - {order.flavor}
               </h4>
               <p style={{ fontFamily: 'Open Sans, sans-serif', fontSize: '13px', color: '#5A3825' }}>
                 Order #{order.id}
@@ -80,18 +100,18 @@ function OrderCard({ order }: OrderCardProps) {
             <div className="flex items-center gap-2">
               <Package className="w-4 h-4" style={{ color: '#5A3825' }} />
               <span style={{ fontFamily: 'Open Sans, sans-serif', fontSize: '14px', color: '#2B2B2B' }}>
-                Qty: {order.quantity} • ${order.total}
+                {order.design} • {order.servings ? `${order.servings} servings` : 'Custom size'}
               </span>
             </div>
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4" style={{ color: '#5A3825' }} />
               <span style={{ fontFamily: 'Open Sans, sans-serif', fontSize: '14px', color: '#2B2B2B' }}>
-                {new Date(order.date).toLocaleDateString()}
+                {order.eventDate ? new Date(order.eventDate).toLocaleDateString() : new Date(order.createdAt).toLocaleDateString()}
               </span>
             </div>
           </div>
 
-          {order.notes && (
+          {(order.message || order.additionalNotes) && (
             <div 
               className="p-2 rounded mb-3"
               style={{ background: '#FFF3CD', border: '1px solid #FFC107' }}
@@ -99,7 +119,7 @@ function OrderCard({ order }: OrderCardProps) {
               <div className="flex gap-2">
                 <AlertCircle className="w-4 h-4 flex-shrink-0" style={{ color: '#856404' }} />
                 <p style={{ fontFamily: 'Open Sans, sans-serif', fontSize: '12px', color: '#856404' }}>
-                  {order.notes}
+                  {order.message || order.additionalNotes}
                 </p>
               </div>
             </div>
@@ -227,7 +247,6 @@ function DropZone({ status, title, icon: Icon, orders, moveOrder }: DropZoneProp
 
 export function OrderBoard() {
   const [orders, setOrders] = useState<Order[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   // Fetch orders from API on mount
   useEffect(() => {
@@ -240,8 +259,6 @@ export function OrderBoard() {
         }
       } catch (error) {
         console.error('Error fetching orders:', error);
-      } finally {
-        setIsLoading(false);
       }
     };
 
