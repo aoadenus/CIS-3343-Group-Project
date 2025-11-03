@@ -1,0 +1,31 @@
+1. Product Card Design & Visual Hierarchy
+Make each cake card visually distinct. Use visual hierarchy, arrange images and text so the most important info (like “popular” tag, big cake name, price) stands out.
+Add hover effects (visual changes when mouse moves over) like shadows or slight zoom on images—use CSS or React libraries like Framer Motion for smooth animations.
+2. Ratings & Review UI
+Display ratings with star icons (⭐️) and review counts next to each cake. Consider color-coding high-rated items (e.g., 5-star = gold).
+Add tooltip popups (small informational boxes) explaining how ratings work.
+3. Filtering & Sorting
+Interactive filter buttons (e.g., “Most Popular,” “Highest Rated”): give clear visual feedback when selected (highlight with color, transition animation). and small deop down icon, to indicate it is a drop down menu
+Sorting: add drop-downs (“Sort by Price,” “Sort by Reviews”) and animate dropdown opening/closing for a polished user experience.
+4. Inquire Button & Inquiry Flow
+When “Inquire” is clicked, open a modal dialog box (a popup overlay) asking for user info and cake details—this is much clearer than just a notification.
+Add input validation (checking that info is filled in correctly, e.g., email format) and show instant feedback (“Thank you for your inquiry!”).
+5. Responsiveness (Mobile-Friendly Layout)
+Optimize grid layout to shift from multiple columns on desktop to single column on mobile.
+Make buttons and images larger on mobile for easier tapping.
+6. Accessibility
+All images should have alt text (“alternative” description shown for screen readers).
+Use strong color contrast and readable fonts for visually impaired users.
+7. Performance Optimizations
+Compress cake images (use WebP format and lazy loading: only load images when needed).
+Use code-splitting in React so only required components (product cards, filters) are loaded for the Shop page—faster page load.
+8. Customization Call-to-Action
+Add a visually-prominent section at the top: “Don’t see what you’re looking for? Create your custom cake!” with a relavnt sized button.
+Briefly explain the custom cake process (select flavor, decoration, delivery date) so users know what to expect.
+9. Information Consistency
+Standardize how prices and reviews are displayed—always in the same place on every card.
+Use tags or badges (“POPULAR,” “NEW”) for cakes in high demand, with different colors for each tag.
+10. UI/UX Polish
+Add subtle transitions when switching between filters or sorting options—the whole page shouldn’t reload, just the list update (use React state and animation libraries).
+Show loading spinners or skeleton UI (placeholder boxes) when data is loading, so it doesn’t appear broken.
+MAJOR Ux Polish, ensure the whole shop page looks concise and proffesional
