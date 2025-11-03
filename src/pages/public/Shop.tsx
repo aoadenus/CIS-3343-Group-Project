@@ -5,8 +5,9 @@ import { Button } from '../../components/ui/button';
 import { Card } from '../../components/ui/card';
 import { Input } from '../../components/ui/input';
 import { Badge } from '../../components/ui/badge';
-import { InquiryModal } from '../../components/InquiryModal';
+import { InquiryModal, InquiryFormData } from '../../components/InquiryModal';
 import { useToast } from '../../components/ToastContext';
+import { useInquiries } from '../../contexts/InquiriesContext';
 
 import birthdayCake1 from '../../assets/stock_images/birthday_cake_with_c_2320daa1.jpg';
 import birthdayCake2 from '../../assets/stock_images/birthday_cake_with_c_7bc0f700.jpg';
@@ -188,6 +189,7 @@ interface ShopProps {
 
 export function Shop({ onNavigate }: ShopProps = {}) {
   const { showToast } = useToast();
+  const { addInquiry } = useInquiries();
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('popular');
@@ -228,8 +230,13 @@ export function Shop({ onNavigate }: ShopProps = {}) {
     setInquiryModal({ isOpen: true, product });
   };
 
-  const handleInquirySubmit = () => {
+  const handleInquirySubmit = (data: InquiryFormData) => {
+    addInquiry({
+      ...data,
+      productName: inquiryModal.product?.name || ''
+    });
     showToast('success', `We've received your inquiry for ${inquiryModal.product?.name}! We'll contact you within 24 hours.`, 'Inquiry Submitted');
+    setInquiryModal({ isOpen: false, product: null });
   };
 
   const getRatingColor = (rating: number) => {

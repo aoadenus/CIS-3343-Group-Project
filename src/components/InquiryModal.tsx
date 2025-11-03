@@ -281,7 +281,7 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
               </div>
 
               {/* Form */}
-              <form onSubmit={handleSubmit} className="px-6" style={{ background: '#FFFFFF', paddingTop: '32px', paddingBottom: '20px' }}>
+              <form onSubmit={handleSubmit} className="px-6 overflow-y-auto" style={{ background: '#FFFFFF', paddingTop: '32px', paddingBottom: '20px', flex: 1 }}>
                 {/* Two-Column Grid for Inputs */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   {/* Name Field */}

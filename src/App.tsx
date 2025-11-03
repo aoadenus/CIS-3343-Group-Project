@@ -4,6 +4,7 @@ import { WelcomeScreen } from './components/WelcomeScreen';
 import { PublicLayout } from './components/PublicLayout';
 import { AdminLayout } from './components/AdminLayout';
 import { ToastProvider } from './components/ToastContext';
+import { InquiriesProvider } from './contexts/InquiriesContext';
 
 // Public Pages
 import { PublicHome } from './pages/public/Home';
@@ -147,7 +148,8 @@ export default function App() {
   };
 
   return (
-    <ToastProvider>
+    <InquiriesProvider>
+      <ToastProvider>
       <AnimatePresence mode="wait">
         {showWelcome ? (
           <WelcomeScreen key="welcome" />
@@ -211,6 +213,7 @@ export default function App() {
           </motion.div>
         )}
       </AnimatePresence>
-    </ToastProvider>
+      </ToastProvider>
+    </InquiriesProvider>
   );
 }

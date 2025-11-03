@@ -4,6 +4,7 @@ import { Mail, Phone, Calendar, MessageSquare, Image as ImageIcon, Check, Clock 
 import { Card } from '../../components/ui/card';
 import { Badge } from '../../components/ui/badge';
 import { Button } from '../../components/ui/button';
+import { useInquiries } from '../../contexts/InquiriesContext';
 
 interface Inquiry {
   id: number;
@@ -18,49 +19,13 @@ interface Inquiry {
   submittedAt: string;
 }
 
-const mockInquiries: Inquiry[] = [
-  {
-    id: 1,
-    name: 'Sarah Johnson',
-    email: 'sarah.j@email.com',
-    phone: '555-123-4567',
-    eventDate: '2025-12-15',
-    message: 'Looking for a 3-tier wedding cake with floral decorations',
-    productName: 'Elegant Wedding Tier',
-    status: 'pending',
-    submittedAt: '2025-11-02T14:30:00'
-  },
-  {
-    id: 2,
-    name: 'Michael Chen',
-    email: 'mchen@company.com',
-    phone: '555-234-5678',
-    eventDate: '2025-11-20',
-    message: 'Need a corporate logo cake for our company anniversary',
-    productName: 'Corporate Logo Cake',
-    status: 'reviewed',
-    submittedAt: '2025-11-01T10:15:00'
-  },
-  {
-    id: 3,
-    name: 'Emma Davis',
-    email: 'emma.davis@email.com',
-    phone: '555-345-6789',
-    eventDate: '2025-11-25',
-    message: 'Birthday cake for my daughter turning 5, she loves unicorns!',
-    productName: 'Birthday Celebration',
-    inspirationImages: ['cake1.jpg', 'cake2.jpg'],
-    status: 'contacted',
-    submittedAt: '2025-10-31T16:45:00'
-  }
-];
-
 export function Inquiries() {
+  const { inquiries, updateInquiryStatus } = useInquiries();
   const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'reviewed' | 'contacted'>('all');
 
   const filteredInquiries = statusFilter === 'all' 
-    ? mockInquiries 
-    : mockInquiries.filter(i => i.status === statusFilter);
+    ? inquiries 
+    : inquiries.filter(i => i.status === statusFilter);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -71,9 +36,6 @@ export function Inquiries() {
     }
   };
 
-  const updateInquiryStatus = (id: number, newStatus: 'pending' | 'reviewed' | 'contacted') => {
-    console.log(`Updating inquiry ${id} to status: ${newStatus}`);
-  };
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
