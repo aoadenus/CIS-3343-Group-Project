@@ -590,6 +590,39 @@ export function PublicHome({ onNavigate }: PublicHomeProps = {}) {
               </motion.div>
             ))}
           </div>
+
+          {/* Explore Our Story Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            style={{
+              textAlign: 'center',
+              marginTop: '48px'
+            }}
+          >
+            <motion.button
+              onClick={() => onNavigate?.('about')}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              style={{
+                background: '#C44569',
+                color: 'white',
+                fontFamily: 'Poppins, sans-serif',
+                fontWeight: 600,
+                fontSize: 'clamp(16px, 3vw, 18px)',
+                padding: '16px 48px',
+                borderRadius: '12px',
+                border: 'none',
+                cursor: 'pointer',
+                boxShadow: '0 4px 16px rgba(196, 69, 105, 0.3)',
+                transition: 'all 250ms ease'
+              }}
+            >
+              Explore Our Story
+            </motion.button>
+          </motion.div>
         </div>
       </section>
 

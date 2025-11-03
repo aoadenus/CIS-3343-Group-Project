@@ -1,261 +1,240 @@
-import { motion } from 'motion/react';
-import { useEffect, useState } from 'react';
-import logoImage from 'figma:asset/208dd57666cc04d301e0ec0f70d0f9c9a2c8b203.png';
-
 /**
- * Emily Bakes Cakes - Light Pastel Loading Animation
- * Duration: 2.5 seconds
- * Style: Soft morning light, baking warmth, handcrafted elegance
- * 
- * Phase 1 (0-0.8s): Logo entrance with bloom
- * Phase 2 (0.8-1.8s): Whisk swirl + flour dust particles
- * Phase 3 (1.8-2.5s): Hold and fade exit
+ * LoadingAnimation Component
+ * A stylish 2-second bakery-themed loading animation using Framer Motion
+ * Features: rising logo effect, pastel gradients, confetti sprinkles, smooth text animation
  */
+
+import { motion, AnimatePresence } from 'motion/react';
+import { useEffect, useState } from 'react';
 
 interface LoadingAnimationProps {
   onComplete?: () => void;
 }
 
 export function LoadingAnimation({ onComplete }: LoadingAnimationProps) {
-  const [phase, setPhase] = useState<'entrance' | 'accent' | 'exit'>('entrance');
+  const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
-    // Phase 1 → 2
-    const timer1 = setTimeout(() => setPhase('accent'), 800);
-    
-    // Phase 2 → 3
-    const timer2 = setTimeout(() => setPhase('exit'), 1800);
-    
-    // Complete animation
-    const timer3 = setTimeout(() => {
-      if (onComplete) onComplete();
-    }, 2500);
+    // Trigger confetti after logo animation completes (1.2 seconds)
+    const confettiTimer = setTimeout(() => {
+      setShowConfetti(true);
+    }, 1200);
+
+    // Auto-complete animation after 2 seconds
+    const completeTimer = setTimeout(() => {
+      onComplete?.();
+    }, 2000);
 
     return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-      clearTimeout(timer3);
+      clearTimeout(confettiTimer);
+      clearTimeout(completeTimer);
     };
   }, [onComplete]);
 
+  // Generate random confetti/sprinkle particles (bakery themed)
+  const confettiParticles = Array.from({ length: 30 }, (_, i) => ({
+    id: i,
+    x: Math.random() * 100 - 50, // Random horizontal spread
+    rotation: Math.random() * 360, // Random rotation
+    delay: Math.random() * 0.3, // Stagger animation
+    color: ['#FFC2D1', '#FFB5C5', '#C44569', '#F8EBD7', '#E5D4C1'][Math.floor(Math.random() * 5)]
+  }));
+
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: phase === 'exit' ? 0 : 1 }}
-      transition={{ duration: phase === 'exit' ? 0.7 : 0.5 }}
+    <div
       style={{
         position: 'fixed',
         top: 0,
         left: 0,
-        width: '100vw',
-        height: '100vh',
+        right: 0,
+        bottom: 0,
+        zIndex: 9999,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        zIndex: 10000,
-        background: 'linear-gradient(135deg, #F8EBD7 0%, #FFD6BA 50%, #F7B1C3 100%)',
-        backgroundSize: '200% 200%',
+        // Pastel gradient background (pinks, creams, soft mauves) - bakery vibe
+        background: 'linear-gradient(135deg, #FFE5EC 0%, #FFF0F5 25%, #F8EBD7 50%, #E8D5E8 75%, #FFE5EC 100%)',
         overflow: 'hidden'
       }}
     >
-      {/* Animated Gradient Mesh */}
+      {/* Animated pastel gradient overlay for depth */}
       <motion.div
         animate={{
-          backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
+          opacity: [0.3, 0.5, 0.3],
+          scale: [1, 1.1, 1]
         }}
         transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: 'linear'
+          duration: 2,
+          ease: 'easeInOut'
         }}
         style={{
           position: 'absolute',
           top: 0,
           left: 0,
-          width: '100%',
-          height: '100%',
-          background: 'linear-gradient(135deg, #F8EBD7 0%, #FFD6BA 50%, #F7B1C3 100%)',
-          backgroundSize: '200% 200%'
+          right: 0,
+          bottom: 0,
+          background: 'radial-gradient(circle at 50% 50%, rgba(196, 69, 105, 0.1) 0%, transparent 70%)'
         }}
       />
 
-      {/* Radial Glow Behind Logo */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ 
-          opacity: phase === 'exit' ? 0 : 0.25,
-          scale: phase === 'exit' ? 1.5 : 1
-        }}
-        transition={{ duration: 0.8 }}
-        style={{
-          position: 'absolute',
-          width: '400px',
-          height: '400px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(196, 69, 105, 0.25) 0%, transparent 70%)',
-          filter: 'blur(40px)'
-        }}
-      />
-
-      {/* Soft Vignette */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: 'radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.1) 100%)',
-          pointerEvents: 'none'
-        }}
-      />
-
-      {/* Center Content Container */}
-      <div
-        style={{
-          position: 'relative',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '24px',
-          zIndex: 1
-        }}
-      >
-        {/* Logo with Entrance Animation */}
+      {/* Main content container - everything centered */}
+      <div style={{ position: 'relative', textAlign: 'center' }}>
+        
+        {/* Logo Animation - Rising effect with fade in and scale (cake baking/rising) */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.85 }}
-          animate={{
-            opacity: phase === 'exit' ? 0 : 1,
-            scale: phase === 'exit' ? 1.1 : 1
+          initial={{ 
+            y: 60,        // Start lower (will rise up like a cake baking)
+            opacity: 0,   // Start invisible
+            scale: 0.7    // Start smaller
+          }}
+          animate={{ 
+            y: 0,         // Rise to final position
+            opacity: 1,   // Fade in to full visibility
+            scale: 1      // Scale up to full size
           }}
           transition={{
-            duration: phase === 'entrance' ? 0.8 : 0.7,
-            ease: 'easeOut'
+            duration: 1.2,
+            ease: [0.22, 1, 0.36, 1], // Custom easing for smooth baking/rising effect
+            type: 'spring',
+            stiffness: 80,
+            damping: 15
           }}
           style={{
+            marginBottom: '32px',
             position: 'relative',
-            width: '200px',
-            height: '200px'
+            zIndex: 2
           }}
         >
+          {/* Logo Image - Using provided logo */}
           <img
-            src={logoImage}
+            src="/logo.png"
             alt="Emily Bakes Cakes Logo"
             style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-              filter: 'drop-shadow(0 4px 12px rgba(196, 69, 105, 0.15))'
+              width: 'clamp(180px, 40vw, 280px)',
+              height: 'auto',
+              filter: 'drop-shadow(0 8px 24px rgba(196, 69, 105, 0.2))',
+              pointerEvents: 'none'
             }}
           />
-
-          {/* Shimmer Highlight */}
-          {phase === 'entrance' && (
-            <motion.div
-              initial={{ x: '-100%', opacity: 0 }}
-              animate={{ x: '200%', opacity: [0, 0.15, 0] }}
-              transition={{ duration: 1, delay: 0.3 }}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '50%',
-                height: '100%',
-                background: 'linear-gradient(90deg, transparent, rgba(196, 69, 105, 0.3), transparent)',
-                transform: 'skewX(-20deg)'
-              }}
-            />
-          )}
         </motion.div>
 
-        {/* Whisk Swirl Animation */}
-        {phase === 'accent' && (
-          <motion.svg
-            width="120"
-            height="120"
-            viewBox="0 0 120 120"
-            style={{
-              position: 'absolute',
-              bottom: '-60px'
-            }}
-          >
-            {[0, 1, 2].map((i) => (
-              <motion.path
-                key={i}
-                d={`M 60 60 Q ${40 + i * 10} ${30 - i * 5}, ${60 + i * 15} 10`}
-                stroke="#C44569"
-                strokeWidth="3"
-                strokeLinecap="round"
-                fill="none"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: 0.6 }}
-                transition={{
-                  duration: 0.8,
-                  delay: i * 0.1,
-                  ease: 'easeOut'
-                }}
-              />
-            ))}
-          </motion.svg>
-        )}
+        {/* Confetti/Sprinkles Animation - Appear after logo rises */}
+        <AnimatePresence>
+          {showConfetti && confettiParticles.map((particle) => (
+            <motion.div
+              key={particle.id}
+              initial={{
+                y: -20,
+                x: 0,
+                opacity: 1,
+                rotate: 0,
+                scale: 0
+              }}
+              animate={{
+                y: [0, 100, 200], // Fall downward
+                x: particle.x,     // Spread horizontally
+                opacity: [1, 0.8, 0], // Fade out
+                rotate: particle.rotation, // Random rotation
+                scale: [0, 1, 0.5] // Scale in then out
+              }}
+              transition={{
+                duration: 0.8,
+                delay: particle.delay,
+                ease: 'easeOut'
+              }}
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                width: '8px',
+                height: '8px',
+                // Mix of circles (sprinkles) and rectangles (confetti)
+                borderRadius: Math.random() > 0.5 ? '50%' : '2px',
+                background: particle.color,
+                pointerEvents: 'none',
+                zIndex: 1
+              }}
+            />
+          ))}
+        </AnimatePresence>
 
-        {/* Flour Dust Particles */}
-        {phase === 'accent' && (
-          <>
-            {[...Array(7)].map((_, i) => (
-              <motion.div
-                key={i}
-                initial={{
-                  x: Math.random() * 100 - 50,
-                  y: 20,
-                  opacity: 0,
-                  scale: 0.5
-                }}
-                animate={{
-                  x: Math.random() * 120 - 60,
-                  y: -80,
-                  opacity: [0, 0.3, 0],
-                  scale: [0.5, 1, 0.8]
-                }}
-                transition={{
-                  duration: 1.5,
-                  delay: i * 0.15,
-                  ease: 'easeOut'
-                }}
-                style={{
-                  position: 'absolute',
-                  bottom: '-40px',
-                  width: `${Math.random() * 3 + 2}px`,
-                  height: `${Math.random() * 3 + 2}px`,
-                  borderRadius: '50%',
-                  background: 'rgba(255, 255, 255, 0.4)',
-                  pointerEvents: 'none'
-                }}
-              />
-            ))}
-          </>
-        )}
-
-        {/* Tagline "Baked with Love" */}
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{
-            opacity: phase === 'accent' ? 1 : phase === 'exit' ? 0 : 0,
-            y: phase === 'accent' ? 0 : phase === 'exit' ? -10 : 10
+        {/* Title Text Animation - Slide in with letter spacing growth */}
+        <motion.h1
+          initial={{
+            y: 30,
+            opacity: 0,
+            letterSpacing: '-0.05em' // Start with tight letter spacing
           }}
-          transition={{ duration: 0.8 }}
+          animate={{
+            y: 0,
+            opacity: 1,
+            letterSpacing: '0.05em' // Grow to wider letter spacing
+          }}
+          transition={{
+            duration: 1,
+            delay: 0.4, // Start slightly after logo begins
+            ease: [0.22, 1, 0.36, 1]
+          }}
+          style={{
+            fontFamily: 'Playfair Display, serif',
+            fontSize: 'clamp(28px, 6vw, 48px)',
+            fontWeight: 700,
+            color: '#C44569',
+            margin: 0,
+            textShadow: '0 2px 12px rgba(196, 69, 105, 0.2)',
+            position: 'relative',
+            zIndex: 2
+          }}
+        >
+          Emily Bakes Cakes
+        </motion.h1>
+
+        {/* Subtitle with subtle fade in */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.8 }}
+          transition={{
+            duration: 0.8,
+            delay: 0.8
+          }}
           style={{
             fontFamily: 'Lucida Handwriting, cursive',
-            fontSize: '20px',
+            fontSize: 'clamp(14px, 3vw, 18px)',
+            color: '#5A3825',
             fontStyle: 'italic',
-            color: '#C44569',
-            textShadow: '0 2px 6px rgba(0, 0, 0, 0.1)',
-            letterSpacing: '0.05em',
-            marginTop: '32px'
+            marginTop: '12px',
+            position: 'relative',
+            zIndex: 2
           }}
         >
           Baked with Love
         </motion.p>
+
+        {/* Pulsing glow effect behind logo - adds modern depth */}
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: 'easeInOut'
+          }}
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '300px',
+            height: '300px',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(196, 69, 105, 0.2) 0%, transparent 70%)',
+            filter: 'blur(40px)',
+            zIndex: 0,
+            pointerEvents: 'none'
+          }}
+        />
       </div>
 
       {/* Accessibility: Hidden loading text for screen readers */}
@@ -276,6 +255,6 @@ export function LoadingAnimation({ onComplete }: LoadingAnimationProps) {
       >
         Loading Emily Bakes Cakes...
       </span>
-    </motion.div>
+    </div>
   );
 }
