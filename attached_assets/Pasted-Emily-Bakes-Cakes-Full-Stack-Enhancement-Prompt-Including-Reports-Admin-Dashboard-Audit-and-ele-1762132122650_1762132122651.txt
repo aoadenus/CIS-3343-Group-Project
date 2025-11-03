@@ -1,0 +1,76 @@
+Emily Bakes Cakes Full-Stack Enhancement Prompt Including Reports & Admin Dashboard
+
+Audit and elevate the entire Emily Bakes Cakes project by:
+
+Customer & Business UX and Frontend:
+
+Hero banner with layered parallax and Framer Motion animations
+
+Responsive design with Tailwind CSS + shadcn/ui
+
+Polished buttons with hover/focus states
+
+Search bars with autosuggest and faceted filtering
+
+Drag-and-drop order priority board via React DnD / dnd-kit
+
+Accessible navigation with ARIA labels and keyboard support
+
+Interactive product and order cards (edit, refund, history actions)
+
+Print-friendly, exportable invoices and reports
+
+Admin Reports Page Deliverables:
+
+Master reports index page with live status, sparklines preview, and download links
+
+Interactive report viewer with date filters, segmentation controls, export options
+
+Scheduled report UI with email attachment settings
+
+On-page report insights with confidence scoring and drill-through raw data access
+
+Ability for admins to annotate reports with RBAC-restricted creation and downloads
+
+Tableau-like Admin Dashboard on Home:
+
+Interactive KPIs (revenue, daily orders, order value, returning customer rate)
+
+Charts including time series, cohort retention, funnel, geographic segmentation
+
+Visual overlays for anomaly detection
+
+Sentiment analysis word clouds and gauges
+
+Exportable interactive charts (CSV, PNG, share links)
+
+Lightweight Admin Backend Prototype:
+
+REST API with CRUD for core entities (customers, orders, products, reports) serving mock seeded data
+
+JWT authentication with basic RBAC (admin/manager/staff) for demo purpose
+
+Report generation endpoints with CSV and PDF export
+
+Cron or worker simulation for daily report generation and KPI emails
+
+OpenAPI-compliant API documentation for developer reference
+
+Testing & Deployment:
+
+Unit and integration tests covering UI and APIs
+
+CI/CD pipeline with linting, building, testing, and deployment to Vercel/Replit for frontend and lightweight backend
+
+Basic monitoring setup (Sentry, Logflare) for demo readiness
+
+Diagnostic report generation documenting key enhancements and remaining prototype scope
+
+Final Polishing:
+
+Maintain existing site and flow structure without breaking user experience
+
+Seamless integration of reports and dashboard into admin interface
+
+Output stable public URL for completing the demo
+
