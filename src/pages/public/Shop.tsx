@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Search, ChevronDown, Star, Info, Sparkles } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { Button } from '../../components/ui/button';
 import { Card } from '../../components/ui/card';
 import { Input } from '../../components/ui/input';
@@ -264,7 +263,7 @@ export function Shop() {
           >
             Create your dream cake with our custom cake builder! Choose your flavor, decoration style, size, and delivery date. Our expert bakers will bring your vision to life.
           </p>
-          <Link to="/custom-builder">
+          <a href="/custom-builder" style={{ textDecoration: 'none' }}>
             <Button
               className="btn-primary"
               style={{
@@ -277,7 +276,7 @@ export function Shop() {
             >
               Create Your Custom Cake
             </Button>
-          </Link>
+          </a>
         </motion.div>
 
         {/* Header */}
