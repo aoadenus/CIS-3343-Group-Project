@@ -9,21 +9,21 @@ import { Card, CardContent } from '../../components/ui/card';
 interface Order {
   id: number;
   customerId: number;
-  customerName: string;
-  customerEmail: string;
+  customerName: string | null;
+  customerEmail: string | null;
   customerPhone: string | null;
   orderType: string;
   occasion: string;
   flavor: string;
   design: string;
   servings: number | null;
-  eventDate: Date | null;
+  eventDate: string | null;
   message: string | null;
   additionalNotes: string | null;
   inspirationImages: string | null;
   status: 'pending' | 'preparing' | 'ready' | 'completed';
   priority: 'low' | 'medium' | 'high';
-  createdAt: Date;
+  createdAt: string;
 }
 
 const ItemType = 'ORDER';
