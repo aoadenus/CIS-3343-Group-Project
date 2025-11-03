@@ -239,7 +239,7 @@ export function Shop({ onNavigate }: ShopProps = {}) {
   };
 
   return (
-    <div className="min-h-screen section-padding" style={{ background: 'var(--background)', paddingTop: 'clamp(24px, 4vw, 56px)' }}>
+    <div className="min-h-screen section-padding" style={{ background: 'var(--background)', paddingTop: 'clamp(4px, 2vw, 36px)' }}>
       <div className="container mx-auto">
         {/* Header - Modern Title with Gradient - Moved to Top */}
         <motion.div
