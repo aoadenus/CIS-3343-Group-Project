@@ -114,167 +114,112 @@ export function PublicHome({ onNavigate }: PublicHomeProps = {}) {
           - Micro-interactions on CTA button (hover, scale, shadow)
       */}
       <section 
-        className="relative overflow-hidden"
         style={{ 
+          position: 'relative',
+          width: '100%',
           height: '100vh',
-          minHeight: '600px'
+          minHeight: '600px',
+          overflow: 'hidden'
         }}
       >
-        {/* Animated Mesh Gradient Background Layers */}
-        <div className="animated-gradient-hero absolute inset-0">
-          <div className="gradient-layer-1"></div>
-          <div className="gradient-layer-2"></div>
-          <div className="gradient-layer-3"></div>
-        </div>
-
-        {/* Lifestyle Cake Image Overlay - Creates depth with gradient background */}
-        <div className="absolute inset-0" style={{ opacity: 0.5 }}>
-          <LazyImage
+        {/* Background Image */}
+        <div style={{ 
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 1
+        }}>
+          <img
             src={heroImage}
             alt="Emily Bakes Cakes hero"
             style={{
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              objectPosition: 'center'
+              objectPosition: 'center',
+              opacity: 0.5
             }}
           />
         </div>
 
-        {/* Gradient Overlay for Better Text Contrast - WCAG AA Compliant */}
-        <div 
-          className="absolute inset-0"
-          style={{
-            background: 'linear-gradient(to bottom, rgba(43, 43, 43, 0.5) 0%, rgba(43, 43, 43, 0.7) 100%)'
-          }}
-        />
+        {/* Dark Overlay */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'linear-gradient(to bottom, rgba(43, 43, 43, 0.5) 0%, rgba(43, 43, 43, 0.7) 100%)',
+          zIndex: 2
+        }} />
 
-        {/* Hero Content - Center Aligned with Animation */}
-        <div className="relative z-10 h-full flex items-center justify-center px-4 sm:px-6">
-          <div className="text-center max-w-5xl">
-            {/* Brand Name with Fade & Scale Animation */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
-              style={{
-                fontFamily: 'Playfair Display, serif',
-                fontSize: 'clamp(52px, 10vw, 96px)',
-                fontWeight: 800,
-                color: 'white',
-                marginBottom: '24px',
-                lineHeight: 1.1,
-                letterSpacing: '-0.03em',
-                textShadow: '0 4px 20px rgba(0, 0, 0, 0.3), 0 8px 40px rgba(196, 69, 105, 0.2)'
-              }}
-            >
+        {/* Text Content */}
+        <div style={{ 
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 100,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px'
+        }}>
+          <div style={{ textAlign: 'center', maxWidth: '1000px' }}>
+            <h1 style={{
+              fontFamily: 'Playfair Display, serif',
+              fontSize: '72px',
+              fontWeight: 800,
+              color: 'white',
+              marginBottom: '20px',
+              textShadow: '0 4px 20px rgba(0, 0, 0, 0.8)'
+            }}>
               Emily Bakes Cakes
-            </motion.div>
-
-            {/* Decorative Divider Line with Gradient */}
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.8, delay: 0.6, ease: [0.4, 0, 0.2, 1] }}
+            </h1>
+            
+            <div style={{
+              width: '200px',
+              height: '4px',
+              background: '#C44569',
+              margin: '0 auto 30px auto'
+            }} />
+            
+            <h2 style={{
+              fontFamily: 'Poppins, sans-serif',
+              fontSize: '36px',
+              fontWeight: 600,
+              color: '#F8EBD7',
+              marginBottom: '50px',
+              textShadow: '0 2px 15px rgba(0, 0, 0, 0.8)'
+            }}>
+              Custom Cakes Crafted with<br />
+              <span style={{ color: '#C44569' }}>Love and Tradition</span>
+            </h2>
+            
+            <button
+              onClick={() => onNavigate?.('builder')}
               style={{
-                width: '200px',
-                height: '4px',
-                background: 'linear-gradient(90deg, transparent 0%, #C44569 50%, transparent 100%)',
-                margin: '0 auto 32px auto',
-                borderRadius: '2px',
-                boxShadow: '0 2px 10px rgba(196, 69, 105, 0.4)'
-              }}
-            />
-
-            {/* Tagline with Slide Up & Fade */}
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8, ease: [0.4, 0, 0.2, 1] }}
-              style={{
+                background: '#C44569',
+                color: 'white',
                 fontFamily: 'Poppins, sans-serif',
-                fontSize: 'clamp(28px, 5vw, 48px)',
-                fontWeight: 600,
-                color: '#F8EBD7',
-                marginBottom: '56px',
-                lineHeight: 1.4,
-                letterSpacing: '0.02em',
-                textShadow: '0 2px 15px rgba(0, 0, 0, 0.4)'
+                fontWeight: 700,
+                fontSize: '20px',
+                padding: '20px 64px',
+                borderRadius: '16px',
+                border: '3px solid rgba(255, 255, 255, 0.3)',
+                cursor: 'pointer',
+                boxShadow: '0 8px 24px rgba(196, 69, 105, 0.6)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '16px'
               }}
             >
-              Custom Cakes Crafted with
-              <br />
-              <span style={{ 
-                color: '#C44569',
-                textShadow: '0 0 30px rgba(196, 69, 105, 0.6), 0 2px 15px rgba(0, 0, 0, 0.4)'
-              }}>
-                Love and Tradition
-              </span>
-            </motion.h1>
-
-            {/* Primary CTA Button with Micro-Interactions */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.0 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4"
-            >
-              <button
-                onClick={() => onNavigate?.('builder')}
-                className="group"
-                style={{
-                  background: '#C44569',
-                  color: 'white',
-                  fontFamily: 'Poppins, sans-serif',
-                  fontWeight: 700,
-                  fontSize: '20px',
-                  padding: '20px 64px',
-                  borderRadius: '16px',
-                  border: '3px solid rgba(255, 255, 255, 0.2)',
-                  cursor: 'pointer',
-                  boxShadow: '0 8px 24px rgba(196, 69, 105, 0.5), 0 0 40px rgba(196, 69, 105, 0.3)',
-                  transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '16px',
-                  minHeight: '64px',
-                  minWidth: '48px',
-                  position: 'relative',
-                  overflow: 'hidden'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'scale(1.08) translateY(-4px)';
-                  e.currentTarget.style.boxShadow = '0 16px 40px rgba(196, 69, 105, 0.6), 0 0 60px rgba(196, 69, 105, 0.4)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.4)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'scale(1) translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(196, 69, 105, 0.5), 0 0 40px rgba(196, 69, 105, 0.3)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                }}
-                onMouseDown={(e) => {
-                  e.currentTarget.style.transform = 'scale(1.04) translateY(-2px)';
-                }}
-                onMouseUp={(e) => {
-                  e.currentTarget.style.transform = 'scale(1.08) translateY(-4px)';
-                }}
-                aria-label="Start building your custom cake"
-              >
-                <span style={{ position: 'relative', zIndex: 1 }}>
-                  Build Your Dream Cake
-                </span>
-                <ArrowRight 
-                  size={26} 
-                  strokeWidth={3}
-                  style={{ 
-                    position: 'relative', 
-                    zIndex: 1,
-                    transition: 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1)'
-                  }}
-                  className="group-hover:translate-x-2"
-                />
-              </button>
-            </motion.div>
+              Build Your Dream Cake
+              <ArrowRight size={26} strokeWidth={3} />
+            </button>
           </div>
         </div>
       </section>
