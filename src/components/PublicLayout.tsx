@@ -51,41 +51,52 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
       >
         <div className="container mx-auto px-4 sm:px-6 h-full">
           <div className="flex items-center justify-between h-full">
-            {/* Logo */}
+            {/* Logo & Brand */}
             <button
               onClick={() => onNavigate('home')}
               className="cursor-pointer hover:opacity-90 transition-opacity"
-              style={{ background: 'none', border: 'none', padding: 0, position: 'relative', display: 'flex', alignItems: 'center', height: '100%' }}
+              style={{ 
+                background: 'none', 
+                border: 'none', 
+                padding: 0, 
+                position: 'relative', 
+                display: 'flex', 
+                alignItems: 'center', 
+                height: '64px',
+                paddingRight: '3rem'
+              }}
             >
-              <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
-                <img
-                  src={logoImage}
-                  alt="Emily Bakes Cakes Logo"
-                  style={{
-                    width: '160px',
-                    height: '160px',
-                    objectFit: 'contain',
-                    display: 'block',
-                    marginTop: '-48px',
-                    marginBottom: '-48px'
-                  }}
-                />
-                <span
-                  style={{
-                    fontFamily: 'Playfair Display, serif',
-                    fontWeight: 700,
-                    fontSize: 'clamp(20px, 4vw, 26px)',
-                    color: 'white',
-                    letterSpacing: '-0.5px',
-                    position: 'relative',
-                    left: '-55px',
-                    zIndex: 2,
-                    whiteSpace: 'nowrap'
-                  }}
-                >
-                  Emily Bakes Cakes
-                </span>
-              </div>
+              {/* Logo - absolutely positioned to float above/below nav bar */}
+              <img
+                src={logoImage}
+                alt="Emily Bakes Cakes Logo"
+                style={{
+                  width: '160px',
+                  height: '160px',
+                  objectFit: 'contain',
+                  position: 'absolute',
+                  left: 0,
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  pointerEvents: 'none'
+                }}
+              />
+              {/* Text - centered on nav bar centerline */}
+              <span
+                style={{
+                  fontFamily: 'Playfair Display, serif',
+                  fontWeight: 700,
+                  fontSize: 'clamp(20px, 4vw, 26px)',
+                  color: 'white',
+                  letterSpacing: '-0.5px',
+                  position: 'relative',
+                  left: '105px',
+                  zIndex: 2,
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                Emily Bakes Cakes
+              </span>
             </button>
 
             {/* Desktop Navigation */}
@@ -175,57 +186,51 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
       />
 
       {/* Main Content */}
-      <main className="flex-1 pt-16">
+      <main className="flex-1" style={{ paddingTop: '7rem' }}>
         {children}
       </main>
 
       {/* Footer */}
       <footer
-        className="mt-auto py-8 px-4 sm:px-6"
+        className="mt-auto px-4 sm:px-6"
         style={{
           background: '#2B2B2B',
-          color: 'rgba(255, 255, 255, 0.9)'
+          color: 'rgba(255, 255, 255, 0.9)',
+          paddingTop: '3rem',
+          paddingBottom: '3rem'
         }}
       >
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div className="container mx-auto max-w-5xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {/* Brand with Logo */}
-            <div>
-              <div className="mb-4" style={{ position: 'relative' }}>
-                <div style={{ position: 'relative', display: 'inline-block' }}>
-                  <img 
-                    src={logoImage} 
-                    alt="Emily Bakes Cakes Logo" 
-                    style={{ 
-                      width: '150px', 
-                      height: '150px',
-                      objectFit: 'contain',
-                      display: 'block'
-                    }}
-                  />
-                  <h4
-                    style={{
-                      fontFamily: 'Playfair Display, serif',
-                      fontWeight: 700,
-                      fontSize: '20px',
-                      color: '#C44569',
-                      lineHeight: 1.2,
-                      position: 'absolute',
-                      left: '100px',
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      zIndex: 2,
-                      whiteSpace: 'nowrap'
-                    }}
-                  >
-                    Emily Bakes Cakes
-                  </h4>
-                </div>
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col items-start gap-3">
+                <img 
+                  src={logoImage} 
+                  alt="Emily Bakes Cakes Logo" 
+                  style={{ 
+                    width: '96px', 
+                    height: '96px',
+                    objectFit: 'contain',
+                    display: 'block'
+                  }}
+                />
+                <h4
+                  style={{
+                    fontFamily: 'Playfair Display, serif',
+                    fontWeight: 700,
+                    fontSize: '20px',
+                    color: '#C44569',
+                    lineHeight: 1.2
+                  }}
+                >
+                  Emily Bakes Cakes
+                </h4>
               </div>
               <p
                 style={{
                   fontFamily: 'Open Sans, sans-serif',
-                  fontSize: '13px',
+                  fontSize: '14px',
                   color: 'rgba(255, 255, 255, 0.7)',
                   lineHeight: 1.6
                 }}
@@ -234,7 +239,7 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
               </p>
             </div>
 
-            {/* Quick Links */}
+            {/* Quick Links - All Navigation Items */}
             <div>
               <h5
                 style={{
@@ -245,54 +250,10 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
                   marginBottom: '12px'
                 }}
               >
-                Explore
+                Quick Links
               </h5>
               <ul className="space-y-1">
-                {navItems.slice(0, 3).map((item) => (
-                  <li key={item.id}>
-                    <button
-                      onClick={() => onNavigate(item.id)}
-                      style={{
-                        fontFamily: 'Open Sans, sans-serif',
-                        fontSize: '13px',
-                        color: 'rgba(255, 255, 255, 0.7)',
-                        background: 'none',
-                        border: 'none',
-                        padding: '4px 0',
-                        cursor: 'pointer',
-                        textAlign: 'left',
-                        minHeight: '28px',
-                        transition: 'color 200ms ease'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.color = '#C44569';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)';
-                      }}
-                    >
-                      {item.label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* More Links */}
-            <div>
-              <h5
-                style={{
-                  fontFamily: 'Poppins, sans-serif',
-                  fontWeight: 600,
-                  fontSize: '14px',
-                  color: 'white',
-                  marginBottom: '12px'
-                }}
-              >
-                Learn More
-              </h5>
-              <ul className="space-y-1">
-                {navItems.slice(3).map((item) => (
+                {navItems.map((item) => (
                   <li key={item.id}>
                     <button
                       onClick={() => onNavigate(item.id)}

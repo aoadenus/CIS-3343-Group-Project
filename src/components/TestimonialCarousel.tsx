@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Star, Check, MessageCircle } from 'lucide-react';
+import { Star, Check, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 
 /**
  * Modern Testimonial Section
@@ -372,56 +372,62 @@ export function TestimonialCarousel() {
           </motion.div>
         </div>
 
-        {/* Scroll Indicators / Navigation Dots */}
+        {/* Navigation Arrows - Enhanced Visibility */}
         <div
           style={{
             display: 'flex',
             justifyContent: 'center',
-            gap: '8px',
-            marginTop: '32px'
+            gap: '16px',
+            marginTop: '40px'
           }}
         >
-          <button
+          <motion.button
             onClick={() => scroll('left')}
             disabled={!canScrollLeft}
+            whileHover={{ scale: canScrollLeft ? 1.1 : 1 }}
+            whileTap={{ scale: canScrollLeft ? 0.95 : 1 }}
             style={{
-              width: '40px',
-              height: '40px',
+              width: '48px',
+              height: '48px',
               borderRadius: '50%',
-              background: canScrollLeft ? '#C44569' : '#E5D4C1',
+              background: '#C44569',
               border: 'none',
               cursor: canScrollLeft ? 'pointer' : 'not-allowed',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               transition: 'all 200ms ease-out',
-              opacity: canScrollLeft ? 1 : 0.5
+              opacity: canScrollLeft ? 1 : 0.4,
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.18)'
             }}
-            aria-label="Scroll left"
+            aria-label="Previous testimonials"
           >
-            <span style={{ color: 'white', fontSize: '20px', fontWeight: 600 }}>←</span>
-          </button>
+            <ChevronLeft size={24} color="white" strokeWidth={3} />
+          </motion.button>
 
-          <button
+          <motion.button
             onClick={() => scroll('right')}
             disabled={!canScrollRight}
+            whileHover={{ scale: canScrollRight ? 1.1 : 1 }}
+            whileTap={{ scale: canScrollRight ? 0.95 : 1 }}
             style={{
-              width: '40px',
-              height: '40px',
+              width: '48px',
+              height: '48px',
               borderRadius: '50%',
-              background: canScrollRight ? '#C44569' : '#E5D4C1',
+              background: '#C44569',
               border: 'none',
               cursor: canScrollRight ? 'pointer' : 'not-allowed',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               transition: 'all 200ms ease-out',
-              opacity: canScrollRight ? 1 : 0.5
+              opacity: canScrollRight ? 1 : 0.4,
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.18)'
             }}
-            aria-label="Scroll right"
+            aria-label="Next testimonials"
           >
-            <span style={{ color: 'white', fontSize: '20px', fontWeight: 600 }}>→</span>
-          </button>
+            <ChevronRight size={24} color="white" strokeWidth={3} />
+          </motion.button>
         </div>
       </div>
 
