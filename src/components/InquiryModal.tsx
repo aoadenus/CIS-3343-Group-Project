@@ -223,7 +223,7 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
 
                 {/* Title and Instructions */}
                 <div style={{ paddingRight: '60px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '12px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '4px' }}>
                     <span 
                       style={{ 
                         fontSize: '36px', 
