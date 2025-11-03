@@ -29,8 +29,10 @@ export function MobileNav({ isOpen, onClose, activePage, onNavigate, onAdminAcce
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+            style={{ zIndex: 9998 }}
             onClick={onClose}
+            aria-label="Close menu"
           />
           
           {/* Menu Panel */}
@@ -39,10 +41,11 @@ export function MobileNav({ isOpen, onClose, activePage, onNavigate, onAdminAcce
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed top-0 right-0 bottom-0 w-full max-w-sm z-50 overflow-y-auto"
+            className="fixed top-0 right-0 bottom-0 w-full max-w-sm overflow-y-auto"
             style={{
               background: 'white',
-              boxShadow: '-4px 0 24px rgba(90, 56, 37, 0.15)'
+              boxShadow: '-4px 0 24px rgba(90, 56, 37, 0.15)',
+              zIndex: 9998
             }}
           >
             <div className="p-6">
@@ -50,9 +53,12 @@ export function MobileNav({ isOpen, onClose, activePage, onNavigate, onAdminAcce
               <div className="flex justify-end mb-8">
                 <button
                   onClick={onClose}
+                  aria-label="Close navigation menu"
                   style={{
                     width: '44px',
                     height: '44px',
+                    minWidth: '44px',
+                    minHeight: '44px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -60,7 +66,9 @@ export function MobileNav({ isOpen, onClose, activePage, onNavigate, onAdminAcce
                     background: 'rgba(196, 69, 105, 0.1)',
                     border: 'none',
                     cursor: 'pointer',
-                    transition: 'all 200ms ease'
+                    transition: 'all 200ms ease',
+                    position: 'relative',
+                    zIndex: 1
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = 'rgba(196, 69, 105, 0.15)';
@@ -68,8 +76,14 @@ export function MobileNav({ isOpen, onClose, activePage, onNavigate, onAdminAcce
                   onMouseLeave={(e) => {
                     e.currentTarget.style.background = 'rgba(196, 69, 105, 0.1)';
                   }}
+                  onTouchStart={(e) => {
+                    e.currentTarget.style.background = 'rgba(196, 69, 105, 0.2)';
+                  }}
+                  onTouchEnd={(e) => {
+                    e.currentTarget.style.background = 'rgba(196, 69, 105, 0.1)';
+                  }}
                 >
-                  <X size={24} color="#C44569" />
+                  <X size={24} color="#C44569" strokeWidth={2.5} />
                 </button>
               </div>
 
