@@ -1,0 +1,250 @@
+1. Layer Customization Panel (Expanded)
+Functional Description:
+
+Users can add an unlimited number of cake layers (practically unlimited but UI should warn visually if above 20 layers for usability).
+
+Each layer has independent flavor selection and fillings.
+
+Backend and pricing system support unlimited layers with dynamic price calculation.
+
+Style Guide:
+
+Infinite scroll or an "Add Layer" button to append new layer cards.
+
+Card labels update dynamically (“Layer 1,” “Layer 2,” …).
+
+Use pastel brand colors with a subtle highlight for the active/selected layer card.
+
+Clearly visible remove/delete icon on each layer card with appropriate accessibility labels.
+
+Responsive and accessible for keyboard and screen readers.
+
+Implementation Guide:
+
+In frontend state, maintain array of layer objects, each with flavor, fillings (array), and notes.
+
+Add button triggers addition of empty layer object.
+
+Remove icon deletes layer from array, UI updates accordingly.
+
+Backend schema supports arrays of unlimited length for layers, with validation for sanity limits.
+
+Pricing logic: base cake price + (number_of_layers × layer_price) + fillings_price_per_layer.
+
+UX should prompt user if more than 20 layers are added (performance and user experience consideration).
+
+Bind to backend API that accepts full order payload including layers with their options.
+
+2. Fillings & Flavors per Layer (Expanded)
+Functional Description:
+
+Each layer may have zero, one, or up to two fillings from the approved list.
+
+Optional notes field for special instructions at the layer level.
+
+Prices update with each filling added (e.g., $1 per filling).
+
+User must be prevented from adding more than two fillings per layer by UI validation.
+
+Style Guide:
+
+Filling selectors rendered below flavor dropdown in each layer card.
+
+Use checkbox list or multi-select dropdown with checkmarks.
+
+Icons or thumbnails for fillings to aid quick recognition.
+
+Notes box with placeholder text, character limit 255, live count.
+
+Consistent text style and input states (focus, error, disabled).
+
+Implementation Guide:
+
+Extend layer state to hold fillings array and notes string.
+
+UI prevents users from selecting more than two fillings via disabling unchecked options or warnings.
+
+Backend accepts fillings array with validation rules.
+
+Price dynamically recalculated when fillings added or removed.
+
+Use debounced input logic on notes field to minimize backend calls.
+
+Persist notes so users don't lose input on interaction.
+
+3. Maximum Customization (Expanded)
+Functional Description:
+
+Text area for entire cake special instructions beyond layers.
+
+Advanced options collapsible for optional decorations, cake sizes, inscriptions, etc.
+
+Data preserved on page navigate/refresh.
+
+Style Guide:
+
+Use accordion or collapsible UI components for advanced options.
+
+Textareas styled for clarity with focus and error states.
+
+Primary action buttons (Save, Cancel) in brand primary color with hover effect.
+
+Tooltip icons explaining complex options.
+
+Implementation Guide:
+
+Use reactive forms or hooks to maintain customization state.
+
+Persist data in local storage/session or server cache for user convenience.
+
+Backend endpoint designed to receive whole customization object, validated per business rules.
+
+Validate and provide user feedback live for invalid inputs.
+
+4. Product Catalog & Shop Sync (Expanded)
+Functional Description:
+
+Real-time sync between backend catalog and frontend shop.
+
+Admins can add/update products that update instantly on frontend.
+
+Style Guide:
+
+Use card grids in admin and shop with consistent image sizes and typography.
+
+Badges for new or updated items with animation.
+
+Timestamp of last update visible.
+
+Implementation Guide:
+
+Real-time sync via WebSocket, event-driven API notifications for catalog updates.
+
+Backend manages stable product IDs for reference.
+
+Frontend caches catalog with clear cache invalidation strategy.
+
+Admin CMS built with bulk-edit and safe publish/unpublish workflow.
+
+5. Cake Inquiry & Order Board (Expanded)
+Functional Description:
+
+Use existing inquiry form UX, no major changes recommended.
+
+Complete order board with sortable, filterable list, integrated with PM tools.
+
+Style Guide:
+
+Use table or card list with color-coded statuses.
+
+Responsive design for mobile and desktop.
+
+Summary stats displayed at dashboard top.
+
+Implementation Guide:
+
+Backend stores order statuses with timestamps and customer references.
+
+Frontend dashboard updates via real-time push or polling.
+
+Use webhooks or API integrations for projecting updates into PM tools.
+
+6. Reports & Customer Management Backend (Expanded)
+Functional Description:
+
+Efficient customer search by multiple identifiers.
+
+Profiles showing summary and detailed views with linked orders.
+
+Style Guide:
+
+Clean data tables with pagination controls.
+
+Tabs or expandables for profile details.
+
+Error-free inputs consistent with frontend style.
+
+Implementation Guide:
+
+Backend supports indexed queries for search speed.
+
+REST/GraphQL API that allow filtering, sorting, pagination.
+
+User role restrictions for data privacy.
+
+UI components reusable from frontend.
+
+7. Payment Page (Expanded)
+Functional Description:
+
+Secure payment collection requiring min 50% deposit.
+
+User-friendly error handling and payment status display.
+
+Style Guide:
+
+Use standard payment input forms with masking.
+
+Include clear payment status badges.
+
+Show accepted payment method logos prominently.
+
+Implementation Guide:
+
+PCI-compliant integration with Stripe, Square, or similar.
+
+Backend tracks deposit completion, blocks order progress until met.
+
+Provide graceful fallback for payment errors or retries.
+
+8. Order & Account Management Backend (Expanded)
+Functional Description:
+
+Full CRUD with safeguards on cancellations before baking stage.
+
+Streamlined contact info display and order history.
+
+Style Guide:
+
+Modals for confirmation actions (cancel, delete).
+
+Visual distinction of canceled or completed orders via shading or strikethrough.
+
+Consistent iconography for actions.
+
+Implementation Guide:
+
+Backend enforces cancellation eligibility based on status.
+
+API includes audit logging of changes.
+
+Role-based access to restrict destructive operations.
+
+UI updates order status dynamically.
+
+9. Business Logic & Pricing Integration (Expanded)
+Functional Description:
+
+Pricing updates dynamically with each layer and filling.
+
+Only approved products selectable.
+
+Cancellation and deposit policies upheld by system logic.
+
+Style Guide:
+
+Live price display next to customization controls.
+
+Disabled/unavailable options grayed out with tooltip explanations.
+
+Warning banners for policy rules.
+
+Implementation Guide:
+
+Pricing calculated on client, verified server-side.
+
+Backend validates options per business rules (e.g., no more than 2 fillings).
+
+Policies enforced via UI restrictions and backend validation.
+
+Price recalculated on any customization change; changes trigger UI updates.

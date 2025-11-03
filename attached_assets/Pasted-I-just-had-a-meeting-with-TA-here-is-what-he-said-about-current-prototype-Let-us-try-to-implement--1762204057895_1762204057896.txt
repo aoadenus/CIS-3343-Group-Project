@@ -1,0 +1,49 @@
+I just had a meeting with TA, here is what he said about current prototype. Let us try to implement the changes.
+ 
+Custom Cake Builder (Frontend/UX):
+Layer Customization:
+Users should choose a cake flavor for each individual layer (not just a single flavor for the whole cake).
+There should be an option to set the number of cake layers.
+Fillings & Flavors:
+Users must be able to select both filling and flavor for each layer, making every layer truly customizable.
+Maximum Customization:
+Each section should be more flexible, with optional text boxes so users can add extra details if they want.
+Every part of the cake builder should feel “all around” customizable.
+Product Catalog and Shop:
+Match Catalog to Shop Page:
+The backend product catalog should always match what shoppers see on the frontend shop page.
+Any product updates should show up on both sides to keep things consistent for users and admins.
+Cake Inquiries & Order Board:
+Cake Inquiry Process:
+The workflow for cake inquiries is in good shape—no major changes needed right now.
+Order Board:
+The order board should keep track of all orders in progress/status, and be easy to review. Make sure it’s central to the project management tools.
+Reports and Customer Management (Backend/Admin):
+Searchable Customers:
+The system should let team members search customers by name, email, ID, etc.
+Add Customers and Orders:
+There must be a way to add new customers and new orders directly from the backend/admin side.
+Customer Profile View:
+Every customer profile should show:
+Full contact and personal info
+All their order IDs (list of orders)
+Total number of orders placed
+Quantity of items ordered overall
+All this info should be easily accessible in one place.
+Order List vs. Create Order:
+Display all existing orders in one list, and keep the “create new order” interface separate.
+The “create new order” screen should be dynamic, matching the features of the custom build page (so it’s just as flexible).
+Backend Features:
+Customer Payment Form:
+Build a payment page for customers, with fields for payment info.
+Customer Management:
+Add a customer ID field to record every customer uniquely.
+Update the customer creation form in the backend so it matches the order custom builder on the frontend—helps with consistency for both users and admins.
+Order & Account Management:
+Implement a system to handle cancellations properly.
+Make customer contact info easy for team members to view and use—streamlines follow-up and problem-solving.
+CRUD Availability:
+Ensure full Create, Read, Update, Delete (CRUD) functionality for both customer accounts and orders—every record must be manageable with no restrictions.
+Summary:
+We need a system where customer and order data is searchable, viewable, and manageable. The custom cake builder should give users the most flexibility possible. The backend must handle payments, cancellations, and provide total control over customer and order management. The product catalog on the backend needs to always match the shop page on the frontend, and the workflow—backend to customer-facing—should be smooth and consistent.
+ 
