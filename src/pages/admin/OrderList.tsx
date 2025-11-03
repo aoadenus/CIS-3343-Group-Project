@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
@@ -28,7 +29,10 @@ import {
   Eye, 
   Ban,
   ChevronDown,
-  Layers
+  Layers,
+  Loader2,
+  X,
+  PackageSearch
 } from 'lucide-react';
 import { useToast } from '../../components/ToastContext';
 import type { CakeLayer } from '../../../shared/schema';
@@ -62,6 +66,8 @@ export function OrderList() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [sortBy, setSortBy] = useState<'date' | 'customer' | 'status'>('date');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [isLoading, setIsLoading] = useState(true);
+  const [isCancelling, setIsCancelling] = useState(false);
   
   // Cancel order modal
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
@@ -78,6 +84,7 @@ export function OrderList() {
 
   const fetchOrders = async () => {
     try {
+      setIsLoading(true);
       const response = await fetch('/api/orders');
       if (response.ok) {
         const data = await response.json();
@@ -86,7 +93,9 @@ export function OrderList() {
       }
     } catch (error) {
       console.error('Error fetching orders:', error);
-      showToast('error', 'Failed to load orders', 'Error');
+      showToast('error', 'Failed to load orders. Please try again.', 'Connection Error');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -139,6 +148,7 @@ export function OrderList() {
     }
 
     try {
+      setIsCancelling(true);
       const response = await fetch(`/api/orders/${orderToCancel.id}/cancel`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -160,8 +170,14 @@ export function OrderList() {
       }
     } catch (error) {
       console.error('Error cancelling order:', error);
-      showToast('error', 'An unexpected error occurred', 'Error');
+      showToast('error', 'An unexpected error occurred. Please try again.', 'Error');
+    } finally {
+      setIsCancelling(false);
     }
+  };
+
+  const clearSearch = () => {
+    setSearchQuery('');
   };
 
   const formatDate = (dateString: string | null) => {
@@ -201,135 +217,208 @@ export function OrderList() {
   return (
     <div className="space-y-6 lg:space-y-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <motion.div 
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+      >
         <div>
-          <h1 style={{ fontFamily: 'Playfair Display', fontWeight: 700, color: '#C44569' }}>
+          <h1 style={{ 
+            fontFamily: 'Playfair Display', 
+            fontWeight: 700, 
+            fontSize: 'clamp(28px, 5vw, 36px)',
+            color: '#C44569',
+            lineHeight: 1.2,
+            letterSpacing: '-0.02em'
+          }}>
             Order Management
           </h1>
-          <p style={{ fontFamily: 'Lucida Handwriting', fontSize: '16px', color: '#C44569', opacity: 0.9, marginTop: '8px' }}>
+          <p style={{ 
+            fontFamily: 'Lucida Handwriting', 
+            fontSize: 'clamp(14px, 3vw, 16px)', 
+            color: '#C44569', 
+            opacity: 0.85,
+            marginTop: '8px',
+            letterSpacing: '0.01em'
+          }}>
             Complete order list and tracking
           </p>
         </div>
-        <div className="flex gap-2">
-          <Button 
-            variant="outline"
-            onClick={() => showToast('success', 'Order list exported', 'Export Complete')}
-            style={{ 
-              borderRadius: '8px', 
-              borderColor: 'rgba(90, 56, 37, 0.3)', 
-              color: '#5A3825',
-              height: '44px'
-            }}
-          >
-            <Download size={16} className="mr-2" />
-            Export
-          </Button>
-        </div>
-      </div>
+        <Button 
+          variant="outline"
+          onClick={() => showToast('success', 'Order list exported successfully', 'Export Complete')}
+          className="hover:scale-105 active:scale-95 transition-all duration-200"
+          style={{ 
+            borderRadius: '10px', 
+            borderWidth: '2px',
+            borderColor: 'rgba(90, 56, 37, 0.2)', 
+            color: '#5A3825',
+            height: '48px',
+            paddingLeft: '20px',
+            paddingRight: '20px',
+            fontFamily: 'Poppins',
+            fontWeight: 500
+          }}
+        >
+          <Download size={16} className="mr-2" />
+          Export CSV
+        </Button>
+      </motion.div>
 
       {/* Filters */}
-      <Card className="p-4 sm:p-5 rounded-xl bg-white" style={{ boxShadow: '0px 2px 8px rgba(90, 56, 37, 0.12)' }}>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Search */}
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2" size={18} color="#C44569" />
-            <Input
-              placeholder="Search orders..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 rounded-lg"
-              style={{ borderColor: 'rgba(90, 56, 37, 0.2)' }}
-            />
-          </div>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
+      >
+        <Card className="p-4 sm:p-5 rounded-xl bg-white border-0" style={{ boxShadow: '0px 4px 16px rgba(90, 56, 37, 0.08)' }}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Search */}
+            <div className="relative">
+              <Search 
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 transition-colors" 
+                size={18} 
+                color={searchQuery ? '#C44569' : '#5A3825'}
+                style={{ opacity: searchQuery ? 1 : 0.5 }}
+              />
+              <Input
+                placeholder="Search by customer, ID, or occasion..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 pr-10 rounded-lg bg-white border-2 transition-all focus:border-[#C44569] focus:shadow-[0_0_0_3px_rgba(196,69,105,0.1)]"
+                style={{ 
+                  borderColor: searchQuery ? '#C44569' : 'rgba(90, 56, 37, 0.15)', 
+                  color: '#2B2B2B', 
+                  fontFamily: 'Open Sans',
+                  height: '48px',
+                  fontSize: '15px'
+                }}
+              />
+              {searchQuery && (
+                <button
+                  onClick={clearSearch}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 rounded-full hover:bg-gray-100 transition-colors"
+                  aria-label="Clear search"
+                >
+                  <X size={16} color="#5A3825" style={{ opacity: 0.6 }} />
+                </button>
+              )}
+            </div>
 
-          {/* Status Filter */}
-          <div className="relative">
-            <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2" size={18} color="#C44569" />
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full h-10 pl-10 pr-4 rounded-lg border bg-white"
-              style={{ 
-                borderColor: 'rgba(90, 56, 37, 0.2)',
-                fontFamily: 'Open Sans',
-                color: '#5A3825'
-              }}
-            >
-              <option value="all">All Status</option>
-              <option value="pending">Pending</option>
-              <option value="preparing">Preparing</option>
-              <option value="ready">Ready</option>
-              <option value="completed">Completed</option>
-              <option value="cancelled">Cancelled</option>
-            </select>
-          </div>
+            {/* Status Filter */}
+            <div className="relative">
+              <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2" size={18} color="#C44569" />
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="w-full pl-10 pr-4 rounded-lg border-2 bg-white transition-all focus:border-[#C44569] focus:shadow-[0_0_0_3px_rgba(196,69,105,0.1)]"
+                style={{ 
+                  borderColor: 'rgba(90, 56, 37, 0.15)',
+                  fontFamily: 'Open Sans',
+                  color: '#2B2B2B',
+                  height: '48px',
+                  fontSize: '15px'
+                }}
+              >
+                <option value="all">All Status</option>
+                <option value="pending">Pending</option>
+                <option value="preparing">Preparing</option>
+                <option value="ready">Ready</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
 
-          {/* Sort By */}
-          <div className="relative">
-            <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2" size={18} color="#C44569" />
-            <select
-              value={`${sortBy}-${sortOrder}`}
-              onChange={(e) => {
-                const [field, order] = e.target.value.split('-') as [typeof sortBy, typeof sortOrder];
-                setSortBy(field);
-                setSortOrder(order);
-              }}
-              className="w-full h-10 px-4 rounded-lg border bg-white"
-              style={{ 
-                borderColor: 'rgba(90, 56, 37, 0.2)',
-                fontFamily: 'Open Sans',
-                color: '#5A3825'
-              }}
-            >
-              <option value="date-desc">Newest First</option>
-              <option value="date-asc">Oldest First</option>
-              <option value="customer-asc">Customer A-Z</option>
-              <option value="customer-desc">Customer Z-A</option>
-              <option value="status-asc">Status A-Z</option>
-              <option value="status-desc">Status Z-A</option>
-            </select>
+            {/* Sort By */}
+            <div className="relative">
+              <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" size={18} color="#C44569" />
+              <select
+                value={`${sortBy}-${sortOrder}`}
+                onChange={(e) => {
+                  const [field, order] = e.target.value.split('-') as [typeof sortBy, typeof sortOrder];
+                  setSortBy(field);
+                  setSortOrder(order);
+                }}
+                className="w-full px-4 rounded-lg border-2 bg-white transition-all focus:border-[#C44569] focus:shadow-[0_0_0_3px_rgba(196,69,105,0.1)]"
+                style={{ 
+                  borderColor: 'rgba(90, 56, 37, 0.15)',
+                  fontFamily: 'Open Sans',
+                  color: '#2B2B2B',
+                  height: '48px',
+                  fontSize: '15px'
+                }}
+              >
+                <option value="date-desc">Newest First</option>
+                <option value="date-asc">Oldest First</option>
+                <option value="customer-asc">Customer A-Z</option>
+                <option value="customer-desc">Customer Z-A</option>
+                <option value="status-asc">Status A-Z</option>
+                <option value="status-desc">Status Z-A</option>
+              </select>
+            </div>
           </div>
-        </div>
-      </Card>
+        </Card>
+      </motion.div>
 
       {/* Orders Table */}
-      <Card className="rounded-xl bg-white overflow-hidden" style={{ boxShadow: '0px 2px 8px rgba(90, 56, 37, 0.12)' }}>
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow style={{ borderColor: 'rgba(90, 56, 37, 0.1)' }}>
-                <TableHead style={{ fontFamily: 'Poppins', fontWeight: 600, color: '#2B2B2B' }}>
-                  Order ID
-                </TableHead>
-                <TableHead style={{ fontFamily: 'Poppins', fontWeight: 600, color: '#2B2B2B' }}>
-                  Customer
-                </TableHead>
-                <TableHead style={{ fontFamily: 'Poppins', fontWeight: 600, color: '#2B2B2B' }}>
-                  Occasion
-                </TableHead>
-                <TableHead style={{ fontFamily: 'Poppins', fontWeight: 600, color: '#2B2B2B' }}>
-                  Event Date
-                </TableHead>
-                <TableHead style={{ fontFamily: 'Poppins', fontWeight: 600, color: '#2B2B2B' }}>
-                  Status
-                </TableHead>
-                <TableHead style={{ fontFamily: 'Poppins', fontWeight: 600, color: '#2B2B2B' }}>
-                  Payment
-                </TableHead>
-                <TableHead style={{ fontFamily: 'Poppins', fontWeight: 600, color: '#2B2B2B' }}>
-                  Created
-                </TableHead>
-                <TableHead className="text-right" style={{ fontFamily: 'Poppins', fontWeight: 600, color: '#2B2B2B' }}>
-                  Actions
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredOrders.map((order) => (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, delay: 0.2 }}
+      >
+        <Card className="rounded-xl bg-white overflow-hidden border-0" style={{ boxShadow: '0px 4px 16px rgba(90, 56, 37, 0.08)' }}>
+          <div className="overflow-x-auto">
+            {isLoading ? (
+              <div className="p-8 space-y-4">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="animate-pulse flex items-center gap-4">
+                    <div className="h-12 bg-gray-200 rounded w-16"></div>
+                    <div className="flex-1 space-y-2">
+                      <div className="h-3 bg-gray-200 rounded w-3/4"></div>
+                      <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                    </div>
+                    <div className="h-8 bg-gray-200 rounded w-20"></div>
+                    <div className="h-8 bg-gray-200 rounded w-24"></div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow style={{ borderColor: 'rgba(90, 56, 37, 0.1)' }}>
+                    <TableHead style={{ fontFamily: 'Poppins', fontWeight: 600, color: '#2B2B2B', fontSize: '14px' }}>
+                      Order ID
+                    </TableHead>
+                    <TableHead style={{ fontFamily: 'Poppins', fontWeight: 600, color: '#2B2B2B', fontSize: '14px' }}>
+                      Customer
+                    </TableHead>
+                    <TableHead style={{ fontFamily: 'Poppins', fontWeight: 600, color: '#2B2B2B', fontSize: '14px' }}>
+                      Occasion
+                    </TableHead>
+                    <TableHead style={{ fontFamily: 'Poppins', fontWeight: 600, color: '#2B2B2B', fontSize: '14px' }}>
+                      Event Date
+                    </TableHead>
+                    <TableHead style={{ fontFamily: 'Poppins', fontWeight: 600, color: '#2B2B2B', fontSize: '14px' }}>
+                      Status
+                    </TableHead>
+                    <TableHead style={{ fontFamily: 'Poppins', fontWeight: 600, color: '#2B2B2B', fontSize: '14px' }}>
+                      Payment
+                    </TableHead>
+                    <TableHead style={{ fontFamily: 'Poppins', fontWeight: 600, color: '#2B2B2B', fontSize: '14px' }}>
+                      Created
+                    </TableHead>
+                    <TableHead className="text-right" style={{ fontFamily: 'Poppins', fontWeight: 600, color: '#2B2B2B', fontSize: '14px' }}>
+                      Actions
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredOrders.map((order) => (
                 <TableRow 
                   key={order.id}
                   style={{ borderColor: 'rgba(90, 56, 37, 0.1)' }}
-                  className="hover:bg-gray-50"
+                  className="hover:bg-gray-50 transition-colors duration-150"
                 >
                   <TableCell style={{ fontFamily: 'Poppins', fontWeight: 500, color: '#C44569' }}>
                     #{order.id}
@@ -402,11 +491,13 @@ export function OrderList() {
                           setSelectedOrder(order);
                           setIsDetailModalOpen(true);
                         }}
+                        className="hover:scale-105 active:scale-95 transition-all duration-200"
                         style={{ 
                           borderColor: 'rgba(90, 56, 37, 0.3)',
                           color: '#5A3825',
                           height: '32px',
-                          padding: '0 12px'
+                          padding: '0 12px',
+                          borderRadius: '6px'
                         }}
                       >
                         <Eye size={14} />
@@ -419,11 +510,13 @@ export function OrderList() {
                             setOrderToCancel(order);
                             setIsCancelModalOpen(true);
                           }}
+                          className="hover:scale-105 active:scale-95 transition-all duration-200"
                           style={{ 
                             borderColor: '#EF444430',
                             color: '#EF4444',
                             height: '32px',
-                            padding: '0 12px'
+                            padding: '0 12px',
+                            borderRadius: '6px'
                           }}
                         >
                           <Ban size={14} />
@@ -432,19 +525,31 @@ export function OrderList() {
                     </div>
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-
-        {filteredOrders.length === 0 && (
-          <div className="p-12 text-center">
-            <p style={{ fontFamily: 'Poppins', fontSize: '16px', color: '#5A3825', opacity: 0.7 }}>
-              {searchQuery || statusFilter !== 'all' ? 'No orders match your filters' : 'No orders yet'}
-            </p>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
           </div>
-        )}
-      </Card>
+
+          {!isLoading && filteredOrders.length === 0 && (
+            <div className="p-16 text-center">
+              <div className="max-w-md mx-auto">
+                <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(196, 69, 105, 0.1) 0%, rgba(196, 69, 105, 0.2) 100%)' }}>
+                  <PackageSearch size={32} color="#C44569" style={{ opacity: 0.5 }} />
+                </div>
+                <h3 style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: '18px', color: '#2B2B2B', marginBottom: '8px' }}>
+                  {searchQuery || statusFilter !== 'all' ? 'No orders found' : 'No orders yet'}
+                </h3>
+                <p style={{ fontFamily: 'Open Sans', fontSize: '15px', color: '#5A3825', opacity: 0.7, lineHeight: 1.6 }}>
+                  {searchQuery || statusFilter !== 'all'
+                    ? 'Try adjusting your search or filter criteria.'
+                    : 'Orders will appear here once customers place them.'}
+                </p>
+              </div>
+            </div>
+          )}
+        </Card>
+      </motion.div>
 
       {/* Summary Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -484,27 +589,48 @@ export function OrderList() {
 
       {/* Cancel Order Modal */}
       <Dialog open={isCancelModalOpen} onOpenChange={setIsCancelModalOpen}>
-        <DialogContent className="sm:max-w-[500px] bg-white">
+        <DialogContent className="sm:max-w-[500px] bg-white rounded-2xl border-0" style={{ boxShadow: '0 20px 60px rgba(0, 0, 0, 0.2)' }}>
           <DialogHeader>
-            <DialogTitle style={{ fontFamily: 'Playfair Display', fontSize: '24px', color: '#EF4444' }}>
+            <DialogTitle style={{ 
+              fontFamily: 'Playfair Display', 
+              fontSize: '28px', 
+              color: '#EF4444',
+              letterSpacing: '-0.02em',
+              lineHeight: 1.3
+            }}>
               Cancel Order #{orderToCancel?.id}
             </DialogTitle>
-            <DialogDescription style={{ fontFamily: 'Open Sans', color: '#5A3825' }}>
-              This order can only be cancelled because it's still pending. Please provide a reason.
+            <DialogDescription style={{ 
+              fontFamily: 'Open Sans', 
+              color: '#5A3825',
+              fontSize: '15px',
+              lineHeight: 1.6,
+              marginTop: '8px'
+            }}>
+              This order can only be cancelled because it's still pending. Please provide a reason for the cancellation.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 mt-4">
             <div>
-              <Label htmlFor="reason" style={{ fontFamily: 'Poppins', fontSize: '14px', color: '#2B2B2B' }}>
+              <Label htmlFor="reason" style={{ 
+                fontFamily: 'Poppins', 
+                fontSize: '14px', 
+                color: '#2B2B2B',
+                fontWeight: 500,
+                display: 'block',
+                marginBottom: '8px'
+              }}>
                 Cancellation Reason *
               </Label>
               <Textarea
                 id="reason"
                 value={cancellationReason}
                 onChange={(e) => setCancellationReason(e.target.value)}
-                placeholder="Enter the reason for cancellation..."
-                className="mt-1 min-h-[100px]"
+                placeholder="e.g., Customer requested cancellation, Ingredients unavailable..."
+                className="min-h-[120px] rounded-lg border-2 transition-all focus:border-[#C44569]"
+                style={{ fontSize: '15px', fontFamily: 'Open Sans' }}
                 required
+                disabled={isCancelling}
               />
             </div>
           </div>
@@ -517,17 +643,45 @@ export function OrderList() {
                   setCancellationReason('');
                   setOrderToCancel(null);
                 }}
-                className="flex-1"
-                style={{ borderColor: 'rgba(90, 56, 37, 0.3)', color: '#5A3825' }}
+                disabled={isCancelling}
+                className="flex-1 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+                style={{ 
+                  borderWidth: '2px',
+                  borderColor: 'rgba(90, 56, 37, 0.2)', 
+                  color: '#5A3825',
+                  borderRadius: '10px',
+                  height: '48px',
+                  fontFamily: 'Poppins',
+                  fontWeight: 500
+                }}
               >
                 Keep Order
               </Button>
               <Button
                 onClick={handleCancelOrder}
-                className="flex-1"
-                style={{ backgroundColor: '#EF4444', color: 'white' }}
+                disabled={isCancelling}
+                className="flex-1 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+                style={{ 
+                  backgroundColor: isCancelling ? '#94A3B8' : '#EF4444', 
+                  color: 'white',
+                  borderRadius: '10px',
+                  height: '48px',
+                  fontFamily: 'Poppins',
+                  fontWeight: 600,
+                  boxShadow: isCancelling ? 'none' : '0 4px 12px rgba(239, 68, 68, 0.3)'
+                }}
               >
-                Cancel Order
+                {isCancelling ? (
+                  <>
+                    <Loader2 className="animate-spin mr-2" size={16} />
+                    Cancelling...
+                  </>
+                ) : (
+                  <>
+                    <Ban size={16} className="mr-2" />
+                    Cancel Order
+                  </>
+                )}
               </Button>
             </div>
           </DialogFooter>
