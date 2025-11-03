@@ -1,0 +1,39 @@
+Revise the Shop page with the following specific improvements:
+
+1. **Shrink "Don't See What You're Looking For?" CTA Section**
+   - Reduce padding from current size to `p-6` (instead of p-10 or p-12)
+   - Change heading from `text-3xl` to `text-xl`
+   - Change description text from `text-lg` to `text-sm`
+   - Reduce button size from `px-8 py-4` to `px-6 py-2.5`
+   - This section should be visually smaller than the product grid
+
+2. **Modernize "Our Cake Collection" Title**
+   - Apply gradient text effect: `bg-gradient-to-r from-[#C44569] via-[#8B3A5E] to-[#C44569] bg-clip-text text-transparent`
+   - Make it larger: `text-4xl md:text-5xl font-bold`
+   - Add decorative underline accent below the title
+   - Add a subtle tagline underneath like "Handcrafted perfection, baked fresh daily" in italic gray text
+
+3. **Add Product Images to Product Cards**
+   - Each product card needs an image container at the top with `aspect-[4/3]` ratio
+   - Add placeholder images or use cake stock images from assets folder
+   - Images should have `object-cover` and `hover:scale-110` transition effect
+   - If no image available, show a cream-colored placeholder with a cake icon SVG
+
+4. **Enhance Sorting Dropdown Visual Indicators**
+   - Add custom chevron down icon (SVG) on the right side of the dropdown
+   - Add visible border: `border-2 border-[#C44569]`
+   - Add hover effect: `hover:bg-[#C44569]/5 hover:shadow-md`
+   - Add focus ring: `focus:ring-2 focus:ring-[#C44569]/50`
+   - Ensure dropdown looks clearly clickable and interactive
+
+5. **Keep Gold Star Rating System** (already working well - no changes needed)
+
+6. **Overall UX & Visual Clarity Improvements**
+   - Add hover effects to product cards: `hover:shadow-xl hover:-translate-y-1 transition-all duration-300`
+   - Increase spacing between sections with `mb-8` or `mb-12`
+   - Add subtle borders or background colors to distinguish different sections
+   - Ensure all interactive elements have clear hover/focus states
+   - Add smooth transitions to all interactive elements: `transition-all duration-200`
+   - Improve visual hierarchy so products are the primary focus
+
+Implement these changes while keeping the locked components (navigation, footer, homepage) unchanged. Focus only on the Shop page (Shop.tsx and ProductCard.tsx if needed).
