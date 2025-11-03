@@ -46,6 +46,15 @@ The application is built using React 18.3.1 with TypeScript, Vite 6.3.5, and Tai
 - **React DnD**: Drag-and-drop functionality (for admin order board).
 
 ## Recent Changes
+- November 3, 2025: Inquiry System Global Data Management
+  - **InquiriesContext Implementation**: Created global context provider for managing customer inquiries across the application
+  - **Data Flow Integration**: Inquiry form submissions from Shop page now persist to Admin Inquiries page via React Context
+  - **Mobile Form Scrolling**: Added overflow-y-auto to inquiry modal form content for proper scrolling on mobile devices
+  - **Status Management**: Admin can update inquiry statuses (pending/reviewed/contacted) with real-time UI updates
+  - **Context Provider Structure**: InquiriesProvider wraps entire app in App.tsx, providing addInquiry and updateInquiryStatus functions
+  - **Form Data Types**: Exported InquiryFormData type from InquiryModal for type-safe form submissions
+  - **Removed Mock Data**: Admin Inquiries page now uses live context data instead of static mockInquiries array
+
 - November 3, 2025: Shop Page & Inquiry Form Updates
   - **Mobile Menu Close Button Fix**: Replaced Lucide icon with inline SVG (48x48px) to prevent dot rendering on mobile devices
   - **Shop Page Sorting Dropdown**: Added z-index: 100 to ensure dropdown appears above CTA section
