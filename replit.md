@@ -8,7 +8,16 @@ This project is for "Emily Bakes Cakes," a dual-interface web application. It fe
 - **FOOTER LOCKED**: The footer design and layout are finalized. No changes without explicit approval.
 
 ## System Architecture
-The application is built using React 18.3.1 with TypeScript, Vite 6.3.5, and Tailwind CSS 4.1. It utilizes Radix UI primitives for components, Framer Motion for animations, React Hook Form for forms, and Recharts for data visualization. Key design decisions include:
+The application is built using React 18.3.1 with TypeScript, Vite 6.3.5, and Tailwind CSS 4.1. It utilizes Radix UI primitives for components, Framer Motion for animations, React Hook Form for forms, and Recharts for data visualization.
+
+### Backend & Database
+- **Database**: PostgreSQL (Replit Neon) with Drizzle ORM for type-safe queries
+- **API Server**: Express.js running on port 3000 (TypeScript with tsx)
+- **Tables**: customers, orders, inquiries, contact_messages with relational foreign keys
+- **Data Flow**: Form submissions (Custom Builder, Shop Inquiries) persist to database and appear in admin pages; Contact form submissions are stored but admin view pending
+- **Migrations**: Use `npm run db:push` (never manual SQL) to sync schema changes
+
+Key design decisions include:
 
 ### UI/UX Decisions
 - **Color Palette**: "Vanilla Raspberry" (Raspberry Pink, Cream, Charcoal, Soft Gray).
@@ -45,7 +54,31 @@ The application is built using React 18.3.1 with TypeScript, Vite 6.3.5, and Tai
 - **Sonner**: Toast notifications.
 - **React DnD**: Drag-and-drop functionality (for admin order board).
 
+## Backend API Endpoints
+- `GET /api/customers` - Fetch all customers with order counts and last order dates
+- `POST /api/orders/custom` - Create custom cake order (creates/links customer automatically)
+- `GET /api/orders` - Fetch all orders with joined customer data
+- `PATCH /api/orders/:id/status` - Update order status (drag-drop on Order Board)
+- `GET /api/inquiries` - Fetch all shop inquiries
+- `POST /api/inquiries` - Create new inquiry from Shop page
+- `PATCH /api/inquiries/:id/status` - Update inquiry status
+- `GET /api/contact` - Fetch all contact messages (admin view not yet implemented)
+- `POST /api/contact` - Create contact form submission (stored in database)
+
 ## Recent Changes
+- November 3, 2025: Complete Database Integration
+  - **PostgreSQL Backend**: Full database integration with Replit Neon PostgreSQL
+  - **Drizzle ORM**: Type-safe database queries with schema defined in shared/schema.ts
+  - **Express API Server**: Backend server on port 3000 with comprehensive CRUD endpoints
+  - **Relational Schema**: customers table with foreign key relationship to orders table
+  - **Custom Builder**: Form submissions now persist to database via POST /api/orders/custom
+  - **Contact Form**: Submissions persist to contact_messages table via POST /api/contact
+  - **Inquiries System**: Shop inquiry form submissions persist via InquiriesContext API integration
+  - **Admin Order Board**: Fetches real orders from database, displays occasion/flavor/design/servings, drag-drop updates status via API
+  - **Admin Customers**: Displays real customer data from database with total orders and last order dates
+  - **Data Persistence**: Form data flows: Frontend Form → API → Database → Admin Dashboard (Note: Contact form submissions are stored in database but admin view is not yet implemented)
+  - **Customer Auto-Creation**: Custom Builder automatically creates/links customers on order submission
+  - **VIP Status**: Customers automatically become VIP after 5+ orders
 - November 3, 2025: Inquiry System Global Data Management
   - **InquiriesContext Implementation**: Created global context provider for managing customer inquiries across the application
   - **Data Flow Integration**: Inquiry form submissions from Shop page now persist to Admin Inquiries page via React Context
