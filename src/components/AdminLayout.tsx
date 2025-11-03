@@ -40,10 +40,10 @@ export function AdminLayout({ children, activePage, onNavigate, onLogout }: Admi
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen" style={{ background: '#F5F5F5' }}>
+    <div className="h-screen overflow-hidden flex flex-col" style={{ background: '#F5F5F5' }}>
       {/* BACK-END: Charcoal Gray Top Header */}
       <header 
-        className="fixed top-0 left-0 right-0 h-16 z-40 flex items-center justify-between px-6 lg:px-8"
+        className="flex-shrink-0 h-16 z-40 flex items-center justify-between px-6 lg:px-8"
         style={{
           background: '#2B2B2B',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
@@ -129,16 +129,18 @@ export function AdminLayout({ children, activePage, onNavigate, onLogout }: Admi
         </div>
       </header>
 
-      {/* BACK-END: Fixed Left Sidebar (Collapsible) */}
-      <aside
-        className={`hidden lg:block fixed left-0 top-16 bottom-0 transition-all duration-300 z-30`}
-        style={{
-          width: sidebarCollapsed ? '80px' : '260px',
-          background: '#FFFFFF',
-          borderRight: '1px solid #E0E0E0',
-          boxShadow: '2px 0 8px rgba(0, 0, 0, 0.05)'
-        }}
-      >
+      {/* Main Content Area */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* BACK-END: Fixed Left Sidebar (Collapsible) */}
+        <aside
+          className={`hidden lg:flex flex-col flex-shrink-0 transition-all duration-300 z-30`}
+          style={{
+            width: sidebarCollapsed ? '80px' : '260px',
+            background: '#FFFFFF',
+            borderRight: '1px solid #E0E0E0',
+            boxShadow: '2px 0 8px rgba(0, 0, 0, 0.05)'
+          }}
+        >
         {/* Collapse Toggle */}
         <button
           onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
@@ -156,7 +158,7 @@ export function AdminLayout({ children, activePage, onNavigate, onLogout }: Admi
           )}
         </button>
 
-        <nav className="p-3 space-y-1" style={{ marginTop: '16px' }}>
+        <nav className="flex-1 overflow-y-auto p-3 space-y-1" style={{ marginTop: '16px' }}>
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activePage === item.id;
@@ -286,22 +288,19 @@ export function AdminLayout({ children, activePage, onNavigate, onLogout }: Admi
         )}
       </AnimatePresence>
 
-      {/* BACK-END: Main Content Area with Subtle Gradient */}
-      <main
-        className="pt-16 transition-all duration-300"
-        style={{
-          marginLeft: typeof window !== 'undefined' && window.innerWidth >= 1024 
-            ? (sidebarCollapsed ? '80px' : '260px') 
-            : '0',
-          minHeight: 'calc(100vh - 64px)',
-          padding: '32px',
-          background: 'linear-gradient(135deg, #F5F5F5 0%, #EBEBEB 50%, #F5F5F5 100%)'
-        }}
-      >
-        <div style={{ maxWidth: '1600px', margin: '0 auto' }}>
-          {children}
-        </div>
-      </main>
+        {/* BACK-END: Main Content Area with Subtle Gradient */}
+        <main
+          className="flex-1 overflow-auto"
+          style={{
+            padding: '24px',
+            background: 'linear-gradient(135deg, #F5F5F5 0%, #EBEBEB 50%, #F5F5F5 100%)'
+          }}
+        >
+          <div className="h-full" style={{ maxWidth: '1600px', margin: '0 auto' }}>
+            {children}
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

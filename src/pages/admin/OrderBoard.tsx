@@ -175,20 +175,20 @@ function DropZone({ status, title, icon: Icon, orders, moveOrder }: DropZoneProp
   });
 
   return (
-    <div>
+    <div className="flex flex-col h-full">
       <div 
-        className="mb-4 p-4 rounded-lg"
+        className="mb-3 p-3 rounded-lg flex-shrink-0"
         style={{ background: 'white', boxShadow: '0 2px 8px rgba(90, 56, 37, 0.1)' }}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Icon className="w-5 h-5" style={{ color: '#C44569' }} />
-            <h3 style={{ fontFamily: 'Poppins, sans-serif', fontSize: '18px', fontWeight: 600, color: '#2B2B2B' }}>
+            <Icon className="w-4 h-4" style={{ color: '#C44569' }} />
+            <h3 style={{ fontFamily: 'Poppins, sans-serif', fontSize: '15px', fontWeight: 600, color: '#2B2B2B' }}>
               {title}
             </h3>
           </div>
           <span 
-            className="px-3 py-1 rounded-full text-sm font-semibold"
+            className="px-2 py-1 rounded-full text-xs font-semibold"
             style={{ background: '#C4456920', color: '#C44569' }}
           >
             {orders.length}
@@ -198,7 +198,7 @@ function DropZone({ status, title, icon: Icon, orders, moveOrder }: DropZoneProp
 
       <div 
         ref={drop as any}
-        className="min-h-[200px] p-4 rounded-lg transition-colors"
+        className="flex-1 overflow-auto p-3 rounded-lg transition-colors"
         style={{ 
           background: isOver ? '#C4456920' : '#FFFFFF50',
           border: isOver ? '2px dashed #C44569' : '2px dashed transparent'
@@ -212,10 +212,10 @@ function DropZone({ status, title, icon: Icon, orders, moveOrder }: DropZoneProp
         ))}
         {orders.length === 0 && (
           <div 
-            className="text-center p-8"
+            className="text-center p-6"
             style={{ opacity: 0.5 }}
           >
-            <p style={{ fontFamily: 'Open Sans, sans-serif', fontSize: '14px', color: '#5A3825' }}>
+            <p style={{ fontFamily: 'Open Sans, sans-serif', fontSize: '13px', color: '#5A3825' }}>
               Drop orders here
             </p>
           </div>
@@ -251,17 +251,17 @@ export function OrderBoard() {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div style={{ background: '#F8EBD7', minHeight: '100vh', padding: 'clamp(20px, 4vw, 40px)' }}>
+      <div className="h-full flex flex-col overflow-hidden" style={{ background: '#F8EBD7' }}>
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-8"
+          className="mb-4 flex-shrink-0"
         >
           <h1 
             style={{
               fontFamily: 'Playfair Display, serif',
-              fontSize: 'clamp(28px, 5vw, 48px)',
+              fontSize: 'clamp(22px, 4vw, 32px)',
               fontWeight: 700,
               color: '#2B2B2B',
               marginBottom: '8px'
@@ -269,22 +269,24 @@ export function OrderBoard() {
           >
             Order Management Board
           </h1>
-          <p style={{ fontFamily: 'Open Sans, sans-serif', color: '#5A3825', fontSize: '16px' }}>
+          <p style={{ fontFamily: 'Open Sans, sans-serif', color: '#5A3825', fontSize: '14px' }}>
             Drag and drop orders to update their status
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {columns.map((column) => (
-            <DropZone
-              key={column.id}
-              status={column.id}
-              title={column.title}
-              icon={column.icon}
-              orders={getOrdersByStatus(column.id)}
-              moveOrder={moveOrder}
-            />
-          ))}
+        <div className="flex-1 overflow-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 h-full">
+            {columns.map((column) => (
+              <DropZone
+                key={column.id}
+                status={column.id}
+                title={column.title}
+                icon={column.icon}
+                orders={getOrdersByStatus(column.id)}
+                moveOrder={moveOrder}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </DndProvider>

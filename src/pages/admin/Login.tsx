@@ -184,7 +184,7 @@ export function Login({ onLogin, onBackToPublic }: LoginProps) {
               <button
                 type="button"
                 style={{ color: '#C44569', fontWeight: 500 }}
-                onClick={() => toast.info('Contact admin for password reset')}
+                onClick={() => showToast('info', 'Contact admin for password reset')}
               >
                 Forgot password?
               </button>

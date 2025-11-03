@@ -68,31 +68,32 @@ export function AdminDashboard() {
   };
 
   return (
+    <>
     <div 
-      className={`min-h-screen ${printMode ? 'print-mode' : ''}`}
-      style={{ background: '#F8EBD7', padding: 'clamp(20px, 4vw, 40px)' }}
+      className={`h-full flex flex-col overflow-hidden ${printMode ? 'print-mode' : ''}`}
+      style={{ background: '#F8EBD7' }}
     >
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="mb-8"
+        className="flex-shrink-0 mb-4"
       >
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-3">
           <div>
             <h1 
               style={{
                 fontFamily: 'Playfair Display, serif',
-                fontSize: 'clamp(28px, 5vw, 48px)',
+                fontSize: 'clamp(22px, 4vw, 32px)',
                 fontWeight: 700,
                 color: '#2B2B2B',
-                marginBottom: '8px'
+                marginBottom: '4px'
               }}
             >
               Analytics Dashboard
             </h1>
-            <p style={{ fontFamily: 'Open Sans, sans-serif', color: '#5A3825', fontSize: '16px' }}>
+            <p style={{ fontFamily: 'Open Sans, sans-serif', color: '#5A3825', fontSize: '14px' }}>
               Real-time insights and performance metrics
             </p>
           </div>
@@ -148,7 +149,7 @@ export function AdminDashboard() {
       </motion.div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4 flex-shrink-0">
         {kpis.map((kpi, index) => (
           <motion.div
             key={kpi.title}
@@ -158,13 +159,13 @@ export function AdminDashboard() {
             whileHover={{ scale: 1.05, y: -5 }}
           >
             <Card style={{ background: 'white', border: 'none', boxShadow: '0 4px 12px rgba(90, 56, 37, 0.1)' }}>
-              <CardContent className="p-6">
+              <CardContent className="p-4">
                 <div className="flex justify-between items-start mb-4">
                   <div 
-                    className="p-3 rounded-lg"
+                    className="p-2 rounded-lg"
                     style={{ background: `${kpi.color}15` }}
                   >
-                    <kpi.icon className="w-6 h-6" style={{ color: kpi.color }} />
+                    <kpi.icon className="w-5 h-5" style={{ color: kpi.color }} />
                   </div>
                   <span 
                     className="px-2 py-1 rounded text-sm font-semibold"
@@ -188,8 +189,9 @@ export function AdminDashboard() {
         ))}
       </div>
 
-      {/* Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      {/* Charts Grid - Scrollable */}
+      <div className="flex-1 overflow-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pb-4">
         {/* Revenue Trend Chart */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -197,9 +199,9 @@ export function AdminDashboard() {
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <Card style={{ background: 'white', border: 'none', boxShadow: '0 4px 12px rgba(90, 56, 37, 0.1)' }}>
-            <CardContent className="p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h3 style={{ fontFamily: 'Poppins, sans-serif', fontSize: '20px', fontWeight: 600, color: '#2B2B2B' }}>
+            <CardContent className="p-4">
+              <div className="flex justify-between items-center mb-4">
+                <h3 style={{ fontFamily: 'Poppins, sans-serif', fontSize: '16px', fontWeight: 600, color: '#2B2B2B' }}>
                   Revenue Trend
                 </h3>
                 <button
@@ -224,7 +226,7 @@ export function AdminDashboard() {
                   Export
                 </button>
               </div>
-              <ResponsiveContainer width="100%" height={300}>
+              <ResponsiveContainer width="100%" height={200}>
                 <LineChart data={salesData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#E9E9E9" />
                   <XAxis 
@@ -271,9 +273,9 @@ export function AdminDashboard() {
           transition={{ duration: 0.6, delay: 0.5 }}
         >
           <Card style={{ background: 'white', border: 'none', boxShadow: '0 4px 12px rgba(90, 56, 37, 0.1)' }}>
-            <CardContent className="p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h3 style={{ fontFamily: 'Poppins, sans-serif', fontSize: '20px', fontWeight: 600, color: '#2B2B2B' }}>
+            <CardContent className="p-4">
+              <div className="flex justify-between items-center mb-4">
+                <h3 style={{ fontFamily: 'Poppins, sans-serif', fontSize: '16px', fontWeight: 600, color: '#2B2B2B' }}>
                   Top Product Categories
                 </h3>
                 <button
@@ -298,7 +300,7 @@ export function AdminDashboard() {
                   Export
                 </button>
               </div>
-              <ResponsiveContainer width="100%" height={300}>
+              <ResponsiveContainer width="100%" height={200}>
                 <BarChart data={topProducts}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#E9E9E9" />
                   <XAxis 
@@ -335,56 +337,59 @@ export function AdminDashboard() {
         </motion.div>
       </div>
 
-      {/* Customer Segments */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.6 }}
-      >
-        <Card style={{ background: 'white', border: 'none', boxShadow: '0 4px 12px rgba(90, 56, 37, 0.1)' }}>
-          <CardContent className="p-6">
-            <h3 style={{ fontFamily: 'Poppins, sans-serif', fontSize: '20px', fontWeight: 600, color: '#2B2B2B', marginBottom: '24px' }}>
-              Customer Segments
-            </h3>
-            <div className="flex justify-center">
-              <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
-                  <Pie
-                    data={segments}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                    outerRadius={100}
-                    fill="#8884d8"
-                    dataKey="value"
-                  >
-                    {segments.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
-
-      {/* Print Styles */}
-      <style>{`
-        @media print {
-          .print-mode {
-            background: white !important;
-          }
-          .print-mode button {
-            display: none !important;
-          }
-          .print-mode .recharts-legend {
-            display: none !important;
-          }
-        }
-      `}</style>
+        {/* Customer Segments */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="lg:col-span-2"
+        >
+          <Card style={{ background: 'white', border: 'none', boxShadow: '0 4px 12px rgba(90, 56, 37, 0.1)' }}>
+            <CardContent className="p-4">
+              <h3 style={{ fontFamily: 'Poppins, sans-serif', fontSize: '16px', fontWeight: 600, color: '#2B2B2B', marginBottom: '16px' }}>
+                Customer Segments
+              </h3>
+              <div className="flex justify-center">
+                <ResponsiveContainer width="100%" height={180}>
+                  <PieChart>
+                    <Pie
+                      data={segments}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      outerRadius={70}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      {segments.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </div>
     </div>
+
+    {/* Print Styles */}
+    <style>{`
+      @media print {
+        .print-mode {
+          background: white !important;
+        }
+        .print-mode button {
+          display: none !important;
+        }
+        .print-mode .recharts-legend {
+          display: none !important;
+        }
+      }
+    `}</style>
+    </>
   );
 }
