@@ -172,26 +172,27 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
         }}
       >
         <div className="container mx-auto max-w-5xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {/* Brand */}
             <div>
-              <h4
+              <h5
                 style={{
-                  fontFamily: 'Playfair Display, serif',
-                  fontWeight: 700,
-                  fontSize: '20px',
-                  color: '#C44569',
-                  marginBottom: '12px'
+                  fontFamily: 'Poppins, sans-serif',
+                  fontWeight: 600,
+                  fontSize: '15px',
+                  color: 'white',
+                  marginBottom: '16px',
+                  letterSpacing: '0.5px'
                 }}
               >
                 Emily Bakes Cakes
-              </h4>
+              </h5>
               <p
                 style={{
                   fontFamily: 'Open Sans, sans-serif',
                   fontSize: '14px',
                   color: 'rgba(255, 255, 255, 0.7)',
-                  lineHeight: 1.6
+                  lineHeight: 1.7
                 }}
               >
                 Handcrafted artisan cakes for Houston's special moments.
@@ -204,28 +205,28 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
                 style={{
                   fontFamily: 'Poppins, sans-serif',
                   fontWeight: 600,
-                  fontSize: '14px',
+                  fontSize: '15px',
                   color: 'white',
-                  marginBottom: '12px'
+                  marginBottom: '16px',
+                  letterSpacing: '0.5px'
                 }}
               >
                 Quick Links
               </h5>
-              <ul className="space-y-1">
+              <ul className="space-y-2">
                 {navItems.map((item) => (
                   <li key={item.id}>
                     <button
                       onClick={() => onNavigate(item.id)}
                       style={{
                         fontFamily: 'Open Sans, sans-serif',
-                        fontSize: '13px',
+                        fontSize: '14px',
                         color: 'rgba(255, 255, 255, 0.7)',
                         background: 'none',
                         border: 'none',
-                        padding: '4px 0',
+                        padding: '2px 0',
                         cursor: 'pointer',
                         textAlign: 'left',
-                        minHeight: '28px',
                         transition: 'color 200ms ease'
                       }}
                       onMouseEnter={(e) => {
@@ -248,20 +249,22 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
                 style={{
                   fontFamily: 'Poppins, sans-serif',
                   fontWeight: 600,
-                  fontSize: '14px',
+                  fontSize: '15px',
                   color: 'white',
-                  marginBottom: '12px'
+                  marginBottom: '16px',
+                  letterSpacing: '0.5px'
                 }}
               >
                 Contact
               </h5>
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <p
                   style={{
                     fontFamily: 'Open Sans, sans-serif',
-                    fontSize: '13px',
+                    fontSize: '14px',
                     color: 'rgba(255, 255, 255, 0.7)',
-                    lineHeight: 1.5
+                    lineHeight: 1.6,
+                    margin: 0
                   }}
                 >
                   2847 Westheimer Road<br />
@@ -270,8 +273,9 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
                 <p
                   style={{
                     fontFamily: 'Open Sans, sans-serif',
-                    fontSize: '13px',
-                    color: 'rgba(255, 255, 255, 0.7)'
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.7)',
+                    margin: 0
                   }}
                 >
                   (713) 555-CAKE
@@ -280,7 +284,7 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
                   href="mailto:info@emilybakescakes.com"
                   style={{
                     fontFamily: 'Open Sans, sans-serif',
-                    fontSize: '13px',
+                    fontSize: '14px',
                     color: '#C44569',
                     textDecoration: 'none',
                     display: 'block',
@@ -301,17 +305,18 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
 
           {/* Copyright */}
           <div
-            className="mt-6 pt-6"
+            className="mt-10 pt-6"
             style={{
-              borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+              borderTop: '1px solid rgba(255, 255, 255, 0.15)',
               textAlign: 'center'
             }}
           >
             <p
               style={{
                 fontFamily: 'Open Sans, sans-serif',
-                fontSize: '12px',
-                color: 'rgba(255, 255, 255, 0.5)'
+                fontSize: '13px',
+                color: 'rgba(255, 255, 255, 0.5)',
+                margin: 0
               }}
             >
               © {new Date().getFullYear()} Emily Bakes Cakes. All rights reserved.
