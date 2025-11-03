@@ -52,15 +52,15 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
             {/* Logo */}
             <button
               onClick={() => onNavigate('home')}
-              className="flex items-center gap-3 cursor-pointer hover:opacity-90 transition-opacity"
+              className="flex items-center gap-4 cursor-pointer hover:opacity-90 transition-opacity"
               style={{ background: 'none', border: 'none', padding: 0 }}
             >
               <img
                 src={logoImage}
                 alt="Emily Bakes Cakes Logo"
                 style={{
-                  width: '56px',
-                  height: '56px',
+                  width: '160px',
+                  height: '160px',
                   objectFit: 'contain',
                   flexShrink: 0
                 }}
@@ -181,13 +181,13 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {/* Brand with Logo */}
             <div>
-              <div className="flex items-center gap-3 mb-3">
+              <div className="flex items-center gap-4 mb-4">
                 <img 
                   src={logoImage} 
                   alt="Emily Bakes Cakes Logo" 
                   style={{ 
-                    width: '52px', 
-                    height: '52px',
+                    width: '150px', 
+                    height: '150px',
                     objectFit: 'contain',
                     flexShrink: 0
                   }}
