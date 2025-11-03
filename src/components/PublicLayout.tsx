@@ -177,22 +177,24 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {/* Brand with Logo */}
             <div>
-              <div className="flex items-center gap-2 mb-3">
+              <div className="flex items-center gap-3 mb-3">
                 <img 
                   src={logoImage} 
                   alt="Emily Bakes Cakes Logo" 
                   style={{ 
-                    width: '40px', 
-                    height: '40px',
-                    objectFit: 'contain'
+                    width: '56px', 
+                    height: '56px',
+                    objectFit: 'contain',
+                    flexShrink: 0
                   }}
                 />
                 <h4
                   style={{
                     fontFamily: 'Playfair Display, serif',
                     fontWeight: 700,
-                    fontSize: '18px',
-                    color: '#C44569'
+                    fontSize: '20px',
+                    color: '#C44569',
+                    lineHeight: 1.2
                   }}
                 >
                   Emily Bakes Cakes
@@ -377,7 +379,7 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
       </footer>
 
       {/* Sticky Bottom CTA */}
-      <StickyBottomCTA onOrderClick={() => onNavigate('shop')} />
+      <StickyBottomCTA onOrderClick={() => onNavigate('builder')} />
     </div>
   );
 }

@@ -697,18 +697,20 @@ export function PublicHome({ onNavigate }: PublicHomeProps = {}) {
           - Animated entrance on scroll (whileInView)
       */}
       <section 
-        className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6"
+        className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 mb-8"
         style={{ background: '#F8EBD7' }}
       >
         <div className="container mx-auto max-w-5xl">
           <motion.div
             className="text-center relative overflow-hidden"
             style={{
-              background: 'linear-gradient(135deg, #FFFFFF 0%, #F8EBD7 100%)',
-              borderRadius: '16px',
-              padding: 'clamp(40px, 8vw, 64px) clamp(24px, 6vw, 48px)',
-              boxShadow: '0 8px 24px rgba(90, 56, 37, 0.15)',
-              border: '1px solid rgba(196, 69, 105, 0.1)'
+              background: 'white',
+              borderRadius: '20px',
+              padding: 'clamp(48px, 8vw, 72px) clamp(32px, 6vw, 56px)',
+              boxShadow: '0 12px 40px rgba(90, 56, 37, 0.18)',
+              border: '2px solid rgba(196, 69, 105, 0.12)',
+              position: 'relative',
+              zIndex: 10
             }}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -757,6 +759,7 @@ export function PublicHome({ onNavigate }: PublicHomeProps = {}) {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               {/* Primary Button - "Start Building" */}
               <button
+                onClick={() => onNavigate?.('builder')}
                 className="group"
                 style={{
                   background: '#C44569',
@@ -792,6 +795,7 @@ export function PublicHome({ onNavigate }: PublicHomeProps = {}) {
 
               {/* Secondary Button - "Contact Emily" */}
               <button
+                onClick={() => onNavigate?.('contact')}
                 className="group"
                 style={{
                   background: 'transparent',
