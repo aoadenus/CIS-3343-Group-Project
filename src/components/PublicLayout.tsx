@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ShoppingBag, User, Heart } from 'lucide-react';
+import { User, Heart } from 'lucide-react';
 import { motion } from 'motion/react';
 import { HamburgerIcon } from './HamburgerIcon';
 import { MobileNav } from './MobileNav';
@@ -112,21 +112,6 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
 
             {/* Right Section - Icons */}
             <div className="flex items-center gap-2">
-              {/* Shopping Cart - Hidden on mobile */}
-              <button
-                className="hidden sm:flex items-center justify-center p-2 rounded-lg transition-all hover:bg-white/10"
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  minWidth: '44px',
-                  minHeight: '44px'
-                }}
-                aria-label="Shopping cart"
-              >
-                <ShoppingBag size={22} color="white" />
-              </button>
-
               {/* Staff Login Button */}
               <button
                 onClick={onAdminAccess}
