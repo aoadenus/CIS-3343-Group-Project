@@ -88,6 +88,7 @@ export async function getAllOrdersWithCustomers() {
       message: orders.message,
       additionalNotes: orders.additionalNotes,
       inspirationImages: orders.inspirationImages,
+      layers: orders.layers,
       status: orders.status,
       priority: orders.priority,
       createdAt: orders.createdAt,

@@ -14,13 +14,14 @@ interface Order {
   customerPhone: string | null;
   orderType: string;
   occasion: string;
-  flavor: string;
+  flavor: string | null;
   design: string;
   servings: number | null;
   eventDate: string | null;
   message: string | null;
   additionalNotes: string | null;
   inspirationImages: string | null;
+  layers: string | null; // JSON string of CakeLayer[]
   status: 'pending' | 'preparing' | 'ready' | 'completed';
   priority: 'low' | 'medium' | 'high';
   createdAt: string;
@@ -29,7 +30,7 @@ interface Order {
 const ItemType = 'ORDER';
 
 interface DragItem {
-  id: string;
+  id: number;
   status: Order['status'];
 }
 
@@ -73,7 +74,8 @@ function OrderCard({ order }: OrderCardProps) {
           <div className="flex justify-between items-start mb-3">
             <div>
               <h4 style={{ fontFamily: 'Poppins, sans-serif', fontSize: '16px', fontWeight: 600, color: '#2B2B2B', marginBottom: '4px' }}>
-                {order.occasion} - {order.flavor}
+                {order.occasion}
+                {order.layers ? ` - ${JSON.parse(order.layers).length} Layer${JSON.parse(order.layers).length > 1 ? 's' : ''}` : ` - ${order.flavor}`}
               </h4>
               <p style={{ fontFamily: 'Open Sans, sans-serif', fontSize: '13px', color: '#5A3825' }}>
                 Order #{order.id}
@@ -178,7 +180,7 @@ interface DropZoneProps {
   title: string;
   icon: any;
   orders: Order[];
-  moveOrder: (orderId: string, newStatus: Order['status']) => void;
+  moveOrder: (orderId: number, newStatus: Order['status']) => void;
 }
 
 function DropZone({ status, title, icon: Icon, orders, moveOrder }: DropZoneProps) {
@@ -272,7 +274,7 @@ export function OrderBoard() {
     { id: 'completed', title: 'Completed', icon: Check }
   ];
 
-  const moveOrder = async (orderId: string, newStatus: Order['status']) => {
+  const moveOrder = async (orderId: number, newStatus: Order['status']) => {
     // Optimistically update UI
     setOrders(prevOrders =>
       prevOrders.map(order =>

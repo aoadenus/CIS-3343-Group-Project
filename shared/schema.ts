@@ -22,10 +22,13 @@ export const orders = pgTable('orders', {
   
   // Custom Builder fields
   occasion: varchar('occasion', { length: 100 }),
-  flavor: varchar('flavor', { length: 100 }),
+  flavor: varchar('flavor', { length: 100 }), // Legacy single flavor (for shop orders)
   design: varchar('design', { length: 100 }),
   servings: integer('servings'),
   additionalNotes: text('additional_notes'),
+  
+  // NEW: Layer-by-layer customization (unlimited layers)
+  layers: text('layers'), // JSON array: [{ flavor, fillings: [], notes }]
   
   // Shop product inquiry fields
   productName: varchar('product_name', { length: 255 }),
@@ -89,6 +92,13 @@ export const inquiriesRelations = relations(inquiries, ({ one }) => ({
     references: [customers.id],
   }),
 }));
+
+// Layer structure for custom cakes
+export interface CakeLayer {
+  flavor: string;
+  fillings: string[]; // Max 2 fillings per layer
+  notes?: string; // Optional notes (max 255 chars)
+}
 
 // Types
 export type Customer = typeof customers.$inferSelect;

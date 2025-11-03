@@ -7,6 +7,8 @@ import { Input } from '../../components/ui/input';
 import { Textarea } from '../../components/ui/textarea';
 import { useToast } from '../../components/ToastContext';
 import { ImageUploadGrid } from '../../components/ImageUploadGrid';
+import { LayerBuilder } from '../../components/LayerBuilder';
+import { occasions, designs, flavors, fillings, calculateTotalPrice, type LayerData } from '../../data/cakeOptions';
 
 interface Step {
   id: number;
@@ -16,46 +18,21 @@ interface Step {
 
 const steps: Step[] = [
   { id: 1, title: 'Occasion', description: 'What are you celebrating?' },
-  { id: 2, title: 'Flavor', description: 'Choose your cake flavor' },
+  { id: 2, title: 'Build Layers', description: 'Create your custom cake layers' },
   { id: 3, title: 'Design', description: 'Customize the look' },
   { id: 4, title: 'Details', description: 'Finalize your order' },
   { id: 5, title: 'Review', description: 'Confirm and submit' }
-];
-
-const occasions = [
-  { id: 'birthday', name: 'Birthday', icon: '🎂' },
-  { id: 'wedding', name: 'Wedding', icon: '💒' },
-  { id: 'anniversary', name: 'Anniversary', icon: '💕' },
-  { id: 'graduation', name: 'Graduation', icon: '🎓' },
-  { id: 'corporate', name: 'Corporate Event', icon: '🏢' },
-  { id: 'other', name: 'Other', icon: '🎉' }
-];
-
-const flavors = [
-  { id: 'vanilla', name: 'Classic Vanilla', price: 0, description: 'Timeless vanilla bean' },
-  { id: 'chocolate', name: 'Rich Chocolate', price: 0, description: 'Premium dark chocolate' },
-  { id: 'strawberry', name: 'Fresh Strawberry', price: 5, description: 'Real strawberry puree' },
-  { id: 'almond', name: 'Almond Dream', price: 8, description: 'Premium almond extract' },
-  { id: 'lemon', name: 'Lemon Zest', price: 5, description: 'Fresh lemon & vanilla' },
-  { id: 'red-velvet', name: 'Red Velvet', price: 10, description: 'Southern classic' }
-];
-
-const designs = [
-  { id: 'classic', name: 'Classic Elegance', description: 'Traditional buttercream design' },
-  { id: 'modern', name: 'Modern Minimalist', description: 'Clean lines and simple colors' },
-  { id: 'floral', name: 'Floral Garden', description: 'Handcrafted sugar flowers' },
-  { id: 'geometric', name: 'Geometric Patterns', description: 'Bold shapes and angles' },
-  { id: 'rustic', name: 'Rustic Charm', description: 'Naked cake with natural elements' },
-  { id: 'custom', name: 'Fully Custom', description: 'Design your own vision' }
 ];
 
 export function Builder() {
   const { showToast } = useToast();
   const [openStep, setOpenStep] = useState<number>(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+  const [layers, setLayers] = useState<LayerData[]>([
+    { id: 'layer-1', flavor: '', fillings: [], notes: '' }
+  ]);
   const [formData, setFormData] = useState({
     occasion: '',
-    flavor: '',
     design: '',
     name: '',
     email: '',
@@ -81,9 +58,17 @@ export function Builder() {
       showToast('error', 'Please select an occasion to continue');
       return;
     }
-    if (stepId === 2 && !formData.flavor) {
-      showToast('error', 'Please select a flavor to continue');
-      return;
+    if (stepId === 2) {
+      if (layers.length === 0) {
+        showToast('error', 'Please add at least one layer to continue');
+        return;
+      }
+      for (const layer of layers) {
+        if (!layer.flavor) {
+          showToast('error', 'Please select a flavor for all layers');
+          return;
+        }
+      }
     }
     if (stepId === 3 && !formData.design) {
       showToast('error', 'Please select a design style to continue');
@@ -116,7 +101,7 @@ export function Builder() {
           email: formData.email,
           phone: formData.phone,
           occasion: formData.occasion,
-          flavor: formData.flavor,
+          layers: layers,
           design: formData.design,
           servings: formData.servings,
           date: formData.date,
@@ -138,7 +123,6 @@ export function Builder() {
       // Reset form
       setFormData({
         occasion: '',
-        flavor: '',
         design: '',
         name: '',
         email: '',
@@ -149,6 +133,7 @@ export function Builder() {
         notes: '',
         inspirationImages: []
       });
+      setLayers([{ id: 'layer-1', flavor: '', fillings: [], notes: '' }]);
       setCompletedSteps([]);
       setOpenStep(1);
     } catch (error) {
@@ -157,9 +142,7 @@ export function Builder() {
     }
   };
 
-  const selectedFlavor = flavors.find(f => f.id === formData.flavor);
-  const basePrice = 50;
-  const totalPrice = basePrice + (selectedFlavor?.price || 0);
+  const totalPrice = calculateTotalPrice(layers);
 
   return (
     <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-12">
@@ -397,53 +380,35 @@ export function Builder() {
                             </div>
                           )}
 
-                          {/* Step 2: Flavor */}
+                          {/* Step 2: Build Layers */}
                           {step.id === 2 && (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                              {flavors.map((flavor) => (
-                                <button
-                                  key={flavor.id}
-                                  onClick={() => setFormData({ ...formData, flavor: flavor.id })}
-                                  className="rounded-xl transition-all text-left"
-                                  style={{
-                                    padding: 'clamp(16px, 4vw, 20px)',
-                                    background: formData.flavor === flavor.id 
-                                      ? 'rgba(196, 69, 105, 0.15)' 
-                                      : 'rgba(248, 235, 215, 0.5)',
-                                    border: `2px solid ${formData.flavor === flavor.id ? '#C44569' : 'transparent'}`,
-                                    cursor: 'pointer',
-                                    minHeight: '88px'
-                                  }}
-                                >
-                                  <div className="flex items-start justify-between mb-2">
-                                    <h5 style={{ 
-                                      fontFamily: 'Poppins', 
-                                      fontWeight: 600,
-                                      fontSize: 'clamp(14px, 3vw, 16px)',
-                                      color: formData.flavor === flavor.id ? '#C44569' : '#2B2B2B'
-                                    }}>
-                                      {flavor.name}
-                                    </h5>
-                                    {flavor.price > 0 && (
-                                      <span style={{ 
-                                        fontSize: 'clamp(13px, 2.5vw, 14px)', 
-                                        fontWeight: 600, 
-                                        color: '#C44569',
-                                        fontFamily: 'Poppins'
-                                      }}>
-                                        +${flavor.price}
-                                      </span>
-                                    )}
-                                  </div>
-                                  <p style={{ 
-                                    fontSize: 'clamp(13px, 2.5vw, 14px)', 
-                                    color: '#5A3825',
-                                    opacity: 0.8
-                                  }}>
-                                    {flavor.description}
-                                  </p>
-                                </button>
-                              ))}
+                            <div>
+                              <div style={{
+                                marginBottom: '20px',
+                                padding: '16px',
+                                background: 'rgba(196, 69, 105, 0.05)',
+                                borderRadius: '8px',
+                                border: '1px solid rgba(196, 69, 105, 0.2)'
+                              }}>
+                                <p style={{
+                                  fontFamily: 'Poppins',
+                                  fontSize: '14px',
+                                  color: '#2B2B2B',
+                                  margin: '0 0 8px 0',
+                                  fontWeight: 600
+                                }}>
+                                  Build your perfect cake layer by layer!
+                                </p>
+                                <p style={{
+                                  fontFamily: 'Open Sans',
+                                  fontSize: '13px',
+                                  color: '#5A3825',
+                                  margin: 0
+                                }}>
+                                  Add unlimited layers, each with its own flavor, up to 2 fillings ($1 each), and special notes.
+                                </p>
+                              </div>
+                              <LayerBuilder layers={layers} onLayersChange={setLayers} />
                             </div>
                           )}
 
@@ -660,20 +625,71 @@ export function Builder() {
                                       {occasions.find(o => o.id === formData.occasion)?.name || '—'}
                                     </span>
                                   </div>
-                                  <div className="flex justify-between items-start">
-                                    <span style={{ 
-                                      color: '#5A3825',
-                                      fontSize: 'clamp(14px, 2.5vw, 15px)'
-                                    }}>
-                                      Flavor:
-                                    </span>
-                                    <span style={{ 
-                                      fontWeight: 600,
+                                  <div>
+                                    <h6 style={{
+                                      color: '#2B2B2B',
                                       fontSize: 'clamp(14px, 2.5vw, 15px)',
-                                      textAlign: 'right'
+                                      fontWeight: 600,
+                                      marginBottom: '12px',
+                                      fontFamily: 'Poppins'
                                     }}>
-                                      {flavors.find(f => f.id === formData.flavor)?.name || '—'}
-                                    </span>
+                                      Cake Layers ({layers.length}):
+                                    </h6>
+                                    <div className="space-y-3">
+                                      {layers.map((layer, index) => {
+                                        const flavorData = flavors.find(f => f.id === layer.flavor);
+                                        const layerFillings = layer.fillings.map(fid => 
+                                          fillings.find(f => f.id === fid)?.name
+                                        ).filter(Boolean);
+                                        
+                                        return (
+                                          <div
+                                            key={layer.id}
+                                            style={{
+                                              padding: '12px',
+                                              background: 'rgba(196, 69, 105, 0.05)',
+                                              borderRadius: '8px',
+                                              border: '1px solid rgba(196, 69, 105, 0.15)'
+                                            }}
+                                          >
+                                            <p style={{
+                                              fontSize: 'clamp(13px, 2.5vw, 14px)',
+                                              fontWeight: 600,
+                                              color: '#C44569',
+                                              marginBottom: '4px'
+                                            }}>
+                                              Layer {index + 1}
+                                            </p>
+                                            <p style={{
+                                              fontSize: 'clamp(13px, 2.5vw, 14px)',
+                                              color: '#2B2B2B',
+                                              marginBottom: layerFillings.length > 0 || layer.notes ? '4px' : 0
+                                            }}>
+                                              <strong>Flavor:</strong> {flavorData?.name || 'Unknown'}
+                                              {flavorData && flavorData.price > 0 && ` (+$${flavorData.price})`}
+                                            </p>
+                                            {layerFillings.length > 0 && (
+                                              <p style={{
+                                                fontSize: 'clamp(12px, 2.5vw, 13px)',
+                                                color: '#5A3825',
+                                                marginBottom: layer.notes ? '4px' : 0
+                                              }}>
+                                                <strong>Fillings:</strong> {layerFillings.join(', ')}
+                                              </p>
+                                            )}
+                                            {layer.notes && (
+                                              <p style={{
+                                                fontSize: 'clamp(12px, 2.5vw, 13px)',
+                                                color: '#5A3825',
+                                                fontStyle: 'italic'
+                                              }}>
+                                                <strong>Notes:</strong> {layer.notes}
+                                              </p>
+                                            )}
+                                          </div>
+                                        );
+                                      })}
+                                    </div>
                                   </div>
                                   <div className="flex justify-between items-start">
                                     <span style={{ 

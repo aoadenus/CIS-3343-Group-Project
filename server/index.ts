@@ -74,11 +74,32 @@ app.get('/api/orders/:id', async (req, res) => {
 // Create order from custom builder
 app.post('/api/orders/custom', async (req, res) => {
   try {
-    const { name, email, phone, occasion, flavor, design, servings, date, message, notes, inspirationImages } = req.body;
+    const { name, email, phone, occasion, flavor, design, servings, date, message, notes, inspirationImages, layers } = req.body;
     
-    // Validate required fields
-    if (!name || !email || !occasion || !flavor || !design) {
+    // Validate required fields (support both legacy single flavor and new layer system)
+    if (!name || !email || !occasion || !design) {
       return res.status(400).json({ error: 'Missing required fields' });
+    }
+    
+    // If layers are provided, validate them
+    if (layers && Array.isArray(layers)) {
+      if (layers.length === 0) {
+        return res.status(400).json({ error: 'At least one layer is required' });
+      }
+      
+      for (const layer of layers) {
+        if (!layer.flavor) {
+          return res.status(400).json({ error: 'Each layer must have a flavor' });
+        }
+        if (layer.fillings && layer.fillings.length > 2) {
+          return res.status(400).json({ error: 'Maximum 2 fillings per layer allowed' });
+        }
+        if (layer.notes && layer.notes.length > 255) {
+          return res.status(400).json({ error: 'Layer notes must be 255 characters or less' });
+        }
+      }
+    } else if (!flavor) {
+      return res.status(400).json({ error: 'Either flavor or layers must be provided' });
     }
     
     // Find or create customer
@@ -89,13 +110,14 @@ app.post('/api/orders/custom', async (req, res) => {
       customerId: customer.id,
       orderType: 'custom',
       occasion,
-      flavor,
+      flavor: flavor || null,
       design,
       servings: servings ? parseInt(servings) : null,
       eventDate: date ? new Date(date) : null,
       message,
       additionalNotes: notes,
       inspirationImages: inspirationImages ? JSON.stringify(inspirationImages) : null,
+      layers: layers ? JSON.stringify(layers) : null,
       status: 'pending',
       priority: 'medium',
     };
