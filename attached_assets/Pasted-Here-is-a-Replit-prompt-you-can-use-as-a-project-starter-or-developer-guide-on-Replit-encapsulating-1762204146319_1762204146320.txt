@@ -1,0 +1,166 @@
+Here is a Replit prompt you can use as a project starter or developer guide on Replit, encapsulating the full detailed implementation plan with style and technical guidance for the custom cake builder system:
+
+***
+
+# Custom Cake Builder System - Developer Implementation Plan
+
+## Overview
+
+This project implements a full-featured custom cake builder system with frontend user customization, backend order and customer management, real-time catalog synchronization, and payment integration.
+
+## Key Feature Items
+
+### 1. Layer Customization Panel
+
+**What:**  
+- Unlimited cake layers, each independently selected flavor.  
+- Real-time UI with add/remove layer functionality.
+
+**Style:**  
+- Card-based vertical stack, pastel brand colors, responsive design.  
+- Labels "Layer 1", "Layer 2", ... with accessible buttons for adding/removing layers.
+
+**Implementation Tips:**  
+- Use React/Vue state arrays for layers.  
+- Dynamic form inputs with validation.  
+- Backend API accepts arrays for layer data including flavor/fillings.  
+- Price calculation = base + (layers × per-layer cost) + fillings.
+
+***
+
+### 2. Fillings & Flavors
+
+**What:**  
+- Each layer supports 0-2 fillings chosen from catalog.  
+- Optional text box for layer-specific notes.
+
+**Style:**  
+- Multi-select dropdown or checkboxes for fillings under flavor.  
+- Textbox with 255 char limit and live count.
+
+**Implementation Tips:**  
+- Enforce fillings limit on UI and backend.  
+- Debounce notes input to limit API calls.  
+- Iconographic cues for fillings.
+
+***
+
+### 3. Maximum Customization
+
+**What:**  
+- Special instructions for cake and optional extras like decorations, sizes.
+
+**Style:**  
+- Collapsible advanced options panel with tooltips and rounded action buttons.
+
+**Implementation Tips:**  
+- Use reactive forms with persisted state.  
+- Send whole customization payload to backend at checkout.
+
+***
+
+### 4. Catalog & Shop Sync
+
+**What:**  
+- Live sync of backend product catalog with frontend shop.
+
+**Style:**  
+- Consistent card grids with badges for new/updated items.
+
+**Implementation Tips:**  
+- WebSocket or long-polling for real-time updates.  
+- Stable product IDs and cache invalidation strategies.
+
+***
+
+### 5. Cake Inquiry & Order Board
+
+**What:**  
+- Maintain cake inquiry form.  
+- Order board dashboard with status tracking.
+
+**Style:**  
+- Sortable, filterable order table with colored status badges.
+
+**Implementation Tips:**  
+- Backend order APIs with CRUD and real-time updates.  
+- Integration hooks with PM tools.
+
+***
+
+### 6. Reports & Customer Management
+
+**What:**  
+- Searchable customer list and editable profiles with order history.
+
+**Style:**  
+- Minimalist tables with pagination and tabbed profile views.
+
+**Implementation Tips:**  
+- Indexed backend queries and role-based access control.
+
+***
+
+### 7. Payment Page
+
+**What:**  
+- PCI-compliant payment form with deposit tracking.
+
+**Style:**  
+- Input masks, clear action buttons, payment status badges.
+
+**Implementation Tips:**  
+- Use Stripe/Square SDK.  
+- Enforce min 50% deposit before order processing.
+
+***
+
+### 8. Order & Account Management Backend
+
+**What:**  
+- Full CRUD with cancellation eligibility and audit logging.
+
+**Style:**  
+- Modals for confirmations, visual markups for canceled orders.
+
+**Implementation Tips:**  
+- Role-based permissions and detailed audit trails.
+
+***
+
+### 9. Business Rules & Pricing Logic
+
+**What:**  
+- Prices update dynamically with layers/fillings.  
+- Enable/disallow options per business rules (max two fillings, cancellation policy etc.)
+
+**Style:**  
+- Live price display, disabled options with tooltips.
+
+**Implementation Tips:**  
+- Backend validations and frontend UI feedback tightly coupled.  
+- Price recalculation triggered on any customization change.
+
+***
+
+## Getting Started
+
+- Set up frontend framework (React or Vue).  
+- Define state management for dynamic cake layers and fillings.  
+- Integrate backend API endpoints for product catalog and orders.  
+- Implement payment gateway integration.  
+- Build admin backend for managing customer and orders.  
+- Ensure responsive and accessible design throughout.
+
+***
+
+## Useful Links
+
+- [Replit Starter Template](https://replit.com/@aoadenus/CIS-3343-Group-Project)  
+- [Stripe API Documentation](https://stripe.com/docs/api)  
+- [React Documentation](https://reactjs.org/docs/getting-started.html)  
+- [Vue Documentation](https://vuejs.org/guide/introduction.html)  
+
+***
+
+Use this prompt as a comprehensive guide within Replit for developers embarking on the project. Let me know if you want me to generate this into a ready-to-import Replit project file or add code snippets!
