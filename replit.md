@@ -46,6 +46,20 @@ The application is built using React 18.3.1 with TypeScript, Vite 6.3.5, and Tai
 - **React DnD**: Drag-and-drop functionality (for admin order board).
 
 ## Recent Changes
+- November 3, 2025: Shop Page Comprehensive Redesign (All Features Complete)
+  - **Inquiry Modal**: Replaced toast notifications with professional modal featuring form validation (name, email, phone, event date, message fields)
+  - **Custom Cake CTA**: Prominent section at top with animated sparkle icon and clear call-to-action linking to custom builder
+  - **Enhanced Product Cards**: Improved visual hierarchy with larger titles (22px), emphasized prices (22px raspberry), clear descriptions
+  - **Advanced Hover Effects**: Smooth image zoom (scale 1.05), gradient overlay fade-in, card scale transformations
+  - **Color-Coded Ratings**: Gold stars (#FFD700) for 5-star, orange (#FFA500) for 4.8+, raspberry for others, with info tooltips
+  - **Interactive Filters**: Visual feedback with scale transforms, shadows, 2px borders, smooth transitions on category selection
+  - **Product Badges**: POPULAR (raspberry gradient), NEW (green gradient), 5-STAR (gold gradient) with proper shadows and positioning
+  - **Loading Skeleton**: Pulse animation skeleton UI during filtering/sorting transitions
+  - **Mobile Optimization**: Responsive grid (1/2/3 columns), 44px+ touch targets, clamp() for responsive text sizing
+  - **Accessibility**: Comprehensive ARIA labels, aria-pressed states, aria-invalid, role="alert", keyboard navigation support
+  - **Smooth Animations**: AnimatePresence with layout animations, stagger delays, fade transitions on filter changes
+  - **Corrected Filtering**: Category filtering now properly isolates selections (removed "All" category fallback for specific filters)
+
 - November 3, 2025: Mobile Menu Optimization & Duplicate Close Button Fix
   - **Fixed duplicate X button issue**: Removed hamburger-to-X transformation in navigation bar
   - **Highly visible close button**: Solid raspberry pink (#C44569) background with white X icon (26px, stroke 3)
