@@ -101,7 +101,7 @@ export default function App() {
   const renderPublicPage = () => {
     switch (activePage) {
       case 'home':
-        return <PublicHome />;
+        return <PublicHome onNavigate={handlePublicNavigate} />;
       case 'shop':
         return <Shop />;
       case 'builder':
@@ -113,7 +113,7 @@ export default function App() {
       case 'contact':
         return <Contact />;
       default:
-        return <PublicHome />;
+        return <PublicHome onNavigate={handlePublicNavigate} />;
     }
   };
 

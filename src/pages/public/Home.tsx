@@ -66,7 +66,11 @@ const testimonials = [
   }
 ];
 
-export function PublicHome() {
+interface PublicHomeProps {
+  onNavigate?: (page: string) => void;
+}
+
+export function PublicHome({ onNavigate }: PublicHomeProps = {}) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -124,7 +128,7 @@ export function PublicHome() {
         </div>
 
         {/* Lifestyle Cake Image Overlay - Creates depth with gradient background */}
-        <div className="absolute inset-0" style={{ opacity: 0.3 }}>
+        <div className="absolute inset-0" style={{ opacity: 0.5 }}>
           <LazyImage
             src={heroImage}
             alt="Emily Bakes Cakes hero"
@@ -141,101 +145,133 @@ export function PublicHome() {
         <div 
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(to bottom, rgba(248,235,215,0.6) 0%, rgba(248,235,215,0.75) 100%)'
+            background: 'linear-gradient(to bottom, rgba(43, 43, 43, 0.5) 0%, rgba(43, 43, 43, 0.7) 100%)'
           }}
         />
 
         {/* Hero Content - Center Aligned with Animation */}
         <div className="relative z-10 h-full flex items-center justify-center px-4 sm:px-6">
-          <div className="text-center max-w-4xl">
-            {/* Hero Headline - Large Geometric Font (Playfair Display)
-                Accent color for "Inspires" to create visual hierarchy
-                WCAG AA Compliant: #2B2B2B on cream gradient background = 10.5:1 contrast */}
+          <div className="text-center max-w-5xl">
+            {/* Brand Name with Fade & Scale Animation */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
+              style={{
+                fontFamily: 'Playfair Display, serif',
+                fontSize: 'clamp(52px, 10vw, 96px)',
+                fontWeight: 800,
+                color: 'white',
+                marginBottom: '24px',
+                lineHeight: 1.1,
+                letterSpacing: '-0.03em',
+                textShadow: '0 4px 20px rgba(0, 0, 0, 0.3), 0 8px 40px rgba(196, 69, 105, 0.2)'
+              }}
+            >
+              Emily Bakes Cakes
+            </motion.div>
+
+            {/* Decorative Divider Line with Gradient */}
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.8, delay: 0.6, ease: [0.4, 0, 0.2, 1] }}
+              style={{
+                width: '200px',
+                height: '4px',
+                background: 'linear-gradient(90deg, transparent 0%, #C44569 50%, transparent 100%)',
+                margin: '0 auto 32px auto',
+                borderRadius: '2px',
+                boxShadow: '0 2px 10px rgba(196, 69, 105, 0.4)'
+              }}
+            />
+
+            {/* Tagline with Slide Up & Fade */}
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              style={{
-                fontFamily: 'Playfair Display, serif',
-                fontSize: 'clamp(48px, 9vw, 84px)',
-                fontWeight: 700,
-                color: '#2B2B2B',
-                marginBottom: '32px',
-                lineHeight: 1.1,
-                letterSpacing: '-0.02em'
-              }}
-            >
-              Where Every Bite
-              <br />
-              <span style={{ color: '#C44569' }}>Inspires</span>
-            </motion.h1>
-
-            {/* Subheadline - Describes craftsmanship and quality
-                WCAG AA Compliant: Dark text on light background for readability */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              transition={{ duration: 0.8, delay: 0.8, ease: [0.4, 0, 0.2, 1] }}
               style={{
                 fontFamily: 'Poppins, sans-serif',
-                fontSize: 'clamp(18px, 4vw, 26px)',
-                fontWeight: 500,
-                color: '#2B2B2B',
-                lineHeight: 1.6,
-                maxWidth: '720px',
-                margin: '0 auto 48px auto',
-                padding: '0 20px',
-                letterSpacing: '0.01em'
+                fontSize: 'clamp(28px, 5vw, 48px)',
+                fontWeight: 600,
+                color: '#F8EBD7',
+                marginBottom: '56px',
+                lineHeight: 1.4,
+                letterSpacing: '0.02em',
+                textShadow: '0 2px 15px rgba(0, 0, 0, 0.4)'
               }}
             >
-              Handcrafted artisan cakes that transform celebrations into unforgettable moments. Every creation tells your unique story.
-            </motion.p>
+              Custom Cakes Crafted with
+              <br />
+              <span style={{ 
+                color: '#C44569',
+                textShadow: '0 0 30px rgba(196, 69, 105, 0.6), 0 2px 15px rgba(0, 0, 0, 0.4)'
+              }}>
+                Love and Tradition
+              </span>
+            </motion.h1>
 
-            {/* Primary CTA Button with Micro-Interactions
-                - Hover: Scale up, shadow increases (depth effect)
-                - Active: Slight press effect
-                - WCAG compliant touch target: 48x48px minimum
-            */}
+            {/* Primary CTA Button with Micro-Interactions */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
+              transition={{ duration: 0.8, delay: 1.0 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
             >
               <button
+                onClick={() => onNavigate?.('builder')}
                 className="group"
                 style={{
                   background: '#C44569',
                   color: 'white',
                   fontFamily: 'Poppins, sans-serif',
-                  fontWeight: 600,
-                  fontSize: '18px',
-                  padding: '18px 56px',
-                  borderRadius: '12px',
-                  border: 'none',
+                  fontWeight: 700,
+                  fontSize: '20px',
+                  padding: '20px 64px',
+                  borderRadius: '16px',
+                  border: '3px solid rgba(255, 255, 255, 0.2)',
                   cursor: 'pointer',
-                  boxShadow: '0 6px 20px rgba(196, 69, 105, 0.4)',
-                  transition: 'all 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+                  boxShadow: '0 8px 24px rgba(196, 69, 105, 0.5), 0 0 40px rgba(196, 69, 105, 0.3)',
+                  transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)',
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '12px',
-                  minHeight: '56px',
-                  minWidth: '48px'
+                  gap: '16px',
+                  minHeight: '64px',
+                  minWidth: '48px',
+                  position: 'relative',
+                  overflow: 'hidden'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'scale(1.06) translateY(-3px)';
-                  e.currentTarget.style.boxShadow = '0 12px 32px rgba(196, 69, 105, 0.5)';
+                  e.currentTarget.style.transform = 'scale(1.08) translateY(-4px)';
+                  e.currentTarget.style.boxShadow = '0 16px 40px rgba(196, 69, 105, 0.6), 0 0 60px rgba(196, 69, 105, 0.4)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.4)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'scale(1) translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(196, 69, 105, 0.4)';
+                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(196, 69, 105, 0.5), 0 0 40px rgba(196, 69, 105, 0.3)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
                 }}
-                aria-label="Order your custom cake"
+                onMouseDown={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.04) translateY(-2px)';
+                }}
+                onMouseUp={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.08) translateY(-4px)';
+                }}
+                aria-label="Start building your custom cake"
               >
-                Order Your Custom Cake
+                <span style={{ position: 'relative', zIndex: 1 }}>
+                  Build Your Dream Cake
+                </span>
                 <ArrowRight 
-                  size={22} 
-                  className="group-hover:translate-x-2 transition-transform duration-300"
+                  size={26} 
+                  strokeWidth={3}
+                  style={{ 
+                    position: 'relative', 
+                    zIndex: 1,
+                    transition: 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1)'
+                  }}
+                  className="group-hover:translate-x-2"
                 />
               </button>
             </motion.div>
