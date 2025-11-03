@@ -124,7 +124,7 @@ export function PublicHome() {
         </div>
 
         {/* Lifestyle Cake Image Overlay - Creates depth with gradient background */}
-        <div className="absolute inset-0" style={{ opacity: 0.4 }}>
+        <div className="absolute inset-0" style={{ opacity: 0.3 }}>
           <LazyImage
             src={heroImage}
             alt="Emily Bakes Cakes hero"
