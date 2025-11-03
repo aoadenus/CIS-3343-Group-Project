@@ -1,0 +1,65 @@
+Here are 20 additional focused, practical backend/admin improvements for your locked-design prototype, emphasizing functionality, connectability, and demo admin usability consistent with the CIS 3343 Group Project constraints:
+
+31. **Order Payment Balances View**  
+Summarize remaining balance and total paid per order for quick reference.
+
+32. **Order Deposit Tracking**  
+Mark orders with required/min deposit (50%) flag; visually mark if deposit met.
+
+33. **Soft Delete with Restore Option**  
+Allow admins to soft-delete customers/orders and restore within session to prevent accidental loss.
+
+34. **Order Inquiries Summary Tab**  
+Aggregate all customer inquiries per order into a single view for admin review.
+
+35. **Admin Commenting/Notes on Customer Profile**  
+Staff can add internal-only notes on customer profiles, not visible to customers.
+
+36. **Restrict Order Editing Past Baking Stage**  
+Lock order fields from edits once baking starts with clear visual indication.
+
+37. **Customer Contact Info Validation**  
+Basic checks on email format and phone number length when creating/updating customers.
+
+38. **Filter Orders by Deposit Status**  
+Allow filtering order list by deposit paid, unpaid status.
+
+39. **Guest Customer Flagging**  
+Mark customers created without full contact info as "Guest" with limited editable fields.
+
+40. **Order Detail Quick Access Links**  
+Add “Jump to Order Details” links from customer or payment lists.
+
+41. **Simple Printable Invoice Generation**  
+Generate basic printable order invoice for admin use with customer, order, payment details.
+
+42. **Order Cancellation Reason Input**  
+Require user-entered reason when canceling orders for audit purposes.
+
+43. **Email/Open Status Tracking for Inquiries**  
+Record when inquiries are viewed or responded to by admin.
+
+44. **Payment Adjustment Logs**  
+Log changes to payment amounts/status with admin user and timestamp.
+
+45. **Basic Staff User Management**  
+Option to add demo staff user accounts with simple password auth (no full RBAC).
+
+46. **Order Aging Indicator**  
+Flag orders older than set threshold (e.g., 7 days) in admin list.
+
+47. **Automatic Date Formatting**  
+Consistent display of date fields in admin panel (MM/DD/YYYY).
+
+48. **Consistent Error Response Structure**  
+Backend returns standardized error codes/messages for client-side handling.
+
+49. **Minimal SSL/TLS Enforcement**  
+Ensure all admin endpoints use HTTPS though no complex cert management needed for prototype.
+
+50. **API Rate Limit Throttling**  
+Basic per-user request throttling to prevent accidental API overload during testing.
+
+***
+
+These reflect the project constraints (locked frontend, demo admins, prototype scale) while adding robustness and polish to backend/admin functionality. If you'd like, I can also prepare focused implementation steps or example code snippets for any of these.

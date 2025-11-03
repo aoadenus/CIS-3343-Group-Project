@@ -817,7 +817,19 @@ export function Customers() {
 
       {/* Customer Detail Modal */}
       <Dialog open={isDetailModalOpen} onOpenChange={setIsDetailModalOpen}>
-        <DialogContent className="sm:max-w-[380px] bg-white max-h-[65vh] overflow-y-auto rounded-xl border-2" style={{ boxShadow: '0 8px 32px rgba(196, 69, 105, 0.25)', borderColor: 'rgba(196, 69, 105, 0.2)' }}>
+        <DialogContent className="sm:max-w-[380px] bg-white max-h-[65vh] overflow-y-auto rounded-xl border-2" style={{ boxShadow: '0 8px 32px rgba(196, 69, 105, 0.25)', borderColor: 'rgba(196, 69, 105, 0.2)', position: 'relative' }}>
+          {/* Clear Close Button */}
+          <button
+            onClick={() => setIsDetailModalOpen(false)}
+            className="absolute top-3 right-3 z-50 rounded-full p-2 hover:bg-gray-100 transition-all"
+            style={{ 
+              backgroundColor: 'rgba(196, 69, 105, 0.1)',
+              border: '2px solid #C44569'
+            }}
+          >
+            <X size={20} color="#C44569" strokeWidth={3} />
+          </button>
+          
           {isDetailLoading ? (
             <div className="py-12">
               <div className="flex flex-col items-center justify-center gap-4">
