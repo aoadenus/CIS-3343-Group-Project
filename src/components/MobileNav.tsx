@@ -30,7 +30,7 @@ export function MobileNav({ isOpen, onClose, activePage, onNavigate, onAdminAcce
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="fixed inset-0 bg-black/60 backdrop-blur-sm"
-            style={{ zIndex: 9998 }}
+            style={{ zIndex: 10000 }}
             onClick={onClose}
             aria-label="Close menu"
           />
@@ -45,7 +45,7 @@ export function MobileNav({ isOpen, onClose, activePage, onNavigate, onAdminAcce
             style={{
               background: 'white',
               boxShadow: '-4px 0 24px rgba(90, 56, 37, 0.15)',
-              zIndex: 9998,
+              zIndex: 10000,
               display: 'flex',
               flexDirection: 'column',
               overflowY: 'auto',

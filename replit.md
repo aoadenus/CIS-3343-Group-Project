@@ -14,7 +14,7 @@ The application is built using React 18.3.1 with TypeScript, Vite 6.3.5, and Tai
 - **Animations**: Smooth transitions and animations are integrated throughout using Framer Motion.
 - **Theming**: Dark mode support is included.
 - **Loading States**: Implemented with skeleton screens.
-- **Z-Index Layering**: Standardized hierarchy to prevent conflicts: Navigation Bar (9999), Mobile Menu (9998), Hero Content (3), Overlays (2), Images (1).
+- **Z-Index Layering**: Standardized hierarchy to prevent conflicts: Mobile Menu (10000 - highest when open), Navigation Bar (9999), Hero Content (3), Overlays (2), Images (1).
 
 ### Technical Implementations
 - **Public Interface**: Includes a home page, product shop, custom cake builder, photo gallery, about page, and contact form.
@@ -46,9 +46,9 @@ The application is built using React 18.3.1 with TypeScript, Vite 6.3.5, and Tai
 - November 3, 2025: Mobile Menu Optimization & Duplicate Close Button Fix
   - **Fixed duplicate X button issue**: Removed hamburger-to-X transformation in navigation bar
   - **Highly visible close button**: Solid raspberry pink (#C44569) background with white X icon (26px, stroke 3)
+  - **Z-index fix**: Mobile menu now at z-index 10000, ensuring it appears above navigation bar (9999)
   - **Desktop menu optimization**: Entire menu (nav links, login, contact) now fits on desktop without scrolling
   - **Maintained mobile scrollability**: Menu remains scrollable on smaller mobile screens
   - **Hamburger icon behavior**: Only shows when menu is closed
-  - **Z-index standardization**: Mobile menu (9998), Hero content (3), Nav bar (9999)
   - **Logo navigation**: Clicking "Emily Bakes Cakes" logo returns to home page with smooth scroll to top
   - **Spotlight carousel arrows**: Optimized for mobile visibility (52px, solid raspberry, white icons)
