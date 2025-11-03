@@ -43,6 +43,19 @@ export const orders = pgTable('orders', {
   priority: varchar('priority', { length: 20 }).default('medium').notNull(), // low, medium, high
   totalAmount: integer('total_amount'), // in cents
   
+  // Payment tracking
+  depositAmount: integer('deposit_amount'), // in cents (minimum 50% for custom orders)
+  balanceDue: integer('balance_due'), // in cents
+  paymentStatus: varchar('payment_status', { length: 50 }).default('pending').notNull(), // pending, partial, paid, refunded
+  paymentDate: timestamp('payment_date'),
+  paymentMethod: varchar('payment_method', { length: 50 }), // stripe, square, cash, etc
+  stripePaymentIntentId: varchar('stripe_payment_intent_id', { length: 255 }), // For Stripe integration
+  
+  // Cancellation tracking
+  cancellationReason: text('cancellation_reason'),
+  cancelledAt: timestamp('cancelled_at'),
+  cancelledBy: varchar('cancelled_by', { length: 255 }), // Admin or customer name
+  
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });

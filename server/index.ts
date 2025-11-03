@@ -27,6 +27,53 @@ app.get('/api/customers', async (req, res) => {
   }
 });
 
+// Search customers by name, email, or ID
+app.get('/api/customers/search', async (req, res) => {
+  try {
+    const query = req.query.q as string;
+    
+    if (!query || query.trim().length === 0) {
+      return res.status(400).json({ error: 'Search query is required' });
+    }
+    
+    const customers = await storage.searchCustomers(query.trim());
+    res.json(customers);
+  } catch (error) {
+    console.error('Error searching customers:', error);
+    res.status(500).json({ error: 'Failed to search customers' });
+  }
+});
+
+// Create new customer
+app.post('/api/customers', async (req, res) => {
+  try {
+    const { name, email, phone } = req.body;
+    
+    if (!name || !email) {
+      return res.status(400).json({ error: 'Name and email are required' });
+    }
+    
+    // Check if customer already exists
+    const existing = await storage.getCustomerByEmail(email);
+    if (existing) {
+      return res.status(409).json({ error: 'Customer with this email already exists' });
+    }
+    
+    const customer = await storage.createCustomer({
+      name,
+      email,
+      phone: phone || null,
+      totalOrders: 0,
+      isVip: false,
+    });
+    
+    res.status(201).json(customer);
+  } catch (error) {
+    console.error('Error creating customer:', error);
+    res.status(500).json({ error: 'Failed to create customer' });
+  }
+});
+
 app.get('/api/customers/:id', async (req, res) => {
   try {
     const id = parseInt(req.params.id);
@@ -146,6 +193,39 @@ app.patch('/api/orders/:id/status', async (req, res) => {
   } catch (error) {
     console.error('Error updating order status:', error);
     res.status(500).json({ error: 'Failed to update order status' });
+  }
+});
+
+// Cancel order (only allowed before preparing/baking starts)
+app.post('/api/orders/:id/cancel', async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const { reason, cancelledBy } = req.body;
+    
+    const order = await storage.getOrderById(id);
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    
+    // Business rule: Can only cancel if order hasn't started preparing
+    if (order.status !== 'pending') {
+      return res.status(400).json({ 
+        error: 'Order can only be cancelled before preparation begins',
+        currentStatus: order.status
+      });
+    }
+    
+    const cancelled = await storage.updateOrder(id, {
+      status: 'cancelled',
+      cancellationReason: reason,
+      cancelledAt: new Date(),
+      cancelledBy: cancelledBy || 'Unknown',
+    });
+    
+    res.json(cancelled);
+  } catch (error) {
+    console.error('Error cancelling order:', error);
+    res.status(500).json({ error: 'Failed to cancel order' });
   }
 });
 

@@ -1,0 +1,116 @@
+Here is a detailed Phase 2 implementation plan for the Custom Cake Builder system focusing on Admin Enhancements and operational efficiency improvements:
+
+***
+
+# Phase 2: Admin Enhancements Implementation Plan
+
+## Goals:
+- Enable backend users (admins/staff) to efficiently manage customers, orders, and inquiries.
+- Provide comprehensive search, create, update, and delete (CRUD) capabilities.
+- Separate interfaces for viewing order list and creating new orders, mirroring frontend customization flexibility.
+- Develop an order cancellation system respecting business rules.
+- Implement a secure, user-friendly customer payment page for deposits and payments.
+
+***
+
+### 1. Customer Management Improvements
+
+**Description:**  
+- Search customers by name, email, or unique ID with live results.  
+- Add new customers directly from the backend admin interface.  
+- View detailed profiles with contact info, order history, total order count, and quantity of items ordered.
+
+**Style:**  
+- Use searchable data tables with filter inputs.  
+- Customer profiles displayed in card layout with tabs or accordions for info and orders.  
+- Input forms styled consistent with frontend builder forms.
+
+**Implementation Considerations:**  
+- Backend APIs to support efficient search queries with pagination.  
+- Role-based access control to protect sensitive customer data.  
+- Use REST or GraphQL endpoints for data fetching and mutations.
+
+***
+
+### 2. Order List and Create Order Interfaces
+
+**Description:**  
+- A separate order list view that shows all orders in a sortable/filterable table.  
+- A “Create New Order” form that mirrors the layer-by-layer cake builder frontend UI for full customization.
+
+**Style:**  
+- Order lists with clearly marked statuses, sortable columns and pagination.  
+- Create order form with dynamic layer cards and flavor/filling options identical to frontend UX.
+
+**Implementation Considerations:**  
+- Backend CRUD API endpoints managing order lifecycle (create, read, update, delete).  
+- Frontend form state management to handle complex nested data (layers, fillings, notes).  
+- Validation and error handling consistent with frontend.
+
+***
+
+### 3. Order Cancellation System
+
+**Description:**  
+- Permit cancellations only before baking starts.  
+- Price adjustments if decorations change before decorating phase.  
+- Show status changes and cancellation reasons in order tracking.
+
+**Style:**  
+- Prominent cancel buttons on eligible orders with confirmation modals.  
+- Visual indicators (e.g., strikethrough or faded text) for canceled orders.
+
+**Implementation Considerations:**  
+- Backend order status flow restrictions and audit logging.  
+- Notifications/emails to customers and staff on cancellations.  
+- UI updates in real time reflecting cancellation and price changes.
+
+***
+
+### 4. Customer Payment Form
+
+**Description:**  
+- Collect payment info securely including deposits (minimum 50% for custom orders).  
+- Show payment status clearly (pending, paid, failed).
+
+**Style:**  
+- Payment input fields masked and labeled clearly.  
+- Use trusted gateway logos and security indicators.  
+- Buttons to confirm and submit payment in brand colors.
+
+**Implementation Considerations:**  
+- PCI-compliant integration with Stripe or Square.  
+- Backend endpoints to store payment transactions and link to orders.  
+- Validation and error prompt on payment failures.
+
+***
+
+### 5. Backend-Frontend Form Consistency and Validation
+
+**Description:**  
+- Share validation logic and UI structures between backend admin forms and frontend custom builder.  
+- Use common component libraries or schema-driven forms for consistency.
+
+**Style:**  
+- Unified styles for inputs, buttons, error messages.  
+- Consistent layout and flow for easier onboarding and maintenance.
+
+**Implementation Considerations:**  
+- Refactor frontend components into reusable modules for backend use where possible.  
+- Validation schema shared or mirrored in frontend and backend for data integrity.
+
+***
+
+### 6. Improved Security and Access Control
+
+**Description:**  
+- Protect sensitive operations with role-based permissions (e.g., who can delete or cancel orders).  
+- Limit access to customer financial/payment information.
+
+**Implementation Considerations:**  
+- Implement robust backend authentication and authorization rules.  
+- Audit trails and logs for critical actions.
+
+***
+
+Would you like me to prepare Phase 2 sample API designs, form UI component prototypes, or further break down tasks into developer stories?

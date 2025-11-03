@@ -1,7 +1,7 @@
 import { db } from './db.js';
 import { customers, orders, inquiries, contactMessages } from '../shared/schema.js';
 import type { NewCustomer, NewOrder, NewInquiry, NewContactMessage } from '../shared/schema.js';
-import { eq, desc, and } from 'drizzle-orm';
+import { eq, desc, and, or, like, ilike, sql } from 'drizzle-orm';
 
 // ============ CUSTOMERS ============
 
@@ -47,6 +47,28 @@ export async function findOrCreateCustomer(data: { name: string; email: string; 
   }
   
   return customer;
+}
+
+// Search customers by name, email, or ID
+export async function searchCustomers(query: string) {
+  // If query is a number, search by ID
+  const numericQuery = parseInt(query);
+  if (!isNaN(numericQuery)) {
+    const customer = await getCustomerById(numericQuery);
+    return customer ? [customer] : [];
+  }
+  
+  // Otherwise search by name or email (case-insensitive)
+  const searchPattern = `%${query}%`;
+  return await db.select().from(customers)
+    .where(
+      or(
+        ilike(customers.name, searchPattern),
+        ilike(customers.email, searchPattern)
+      )
+    )
+    .orderBy(desc(customers.createdAt))
+    .limit(20); // Limit to 20 results for performance
 }
 
 // ============ ORDERS ============
