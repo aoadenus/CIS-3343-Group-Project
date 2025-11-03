@@ -162,11 +162,15 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
             >
               {/* Header */}
               <div
-                className="relative px-6 py-6"
+                className="relative"
                 style={{
                   background: 'linear-gradient(135deg, #C44569 0%, #A03355 100%)',
                   color: 'white',
-                  borderBottom: '3px solid rgba(255, 255, 255, 0.2)'
+                  borderBottom: '3px solid rgba(255, 255, 255, 0.2)',
+                  paddingLeft: '26px',
+                  paddingRight: '26px',
+                  paddingTop: '0px',
+                  paddingBottom: '34px'
                 }}
               >
                 {/* Close Button - Highly Visible */}
@@ -177,12 +181,14 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
                     e.stopPropagation();
                     onClose();
                   }}
-                  className="absolute top-4 right-4 rounded-lg transition-all"
+                  className="absolute rounded-lg transition-all"
                   style={{ 
-                    width: '48px', 
-                    height: '48px',
-                    minWidth: '48px',
-                    minHeight: '48px',
+                    top: '24px',
+                    right: '38px',
+                    width: '54px', 
+                    height: '54px',
+                    minWidth: '54px',
+                    minHeight: '54px',
                     background: 'rgba(255, 255, 255, 0.25)',
                     border: '2px solid rgba(255, 255, 255, 0.6)',
                     cursor: 'pointer',
@@ -190,7 +196,7 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
                     alignItems: 'center',
                     justifyContent: 'center',
                     padding: '0',
-                    zIndex: 10
+                    zIndex: 20
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.4)';
@@ -203,8 +209,8 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
                   aria-label="Close"
                 >
                   <svg
-                    width="28"
-                    height="28"
+                    width="30"
+                    height="30"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="white"
@@ -222,13 +228,21 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
                 </button>
 
                 {/* Title and Instructions */}
-                <div style={{ paddingRight: '60px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '4px', marginTop: '20px' }}>
+                <div>
+                  {/* Icon and Title Row */}
+                  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
                     <span 
                       style={{ 
-                        fontSize: '36px', 
+                        fontSize: '48px',
+                        width: '48px',
+                        height: '48px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                         lineHeight: 1,
-                        filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))'
+                        filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))',
+                        marginRight: '18px',
+                        flexShrink: 0
                       }}
                     >
                       🎂
@@ -236,8 +250,8 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
                     <h3
                       style={{
                         fontFamily: 'Playfair Display',
-                        fontSize: '36px',
-                        fontWeight: 800,
+                        fontSize: '2.4rem',
+                        fontWeight: 900,
                         letterSpacing: '1px',
                         margin: 0,
                         lineHeight: 1.1,
@@ -249,13 +263,18 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
                     </h3>
                   </div>
                   
+                  {/* Subtitle Bar */}
                   <div
                     style={{
-                      background: 'rgba(255, 255, 255, 0.15)',
-                      padding: '12px 16px',
+                      background: 'rgba(224, 92, 135, 0.22)',
+                      height: '46px',
                       borderRadius: '8px',
-                      marginBottom: '28px',
-                      borderLeft: '4px solid rgba(255, 255, 255, 0.4)'
+                      paddingLeft: '26px',
+                      paddingRight: '26px',
+                      paddingTop: '0px',
+                      paddingBottom: '24px',
+                      display: 'flex',
+                      alignItems: 'center'
                     }}
                   >
                     <p
@@ -273,15 +292,19 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
                     </p>
                   </div>
                   
+                  {/* Instruction Text */}
                   <p
                     style={{
-                      fontSize: '14px',
+                      fontSize: '1.12rem',
                       fontFamily: 'Poppins',
                       fontWeight: 400,
                       color: 'rgba(255, 255, 255, 0.9)',
                       fontStyle: 'italic',
                       lineHeight: 1.5,
-                      margin: 0
+                      margin: 0,
+                      marginTop: '24px',
+                      marginLeft: '46px',
+                      paddingBottom: '10px'
                     }}
                   >
                     Please fill out all required fields (*) to submit your inquiry
