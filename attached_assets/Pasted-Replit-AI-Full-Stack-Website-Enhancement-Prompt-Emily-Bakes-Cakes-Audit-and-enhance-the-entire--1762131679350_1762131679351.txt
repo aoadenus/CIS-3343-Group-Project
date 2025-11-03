@@ -1,0 +1,159 @@
+Replit AI Full-Stack Website Enhancement Prompt - Emily Bakes Cakes
+
+Audit and enhance the entire Emily Bakes Cakes Replit project with a focus on advanced front-end UX polish, robust backend API and data handling, and realistic demo data integration. Maintain the existing site structure but improve interactivity, performance, and design consistency according to the bakery theme color palette and typography.
+
+Tech Stack & Architecture:
+
+Front end: React/Next.js with SSR/ISR for SEO and quick load
+
+Styling: Tailwind CSS + shadcn/ui component library
+
+Animations: Framer Motion for smooth micro-interactions and parallax
+
+Charts: Recharts or Chart.js with interactive dashboards
+
+Backend: Node.js + Express/Fastify or Next.js API routes
+
+Database: PostgreSQL or SQLite prototype with Prisma ORM
+
+Auth: JWT with Role-Based Access Control (Admin, Manager, Staff, Guest)
+
+Hosting: Frontend on Vercel or Replit; Backend on Heroku, Render, or Railway
+
+CI/CD: GitHub Actions, Dockerfile for build/test/deploy
+
+Monitoring: Sentry for errors, Logflare or Datadog for logs and metrics
+
+Frontend Deliverables:
+
+Hero banner with layered parallax and Framer Motion animations
+
+Fully responsive grid and adaptive layout for desktop, tablet, mobile
+
+PWA manifest and service worker for offline demo and install prompt
+
+Smooth scroll and URL hash-linked sections
+
+Accessible keyboard navigation, ARIA labels, and skip-to-content links
+
+UI components: cards, KPI tiles, modals, toasts, paginated lists
+
+Interactive product/order cards with edit/refund/view history actions
+
+Drag-and-drop order priority board for managers using React DnD or dnd-kit
+
+Smart search, full-text and faceted filters with auto-suggest
+
+Global telemetry dashboard with lightweight analytics UI
+
+Design tokens exported for Figma and code (color, spacing, typography, icons)
+
+Demo mode toggle switching between production, staging, and fake-data
+
+Print-friendly and exportable invoice/report views
+
+Secure admin debug panel with metrics, sample DB viewer, feature flags
+
+Backend Deliverables:
+
+RESTful API with full CRUD for Customer, Order, Product, Feedback, Report, User, Session
+
+Report engine service for on-demand and scheduled CSV + PDF generation
+
+Report analyzer microservice with anomaly detection and insights
+
+Mock data generator endpoint with deterministic seeding for demos
+
+RBAC middleware and route guards
+
+Rate limiting and input validation on public endpoints
+
+ETL scripts for ingesting logs into analytics tables
+
+Cron/worker scheduler for daily report generation and KPI emailing
+
+Export API for CSV, Excel, PDF formats
+
+Webhook support for third-party integrations (Slack, email)
+
+Database migrations and seed scripts (Prisma or Knex)
+
+Unit and integration tests for API and reports
+
+Swagger/OpenAPI documentation
+
+CI pipeline covering lint, test, build, deploy
+
+Data Model Essentials:
+
+users, customers, customer_status, states, products, orders, order_items, feedbacks, transactions, reports, report_insights tables according to ERD and data dictionary
+
+Fake Data Strategy:
+
+Seed demo data: 2,000 customers, 5,000 orders, 200 products, 12 months transaction history
+
+Realistic, repeatable patterns with seasonal sales, SKU combos, typical order sizes
+
+API POST /api/mock/generate with seed, months, customers parameters
+
+Charts & Visualizations:
+
+Dashboard KPIs (revenue, order value, returning rate, daily orders)
+
+Time series, cohort retention, top products, funnel, geographic, segmentation charts
+
+Feedback sentiment word cloud and gauges
+
+Inventory burn, anomaly detection overlays, distribution histograms, correlation matrices
+
+Forecast charts with confidence bands
+
+Exportable interactive charts (CSV, PNG, share links)
+
+Report Page & API Requirements:
+
+Master report index with live status, preview sparklines, downloads
+
+Interactive report viewer with filters, date pickers, segmentation, exports
+
+Scheduled report UI with email attachments
+
+On-page insights with confidence-scored highlights
+
+Drill-through raw data access from charts
+
+Admin annotations and RBAC-restricted creation/download
+
+Testing & Quality:
+
+Unit, integration, and load tests
+
+Accessibility and performance audits
+
+Readme, architecture documentation, deployment runbook
+
+Complete system diagnostics report generation
+
+Developer Checklist:
+
+Implement DB schema and seed scripts
+
+Build REST API and mock data endpoints
+
+Create React report index/viewer with controls
+
+Implement scheduler and worker for reports
+
+Integrate charts with drill-to-raw data
+
+Build analyzer microservice with rule mappings
+
+Add export pipeline (CSV, PDF, PPTX)
+
+Secure endpoints with RBAC
+
+Deploy with CI/CD to Vercel + backend host
+
+Prepare demo mode toggle and documentation
+
+Use this prompt to run a comprehensive audit, polish, automation, and enhancement of Emily Bakes Cakes web app from UI to backend API with realistic data and high-tech polish while maintaining the bakery's visual and functional identity.

@@ -1,0 +1,75 @@
+You are Comet AI, autonomous full-stack engineer and UX designer for Emily Bakes Cakes Group 4. Based on a comprehensive scan and analysis of the entire project (front-end, back-end, and design):
+
+Audit Scope
+
+Inspect all relevant folders: /pages, /components, /styles, /assets.
+
+Check UI/UX including color palette, typography (Playfair Display + Poppins), spacing, responsiveness, shadows, and gradients for bakery aesthetic.
+
+Verify BUTTONS, LINKS, DROPDOWNS, SEARCH BARS, and FORMS for interactivity and proper event binding.
+
+Assess hero banner and scroll UX for smooth parallax, fade-in animation, and mobile comfort.
+
+Confirm full navigation integrity for nav menus, footers, routes; highlight/repair any broken routes or 404s.
+
+Test all back-end API routes (/api/customers, /api/orders, /api/products) for realistic JSON with mock or seeded data.
+
+Build or verify Tableau-like dashboards with Recharts or Chart.js: Daily Orders, Customer Feedback, Product Popularity charts connected to fake data.
+
+Simulate database using local JSON or SQLite and seed realistic fake data.
+
+Check accessibility compliance (ARIA labels, keyboard navigation, screen reader support) across breakpoints 360px to 1920px.
+
+Deliverables Translation
+
+Convert ERD/Data Dictionary to data models or mock JSON.
+
+Build CRUD interfaces for orders, customers, products.
+
+Auto-generate sample data feeding dash widgets.
+
+Implement responsive bakery dashboard UI + “Ask Emily” chatbot with preset FAQs.
+
+Add unit tests for UI navigation, form submissions, API calls.
+
+Provide one-click deployable Replit app with QR code for presentation.
+
+Enhancement Implementation
+
+Add smooth scroll behavior and hero banner animation.
+
+Add hover and active button states with visually pleasing effects.
+
+Implement dynamic dropdowns and search bars feeding data from the fake API.
+
+For back-end, ensure API routes deliver realistic JSON, serve static assets optimally.
+
+Connect all navigation and footer links; fix all dead/unlinked buttons (e.g., “Large Order Custom Cake” to order form).
+
+Replace unused animations with performant CSS keyframe animations or Framer Motion.
+
+Integrate analytics dashboard with charts based on fake data generator.
+
+Add “Ask Emily” chatbot UI component linked to mock AI endpoint.
+
+Polish colors, shadows, spaced layout, and bakery-themed hero overlay.
+
+Run thorough end-to-end tests; fix console errors and 404 links.
+
+Generate a system diagnostic summary at /public/system_report.html.
+
+Full Stack Self-Healing & Polishing
+
+Auto-fix or reconnect routing and event bindings.
+
+Clean up codebase for no TypeScript errors or unused variables.
+
+Populate fake data files and simulate API responses.
+
+Deliver a comprehensive diagnostics report (/diagnostics/website_report.md) documenting changes made.
+
+Ensure the site launches on port 3000 and outputs the stable external public URL for demo.
+
+Execute all audits, fixes, enhancements, and polish systematically with minimal structural change aiming for maximum interactivity, user engagement, data realism, and production readiness.
+
+Finish by providing the public URL for viewing and demo.
