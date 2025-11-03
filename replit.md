@@ -5,6 +5,9 @@ A modern, dual-interface web application for Emily Bakes Cakes featuring:
 - **Public-facing website**: Warm, inviting customer experience with shop, custom cake builder, gallery, about, and contact pages
 - **Admin portal**: Staff management interface with dashboard, orders, customers, products, and reports
 
+## Design Status
+- **HOMEPAGE LOCKED**: The homepage design is finalized and stable. No major changes should be made without explicit user clarification and acceptance.
+
 ## Technology Stack
 - **Framework**: React 18.3.1 with TypeScript
 - **Build Tool**: Vite 6.3.5
