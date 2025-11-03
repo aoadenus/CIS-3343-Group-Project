@@ -162,7 +162,7 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
             >
               {/* Header */}
               <div
-                className="relative px-6 py-5"
+                className="relative px-6 py-6"
                 style={{
                   background: 'linear-gradient(135deg, #C44569 0%, #A03355 100%)',
                   color: 'white',
@@ -223,35 +223,41 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
 
                 {/* Title and Instructions */}
                 <div style={{ paddingRight: '60px' }}>
-                  <h3
-                    style={{
-                      fontFamily: 'Playfair Display',
-                      fontSize: '24px',
-                      fontWeight: 700,
-                      marginBottom: '4px',
-                      letterSpacing: '0.3px'
-                    }}
-                  >
-                    🎂 Cake Inquiry
-                  </h3>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
+                    <span style={{ fontSize: '32px', lineHeight: 1 }}>🎂</span>
+                    <h3
+                      style={{
+                        fontFamily: 'Playfair Display',
+                        fontSize: '32px',
+                        fontWeight: 700,
+                        letterSpacing: '0.5px',
+                        margin: 0,
+                        lineHeight: 1.2
+                      }}
+                    >
+                      Cake Inquiry
+                    </h3>
+                  </div>
                   <p
                     style={{
-                      fontSize: '14px',
-                      opacity: 0.95,
+                      fontSize: '16px',
                       fontFamily: 'Poppins',
-                      fontWeight: 500,
-                      color: '#F8EBD7'
+                      fontWeight: 400,
+                      color: 'rgba(255, 255, 255, 0.95)',
+                      marginBottom: '8px',
+                      lineHeight: 1.4
                     }}
                   >
                     {productName}
                   </p>
                   <p
                     style={{
-                      fontSize: '12px',
-                      opacity: 0.85,
+                      fontSize: '14px',
                       fontFamily: 'Open Sans',
-                      marginTop: '6px',
-                      fontStyle: 'italic'
+                      color: 'rgba(255, 255, 255, 0.8)',
+                      fontStyle: 'italic',
+                      lineHeight: 1.5,
+                      margin: 0
                     }}
                   >
                     Please fill out all required fields (*) to submit your inquiry
