@@ -86,16 +86,43 @@ export const contactMessages = pgTable('contact_messages', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
+// Admin Payment Tracking (record-keeping only, no processing)
+export const payments = pgTable('payments', {
+  id: serial('id').primaryKey(),
+  orderId: integer('order_id').references(() => orders.id).notNull(),
+  
+  // Payment details (record-keeping only)
+  paymentType: varchar('payment_type', { length: 50 }).notNull(), // credit_card, cash, check
+  amount: integer('amount').notNull(), // in cents
+  paymentDate: timestamp('payment_date').notNull(),
+  paymentStatus: varchar('payment_status', { length: 50 }).default('completed').notNull(), // pending, completed
+  
+  // Metadata
+  notes: text('notes'), // Optional notes about the payment
+  recordedBy: varchar('recorded_by', { length: 255 }).notNull(), // Admin/employee who recorded payment
+  
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
 // Relations
 export const customersRelations = relations(customers, ({ many }) => ({
   orders: many(orders),
   inquiries: many(inquiries),
 }));
 
-export const ordersRelations = relations(orders, ({ one }) => ({
+export const ordersRelations = relations(orders, ({ one, many }) => ({
   customer: one(customers, {
     fields: [orders.customerId],
     references: [customers.id],
+  }),
+  payments: many(payments),
+}));
+
+export const paymentsRelations = relations(payments, ({ one }) => ({
+  order: one(orders, {
+    fields: [payments.orderId],
+    references: [orders.id],
   }),
 }));
 
@@ -122,3 +149,5 @@ export type Inquiry = typeof inquiries.$inferSelect;
 export type NewInquiry = typeof inquiries.$inferInsert;
 export type ContactMessage = typeof contactMessages.$inferSelect;
 export type NewContactMessage = typeof contactMessages.$inferInsert;
+export type Payment = typeof payments.$inferSelect;
+export type NewPayment = typeof payments.$inferInsert;

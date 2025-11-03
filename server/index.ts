@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import * as storage from './storage.js';
-import type { NewOrder, NewInquiry, NewContactMessage } from '../shared/schema.js';
+import type { NewOrder, NewInquiry, NewContactMessage, NewPayment } from '../shared/schema.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -226,6 +226,119 @@ app.post('/api/orders/:id/cancel', async (req, res) => {
   } catch (error) {
     console.error('Error cancelling order:', error);
     res.status(500).json({ error: 'Failed to cancel order' });
+  }
+});
+
+// ============ PAYMENTS (Admin Tracking) ============
+
+// Get all payments for an order
+app.get('/api/orders/:id/payments', async (req, res) => {
+  try {
+    const orderId = parseInt(req.params.id);
+    const payments = await storage.getPaymentsByOrderId(orderId);
+    res.json(payments);
+  } catch (error) {
+    console.error('Error fetching payments:', error);
+    res.status(500).json({ error: 'Failed to fetch payments' });
+  }
+});
+
+// Record a new payment (admin-only, record-keeping)
+app.post('/api/orders/:id/payments', async (req, res) => {
+  try {
+    const orderId = parseInt(req.params.id);
+    const { paymentType, amount, paymentDate, paymentStatus, notes, recordedBy } = req.body;
+    
+    // Validation
+    if (!paymentType || !amount || !paymentDate || !recordedBy) {
+      return res.status(400).json({ error: 'Payment type, amount, date, and recorded by are required' });
+    }
+    
+    if (amount <= 0) {
+      return res.status(400).json({ error: 'Payment amount must be greater than 0' });
+    }
+    
+    // Validate payment type
+    const validPaymentTypes = ['credit_card', 'cash', 'check'];
+    if (!validPaymentTypes.includes(paymentType)) {
+      return res.status(400).json({ error: 'Invalid payment type. Must be credit_card, cash, or check' });
+    }
+    
+    // Check order exists
+    const order = await storage.getOrderById(orderId);
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    
+    // Get existing payments to check total
+    const existingPayments = await storage.getPaymentsByOrderId(orderId);
+    const totalPaid = existingPayments.reduce((sum, p) => sum + p.amount, 0);
+    
+    // Check if adding this payment would exceed order total
+    if (order.totalAmount && (totalPaid + amount > order.totalAmount)) {
+      return res.status(400).json({ 
+        error: 'Payment amount would exceed order total',
+        orderTotal: order.totalAmount,
+        totalPaid,
+        attemptedPayment: amount,
+        remaining: order.totalAmount - totalPaid
+      });
+    }
+    
+    const paymentData: NewPayment = {
+      orderId,
+      paymentType,
+      amount,
+      paymentDate: new Date(paymentDate),
+      paymentStatus: paymentStatus || 'completed',
+      notes: notes || null,
+      recordedBy,
+    };
+    
+    const payment = await storage.createPayment(paymentData);
+    
+    // Update order payment status based on total paid
+    const newTotalPaid = totalPaid + amount;
+    let orderPaymentStatus = 'pending';
+    
+    if (order.totalAmount) {
+      if (newTotalPaid >= order.totalAmount) {
+        orderPaymentStatus = 'paid';
+      } else if (newTotalPaid > 0) {
+        orderPaymentStatus = 'partial';
+      }
+      
+      // Update order with new payment info
+      await storage.updateOrder(orderId, {
+        depositAmount: Math.min(newTotalPaid, order.totalAmount),
+        balanceDue: Math.max(0, order.totalAmount - newTotalPaid),
+        paymentStatus: orderPaymentStatus,
+        paymentDate: newTotalPaid >= order.totalAmount ? new Date() : order.paymentDate,
+      });
+    }
+    
+    res.status(201).json(payment);
+  } catch (error) {
+    console.error('Error creating payment:', error);
+    res.status(500).json({ error: 'Failed to create payment' });
+  }
+});
+
+// Update payment record
+app.patch('/api/payments/:id', async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const { paymentStatus, notes } = req.body;
+    
+    const payment = await storage.updatePayment(id, {
+      paymentStatus,
+      notes,
+    });
+    
+    res.json(payment);
+  } catch (error) {
+    console.error('Error updating payment:', error);
+    res.status(500).json({ error: 'Failed to update payment' });
   }
 });
 

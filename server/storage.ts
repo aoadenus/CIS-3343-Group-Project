@@ -1,6 +1,6 @@
 import { db } from './db.js';
-import { customers, orders, inquiries, contactMessages } from '../shared/schema.js';
-import type { NewCustomer, NewOrder, NewInquiry, NewContactMessage } from '../shared/schema.js';
+import { customers, orders, inquiries, contactMessages, payments } from '../shared/schema.js';
+import type { NewCustomer, NewOrder, NewInquiry, NewContactMessage, NewPayment } from '../shared/schema.js';
 import { eq, desc, and, or, like, ilike, sql } from 'drizzle-orm';
 
 // ============ CUSTOMERS ============
@@ -181,6 +181,32 @@ export async function updateContactMessageStatus(id: number, status: string) {
   const [updated] = await db.update(contactMessages)
     .set({ status })
     .where(eq(contactMessages.id, id))
+    .returning();
+  return updated;
+}
+
+// ============ PAYMENTS (Admin Tracking) ============
+
+export async function createPayment(data: NewPayment) {
+  const [payment] = await db.insert(payments).values(data).returning();
+  return payment;
+}
+
+export async function getPaymentsByOrderId(orderId: number) {
+  return await db.select().from(payments)
+    .where(eq(payments.orderId, orderId))
+    .orderBy(desc(payments.paymentDate));
+}
+
+export async function getPaymentById(id: number) {
+  const [payment] = await db.select().from(payments).where(eq(payments.id, id));
+  return payment || null;
+}
+
+export async function updatePayment(id: number, data: Partial<NewPayment>) {
+  const [updated] = await db.update(payments)
+    .set({ ...data, updatedAt: new Date() })
+    .where(eq(payments.id, id))
     .returning();
   return updated;
 }
