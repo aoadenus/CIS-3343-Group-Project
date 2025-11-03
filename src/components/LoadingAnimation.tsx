@@ -15,15 +15,15 @@ export function LoadingAnimation({ onComplete }: LoadingAnimationProps) {
   const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
-    // Trigger confetti after logo animation completes (0.95 seconds)
+    // Trigger confetti after logo animation completes (1.2 seconds)
     const confettiTimer = setTimeout(() => {
       setShowConfetti(true);
-    }, 950);
+    }, 1200);
 
-    // Auto-complete animation after 1.65 seconds
+    // Auto-complete animation after 2 seconds
     const completeTimer = setTimeout(() => {
       onComplete?.();
-    }, 1650);
+    }, 2000);
 
     return () => {
       clearTimeout(confettiTimer);
@@ -93,11 +93,11 @@ export function LoadingAnimation({ onComplete }: LoadingAnimationProps) {
             scale: 1      // Scale up to full size
           }}
           transition={{
-            duration: 0.95,
+            duration: 1.2,
             ease: [0.22, 1, 0.36, 1], // Custom easing for smooth baking/rising effect
             type: 'spring',
-            stiffness: 90,
-            damping: 13
+            stiffness: 80,
+            damping: 15
           }}
           style={{
             marginBottom: '32px',
