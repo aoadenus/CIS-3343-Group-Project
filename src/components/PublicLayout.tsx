@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { User, Heart } from 'lucide-react';
+import { User } from 'lucide-react';
 import { motion } from 'motion/react';
 import { HamburgerIcon } from './HamburgerIcon';
 import { MobileNav } from './MobileNav';
 import { StickyBottomCTA } from './StickyBottomCTA';
-import logoImage from '../assets/logo.png';
+import logoImage from '../assets/logo-40px.png';
 
 interface PublicLayoutProps {
   children: React.ReactNode;
@@ -55,11 +55,15 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
               className="flex items-center gap-3 cursor-pointer hover:opacity-90 transition-opacity"
               style={{ background: 'none', border: 'none', padding: 0 }}
             >
-              <Heart
-                size={40}
-                fill="white"
-                color="white"
-                style={{ flexShrink: 0 }}
+              <img
+                src={logoImage}
+                alt="Emily Bakes Cakes Logo"
+                style={{
+                  width: '56px',
+                  height: '56px',
+                  objectFit: 'contain',
+                  flexShrink: 0
+                }}
               />
               <span
                 style={{
@@ -182,8 +186,8 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
                   src={logoImage} 
                   alt="Emily Bakes Cakes Logo" 
                   style={{ 
-                    width: '56px', 
-                    height: '56px',
+                    width: '52px', 
+                    height: '52px',
                     objectFit: 'contain',
                     flexShrink: 0
                   }}
