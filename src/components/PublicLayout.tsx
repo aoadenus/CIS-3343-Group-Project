@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ShoppingBag, User, Heart } from 'lucide-react';
 import { motion } from 'motion/react';
-import { Button } from './ui/button';
 import { HamburgerIcon } from './HamburgerIcon';
 import { MobileNav } from './MobileNav';
 import { StickyBottomCTA } from './StickyBottomCTA';
@@ -26,180 +25,146 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleOrderClick = () => {
-    onNavigate('builder');
-  };
-
   return (
-    <div className="min-h-screen" style={{ background: '#F8EBD7' }}>
-      {/* FRONT-END: Raspberry Pink Navigation Bar */}
-      <motion.header
+    <div className="min-h-screen flex flex-col" style={{ background: '#F8EBD7' }}>
+      {/* Navigation Bar */}
+      <nav
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
         style={{
-          background: scrolled 
-            ? '#C44569'  // Solid Raspberry Pink when scrolled
-            : 'linear-gradient(135deg, #C44569 0%, #D4567A 100%)', // Gradient when at top
-          boxShadow: scrolled 
-            ? '0 2px 12px rgba(196, 69, 105, 0.3)' 
-            : '0 4px 16px rgba(196, 69, 105, 0.25)'
+          background: scrolled ? 'rgba(196, 69, 105, 0.98)' : '#C44569',
+          boxShadow: scrolled ? '0 4px 16px rgba(90, 56, 37, 0.2)' : 'none',
+          backdropFilter: scrolled ? 'blur(10px)' : 'none'
         }}
       >
-        <div className="container mx-auto px-4 sm:px-6 lg:px-24">
-          <div className="flex items-center justify-between" style={{ height: '72px' }}>
-            {/* Logo with Heart Icon */}
-            <motion.div
-              className="cursor-pointer flex items-center gap-2"
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="flex items-center justify-between h-16 md:h-18">
+            {/* Logo */}
+            <button
               onClick={() => onNavigate('home')}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              className="flex items-center gap-3 cursor-pointer hover:opacity-90 transition-opacity"
+              style={{ background: 'none', border: 'none', padding: 0 }}
             >
-              <Heart size={24} color="#FFFFFF" fill="#FFFFFF" style={{ opacity: 0.9 }} />
-              <h3 
-                style={{ 
+              <Heart
+                size={28}
+                fill="white"
+                color="white"
+                style={{ flexShrink: 0 }}
+              />
+              <span
+                style={{
                   fontFamily: 'Playfair Display, serif',
                   fontWeight: 700,
-                  fontSize: 'clamp(20px, 4vw, 28px)',
-                  color: '#FFFFFF',
-                  letterSpacing: '0.5px'
+                  fontSize: 'clamp(18px, 4vw, 24px)',
+                  color: 'white',
+                  letterSpacing: '-0.5px'
                 }}
               >
-                <span className="hidden sm:inline">Emily Bakes Cakes</span>
-                <span className="sm:hidden">Emily Bakes</span>
-              </h3>
-            </motion.div>
+                Emily Bakes Cakes
+              </span>
+            </button>
 
-            {/* Desktop Navigation - Hidden on Mobile/Tablet */}
-            <nav className="hidden lg:flex items-center gap-8">
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-2 lg:gap-4">
               {navItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => onNavigate(item.id)}
-                  className="relative group"
+                  className="relative px-3 py-2 transition-all"
                   style={{
                     fontFamily: 'Poppins, sans-serif',
-                    fontWeight: activePage === item.id ? 600 : 500,
+                    fontWeight: 500,
                     fontSize: '15px',
-                    color: '#FFFFFF',
-                    letterSpacing: '0.3px',
-                    transition: 'all 200ms ease',
+                    color: 'white',
                     background: 'none',
                     border: 'none',
                     cursor: 'pointer',
                     minHeight: '44px',
-                    padding: '8px 12px',
-                    borderRadius: '6px',
                     opacity: activePage === item.id ? 1 : 0.9
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
                     e.currentTarget.style.opacity = '1';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'transparent';
                     e.currentTarget.style.opacity = activePage === item.id ? '1' : '0.9';
                   }}
                 >
                   {item.label}
                   {activePage === item.id && (
-                    <motion.span
-                      layoutId="activeTab"
-                      className="absolute bottom-0 left-0 right-0 h-0.5"
-                      style={{ background: '#FFFFFF' }}
+                    <motion.div
+                      layoutId="activeNav"
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-white"
                       initial={false}
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
                 </button>
               ))}
-            </nav>
+            </div>
 
-            {/* Desktop Actions - Hidden on Mobile/Tablet */}
-            <div className="hidden lg:flex items-center gap-3">
-              <Button
-                variant="ghost"
-                className="p-2 hover:bg-white/15"
-                style={{ 
-                  color: '#FFFFFF',
+            {/* Right Section - Icons */}
+            <div className="flex items-center gap-2">
+              {/* Shopping Cart - Hidden on mobile */}
+              <button
+                className="hidden sm:flex items-center justify-center p-2 rounded-lg transition-all hover:bg-white/10"
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
                   minWidth: '44px',
-                  minHeight: '44px',
-                  borderRadius: '8px'
+                  minHeight: '44px'
                 }}
+                aria-label="Shopping cart"
               >
-                <ShoppingBag size={22} />
-              </Button>
+                <ShoppingBag size={22} color="white" />
+              </button>
+
+              {/* Staff Login Button */}
               <button
                 onClick={onAdminAccess}
+                className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg transition-all"
                 style={{
-                  background: '#FFFFFF',
-                  color: '#C44569',
+                  background: 'rgba(255, 255, 255, 0.15)',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  color: 'white',
                   fontFamily: 'Poppins, sans-serif',
                   fontWeight: 600,
                   fontSize: '14px',
-                  padding: '12px 24px',
-                  borderRadius: '8px',
-                  border: 'none',
                   cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
-                  transition: 'all 200ms ease',
-                  minHeight: '44px'
+                  minHeight: '44px',
+                  backdropFilter: 'blur(10px)'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.15)';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
                 }}
               >
                 <User size={18} />
                 Staff Login
               </button>
-            </div>
 
-            {/* Mobile/Tablet Actions */}
-            <div className="lg:hidden flex items-center gap-3">
-              {/* Shopping Cart - Hidden on smallest mobile */}
-              <button
-                className="hidden sm:flex items-center justify-center"
-                style={{
-                  width: '44px',
-                  height: '44px',
-                  background: 'rgba(255, 255, 255, 0.15)',
-                  border: 'none',
-                  cursor: 'pointer',
-                  borderRadius: '8px',
-                  color: '#FFFFFF'
-                }}
-              >
-                <ShoppingBag size={22} />
-              </button>
-              
-              {/* Hamburger Menu */}
+              {/* Mobile Menu Button */}
               <HamburgerIcon 
                 isOpen={mobileMenuOpen} 
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                color="#FFFFFF"
+                onClick={() => setMobileMenuOpen(true)}
+                color="white"
               />
             </div>
           </div>
         </div>
-      </motion.header>
+      </nav>
 
-      {/* Mobile Navigation Menu */}
+      {/* Mobile Navigation */}
       <MobileNav
         isOpen={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
@@ -209,134 +174,160 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
       />
 
       {/* Main Content */}
-      <main style={{ paddingTop: '72px', minHeight: 'calc(100vh - 72px)' }}>
+      <main className="flex-1 pt-16 md:pt-18">
         {children}
       </main>
 
-      {/* Sticky Bottom CTA - Only on Mobile */}
-      <StickyBottomCTA onOrderClick={handleOrderClick} />
-
-      {/* FRONT-END: Warm, Inviting Footer */}
-      <footer 
-        className="py-12 px-4 sm:px-6 lg:px-24 border-t"
-        style={{ 
-          borderColor: 'rgba(196, 69, 105, 0.15)',
-          background: '#FFFFFF'
+      {/* Footer */}
+      <footer
+        className="mt-auto py-12 px-4 sm:px-6"
+        style={{
+          background: '#2B2B2B',
+          color: 'rgba(255, 255, 255, 0.9)'
         }}
       >
-        <div className="container mx-auto">
-          {/* Footer Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
-            <div className="sm:col-span-2 lg:col-span-1">
-              <div className="flex items-center gap-2 mb-4">
-                <Heart size={20} color="#C44569" fill="#C44569" />
-                <h4 style={{ 
-                  fontFamily: 'Playfair Display, serif', 
-                  color: '#C44569', 
-                  fontSize: 'clamp(20px, 4vw, 24px)',
-                  fontWeight: 700
-                }}>
-                  Emily Bakes Cakes
-                </h4>
-              </div>
-              <p style={{ 
-                color: 'rgba(43, 43, 43, 0.75)', 
-                lineHeight: 1.7, 
-                marginBottom: '16px', 
-                fontSize: '15px' 
-              }}>
-                Premium custom cakes handcrafted with passion and precision. 
-                Making your celebrations unforgettable since 2018.
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+            {/* Brand */}
+            <div>
+              <h4
+                style={{
+                  fontFamily: 'Playfair Display, serif',
+                  fontWeight: 700,
+                  fontSize: '24px',
+                  color: '#C44569',
+                  marginBottom: '12px'
+                }}
+              >
+                Emily Bakes Cakes
+              </h4>
+              <p
+                style={{
+                  fontFamily: 'Open Sans, sans-serif',
+                  fontSize: '14px',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  lineHeight: 1.7
+                }}
+              >
+                Handcrafted artisan cakes that transform celebrations into unforgettable moments.
               </p>
             </div>
-            
+
+            {/* Quick Links */}
             <div>
-              <h5 style={{ 
-                fontFamily: 'Poppins, sans-serif', 
-                fontSize: '18px', 
-                fontWeight: 600, 
-                color: '#2B2B2B',
-                marginBottom: '16px'
-              }}>
+              <h5
+                style={{
+                  fontFamily: 'Poppins, sans-serif',
+                  fontWeight: 600,
+                  fontSize: '16px',
+                  color: 'white',
+                  marginBottom: '16px'
+                }}
+              >
                 Quick Links
               </h5>
-              <div className="space-y-2">
-                {navItems.slice(0, 4).map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => onNavigate(item.id)}
-                    className="block text-left hover:text-[#C44569] transition-colors"
-                    style={{ 
-                      color: 'rgba(43, 43, 43, 0.7)', 
-                      fontSize: '14px',
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      padding: '4px 0',
-                      minHeight: '32px',
-                      width: '100%'
-                    }}
-                  >
-                    {item.label}
-                  </button>
+              <ul className="space-y-2">
+                {navItems.map((item) => (
+                  <li key={item.id}>
+                    <button
+                      onClick={() => onNavigate(item.id)}
+                      style={{
+                        fontFamily: 'Open Sans, sans-serif',
+                        fontSize: '14px',
+                        color: 'rgba(255, 255, 255, 0.7)',
+                        background: 'none',
+                        border: 'none',
+                        padding: '4px 0',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        minHeight: '32px',
+                        transition: 'color 200ms ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = '#C44569';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)';
+                      }}
+                    >
+                      {item.label}
+                    </button>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
-            
+
+            {/* Contact */}
             <div>
-              <h5 style={{ 
-                fontFamily: 'Poppins, sans-serif', 
-                fontSize: '18px', 
-                fontWeight: 600, 
-                color: '#2B2B2B',
-                marginBottom: '16px'
-              }}>
-                Hours
+              <h5
+                style={{
+                  fontFamily: 'Poppins, sans-serif',
+                  fontWeight: 600,
+                  fontSize: '16px',
+                  color: 'white',
+                  marginBottom: '16px'
+                }}
+              >
+                Contact Us
               </h5>
-              <div className="space-y-2" style={{ 
-                color: 'rgba(43, 43, 43, 0.7)', 
-                fontSize: '14px' 
-              }}>
-                <p>Mon-Fri: 9am - 6pm</p>
-                <p>Saturday: 10am - 4pm</p>
-                <p>Sunday: Closed</p>
-              </div>
-            </div>
-            
-            <div>
-              <h5 style={{ 
-                fontFamily: 'Poppins, sans-serif', 
-                fontSize: '18px', 
-                fontWeight: 600, 
-                color: '#2B2B2B',
-                marginBottom: '16px'
-              }}>
-                Contact
-              </h5>
-              <div className="space-y-2" style={{ 
-                color: 'rgba(43, 43, 43, 0.7)', 
-                fontSize: '14px' 
-              }}>
-                <p>New Orleans, LA</p>
-                <p>(555) 123-4567</p>
-                <p>hello@emilybakescakes.com</p>
+              <div className="space-y-3">
+                <p
+                  style={{
+                    fontFamily: 'Open Sans, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.7)'
+                  }}
+                >
+                  (555) 123-4567
+                </p>
+                <p
+                  style={{
+                    fontFamily: 'Open Sans, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.7)'
+                  }}
+                >
+                  hello@emilybakescakes.com
+                </p>
+                <p
+                  style={{
+                    fontFamily: 'Open Sans, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.7)',
+                    lineHeight: 1.6
+                  }}
+                >
+                  123 Sweet Street
+                  <br />
+                  Bakery Town, CA 12345
+                </p>
               </div>
             </div>
           </div>
-          
-          <div 
-            className="pt-8 border-t text-center"
-            style={{ borderColor: 'rgba(196, 69, 105, 0.15)' }}
+
+          {/* Copyright */}
+          <div
+            className="mt-12 pt-8"
+            style={{
+              borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+              textAlign: 'center'
+            }}
           >
-            <p style={{ 
-              color: 'rgba(43, 43, 43, 0.6)', 
-              fontSize: '14px' 
-            }}>
-              © 2025 Emily Bakes Cakes. All rights reserved. • Made with <Heart size={12} style={{ display: 'inline', color: '#C44569', fill: '#C44569' }} /> in New Orleans
+            <p
+              style={{
+                fontFamily: 'Open Sans, sans-serif',
+                fontSize: '14px',
+                color: 'rgba(255, 255, 255, 0.5)'
+              }}
+            >
+              © {new Date().getFullYear()} Emily Bakes Cakes. All rights reserved.
             </p>
           </div>
         </div>
       </footer>
+
+      {/* Sticky Bottom CTA */}
+      <StickyBottomCTA onOrderClick={() => onNavigate('shop')} />
     </div>
   );
 }
