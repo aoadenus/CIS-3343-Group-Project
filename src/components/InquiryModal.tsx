@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Mail, Phone, User, MessageSquare, Calendar, Upload } from 'lucide-react';
+import { X, Mail, Phone, User, Calendar } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 
@@ -26,13 +26,11 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
     email: '',
     phone: '',
     eventDate: '',
-    message: '',
-    inspirationImages: []
+    message: ''
   });
 
   const [errors, setErrors] = useState<Partial<InquiryFormData>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
   const validateForm = () => {
     const newErrors: Partial<InquiryFormData> = {};
@@ -78,11 +76,9 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
         email: '',
         phone: '',
         eventDate: '',
-        message: '',
-        inspirationImages: []
+        message: ''
       });
       setErrors({});
-      setImagePreviews([]);
       onClose();
     }, 800);
   };
@@ -92,33 +88,6 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: undefined }));
     }
-  };
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
-    if (files.length > 0) {
-      const newImages = files.slice(0, 3 - (formData.inspirationImages?.length || 0));
-      setFormData(prev => ({ 
-        ...prev, 
-        inspirationImages: [...(prev.inspirationImages || []), ...newImages] 
-      }));
-
-      newImages.forEach(file => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImagePreviews(prev => [...prev, reader.result as string]);
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-  };
-
-  const removeImage = (index: number) => {
-    setFormData(prev => ({ 
-      ...prev, 
-      inspirationImages: prev.inspirationImages?.filter((_, i) => i !== index) 
-    }));
-    setImagePreviews(prev => prev.filter((_, i) => i !== index));
   };
 
   return (
@@ -150,7 +119,7 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="w-full max-w-lg rounded-2xl overflow-hidden"
+              className="w-full max-w-2xl rounded-2xl overflow-hidden"
               style={{
                 background: '#FFFFFF',
                 boxShadow: '0 25px 70px rgba(0, 0, 0, 0.4)',
@@ -162,10 +131,11 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
             >
               {/* Header */}
               <div
-                className="relative px-8 py-6"
+                className="relative px-6 py-5"
                 style={{
                   background: 'linear-gradient(135deg, #C44569 0%, #A03355 100%)',
-                  color: 'white'
+                  color: 'white',
+                  borderBottom: '3px solid rgba(255, 255, 255, 0.2)'
                 }}
               >
                 <button
@@ -175,96 +145,107 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
                     e.stopPropagation();
                     onClose();
                   }}
-                  className="absolute top-4 right-4 p-2 rounded-full transition-colors"
+                  className="absolute top-3 right-3 p-2 rounded-full transition-colors"
                   style={{ 
-                    width: '40px', 
-                    height: '40px',
-                    background: 'rgba(255, 255, 255, 0.15)',
-                    border: '2px solid rgba(255, 255, 255, 0.3)',
+                    width: '36px', 
+                    height: '36px',
+                    background: 'rgba(255, 255, 255, 0.2)',
+                    border: '2px solid rgba(255, 255, 255, 0.4)',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)';
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
                   }}
                   aria-label="Close modal"
                 >
-                  <X size={24} strokeWidth={2.5} />
+                  <X size={20} strokeWidth={3} />
                 </button>
 
-                <h3
-                  style={{
-                    fontFamily: 'Playfair Display',
-                    fontSize: '28px',
-                    fontWeight: 700,
-                    marginBottom: '8px',
-                    paddingRight: '40px'
-                  }}
-                >
-                  Cake Inquiry
-                </h3>
-                <p
-                  style={{
-                    fontSize: '16px',
-                    opacity: 0.95,
-                    fontFamily: 'Poppins'
-                  }}
-                >
-                  {productName}
-                </p>
+                <div style={{ paddingRight: '40px' }}>
+                  <h3
+                    style={{
+                      fontFamily: 'Playfair Display',
+                      fontSize: '24px',
+                      fontWeight: 700,
+                      marginBottom: '4px',
+                      letterSpacing: '0.3px'
+                    }}
+                  >
+                    🎂 Cake Inquiry
+                  </h3>
+                  <p
+                    style={{
+                      fontSize: '14px',
+                      opacity: 0.95,
+                      fontFamily: 'Poppins',
+                      fontWeight: 500,
+                      color: '#F8EBD7'
+                    }}
+                  >
+                    {productName}
+                  </p>
+                  <p
+                    style={{
+                      fontSize: '12px',
+                      opacity: 0.85,
+                      fontFamily: 'Open Sans',
+                      marginTop: '6px',
+                      fontStyle: 'italic'
+                    }}
+                  >
+                    Please fill out all required fields (*) to place your order
+                  </p>
+                </div>
               </div>
 
               {/* Form */}
-              <form onSubmit={handleSubmit} className="overflow-y-auto px-8 py-6" style={{ background: '#FFFFFF' }}>
-                <div className="space-y-5">
+              <form onSubmit={handleSubmit} className="px-6 py-5" style={{ background: '#FFFFFF' }}>
+                {/* Two-Column Grid for Inputs */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   {/* Name Field */}
                   <div>
                     <label
                       htmlFor="inquiry-name"
-                      className="block mb-2"
+                      className="block mb-1.5"
                       style={{
-                        fontSize: '14px',
+                        fontSize: '13px',
                         fontWeight: 600,
                         color: '#2B2B2B',
                         fontFamily: 'Poppins'
                       }}
                     >
-                      Your Name *
+                      Name *
                     </label>
                     <div className="relative">
                       <User
-                        className="absolute left-4 top-1/2 transform -translate-y-1/2"
-                        size={20}
-                        color="var(--text-tertiary)"
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2"
+                        size={16}
+                        color="#999"
                       />
                       <Input
                         id="inquiry-name"
                         type="text"
-                        placeholder="Enter your full name"
+                        placeholder="Your full name"
                         value={formData.name}
                         onChange={(e) => handleChange('name', e.target.value)}
-                        className="pl-12 h-12 rounded-xl"
+                        className="pl-10 h-11 rounded-lg text-sm"
                         style={{
                           background: '#F8F8F8',
-                          border: '2px solid #E0E0E0',
-                          color: '#2B2B2B'
+                          border: errors.name ? '2px solid #C44569' : '1px solid #E0E0E0',
+                          color: '#2B2B2B',
+                          fontSize: '14px'
                         }}
                         aria-invalid={!!errors.name}
-                        aria-describedby={errors.name ? 'name-error' : undefined}
                       />
                     </div>
                     {errors.name && (
-                      <p
-                        id="name-error"
-                        className="mt-1.5 text-sm"
-                        style={{ color: '#C44569' }}
-                        role="alert"
-                      >
+                      <p className="mt-1 text-xs" style={{ color: '#C44569' }}>
                         {errors.name}
                       </p>
                     )}
@@ -274,21 +255,21 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
                   <div>
                     <label
                       htmlFor="inquiry-email"
-                      className="block mb-2"
+                      className="block mb-1.5"
                       style={{
-                        fontSize: '14px',
+                        fontSize: '13px',
                         fontWeight: 600,
                         color: '#2B2B2B',
                         fontFamily: 'Poppins'
                       }}
                     >
-                      Email Address *
+                      Email *
                     </label>
                     <div className="relative">
                       <Mail
-                        className="absolute left-4 top-1/2 transform -translate-y-1/2"
-                        size={20}
-                        color="var(--text-tertiary)"
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2"
+                        size={16}
+                        color="#999"
                       />
                       <Input
                         id="inquiry-email"
@@ -296,23 +277,18 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
                         placeholder="your.email@example.com"
                         value={formData.email}
                         onChange={(e) => handleChange('email', e.target.value)}
-                        className="pl-12 h-12 rounded-xl"
+                        className="pl-10 h-11 rounded-lg text-sm"
                         style={{
                           background: '#F8F8F8',
-                          border: '2px solid #E0E0E0',
-                          color: '#2B2B2B'
+                          border: errors.email ? '2px solid #C44569' : '1px solid #E0E0E0',
+                          color: '#2B2B2B',
+                          fontSize: '14px'
                         }}
                         aria-invalid={!!errors.email}
-                        aria-describedby={errors.email ? 'email-error' : undefined}
                       />
                     </div>
                     {errors.email && (
-                      <p
-                        id="email-error"
-                        className="mt-1.5 text-sm"
-                        style={{ color: '#C44569' }}
-                        role="alert"
-                      >
+                      <p className="mt-1 text-xs" style={{ color: '#C44569' }}>
                         {errors.email}
                       </p>
                     )}
@@ -322,21 +298,21 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
                   <div>
                     <label
                       htmlFor="inquiry-phone"
-                      className="block mb-2"
+                      className="block mb-1.5"
                       style={{
-                        fontSize: '14px',
+                        fontSize: '13px',
                         fontWeight: 600,
                         color: '#2B2B2B',
                         fontFamily: 'Poppins'
                       }}
                     >
-                      Phone Number *
+                      Phone *
                     </label>
                     <div className="relative">
                       <Phone
-                        className="absolute left-4 top-1/2 transform -translate-y-1/2"
-                        size={20}
-                        color="var(--text-tertiary)"
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2"
+                        size={16}
+                        color="#999"
                       />
                       <Input
                         id="inquiry-phone"
@@ -344,23 +320,18 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
                         placeholder="555-123-4567"
                         value={formData.phone}
                         onChange={(e) => handleChange('phone', e.target.value)}
-                        className="pl-12 h-12 rounded-xl"
+                        className="pl-10 h-11 rounded-lg text-sm"
                         style={{
                           background: '#F8F8F8',
-                          border: '2px solid #E0E0E0',
-                          color: '#2B2B2B'
+                          border: errors.phone ? '2px solid #C44569' : '1px solid #E0E0E0',
+                          color: '#2B2B2B',
+                          fontSize: '14px'
                         }}
                         aria-invalid={!!errors.phone}
-                        aria-describedby={errors.phone ? 'phone-error' : undefined}
                       />
                     </div>
                     {errors.phone && (
-                      <p
-                        id="phone-error"
-                        className="mt-1.5 text-sm"
-                        style={{ color: '#C44569' }}
-                        role="alert"
-                      >
+                      <p className="mt-1 text-xs" style={{ color: '#C44569' }}>
                         {errors.phone}
                       </p>
                     )}
@@ -370,9 +341,9 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
                   <div>
                     <label
                       htmlFor="inquiry-date"
-                      className="block mb-2"
+                      className="block mb-1.5"
                       style={{
-                        fontSize: '14px',
+                        fontSize: '13px',
                         fontWeight: 600,
                         color: '#2B2B2B',
                         fontFamily: 'Poppins'
@@ -382,175 +353,67 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
                     </label>
                     <div className="relative">
                       <Calendar
-                        className="absolute left-4 top-1/2 transform -translate-y-1/2"
-                        size={20}
-                        color="var(--text-tertiary)"
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2"
+                        size={16}
+                        color="#999"
                       />
                       <Input
                         id="inquiry-date"
                         type="date"
                         value={formData.eventDate}
                         onChange={(e) => handleChange('eventDate', e.target.value)}
-                        className="pl-12 h-12 rounded-xl"
+                        className="pl-10 h-11 rounded-lg text-sm"
                         style={{
                           background: '#F8F8F8',
-                          border: '2px solid #E0E0E0',
-                          color: '#2B2B2B'
+                          border: errors.eventDate ? '2px solid #C44569' : '1px solid #E0E0E0',
+                          color: '#2B2B2B',
+                          fontSize: '14px'
                         }}
                         min={new Date().toISOString().split('T')[0]}
                         aria-invalid={!!errors.eventDate}
-                        aria-describedby={errors.eventDate ? 'date-error' : undefined}
                       />
                     </div>
                     {errors.eventDate && (
-                      <p
-                        id="date-error"
-                        className="mt-1.5 text-sm"
-                        style={{ color: '#C44569' }}
-                        role="alert"
-                      >
+                      <p className="mt-1 text-xs" style={{ color: '#C44569' }}>
                         {errors.eventDate}
                       </p>
                     )}
                   </div>
+                </div>
 
-                  {/* Message Field */}
-                  <div>
-                    <label
-                      htmlFor="inquiry-message"
-                      className="block mb-2"
-                      style={{
-                        fontSize: '14px',
-                        fontWeight: 600,
-                        color: '#2B2B2B',
-                        fontFamily: 'Poppins'
-                      }}
-                    >
-                      Additional Details (Optional)
-                    </label>
-                    <div className="relative">
-                      <MessageSquare
-                        className="absolute left-4 top-4"
-                        size={20}
-                        color="var(--text-tertiary)"
-                      />
-                      <textarea
-                        id="inquiry-message"
-                        placeholder="Tell us about your event, preferences, or any special requests..."
-                        value={formData.message}
-                        onChange={(e) => handleChange('message', e.target.value)}
-                        rows={4}
-                        className="w-full pl-12 pr-4 py-3 rounded-xl resize-none"
-                        style={{
-                          fontFamily: 'Open Sans',
-                          fontSize: '15px',
-                          background: '#F8F8F8',
-                          border: '2px solid #E0E0E0',
-                          color: '#2B2B2B'
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Inspiration Images Upload */}
-                  <div>
-                    <label
-                      htmlFor="inquiry-images"
-                      className="block mb-2"
-                      style={{
-                        fontSize: '14px',
-                        fontWeight: 600,
-                        color: '#2B2B2B',
-                        fontFamily: 'Poppins'
-                      }}
-                    >
-                      Inspiration Images (Optional)
-                    </label>
-                    <p
-                      className="mb-3 text-sm"
-                      style={{ color: '#666666' }}
-                    >
-                      Upload up to 3 images of cakes or designs you like
-                    </p>
-
-                    {/* Upload Button */}
-                    {(formData.inspirationImages?.length || 0) < 3 && (
-                      <label
-                        htmlFor="inquiry-images"
-                        className="flex items-center justify-center gap-3 p-4 rounded-xl border-2 border-dashed cursor-pointer transition-all duration-200"
-                        style={{
-                          borderColor: '#E0E0E0',
-                          background: '#F8F8F8'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.borderColor = '#C44569';
-                          e.currentTarget.style.background = 'rgba(196, 69, 105, 0.05)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.borderColor = '#E0E0E0';
-                          e.currentTarget.style.background = '#F8F8F8';
-                        }}
-                      >
-                        <Upload size={20} color="#C44569" />
-                        <span
-                          style={{
-                            color: '#2B2B2B',
-                            fontFamily: 'Poppins',
-                            fontSize: '14px',
-                            fontWeight: 500
-                          }}
-                        >
-                          Click to upload images
-                        </span>
-                        <input
-                          id="inquiry-images"
-                          type="file"
-                          accept="image/*"
-                          multiple
-                          onChange={handleImageUpload}
-                          className="hidden"
-                        />
-                      </label>
-                    )}
-
-                    {/* Image Previews */}
-                    {imagePreviews.length > 0 && (
-                      <div className="grid grid-cols-3 gap-3 mt-3">
-                        {imagePreviews.map((preview, index) => (
-                          <div
-                            key={index}
-                            className="relative group rounded-lg overflow-hidden"
-                            style={{
-                              aspectRatio: '1',
-                              border: '2px solid #E0E0E0'
-                            }}
-                          >
-                            <img
-                              src={preview}
-                              alt={`Inspiration ${index + 1}`}
-                              className="w-full h-full object-cover"
-                            />
-                            <button
-                              type="button"
-                              onClick={() => removeImage(index)}
-                              className="absolute top-1 right-1 p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                              style={{
-                                background: 'rgba(196, 69, 105, 0.95)',
-                                color: 'white'
-                              }}
-                              aria-label={`Remove image ${index + 1}`}
-                            >
-                              <X size={16} strokeWidth={3} />
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                {/* Full-Width Message Field */}
+                <div className="mb-4">
+                  <label
+                    htmlFor="inquiry-message"
+                    className="block mb-1.5"
+                    style={{
+                      fontSize: '13px',
+                      fontWeight: 600,
+                      color: '#2B2B2B',
+                      fontFamily: 'Poppins'
+                    }}
+                  >
+                    Additional Details (Optional)
+                  </label>
+                  <textarea
+                    id="inquiry-message"
+                    placeholder="Tell us about your event or special requests..."
+                    value={formData.message}
+                    onChange={(e) => handleChange('message', e.target.value)}
+                    rows={3}
+                    className="w-full px-3 py-2 rounded-lg resize-none text-sm"
+                    style={{
+                      fontFamily: 'Open Sans',
+                      fontSize: '14px',
+                      background: '#F8F8F8',
+                      border: '1px solid #E0E0E0',
+                      color: '#2B2B2B'
+                    }}
+                  />
                 </div>
 
                 {/* Footer Buttons */}
-                <div className="flex gap-3 mt-8">
+                <div className="flex gap-3 pt-4" style={{ borderTop: '1px solid #E0E0E0' }}>
                   <Button
                     type="button"
                     onClick={(e) => {
@@ -558,13 +421,14 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
                       e.stopPropagation();
                       onClose();
                     }}
-                    className="flex-1 h-12 rounded-xl"
+                    className="flex-1 h-11 rounded-lg"
                     style={{
                       background: '#F8F8F8',
-                      border: '2px solid #E0E0E0',
-                      color: '#2B2B2B',
+                      border: '1px solid #E0E0E0',
+                      color: '#5A3825',
                       fontFamily: 'Poppins',
-                      fontWeight: 600
+                      fontWeight: 600,
+                      fontSize: '14px'
                     }}
                   >
                     Cancel
@@ -572,22 +436,26 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
                   <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="flex-1 h-12 rounded-xl btn-primary"
+                    className="flex-1 h-11 rounded-lg"
                     style={{
+                      background: 'linear-gradient(135deg, #C44569 0%, #A03355 100%)',
+                      color: 'white',
                       fontFamily: 'Poppins',
                       fontWeight: 600,
+                      fontSize: '14px',
+                      border: 'none',
                       opacity: isSubmitting ? 0.7 : 1
                     }}
                   >
-                    {isSubmitting ? 'Submitting...' : 'Submit Inquiry'}
+                    {isSubmitting ? 'Submitting...' : '✓ Submit Inquiry'}
                   </Button>
                 </div>
 
                 <p
-                  className="mt-4 text-center text-sm"
-                  style={{ color: '#666666' }}
+                  className="mt-3 text-center text-xs"
+                  style={{ color: '#999', fontFamily: 'Open Sans' }}
                 >
-                  We'll get back to you within 24 hours
+                  💬 We'll respond within 24 hours
                 </p>
               </form>
             </motion.div>

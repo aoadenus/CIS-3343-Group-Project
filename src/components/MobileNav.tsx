@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { User, X } from 'lucide-react';
+import { User } from 'lucide-react';
 
 interface MobileNavProps {
   isOpen: boolean;
@@ -62,10 +62,10 @@ export function MobileNav({ isOpen, onClose, activePage, onNavigate, onAdminAcce
                   onClick={onClose}
                   aria-label="Close navigation menu"
                   style={{
-                    width: '44px',
-                    height: '44px',
-                    minWidth: '44px',
-                    minHeight: '44px',
+                    width: '48px',
+                    height: '48px',
+                    minWidth: '48px',
+                    minHeight: '48px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -76,7 +76,8 @@ export function MobileNav({ isOpen, onClose, activePage, onNavigate, onAdminAcce
                     transition: 'all 200ms ease',
                     position: 'relative',
                     zIndex: 1,
-                    boxShadow: '0 2px 8px rgba(196, 69, 105, 0.3)'
+                    boxShadow: '0 2px 8px rgba(196, 69, 105, 0.3)',
+                    padding: '0'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = '#B03D5E';
@@ -93,7 +94,23 @@ export function MobileNav({ isOpen, onClose, activePage, onNavigate, onAdminAcce
                     e.currentTarget.style.background = '#C44569';
                   }}
                 >
-                  <X size={26} color="white" strokeWidth={3} />
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{
+                      display: 'block',
+                      flexShrink: 0
+                    }}
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
                 </button>
               </div>
 

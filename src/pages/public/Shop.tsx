@@ -306,7 +306,7 @@ export function Shop({ onNavigate }: ShopProps = {}) {
             </div>
 
             {/* Sort Dropdown - Enhanced and Centered */}
-            <div className="relative">
+            <div className="relative" style={{ zIndex: 100 }}>
               <select
                 value={sortBy}
                 onChange={(e) => handleSortChange(e.target.value)}
@@ -320,7 +320,9 @@ export function Shop({ onNavigate }: ShopProps = {}) {
                   fontWeight: 500,
                   minWidth: '200px',
                   boxShadow: '0 2px 4px rgba(196, 69, 105, 0.1)',
-                  paddingRight: '44px'
+                  paddingRight: '44px',
+                  position: 'relative',
+                  zIndex: 100
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = 'rgba(196, 69, 105, 0.05)';
