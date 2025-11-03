@@ -18,6 +18,7 @@ import { Login } from './pages/admin/Login';
 import { AdminDashboard } from './pages/admin/Dashboard';
 import { OrderBoard } from './pages/admin/OrderBoard';
 import { AdminProducts } from './pages/admin/Products';
+import { Inquiries } from './pages/admin/Inquiries';
 import { Orders } from './pages/Orders';
 import { Customers } from './pages/Customers';
 import { Products } from './pages/Products';
@@ -126,6 +127,8 @@ export default function App() {
         return <AdminDashboard />;
       case 'order-board':
         return <OrderBoard />;
+      case 'inquiries':
+        return <Inquiries />;
       case 'orders':
         return <Orders />;
       case 'customers':

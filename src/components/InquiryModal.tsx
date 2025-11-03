@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Mail, Phone, User, MessageSquare, Calendar } from 'lucide-react';
+import { X, Mail, Phone, User, MessageSquare, Calendar, Upload } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 
@@ -17,6 +17,7 @@ export interface InquiryFormData {
   phone: string;
   eventDate: string;
   message: string;
+  inspirationImages?: File[];
 }
 
 export function InquiryModal({ isOpen, onClose, productName, onSubmit }: InquiryModalProps) {
@@ -25,11 +26,13 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
     email: '',
     phone: '',
     eventDate: '',
-    message: ''
+    message: '',
+    inspirationImages: []
   });
 
   const [errors, setErrors] = useState<Partial<InquiryFormData>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
   const validateForm = () => {
     const newErrors: Partial<InquiryFormData> = {};
@@ -75,9 +78,11 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
         email: '',
         phone: '',
         eventDate: '',
-        message: ''
+        message: '',
+        inspirationImages: []
       });
       setErrors({});
+      setImagePreviews([]);
       onClose();
     }, 800);
   };
@@ -87,6 +92,33 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: undefined }));
     }
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length > 0) {
+      const newImages = files.slice(0, 3 - (formData.inspirationImages?.length || 0));
+      setFormData(prev => ({ 
+        ...prev, 
+        inspirationImages: [...(prev.inspirationImages || []), ...newImages] 
+      }));
+
+      newImages.forEach(file => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreviews(prev => [...prev, reader.result as string]);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  };
+
+  const removeImage = (index: number) => {
+    setFormData(prev => ({ 
+      ...prev, 
+      inspirationImages: prev.inspirationImages?.filter((_, i) => i !== index) 
+    }));
+    setImagePreviews(prev => prev.filter((_, i) => i !== index));
   };
 
   return (
@@ -372,6 +404,102 @@ export function InquiryModal({ isOpen, onClose, productName, onSubmit }: Inquiry
                         }}
                       />
                     </div>
+                  </div>
+
+                  {/* Inspiration Images Upload */}
+                  <div>
+                    <label
+                      htmlFor="inquiry-images"
+                      className="block mb-2"
+                      style={{
+                        fontSize: '14px',
+                        fontWeight: 600,
+                        color: 'var(--text-primary)',
+                        fontFamily: 'Poppins'
+                      }}
+                    >
+                      Inspiration Images (Optional)
+                    </label>
+                    <p
+                      className="mb-3 text-sm"
+                      style={{ color: 'var(--text-tertiary)' }}
+                    >
+                      Upload up to 3 images of cakes or designs you like
+                    </p>
+
+                    {/* Upload Button */}
+                    {(formData.inspirationImages?.length || 0) < 3 && (
+                      <label
+                        htmlFor="inquiry-images"
+                        className="flex items-center justify-center gap-3 p-4 rounded-xl border-2 border-dashed cursor-pointer transition-all duration-200"
+                        style={{
+                          borderColor: 'var(--border-medium)',
+                          background: 'var(--surface-elevated)'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.borderColor = '#C44569';
+                          e.currentTarget.style.background = 'rgba(196, 69, 105, 0.05)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.borderColor = 'var(--border-medium)';
+                          e.currentTarget.style.background = 'var(--surface-elevated)';
+                        }}
+                      >
+                        <Upload size={20} color="#C44569" />
+                        <span
+                          style={{
+                            color: 'var(--text-primary)',
+                            fontFamily: 'Poppins',
+                            fontSize: '14px',
+                            fontWeight: 500
+                          }}
+                        >
+                          Click to upload images
+                        </span>
+                        <input
+                          id="inquiry-images"
+                          type="file"
+                          accept="image/*"
+                          multiple
+                          onChange={handleImageUpload}
+                          className="hidden"
+                        />
+                      </label>
+                    )}
+
+                    {/* Image Previews */}
+                    {imagePreviews.length > 0 && (
+                      <div className="grid grid-cols-3 gap-3 mt-3">
+                        {imagePreviews.map((preview, index) => (
+                          <div
+                            key={index}
+                            className="relative group rounded-lg overflow-hidden"
+                            style={{
+                              aspectRatio: '1',
+                              border: '2px solid var(--border-subtle)'
+                            }}
+                          >
+                            <img
+                              src={preview}
+                              alt={`Inspiration ${index + 1}`}
+                              className="w-full h-full object-cover"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => removeImage(index)}
+                              className="absolute top-1 right-1 p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                              style={{
+                                background: 'rgba(196, 69, 105, 0.95)',
+                                color: 'white'
+                              }}
+                              aria-label={`Remove image ${index + 1}`}
+                            >
+                              <X size={16} strokeWidth={3} />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
 

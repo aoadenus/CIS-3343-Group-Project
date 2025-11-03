@@ -69,3 +69,12 @@ The application is built using React 18.3.1 with TypeScript, Vite 6.3.5, and Tai
   - **Hamburger icon behavior**: Only shows when menu is closed
   - **Logo navigation**: Clicking "Emily Bakes Cakes" logo returns to home page with smooth scroll to top
   - **Spotlight carousel arrows**: Optimized for mobile visibility (52px, solid raspberry, white icons)
+
+- November 3, 2025: Shop Page Major Revision & Inquiry Modal Enhancement
+  - **Compact CTA Section**: Reduced "Don't See What You're Looking For?" section size (p-6, text-xl heading, text-sm description, 48px button height)
+  - **Modernized Title**: "Our Cake Collection" with gradient text (#C44569 to #8B3A5E to #C44569), decorative underline accent, and tagline "Handcrafted perfection, baked fresh daily"
+  - **Product Images**: All 12 products now display stock images with proper aspect ratio (4:3), hover scale (1.1x), and smooth transitions
+  - **Enhanced Sorting Dropdown**: Raspberry border (2px #C44569), hover states (bg tint, shadow), focus ring (3px rgba), larger chevron icon (22px, stroke 2.5)
+  - **Inquiry Modal Image Upload**: Added inspiration image upload (up to 3 images), file previews with hover removal, proper state management and form reset
+  - **Admin Inquiries Page**: New admin portal page to view customer cake inquiries with status filters (pending/reviewed/contacted), contact details, event dates, messages, and inspiration images
+  - **Gold Star Ratings**: Maintained color-coded rating system (gold for 5-star, orange for 4.8+, raspberry for others)

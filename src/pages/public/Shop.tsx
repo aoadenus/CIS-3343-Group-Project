@@ -8,6 +8,17 @@ import { Badge } from '../../components/ui/badge';
 import { InquiryModal } from '../../components/InquiryModal';
 import { useToast } from '../../components/ToastContext';
 
+import birthdayCake1 from '../../assets/stock_images/birthday_cake_with_c_2320daa1.jpg';
+import birthdayCake2 from '../../assets/stock_images/birthday_cake_with_c_7bc0f700.jpg';
+import birthdayCake3 from '../../assets/stock_images/birthday_cake_with_c_b605b368.jpg';
+import weddingCake1 from '../../assets/stock_images/elegant_white_weddin_adbd196c.jpg';
+import weddingCake2 from '../../assets/stock_images/elegant_white_weddin_0d9c00f6.jpg';
+import chocolateCake1 from '../../assets/stock_images/chocolate_cake_slice_18c59402.jpg';
+import chocolateCake2 from '../../assets/stock_images/chocolate_cake_slice_a38cf8b3.jpg';
+import chocolateCake3 from '../../assets/stock_images/chocolate_cake_slice_8bbafa0f.jpg';
+import lemonCake1 from '../../assets/stock_images/lemon_cake_cream_che_63f11bbc.jpg';
+import lemonCake2 from '../../assets/stock_images/lemon_cake_cream_che_52601daf.jpg';
+
 const categories = ['All', 'Birthday', 'Wedding', 'Anniversary', 'Corporate', 'Seasonal'];
 
 interface Product {
@@ -32,7 +43,8 @@ const products: Product[] = [
     description: 'Classic birthday cake with custom decorations and personalized message',
     rating: 5,
     reviews: 127,
-    popular: true
+    popular: true,
+    image: birthdayCake1
   },
   {
     id: 2,
@@ -42,7 +54,8 @@ const products: Product[] = [
     description: 'Multi-tier wedding cake with elegant details and fresh flowers',
     rating: 5,
     reviews: 89,
-    popular: true
+    popular: true,
+    image: weddingCake1
   },
   {
     id: 3,
@@ -52,7 +65,8 @@ const products: Product[] = [
     description: 'Rich almond flavor with smooth buttercream frosting',
     rating: 5,
     reviews: 156,
-    isNew: true
+    isNew: true,
+    image: lemonCake1
   },
   {
     id: 4,
@@ -61,7 +75,8 @@ const products: Product[] = [
     priceRange: '$48 - $88',
     description: 'Tangy lemon with smooth cream cheese frosting',
     rating: 4.8,
-    reviews: 98
+    reviews: 98,
+    image: lemonCake2
   },
   {
     id: 5,
@@ -70,7 +85,8 @@ const products: Product[] = [
     priceRange: '$55 - $95',
     description: 'Chocolate cake with cherries and whipped cream',
     rating: 5,
-    reviews: 143
+    reviews: 143,
+    image: chocolateCake1
   },
   {
     id: 6,
@@ -80,7 +96,8 @@ const products: Product[] = [
     description: 'Traditional German chocolate with coconut pecan frosting',
     rating: 4.9,
     reviews: 201,
-    popular: true
+    popular: true,
+    image: chocolateCake2
   },
   {
     id: 7,
@@ -89,7 +106,8 @@ const products: Product[] = [
     priceRange: '$65 - $120',
     description: 'Romantic design with edible flowers and gold accents',
     rating: 5,
-    reviews: 67
+    reviews: 67,
+    image: weddingCake2
   },
   {
     id: 8,
@@ -98,7 +116,8 @@ const products: Product[] = [
     priceRange: '$85 - $200',
     description: 'Custom branded cakes for business events and celebrations',
     rating: 4.9,
-    reviews: 45
+    reviews: 45,
+    image: birthdayCake2
   },
   {
     id: 9,
@@ -107,7 +126,8 @@ const products: Product[] = [
     priceRange: '$50 - $90',
     description: 'Light cream cake with pecans and coconut',
     rating: 4.8,
-    reviews: 112
+    reviews: 112,
+    image: birthdayCake3
   },
   {
     id: 10,
@@ -117,7 +137,8 @@ const products: Product[] = [
     description: 'New Orleans style layered lemon cake with custard filling',
     rating: 5,
     reviews: 178,
-    popular: true
+    popular: true,
+    image: chocolateCake3
   },
   {
     id: 11,
@@ -126,7 +147,8 @@ const products: Product[] = [
     priceRange: '$58 - $98',
     description: 'New Orleans style layered chocolate cake with rich pudding',
     rating: 5,
-    reviews: 165
+    reviews: 165,
+    image: chocolateCake2
   },
   {
     id: 12,
@@ -136,7 +158,8 @@ const products: Product[] = [
     description: 'Fall-inspired pumpkin spice cake with cream cheese frosting',
     rating: 4.9,
     reviews: 92,
-    isNew: true
+    isNew: true,
+    image: lemonCake1
   }
 ];
 
@@ -214,19 +237,19 @@ export function Shop() {
   return (
     <div className="min-h-screen section-padding" style={{ background: 'var(--background)' }}>
       <div className="container mx-auto">
-        {/* Custom Cake CTA - Prominent Top Section */}
+        {/* Custom Cake CTA - Compact Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="glass-card p-8 md:p-12 mb-16 text-center relative overflow-hidden"
+          className="glass-card p-6 mb-8 text-center relative overflow-hidden"
           style={{
             background: 'linear-gradient(135deg, rgba(196, 69, 105, 0.08) 0%, rgba(248, 235, 215, 0.4) 100%)',
             border: '2px solid rgba(196, 69, 105, 0.2)'
           }}
         >
           <motion.div
-            className="absolute top-4 right-4"
+            className="absolute top-3 right-3"
             animate={{
               rotate: [0, 10, -10, 0],
               scale: [1, 1.1, 1]
@@ -237,40 +260,37 @@ export function Shop() {
               repeatType: 'reverse'
             }}
           >
-            <Sparkles size={32} color="#C44569" fill="rgba(196, 69, 105, 0.2)" />
+            <Sparkles size={24} color="#C44569" fill="rgba(196, 69, 105, 0.2)" />
           </motion.div>
 
           <h2
-            className="mb-4"
+            className="mb-2 text-xl font-semibold"
             style={{
               fontFamily: 'Playfair Display',
-              fontSize: 'clamp(28px, 5vw, 40px)',
-              fontWeight: 700,
               color: 'var(--text-primary)'
             }}
           >
             Don't See What You're Looking For?
           </h2>
           <p
-            className="mb-6"
+            className="mb-4 text-sm"
             style={{
-              fontSize: 'clamp(16px, 3vw, 18px)',
               color: 'var(--text-secondary)',
-              maxWidth: '700px',
-              margin: '0 auto 32px',
-              lineHeight: 1.7
+              maxWidth: '600px',
+              margin: '0 auto 16px',
+              lineHeight: 1.6
             }}
           >
-            Create your dream cake with our custom cake builder! Choose your flavor, decoration style, size, and delivery date. Our expert bakers will bring your vision to life.
+            Create your dream cake with our custom cake builder!
           </p>
           <a href="/custom-builder" style={{ textDecoration: 'none' }}>
             <Button
               className="btn-primary"
               style={{
-                height: '56px',
-                fontSize: '16px',
+                height: '48px',
+                fontSize: '15px',
                 fontWeight: 600,
-                padding: '0 48px',
+                padding: '0 32px',
                 fontFamily: 'Poppins'
               }}
             >
@@ -279,18 +299,41 @@ export function Shop() {
           </a>
         </motion.div>
 
-        {/* Header */}
+        {/* Header - Modern Title with Gradient */}
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <h1 className="mb-4" style={{ fontFamily: 'Playfair Display', fontSize: 'clamp(32px, 6vw, 48px)' }}>
+          <h1 
+            className="text-4xl md:text-5xl font-bold mb-2 relative inline-block"
+            style={{
+              fontFamily: 'Playfair Display',
+              background: 'linear-gradient(to right, #C44569, #8B3A5E, #C44569)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}
+          >
             Our Cake Collection
+            <span 
+              className="absolute -bottom-2 left-0 h-1 rounded-full"
+              style={{
+                width: '96px',
+                background: 'linear-gradient(to right, #C44569, transparent)'
+              }}
+            />
           </h1>
-          <p className="text-lg md:text-xl" style={{ color: 'var(--text-secondary)', maxWidth: '700px', margin: '0 auto' }}>
-            Explore our signature cakes and custom creations. Every cake is handcrafted with premium ingredients.
+          <p 
+            className="text-lg italic mt-4"
+            style={{ 
+              color: 'var(--text-secondary)', 
+              fontFamily: 'Poppins',
+              fontWeight: 500
+            }}
+          >
+            Handcrafted perfection, baked fresh daily
           </p>
         </motion.div>
 
@@ -320,20 +363,36 @@ export function Shop() {
               />
             </div>
 
-            {/* Sort Dropdown */}
+            {/* Sort Dropdown - Enhanced */}
             <div className="relative">
               <select
                 value={sortBy}
                 onChange={(e) => handleSortChange(e.target.value)}
-                className="h-12 md:h-14 px-4 md:px-6 pr-10 md:pr-12 rounded-xl appearance-none cursor-pointer w-full"
+                className="h-12 md:h-14 px-4 md:px-6 pr-10 md:pr-12 rounded-xl appearance-none cursor-pointer w-full transition-all duration-200"
                 style={{
                   background: 'var(--surface-elevated)',
-                  border: '1px solid var(--border-medium)',
+                  border: '2px solid #C44569',
                   color: 'var(--text-primary)',
                   fontFamily: 'Poppins',
                   fontSize: '15px',
+                  fontWeight: 500,
                   minWidth: '200px',
-                  transition: 'all 0.3s ease'
+                  boxShadow: '0 2px 4px rgba(196, 69, 105, 0.1)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(196, 69, 105, 0.05)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(196, 69, 105, 0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'var(--surface-elevated)';
+                  e.currentTarget.style.boxShadow = '0 2px 4px rgba(196, 69, 105, 0.1)';
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.outline = 'none';
+                  e.currentTarget.style.boxShadow = '0 0 0 3px rgba(196, 69, 105, 0.2)';
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.boxShadow = '0 2px 4px rgba(196, 69, 105, 0.1)';
                 }}
                 aria-label="Sort products"
               >
@@ -344,8 +403,9 @@ export function Shop() {
               </select>
               <ChevronDown 
                 className="absolute right-3 md:right-4 top-1/2 transform -translate-y-1/2 pointer-events-none"
-                size={20}
-                color="var(--text-tertiary)"
+                size={22}
+                color="#C44569"
+                strokeWidth={2.5}
                 aria-hidden="true"
               />
             </div>
@@ -424,15 +484,11 @@ export function Shop() {
                       }}
                     >
                       {/* Image Section */}
-                      <motion.div 
+                      <div 
                         className="w-full h-56 md:h-64 relative overflow-hidden"
                         style={{
-                          background: `linear-gradient(135deg, 
-                            rgba(196, 69, 105, ${0.1 + (product.rating / 5) * 0.1}) 0%, 
-                            rgba(248, 235, 215, 0.3) 100%)`
+                          aspectRatio: '4/3'
                         }}
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ duration: 0.4 }}
                       >
                         {/* Badges */}
                         <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
@@ -489,36 +545,48 @@ export function Shop() {
                           )}
                         </div>
 
-                        {/* Placeholder Icon with Hover Effect */}
-                        <motion.div 
-                          className="absolute inset-0 flex items-center justify-center"
-                          initial={{ opacity: 0.4 }}
-                          whileHover={{ opacity: 0.6 }}
-                        >
-                          <motion.div
-                            className="text-center"
-                            whileHover={{ scale: 1.2, rotate: 5 }}
-                            transition={{ type: 'spring', stiffness: 300 }}
+                        {/* Image or Fallback */}
+                        {product.image ? (
+                          <motion.img
+                            src={product.image}
+                            alt={product.name}
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                            whileHover={{ scale: 1.1 }}
+                            transition={{ duration: 0.4 }}
+                          />
+                        ) : (
+                          <div 
+                            className="w-full h-full flex items-center justify-center"
+                            style={{
+                              background: 'linear-gradient(135deg, rgba(248, 235, 215, 0.6) 0%, rgba(232, 213, 196, 0.4) 100%)'
+                            }}
                           >
-                            <div
-                              className="text-6xl mb-2"
-                              style={{ filter: 'drop-shadow(0 4px 8px rgba(196, 69, 105, 0.3))' }}
+                            <motion.div
+                              className="text-center"
+                              whileHover={{ scale: 1.2, rotate: 5 }}
+                              transition={{ type: 'spring', stiffness: 300 }}
                             >
-                              🎂
-                            </div>
-                            <p
-                              style={{
-                                color: '#C44569',
-                                fontFamily: 'Poppins',
-                                fontWeight: 600,
-                                fontSize: '14px',
-                                textShadow: '0 2px 4px rgba(255, 255, 255, 0.8)'
-                              }}
-                            >
-                              {product.category}
-                            </p>
-                          </motion.div>
-                        </motion.div>
+                              <div
+                                className="text-6xl mb-2"
+                                style={{ filter: 'drop-shadow(0 4px 8px rgba(196, 69, 105, 0.3))' }}
+                              >
+                                🎂
+                              </div>
+                              <p
+                                style={{
+                                  color: '#C44569',
+                                  fontFamily: 'Poppins',
+                                  fontWeight: 600,
+                                  fontSize: '14px',
+                                  textShadow: '0 2px 4px rgba(255, 255, 255, 0.8)'
+                                }}
+                              >
+                                {product.category}
+                              </p>
+                            </motion.div>
+                          </div>
+                        )}
 
                         {/* Hover Overlay */}
                         <motion.div
@@ -530,7 +598,7 @@ export function Shop() {
                           whileHover={{ opacity: 1 }}
                           transition={{ duration: 0.3 }}
                         />
-                      </motion.div>
+                      </div>
 
                       {/* Content */}
                       <div className="p-5 md:p-6">

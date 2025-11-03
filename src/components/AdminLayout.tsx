@@ -12,7 +12,8 @@ import {
   ChevronRight,
   MessageSquare,
   TrendingUp,
-  Kanban
+  Kanban,
+  Mail
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Button } from './ui/button';
@@ -27,6 +28,7 @@ interface AdminLayoutProps {
 const navItems = [
   { id: 'dashboard', label: 'Analytics', icon: TrendingUp },
   { id: 'order-board', label: 'Order Board', icon: Kanban },
+  { id: 'inquiries', label: 'Cake Inquiries', icon: Mail },
   { id: 'products-new', label: 'Products', icon: Cake },
   { id: 'orders', label: 'Orders (Old)', icon: ClipboardList },
   { id: 'customers', label: 'Customers', icon: Users },
