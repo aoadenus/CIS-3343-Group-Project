@@ -905,13 +905,18 @@ export function Customers() {
         </DialogContent>
       </Dialog>
 
-      {/* Customer Detail Modal - OPTIMIZED */}
+      {/* Customer Detail Modal - CENTERED & SCROLLABLE */}
       <Dialog open={isDetailModalOpen} onOpenChange={setIsDetailModalOpen}>
         <DialogContent 
-          className="bg-white rounded-2xl border-2 p-0 gap-0 max-h-[90vh] flex flex-col sm:max-w-[600px]" 
+          className="bg-white rounded-2xl border-2 p-0 gap-0 max-h-[85vh] flex flex-col w-[95vw] sm:max-w-[600px]" 
           style={{ 
             boxShadow: '0 20px 60px rgba(196, 69, 105, 0.3)', 
-            borderColor: 'rgba(196, 69, 105, 0.2)'
+            borderColor: 'rgba(196, 69, 105, 0.2)',
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            maxWidth: '600px'
           }}
         >
           {isDetailLoading ? (

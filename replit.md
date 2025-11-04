@@ -11,11 +11,13 @@ This project is for "Emily Bakes Cakes," a dual-interface web application offeri
 
 **Customer Management UX Optimization (November 4, 2025):**
 - ✅ Optimized customer detail modal with professional layout (600px max-width)
-- ✅ Fixed modal positioning - centered with proper scrolling and visibility
+- ✅ Fixed modal positioning - perfectly centered on screen with transform translate
+- ✅ Enabled smooth scrolling with overflow-y-auto on modal content
 - ✅ Added fixed header with prominent close button for better accessibility
 - ✅ Enhanced customer profile display with ID badge and guest indicators
 - ✅ Implemented pagination controls (Previous/Next navigation)
 - ✅ Professional UI matching top-quality commercial websites
+- ✅ Modal positioned at viewport center (top: 50%, left: 50%, transform: translate(-50%, -50%))
 
 **Professional OMS Refactoring (November 4, 2025):**
 - ✅ Refactored all backend admin pages with professional OMS-style naming
