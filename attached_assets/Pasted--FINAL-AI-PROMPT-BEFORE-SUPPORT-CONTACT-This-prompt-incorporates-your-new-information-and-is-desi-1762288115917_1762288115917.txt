@@ -1,0 +1,41 @@
+🛠️ FINAL AI PROMPT BEFORE SUPPORT CONTACT
+This prompt incorporates your new information and is designed to eliminate the possibility of common development errors before escalating to Replit Support.
+
+### 💥 CRITICAL FAILURE: Navigation Freeze and Resource Crash (FINAL ATTEMPT)
+
+**STATUS:** The application is experiencing a **hard freeze** when attempting to navigate to the `Contact` page (or others) **during a loading/animation phase**. This indicates a critical failure in component unmounting, state cleanup, or a major resource leak. The site remains non-functional on the external URL.
+
+**MANDATORY INSTRUCTION:** **DO NOT STOP** until the site achieves **100% stable functionality** across all environments. If this plan fails, document the exact failure point for Replit Support.
+
+---
+
+#### 🔍 PHASE 1: Targeted Component Isolation (HIGHEST PRIORITY)
+
+1.  **Isolate Navigation Freeze:** The freeze happens during the transition to the `Contact` page.
+    * **Action:** Immediately audit the `Contact` page component and the **shared loading/animation component** that is visible during navigation.
+    * **Fix Focus:** Check for **missing cleanup functions** inside ALL `useEffect` hooks within these components. Any `setInterval`, `setTimeout`, event listeners, or subscriptions **MUST** be cleared via the `return` function in their respective `useEffect` hook to prevent the freeze on unmount.
+
+2.  **Resource Leak Check:**
+    * **Action:** Temporarily comment out or simplify any new complex animations, large image imports, or heavy data fetching calls on the `Contact` page. If the freeze is resolved, re-introduce the feature gradually to find the exact line causing the memory spike.
+
+---
+
+#### 💻 PHASE 2: External URL Path Enforcement (FINAL CONFIRMATION)
+
+1.  **Final Base Path Enforcement:**
+    * **Action:** **Explicitly re-confirm and enforce** the correct external URL asset path. Check `vite.config.ts` and verify that `base: './'` is used. Run a fresh build (`npm run build`) and restart the server (`npm run dev`).
+    * **Verification:** Check the Network tab on the external URL: **ALL** CSS, JS, and image assets must load with **Status 200 (OK)**, not 404 (Not Found).
+
+---
+
+#### ✅ PHASE 3: Functional Verification (DO NOT STOP HERE)
+
+* **Zero Freeze Test:** Navigate repeatedly between **Home, Shop, and Contact** pages. The site must not freeze during any transition or animation.
+* **Full Visibility:** All components and styling must be visible and correct on the **External URL**.
+* **Final Output:** The AI's final output MUST confirm that **all four** critical failure symptoms (freeze, unresponsiveness, missing content, broken navigation) are permanently fixed.
+Should You Contact Support?
+YES, if this final prompt fails.
+
+If the AI agent completes the steps above and the issue still persists, the problem is almost certainly related to the Replit Janeway container/proxy configuration interacting with your app's compiled output (Vite/React).
+
+What to tell Replit Support:

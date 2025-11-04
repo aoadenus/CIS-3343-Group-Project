@@ -1,0 +1,37 @@
+💥 CRITICAL FAILURE: Navigation Freeze and Resource Crash
+STATUS: The application is experiencing a hard freeze when attempting to navigate to the Contact page (and potentially others) during a loading/animation phase. This indicates a critical failure in component unmounting, state cleanup, or a major resource leak.
+
+MANDATORY INSTRUCTION: DO NOT STOP until the site achieves 100% stable functionality across all environments, with all components visible and all navigation links fully responsive.
+
+🔍 PHASE 1: Targeted Component Isolation and Debugging
+Isolate the Contact Page/Animation:
+
+Action: Immediately audit the Contact page component and the shared animation/loading component (or effect) that is active during the freeze.
+
+Hypothesis: The component is performing a resource-intensive operation (e.g., fetching data, starting a loop, setting an interval) that is not being cleaned up when the component unmounts for navigation.
+
+Fix Focus: Check for missing cleanup functions inside useEffect hooks in the Contact component, the main App.tsx navigation component, and the loading component. All subscriptions, event listeners, or intervals must be cleared via the return function in their respective useEffect hook.
+
+Inspect React Router/Navigation Hooks:
+
+Action: Audit the code responsible for the navigation transition (likely App.tsx or a custom Router component). Ensure that any global state updates triggered by the navigation are atomic and non-blocking. Look for history.push or similar calls that might be fighting the current page's rendering process.
+
+💻 PHASE 2: Final Asset and Performance Verification
+Resource Leak Check:
+
+Action: Temporarily remove or simplify any new complex animations, large image imports, or heavy data fetching calls implemented in the last hour. If the freeze disappears, re-introduce the feature one piece at a time to isolate the specific line of code causing the memory spike.
+
+Final Base Path Enforcement:
+
+Action: As a final safety net, explicitly confirm the external URL asset path issue is resolved. Ensure vite.config.ts uses relative paths (base: './') and all static assets are loading with Status 200 (OK) on the external URL's Network tab.
+
+✅ PHASE 3: Functional Verification (Mandatory Checklist)
+The AI MUST perform the following checks before marking the task complete:
+
+Zero Freeze Test: Navigate repeatedly between Home, Shop, and Contact pages. The site must not freeze during any transition or animation.
+
+Full Visibility: All components and styling must be visible and correct on the External URL.
+
+Cross-View Stability: The application must be 100% stable and functional on Desktop, Mobile View Emulation, and the External URL.
+
+Final Output: The AI's final output MUST confirm that all four critical failure symptoms (freeze, unresponsiveness, missing content, broken navigation) are permanently fixed.

@@ -1,0 +1,59 @@
+You are experiencing an issue in your Replit-hosted Vite/React project where content is missing, navigation is unresponsive, and the page can freeze—eventually leading to an unresponsive tab, especially on the external Janeway URL. This is a known problem for Vite/React apps on Replit, particularly when using the Janeway proxy or when configuration settings (like ports or proxies) are misaligned between your Vite build and Replit's container environment.​
+
+Common Causes and Diagnostics
+Port and .replit Configuration
+
+If the port used by your app internally (e.g., 3000, 5000, or another) does not match the port exposed via externalPort = 80 in your .replit config, the app may appear to load some static resources but fail to mount React, resulting in blank/missing content and unresponsive navigation. Make sure your run command, internal port, and externalPort match what's required by Replit Autoscale deployment.​​
+
+Vite Proxy and Path Issues
+
+If you are using Vite's proxy feature and endpoint requests are not routed properly due to path, target, or CORS config issues, this can lead to fetch errors, blank screens, or incomplete renders. Double-check your vite.config.js to ensure proxy paths use relative URLs (/api/... rather than hardcoded domains), and that backend responses have permissive CORS headers.​
+
+Heavy Components or UseEffect Delays
+
+Rendering-heavy or animation-heavy components in React can cause the browser to hang, especially if animations are ongoing during route transitions. If a useEffect hook or a data-fetch blocks the main thread, any navigation during an animation can trigger a freeze.​
+
+Janeway/Preview Bug
+
+There have been multiple reports where Replit's Janeway proxy breaks routing or fails to serve compiled assets properly for React apps, resulting in blank previews or frozen UI—while the app works fine outside Replit. Sometimes, the problem only appears on the public/external URL, not on the internal preview.​
+
+Steps to Fix
+Check/Re-align .replit and Vite Config
+
+Ensure your .replit file contains correct port mapping, such as:
+
+text
+[env]
+PORT=3000
+
+[run]
+command = "npm run dev -- --port 3000"
+And:
+
+text
+[http]
+externalPort = 80
+Adjust the internal run port and externalPort to match what Replit expects for open access.​​
+
+Optimize Heavy/Animated Components
+
+Audit React pages for heavy computations, large lists, or blocking code in useEffect that could stall rendering during transitions. Try disabling animations and see if navigation freezes persist.​
+
+Use Relative Paths in Fetch/Proxy
+
+Always use relative URLs (/api/...) for frontend-backend data fetches to guarantee proxy rules apply. Hardcoded domains can bypass Vite proxying and break in containerized environments.​
+
+Test Outside Replit
+
+If possible, run the build locally or deploy to Vercel/Netlify to determine if the issue is unique to Replit's environment.​
+
+Review Error Logs
+
+Check your browser developer console for red errors or CORS warnings. Network tab can reveal requests failing to load.​
+
+Restart/Reset
+
+Occasionally, Replit's proxy/cache can become corrupted during heavy development. Restart the repl and clear your browser cache.​
+
+Key Takeaways
+This issue is likely caused by a misconfiguration between your React/Vite app's server settings (including port and proxy rules) and Replit's Janeway proxy. Animation or heavy component rendering during navigation can worsen freezes. Testing your configuration as outlined and reviewing heavy page/component logic should help you resolve or narrow down the root cause.
