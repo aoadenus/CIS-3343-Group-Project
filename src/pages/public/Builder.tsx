@@ -106,7 +106,7 @@ export function Builder({ onNavigate }: BuilderProps = {}) {
         servings: formData.servings,
         message: formData.message,
         notes: formData.notes,
-        inspirationImages: formData.inspirationImages,
+        imageCount: formData.inspirationImages.length,
       };
 
       sessionStorage.setItem('pendingCakeOrder', JSON.stringify(orderData));

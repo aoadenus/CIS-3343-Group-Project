@@ -22,7 +22,7 @@ interface OrderData {
   servings: string;
   message: string;
   notes: string;
-  inspirationImages: File[];
+  imageCount: number;
 }
 
 export function OrderReview({ onNavigate, onBack }: OrderReviewProps) {
@@ -65,7 +65,7 @@ export function OrderReview({ onNavigate, onBack }: OrderReviewProps) {
           date: orderData.date,
           message: orderData.message,
           notes: orderData.notes,
-          inspirationImages: orderData.inspirationImages,
+          inspirationImages: [],
         }),
       });
 
@@ -432,7 +432,7 @@ export function OrderReview({ onNavigate, onBack }: OrderReviewProps) {
             )}
 
             {/* Inspiration Images */}
-            {orderData.inspirationImages && orderData.inspirationImages.length > 0 && (
+            {orderData.imageCount > 0 && (
               <div className="mb-8">
                 <h3 style={{ 
                   fontFamily: 'Poppins', 
@@ -441,10 +441,10 @@ export function OrderReview({ onNavigate, onBack }: OrderReviewProps) {
                   color: '#2B2B2B',
                   marginBottom: '16px'
                 }}>
-                  Inspiration Images ({orderData.inspirationImages.length})
+                  Inspiration Images ({orderData.imageCount})
                 </h3>
                 <p style={{ fontSize: '14px', color: '#5A3825', opacity: 0.8 }}>
-                  {orderData.inspirationImages.length} image{orderData.inspirationImages.length !== 1 ? 's' : ''} uploaded
+                  {orderData.imageCount} image{orderData.imageCount !== 1 ? 's' : ''} uploaded
                 </p>
               </div>
             )}
