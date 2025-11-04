@@ -15,6 +15,17 @@ This project is for "Emily Bakes Cakes," a dual-interface web application offeri
 - ✅ Synced Shop and Admin Products pages to use backend API with fallback to hardcoded data
 - ✅ Fixed API route ordering issue (search routes now before parameterized routes)
 
+**Backend Order Creation System (November 4, 2025):**
+- ✅ Created comprehensive backend order creation form (AdminOrderCreate.tsx)
+- ✅ Mirrors frontend custom builder with enhanced admin management features
+- ✅ Customer search/selection with real-time lookup and quick-create
+- ✅ Dynamic unlimited layer builder matching frontend functionality
+- ✅ Admin-specific fields: status, priority, management notes (separate from customer notes)
+- ✅ Payment tracking with automatic 50% deposit calculation
+- ✅ Database schema updated: added adminNotes column to orders table
+- ✅ Backend API enhanced to handle admin-created orders with full feature set
+- ✅ Navigation integrated with "Create Order" button in Order Management Center
+
 **Order Review System (November 4, 2025):**
 - ✅ Created dedicated Order Review page for custom cake orders
 - ✅ Implemented sessionStorage data flow from Builder to Review to API
@@ -85,6 +96,7 @@ The application is built using React 18.3.1 with TypeScript, Vite 6.3.5, and Tai
 ### Technical Implementations
 - **Public Interface**: Includes a home page, product shop, custom cake builder (with unlimited layer system and dynamic pricing), order review page, photo gallery, about page, and contact form.
 - **Order Review System**: Separate review page displays complete order summary before submission. Data is transferred via sessionStorage from Builder to OrderReview page.
+- **Backend Order Creation**: Comprehensive admin form for manual order creation with all custom builder features plus admin enhancements (status, priority, management notes, payment tracking). Includes customer search/selection and saves to same orders table.
 - **Admin Interface (Professional OMS)**: Enterprise-grade order management system with professional naming:
   - **Business Analytics Dashboard** - Real-time KPIs and performance metrics
   - **Fulfillment Board** - Visual Kanban-style order tracking with drag-and-drop
@@ -112,6 +124,14 @@ The application is built using React 18.3.1 with TypeScript, Vite 6.3.5, and Tai
 - **Build Output**: Production builds target the `build/` directory.
 
 ### Backend API Endpoints
+**Order Creation:**
+- `POST /api/orders/custom` - Create custom cake order (supports both public and admin submissions)
+  - Public: Finds/creates customer automatically
+  - Admin: Uses existing customerId, supports admin-specific fields (status, priority, adminNotes)
+  - Handles unlimited layers with automatic pricing
+  - Calculates 50% deposit requirement
+  - Separates customer notes (additionalNotes) from admin notes (adminNotes)
+
 **Customer Management:**
 - `GET /api/customers` - Fetch all customers with order stats
 - `GET /api/customers/search?q=query` - Search customers by name, email, or ID (case-insensitive, limit 20)
