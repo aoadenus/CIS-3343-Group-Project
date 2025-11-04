@@ -30,16 +30,15 @@ import { Settings } from './pages/Settings';
 type AppMode = 'public' | 'login' | 'admin';
 
 export default function App() {
-  console.log('🔥 APP COMPONENT RENDERING');
-  
   const [showWelcome, setShowWelcome] = useState(false);
   const [appMode, setAppMode] = useState<AppMode>('public');
   const [activePage, setActivePage] = useState('home');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  // Scroll to top on page change
   useEffect(() => {
-    console.log('🔥 APP MOUNTED - useEffect running');
-  }, []);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [activePage, appMode]);
 
   // Handle navigation for public pages
   const handlePublicNavigate = (page: string) => {
