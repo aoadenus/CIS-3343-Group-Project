@@ -908,25 +908,25 @@ export function Customers() {
       {/* Customer Detail Modal - OPTIMIZED */}
       <Dialog open={isDetailModalOpen} onOpenChange={setIsDetailModalOpen}>
         <DialogContent 
-          className="bg-white rounded-2xl border-2 p-0 gap-0 max-h-[90vh] flex flex-col" 
+          className="bg-white rounded-2xl border-2 p-0 gap-0 max-h-[90vh] flex flex-col sm:max-w-[600px]" 
           style={{ 
             boxShadow: '0 20px 60px rgba(196, 69, 105, 0.3)', 
-            borderColor: 'rgba(196, 69, 105, 0.2)',
-            width: '95vw',
-            maxWidth: '600px',
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            margin: 0
+            borderColor: 'rgba(196, 69, 105, 0.2)'
           }}
         >
-          {/* Fixed Header */}
-          <div className="flex-shrink-0 px-6 py-5 border-b flex items-center justify-between" style={{ borderColor: 'rgba(196, 69, 105, 0.1)' }}>
-            <div className="flex-1 pr-12">
-              {isDetailLoading ? (
-                <div className="h-8 bg-gray-200 rounded animate-pulse w-3/4"></div>
-              ) : selectedCustomer && (
+          {isDetailLoading ? (
+            <div className="p-12">
+              <div className="flex flex-col items-center justify-center gap-4">
+                <Loader2 className="animate-spin" size={40} color="#C44569" />
+                <p style={{ fontFamily: 'Poppins', fontSize: '15px', color: '#5A3825', opacity: 0.7 }}>
+                  Loading customer details...
+                </p>
+              </div>
+            </div>
+          ) : selectedCustomer ? (
+            <>
+              {/* Fixed Header with DialogHeader wrapper */}
+              <DialogHeader className="flex-shrink-0 px-6 py-5 border-b" style={{ borderColor: 'rgba(196, 69, 105, 0.1)' }}>
                 <DialogTitle style={{ 
                   fontFamily: 'Playfair Display', 
                   fontSize: '24px', 
@@ -938,7 +938,8 @@ export function Customers() {
                   alignItems: 'center',
                   flexWrap: 'wrap',
                   gap: '10px',
-                  margin: 0
+                  margin: 0,
+                  paddingRight: '40px'
                 }}>
                   {selectedCustomer.name}
                   {selectedCustomer.isVip && (
@@ -957,242 +958,228 @@ export function Customers() {
                     </Badge>
                   )}
                 </DialogTitle>
-              )}
-            </div>
-            {/* Close Button */}
-            <button
-              onClick={() => setIsDetailModalOpen(false)}
-              className="absolute top-4 right-4 z-50 rounded-full p-2.5 hover:bg-gray-100 transition-all flex-shrink-0"
-              style={{ 
-                backgroundColor: 'rgba(196, 69, 105, 0.1)',
-                border: '2px solid #C44569'
-              }}
-              aria-label="Close modal"
-            >
-              <X size={20} color="#C44569" strokeWidth={3} />
-            </button>
-          </div>
+                <DialogDescription style={{ 
+                  fontFamily: 'Open Sans', 
+                  color: '#5A3825',
+                  fontSize: '12px',
+                  opacity: 0.7,
+                  marginTop: '4px'
+                }}>
+                  Customer ID: #{selectedCustomer.id}
+                </DialogDescription>
+              </DialogHeader>
               
-          {/* Scrollable Content */}
-          <div className="flex-1 overflow-y-auto px-6 py-5" style={{ scrollbarWidth: 'thin', scrollbarColor: '#C44569 #F5F5F5' }}>
-            {isDetailLoading ? (
-              <div className="py-12">
-                <div className="flex flex-col items-center justify-center gap-4">
-                  <Loader2 className="animate-spin" size={40} color="#C44569" />
-                  <p style={{ fontFamily: 'Poppins', fontSize: '15px', color: '#5A3825', opacity: 0.7 }}>
-                    Loading customer details...
-                  </p>
-                </div>
-              </div>
-            ) : selectedCustomer && (
-              <div className="space-y-6">
-                {/* Customer ID Badge */}
-                <div className="flex items-center gap-3 px-4 py-3 rounded-lg" style={{ backgroundColor: 'rgba(196, 69, 105, 0.05)', border: '1px dashed rgba(196, 69, 105, 0.3)' }}>
-                  <UserCheck size={18} color="#C44569" />
-                  <div className="flex-1">
-                    <p style={{ fontFamily: 'Open Sans', fontSize: '12px', color: '#5A3825', opacity: 0.7 }}>
-                      Customer ID
-                    </p>
-                    <p style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: '15px', color: '#C44569' }}>
-                      #{selectedCustomer.id}
-                    </p>
-                  </div>
-                  {selectedCustomer.isGuest && (
-                    <Badge style={{ backgroundColor: '#F59E0B20', color: '#F59E0B', fontFamily: 'Poppins', fontSize: '11px', fontWeight: 600 }}>
-                      GUEST
-                    </Badge>
-                  )}
-                </div>
-
-                {/* Contact Information */}
-                <div>
-                  <h3 style={{ 
-                    fontFamily: 'Poppins', 
-                    fontWeight: 600, 
-                    fontSize: '13px', 
-                    color: '#2B2B2B', 
-                    marginBottom: '8px',
-                    letterSpacing: '-0.01em'
-                  }}>
-                    Contact Information
-                  </h3>
-                  <div className="space-y-2 p-3 rounded-lg" style={{ backgroundColor: 'rgba(196, 69, 105, 0.04)' }}>
-                    <div className="flex items-center gap-2">
-                      <div className="p-1.5 rounded-lg" style={{ backgroundColor: 'rgba(196, 69, 105, 0.1)' }}>
-                        <Mail size={14} color="#C44569" />
-                      </div>
-                      <a 
-                        href={`mailto:${selectedCustomer.email}`}
-                        className="flex-1 hover:underline transition-all text-xs"
-                        style={{ fontFamily: 'Open Sans', color: '#C44569', fontWeight: 500 }}
-                      >
-                        {selectedCustomer.email}
-                      </a>
+              {/* Scrollable Content */}
+              <div className="flex-1 overflow-y-auto px-6 py-5" style={{ scrollbarWidth: 'thin', scrollbarColor: '#C44569 #F5F5F5' }}>
+                <div className="space-y-6">
+                  {/* Customer ID Badge */}
+                  <div className="flex items-center gap-3 px-4 py-3 rounded-lg" style={{ backgroundColor: 'rgba(196, 69, 105, 0.05)', border: '1px dashed rgba(196, 69, 105, 0.3)' }}>
+                    <UserCheck size={18} color="#C44569" />
+                    <div className="flex-1">
+                      <p style={{ fontFamily: 'Open Sans', fontSize: '12px', color: '#5A3825', opacity: 0.7 }}>
+                        Customer ID
+                      </p>
+                      <p style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: '15px', color: '#C44569' }}>
+                        #{selectedCustomer.id}
+                      </p>
                     </div>
-                    {selectedCustomer.phone && (
+                    {selectedCustomer.isGuest && (
+                      <Badge style={{ backgroundColor: '#F59E0B20', color: '#F59E0B', fontFamily: 'Poppins', fontSize: '11px', fontWeight: 600 }}>
+                        GUEST
+                      </Badge>
+                    )}
+                  </div>
+
+                  {/* Contact Information */}
+                  <div>
+                    <h3 style={{ 
+                      fontFamily: 'Poppins', 
+                      fontWeight: 600, 
+                      fontSize: '13px', 
+                      color: '#2B2B2B', 
+                      marginBottom: '8px',
+                      letterSpacing: '-0.01em'
+                    }}>
+                      Contact Information
+                    </h3>
+                    <div className="space-y-2 p-3 rounded-lg" style={{ backgroundColor: 'rgba(196, 69, 105, 0.04)' }}>
                       <div className="flex items-center gap-2">
                         <div className="p-1.5 rounded-lg" style={{ backgroundColor: 'rgba(196, 69, 105, 0.1)' }}>
-                          <Phone size={14} color="#C44569" />
+                          <Mail size={14} color="#C44569" />
                         </div>
                         <a 
-                          href={`tel:${selectedCustomer.phone}`}
+                          href={`mailto:${selectedCustomer.email}`}
                           className="flex-1 hover:underline transition-all text-xs"
                           style={{ fontFamily: 'Open Sans', color: '#C44569', fontWeight: 500 }}
                         >
-                          {selectedCustomer.phone}
+                          {selectedCustomer.email}
                         </a>
                       </div>
-                    )}
-                    <div className="flex items-center gap-2">
-                      <div className="p-1.5 rounded-lg" style={{ backgroundColor: 'rgba(196, 69, 105, 0.1)' }}>
-                        <Calendar size={14} color="#C44569" />
-                      </div>
-                      <span style={{ fontFamily: 'Open Sans', fontSize: '12px', color: '#2B2B2B', flex: 1 }}>
-                        Customer since {formatDate(selectedCustomer.createdAt || selectedCustomer.lastOrderDate)}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Order Statistics */}
-                <div>
-                  <h3 style={{ 
-                    fontFamily: 'Poppins', 
-                    fontWeight: 600, 
-                    fontSize: '17px', 
-                    color: '#2B2B2B', 
-                    marginBottom: '16px',
-                    letterSpacing: '-0.01em'
-                  }}>
-                    Order Statistics
-                  </h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="p-5 rounded-xl" style={{ background: 'linear-gradient(135deg, rgba(196, 69, 105, 0.1) 0%, rgba(196, 69, 105, 0.15) 100%)' }}>
-                      <p style={{ fontFamily: 'Open Sans', fontSize: '12px', color: '#5A3825', opacity: 0.7, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
-                        Total Orders
-                      </p>
-                      <p style={{ fontFamily: 'Poppins', fontWeight: 700, fontSize: '32px', color: '#C44569', lineHeight: 1 }}>
-                        {selectedCustomer.totalOrders}
-                      </p>
-                    </div>
-                    <div className="p-5 rounded-xl" style={{ background: 'linear-gradient(135deg, rgba(196, 69, 105, 0.1) 0%, rgba(196, 69, 105, 0.15) 100%)' }}>
-                      <p style={{ fontFamily: 'Open Sans', fontSize: '12px', color: '#5A3825', opacity: 0.7, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
-                        Last Order
-                      </p>
-                      <p style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: '14px', color: '#2B2B2B', lineHeight: 1.3 }}>
-                        {formatDate(selectedCustomer.lastOrderDate)}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Order History */}
-                <div>
-                  <h3 style={{ 
-                    fontFamily: 'Poppins', 
-                    fontWeight: 600, 
-                    fontSize: '17px', 
-                    color: '#2B2B2B', 
-                    marginBottom: '16px',
-                    letterSpacing: '-0.01em'
-                  }}>
-                    Order History
-                  </h3>
-                  <div className="space-y-2.5 max-h-[350px] overflow-y-auto pr-1" style={{ scrollbarWidth: 'thin', scrollbarColor: '#C44569 #F5F5F5' }}>
-                    {selectedCustomer.orders && selectedCustomer.orders.length > 0 ? (
-                      selectedCustomer.orders.map((order) => (
-                        <div 
-                          key={order.id}
-                          className="p-4 rounded-lg flex items-center justify-between transition-all hover:shadow-md"
-                          style={{ backgroundColor: 'rgba(90, 56, 37, 0.04)', border: '1px solid rgba(90, 56, 37, 0.08)' }}
-                        >
-                          <div className="flex items-center gap-3 flex-1">
-                            <div className="p-2 rounded-lg" style={{ backgroundColor: 'rgba(196, 69, 105, 0.1)' }}>
-                              <ShoppingBag size={16} color="#C44569" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p style={{ 
-                                fontFamily: 'Poppins', 
-                                fontWeight: 500, 
-                                fontSize: '14px', 
-                                color: '#2B2B2B',
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                whiteSpace: 'nowrap'
-                              }}>
-                                {order.occasion || 'Custom Order'}
-                              </p>
-                              <p style={{ fontFamily: 'Open Sans', fontSize: '12px', color: '#5A3825', opacity: 0.7, marginTop: '2px' }}>
-                                {formatDate(order.createdAt)} · Order #{order.id}
-                              </p>
-                            </div>
+                      {selectedCustomer.phone && (
+                        <div className="flex items-center gap-2">
+                          <div className="p-1.5 rounded-lg" style={{ backgroundColor: 'rgba(196, 69, 105, 0.1)' }}>
+                            <Phone size={14} color="#C44569" />
                           </div>
-                          <Badge 
-                            style={{ 
-                              backgroundColor: order.status === 'completed' ? '#22C55E20' : 
-                                             order.status === 'cancelled' ? '#EF444420' : 
-                                             order.status === 'ready' ? '#10B98120' :
-                                             order.status === 'preparing' ? '#3B82F620' : '#F59E0B20',
-                              color: order.status === 'completed' ? '#22C55E' :
-                                    order.status === 'cancelled' ? '#EF4444' :
-                                    order.status === 'ready' ? '#10B981' :
-                                    order.status === 'preparing' ? '#3B82F6' : '#F59E0B',
-                              fontFamily: 'Poppins',
-                              fontSize: '11px',
-                              fontWeight: 600,
-                              border: 'none',
-                              textTransform: 'capitalize'
-                            }}
+                          <a 
+                            href={`tel:${selectedCustomer.phone}`}
+                            className="flex-1 hover:underline transition-all text-xs"
+                            style={{ fontFamily: 'Open Sans', color: '#C44569', fontWeight: 500 }}
                           >
-                            {order.status}
-                          </Badge>
+                            {selectedCustomer.phone}
+                          </a>
                         </div>
-                      ))
-                    ) : (
-                      <div className="text-center py-12">
-                        <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(196, 69, 105, 0.1)' }}>
-                          <ShoppingBag size={24} color="#C44569" style={{ opacity: 0.5 }} />
+                      )}
+                      <div className="flex items-center gap-2">
+                        <div className="p-1.5 rounded-lg" style={{ backgroundColor: 'rgba(196, 69, 105, 0.1)' }}>
+                          <Calendar size={14} color="#C44569" />
                         </div>
-                        <p style={{ fontFamily: 'Poppins', fontSize: '15px', color: '#5A3825', opacity: 0.7 }}>
-                          No orders yet
+                        <span style={{ fontFamily: 'Open Sans', fontSize: '12px', color: '#2B2B2B', flex: 1 }}>
+                          Customer since {formatDate(selectedCustomer.createdAt || selectedCustomer.lastOrderDate)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Order Statistics */}
+                  <div>
+                    <h3 style={{ 
+                      fontFamily: 'Poppins', 
+                      fontWeight: 600, 
+                      fontSize: '17px', 
+                      color: '#2B2B2B', 
+                      marginBottom: '16px',
+                      letterSpacing: '-0.01em'
+                    }}>
+                      Order Statistics
+                    </h3>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="p-5 rounded-xl" style={{ background: 'linear-gradient(135deg, rgba(196, 69, 105, 0.1) 0%, rgba(196, 69, 105, 0.15) 100%)' }}>
+                        <p style={{ fontFamily: 'Open Sans', fontSize: '12px', color: '#5A3825', opacity: 0.7, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
+                          Total Orders
+                        </p>
+                        <p style={{ fontFamily: 'Poppins', fontWeight: 700, fontSize: '32px', color: '#C44569', lineHeight: 1 }}>
+                          {selectedCustomer.totalOrders}
                         </p>
                       </div>
+                      <div className="p-5 rounded-xl" style={{ background: 'linear-gradient(135deg, rgba(196, 69, 105, 0.1) 0%, rgba(196, 69, 105, 0.15) 100%)' }}>
+                        <p style={{ fontFamily: 'Open Sans', fontSize: '12px', color: '#5A3825', opacity: 0.7, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
+                          Last Order
+                        </p>
+                        <p style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: '14px', color: '#2B2B2B', lineHeight: 1.3 }}>
+                          {formatDate(selectedCustomer.lastOrderDate)}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Order History */}
+                  <div>
+                    <h3 style={{ 
+                      fontFamily: 'Poppins', 
+                      fontWeight: 600, 
+                      fontSize: '17px', 
+                      color: '#2B2B2B', 
+                      marginBottom: '16px',
+                      letterSpacing: '-0.01em'
+                    }}>
+                      Order History
+                    </h3>
+                    <div className="space-y-2.5 max-h-[350px] overflow-y-auto pr-1" style={{ scrollbarWidth: 'thin', scrollbarColor: '#C44569 #F5F5F5' }}>
+                      {selectedCustomer.orders && selectedCustomer.orders.length > 0 ? (
+                        selectedCustomer.orders.map((order) => (
+                          <div 
+                            key={order.id}
+                            className="p-4 rounded-lg flex items-center justify-between transition-all hover:shadow-md"
+                            style={{ backgroundColor: 'rgba(90, 56, 37, 0.04)', border: '1px solid rgba(90, 56, 37, 0.08)' }}
+                          >
+                            <div className="flex items-center gap-3 flex-1">
+                              <div className="p-2 rounded-lg" style={{ backgroundColor: 'rgba(196, 69, 105, 0.1)' }}>
+                                <ShoppingBag size={16} color="#C44569" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p style={{ 
+                                  fontFamily: 'Poppins', 
+                                  fontWeight: 500, 
+                                  fontSize: '14px', 
+                                  color: '#2B2B2B',
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                  whiteSpace: 'nowrap'
+                                }}>
+                                  {order.occasion || 'Custom Order'}
+                                </p>
+                                <p style={{ fontFamily: 'Open Sans', fontSize: '12px', color: '#5A3825', opacity: 0.7, marginTop: '2px' }}>
+                                  {formatDate(order.createdAt)} · Order #{order.id}
+                                </p>
+                              </div>
+                            </div>
+                            <Badge 
+                              style={{ 
+                                backgroundColor: order.status === 'completed' ? '#22C55E20' : 
+                                               order.status === 'cancelled' ? '#EF444420' : 
+                                               order.status === 'ready' ? '#10B98120' :
+                                               order.status === 'preparing' ? '#3B82F620' : '#F59E0B20',
+                                color: order.status === 'completed' ? '#22C55E' :
+                                      order.status === 'cancelled' ? '#EF4444' :
+                                      order.status === 'ready' ? '#10B981' :
+                                      order.status === 'preparing' ? '#3B82F6' : '#F59E0B',
+                                fontFamily: 'Poppins',
+                                fontSize: '11px',
+                                fontWeight: 600,
+                                border: 'none',
+                                textTransform: 'capitalize'
+                              }}
+                            >
+                              {order.status}
+                            </Badge>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="text-center py-12">
+                          <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(196, 69, 105, 0.1)' }}>
+                            <ShoppingBag size={24} color="#C44569" style={{ opacity: 0.5 }} />
+                          </div>
+                          <p style={{ fontFamily: 'Poppins', fontSize: '15px', color: '#5A3825', opacity: 0.7 }}>
+                            No orders yet
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  
+                  {/* Enhancement #35: Admin Notes */}
+                  <div>
+                    <h3 style={{ 
+                      fontFamily: 'Poppins', 
+                      fontWeight: 600, 
+                      fontSize: '15px', 
+                      color: '#2B2B2B', 
+                      marginBottom: '12px',
+                      letterSpacing: '-0.01em'
+                    }}>
+                      📝 Internal Notes
+                    </h3>
+                    <div className="p-4 rounded-lg" style={{ backgroundColor: 'rgba(196, 69, 105, 0.05)', border: '1px solid rgba(196, 69, 105, 0.1)' }}>
+                      {selectedCustomer.adminNotes ? (
+                        <p style={{ fontFamily: 'Open Sans', fontSize: '14px', color: '#2B2B2B', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+                          {selectedCustomer.adminNotes}
+                        </p>
+                      ) : (
+                        <p style={{ fontFamily: 'Open Sans', fontSize: '13px', color: '#5A3825', opacity: 0.5, fontStyle: 'italic' }}>
+                          No admin notes for this customer
+                        </p>
+                      )}
+                    </div>
+                    {selectedCustomer.lastModifiedBy && (
+                      <p style={{ fontFamily: 'Open Sans', fontSize: '11px', color: '#5A3825', opacity: 0.6, marginTop: '8px' }}>
+                        Last modified by: {selectedCustomer.lastModifiedBy}
+                      </p>
                     )}
                   </div>
-                </div>
-                
-                {/* Enhancement #35: Admin Notes */}
-                <div>
-                  <h3 style={{ 
-                    fontFamily: 'Poppins', 
-                    fontWeight: 600, 
-                    fontSize: '15px', 
-                    color: '#2B2B2B', 
-                    marginBottom: '12px',
-                    letterSpacing: '-0.01em'
-                  }}>
-                    📝 Internal Notes
-                  </h3>
-                  <div className="p-4 rounded-lg" style={{ backgroundColor: 'rgba(196, 69, 105, 0.05)', border: '1px solid rgba(196, 69, 105, 0.1)' }}>
-                    {selectedCustomer.adminNotes ? (
-                      <p style={{ fontFamily: 'Open Sans', fontSize: '14px', color: '#2B2B2B', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
-                        {selectedCustomer.adminNotes}
-                      </p>
-                    ) : (
-                      <p style={{ fontFamily: 'Open Sans', fontSize: '13px', color: '#5A3825', opacity: 0.5, fontStyle: 'italic' }}>
-                        No admin notes for this customer
-                      </p>
-                    )}
-                  </div>
-                  {selectedCustomer.lastModifiedBy && (
-                    <p style={{ fontFamily: 'Open Sans', fontSize: '11px', color: '#5A3825', opacity: 0.6, marginTop: '8px' }}>
-                      Last modified by: {selectedCustomer.lastModifiedBy}
-                    </p>
-                  )}
                 </div>
               </div>
-            )}
-          </div>
+            </>
+          ) : null}
         </DialogContent>
       </Dialog>
     </div>
