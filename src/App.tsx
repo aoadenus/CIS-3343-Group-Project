@@ -11,6 +11,7 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 import { PublicHome } from './pages/public/Home';
 import { Shop } from './pages/public/Shop';
 import { Builder } from './pages/public/Builder';
+import { OrderReview } from './pages/public/OrderReview';
 import { Gallery } from './pages/public/Gallery';
 import { About } from './pages/public/About';
 import { Contact } from './pages/public/Contact';
@@ -84,7 +85,9 @@ export default function App() {
       case 'shop':
         return <Shop onNavigate={handlePublicNavigate} />;
       case 'builder':
-        return <Builder />;
+        return <Builder onNavigate={handlePublicNavigate} />;
+      case 'order-review':
+        return <OrderReview onNavigate={handlePublicNavigate} onBack={() => setActivePage('builder')} />;
       case 'gallery':
         return <Gallery />;
       case 'about':
