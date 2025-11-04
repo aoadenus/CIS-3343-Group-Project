@@ -58,7 +58,8 @@ export const orders = pgTable('orders', {
   flavor: varchar('flavor', { length: 100 }), // Legacy single flavor (for shop orders)
   design: varchar('design', { length: 100 }),
   servings: integer('servings'),
-  additionalNotes: text('additional_notes'),
+  additionalNotes: text('additional_notes'), // Customer-provided notes/special requests
+  adminNotes: text('admin_notes'), // Internal management notes (not visible to customer)
   
   // NEW: Layer-by-layer customization (unlimited layers)
   layers: text('layers'), // JSON array: [{ flavor, fillings: [], notes }]

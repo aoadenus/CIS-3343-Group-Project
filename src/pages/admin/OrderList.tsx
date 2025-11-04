@@ -34,9 +34,8 @@ import {
   Loader2,
   X,
   PackageSearch,
-  FileDown,
-  AlertCircle,
-  Clock
+  Clock,
+  Plus
 } from 'lucide-react';
 import { useToast } from '../../components/ToastContext';
 import type { CakeLayer } from '../../../shared/schema';
@@ -68,7 +67,11 @@ interface Order {
   cancelledAt: string | null;
 }
 
-export function OrderList() {
+interface OrderListProps {
+  onNavigate?: (page: string) => void;
+}
+
+export function OrderList({ onNavigate }: OrderListProps = {}) {
   const { showToast } = useToast();
   const [orders, setOrders] = useState<Order[]>([]);
   const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
@@ -385,25 +388,44 @@ export function OrderList() {
             Complete order list and tracking
           </p>
         </div>
-        <Button 
-          variant="outline"
-          onClick={handleExportOrders}
-          className="hover:scale-105 active:scale-95 transition-all duration-200"
-          style={{ 
-            borderRadius: '10px', 
-            borderWidth: '2px',
-            borderColor: 'rgba(90, 56, 37, 0.2)', 
-            color: '#5A3825',
-            height: '48px',
-            paddingLeft: '20px',
-            paddingRight: '20px',
-            fontFamily: 'Poppins',
-            fontWeight: 500
-          }}
-        >
-          <Download size={16} className="mr-2" />
-          Export CSV
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            onClick={() => onNavigate && onNavigate('order-create')}
+            className="hover:scale-105 active:scale-95 transition-all duration-200"
+            style={{ 
+              borderRadius: '10px', 
+              background: '#C44569',
+              color: '#FFFFFF',
+              height: '48px',
+              paddingLeft: '20px',
+              paddingRight: '20px',
+              fontFamily: 'Poppins',
+              fontWeight: 600
+            }}
+          >
+            <Plus size={18} className="mr-2" />
+            Create Order
+          </Button>
+          <Button 
+            variant="outline"
+            onClick={handleExportOrders}
+            className="hover:scale-105 active:scale-95 transition-all duration-200"
+            style={{ 
+              borderRadius: '10px', 
+              borderWidth: '2px',
+              borderColor: 'rgba(90, 56, 37, 0.2)', 
+              color: '#5A3825',
+              height: '48px',
+              paddingLeft: '20px',
+              paddingRight: '20px',
+              fontFamily: 'Poppins',
+              fontWeight: 500
+            }}
+          >
+            <Download size={16} className="mr-2" />
+            Export CSV
+          </Button>
+        </div>
       </motion.div>
 
       {/* Filters */}

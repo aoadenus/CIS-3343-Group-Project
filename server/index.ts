@@ -215,10 +215,14 @@ app.get('/api/orders/:id', async (req, res) => {
   }
 });
 
-// Create order from custom builder
+// Create order from custom builder (frontend) or admin order form (backend)
 app.post('/api/orders/custom', async (req, res) => {
   try {
-    const { name, email, phone, occasion, flavor, design, servings, date, message, notes, inspirationImages, layers } = req.body;
+    const { 
+      name, email, phone, occasion, flavor, design, servings, date, message, notes, inspirationImages, layers,
+      // Admin-specific fields
+      customerId, adminNotes, status, priority, depositAmount, paymentStatus, totalAmount, createdBy
+    } = req.body;
     
     // Validate required fields (support both legacy single flavor and new layer system)
     if (!name || !email || !occasion || !design) {
@@ -246,8 +250,22 @@ app.post('/api/orders/custom', async (req, res) => {
       return res.status(400).json({ error: 'Either flavor or layers must be provided' });
     }
     
-    // Find or create customer
-    const customer = await storage.findOrCreateCustomer({ name, email, phone });
+    // Find or create customer (admin can provide customerId directly)
+    let customer;
+    if (customerId) {
+      // Admin order: use existing customer
+      customer = await storage.getCustomerById(customerId);
+      if (!customer) {
+        return res.status(404).json({ error: 'Customer not found' });
+      }
+    } else {
+      // Public order: find or create customer
+      customer = await storage.findOrCreateCustomer({ name, email, phone });
+    }
+    
+    // Calculate deposit if total is provided (admin orders)
+    const calculatedDepositRequired = totalAmount ? Math.ceil(totalAmount * 0.5) : null;
+    const finalDepositAmount = depositAmount || calculatedDepositRequired;
     
     // Create order
     const orderData: NewOrder = {
@@ -259,11 +277,18 @@ app.post('/api/orders/custom', async (req, res) => {
       servings: servings ? parseInt(servings) : null,
       eventDate: date ? new Date(date) : null,
       message,
-      additionalNotes: notes,
+      additionalNotes: notes || null, // Customer notes
+      adminNotes: adminNotes || null, // Admin/management notes (separate field)
       inspirationImages: inspirationImages ? JSON.stringify(inspirationImages) : null,
       layers: layers ? JSON.stringify(layers) : null,
-      status: 'pending',
-      priority: 'medium',
+      status: status || 'pending', // Admin can set initial status
+      priority: priority || 'medium', // Admin can set priority
+      totalAmount: totalAmount || null, // Admin provides calculated total
+      depositRequired: calculatedDepositRequired,
+      depositAmount: finalDepositAmount,
+      paymentStatus: paymentStatus || 'pending',
+      depositMet: paymentStatus === 'paid' || paymentStatus === 'partial',
+      lastModifiedBy: createdBy || 'system',
     };
     
     const order = await storage.createOrder(orderData);

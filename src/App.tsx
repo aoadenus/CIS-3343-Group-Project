@@ -21,6 +21,7 @@ import { Login } from './pages/admin/Login';
 import { AdminDashboard } from './pages/admin/Dashboard';
 import { OrderBoard } from './pages/admin/OrderBoard';
 import { OrderList } from './pages/admin/OrderList';
+import { OrderCreate } from './pages/admin/OrderCreate';
 import { AdminProducts } from './pages/admin/Products';
 import { Inquiries } from './pages/admin/Inquiries';
 import { Orders } from './pages/Orders';
@@ -108,7 +109,9 @@ export default function App() {
       case 'fulfillment-board':
         return <OrderBoard />;
       case 'order-management':
-        return <OrderList />;
+        return <OrderList onNavigate={setActivePage} />;
+      case 'order-create':
+        return <OrderCreate onBack={() => setActivePage('order-management')} />;
       case 'inquiry-management':
         return <Inquiries />;
       case 'inventory-management':
@@ -127,7 +130,7 @@ export default function App() {
       case 'order-board':
         return <OrderBoard />;
       case 'order-list':
-        return <OrderList />;
+        return <OrderList onNavigate={setActivePage} />;
       case 'inquiries':
         return <Inquiries />;
       case 'products-new':
