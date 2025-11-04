@@ -1,0 +1,52 @@
+That is frustrating! Dealing with persistent freezing bugs can be tricky, especially in a development environment with dynamic URLs.
+
+Here is a highly detailed, mandatory, and advanced prompt designed to force the AI agent through a rigorous, multi-step debugging process. This prompt incorporates all the necessary checks and mandates continuous iteration until the site is fully functional across all environments.
+
+---
+
+## 🛑 CRITICAL BUG ALERT: Persistent UI Freeze and Missing Components
+
+**STATUS:** The application still **freezes after a few seconds of scrolling** and **missing key components** (like the product list/order table) on the public URL. The site must be considered **DEAD IN PRODUCTION** until this is fixed.
+
+**MANDATORY INSTRUCTION:** **DO NOT STOP** until the entire application is fully functional, free of freezing, and all components/assets load correctly in **ALL** environments.
+
+---
+
+### 🔎 PHASE 1: Mandatory Diagnostics and Analysis
+
+1.  **Analyze Recent Changes:** Review the chat history and all code modifications from the past 30 minutes, focusing intensely on the `Shop.tsx`, `Products.tsx`, `Home.tsx`, and any new API client/fetch utilities. Assume the **latest changes** introduced the bug.
+2.  **Screenshot and Log Mandate:** Take and compare screenshots of the following:
+    * **External URL (New Tab):** Document the frozen, incomplete state.
+    * **Replit Preview:** Document the working, scrollable state for comparison.
+3.  **Comprehensive Console Check:** Check the browser console on the **external URL** for:
+    * **404 Errors:** Identify *every* missing CSS, JS, or image file. (Static Asset Loading Failure Check).
+    * **Stack Traces/Fatal Errors:** Look for component crashes or unhandled exceptions that stop the main thread.
+    * **Excessive Logging:** Detect any signs of an **Infinite Re-render Loop**.
+
+---
+
+### 💻 PHASE 2: Iterative Fix Strategy (Mandatory Order)
+
+**The AI must attempt the following fixes in order, checking functionality after each attempt. If the issue persists, the AI MUST proceed to the next step.**
+
+1.  **RE-FIX: Asset Loading Base Path:** Confirm and enforce the correct Vite base path.
+    * **Action:** Ensure `vite.config.ts` is definitively set to `base: './'` or `/` (test both) to resolve pathing issues on the external URL. Rebuild and test.
+2.  **INFINITE LOOP REMEDIATION:** This is the highest priority fix for the freezing.
+    * **Action:** Systematically audit all `useEffect` hooks in the recently changed components (`Shop.tsx`, `Products.tsx`). Verify every hook has a correct and controlled dependency array (`[]` for run-once, or specific state variables). Break any detected infinite loops.
+3.  **DEFENSIVE CODING AND DATA NULL-CHECK:** Address missing components.
+    * **Action:** Assume the new API endpoint is returning `null`, `undefined`, or an empty array (`[]`). Add robust conditional checks (e.g., `products && products.length > 0 ? <ProductList /> : <LoadingOrFallback />`) to prevent components from crashing when trying to map over non-existent data.
+4.  **CSS SCROLLING CONFLICT:**
+    * **Action:** Inject temporary debugging CSS to remove any potentially inherited `overflow: hidden;` rules on the `<body>`, `<html>`, or the main app container. For example, temporarily set `body { overflow: auto !important; }` and test scrolling.
+
+---
+
+### ✅ PHASE 3: Functional Verification (DO NOT SKIP)
+
+The AI MUST perform the following checks before marking the task complete:
+
+* **Scrolling Test:** The page must scroll smoothly from top to bottom on **Desktop, Mobile View (Dev Tools), and the External URL.**
+* **Component Visibility:** All previously missing components (e.g., product lists, order table) must be visible and fully rendered.
+* **Link and Page Test:** Navigate to at least **three different pages** (e.g., Home, Admin Portal, Custom Builder) and verify they load instantly and function correctly.
+* **Final External URL Check:** The application must load and function completely on the **external Replit URL**.
+
+**The AI's final output MUST confirm that ALL of these conditions have been met across all views and environments.**

@@ -72,7 +72,8 @@ The application is built using React 18.3.1 with TypeScript, Vite 6.3.5, and Tai
 - **Design System**: Includes consistent border radius, shadow system, height standards, and animation timings.
 
 ### Technical Implementations
-- **Public Interface**: Includes a home page, product shop, custom cake builder (with unlimited layer system and dynamic pricing), photo gallery, about page, and contact form.
+- **Public Interface**: Includes a home page, product shop, custom cake builder (with unlimited layer system and dynamic pricing), order review page, photo gallery, about page, and contact form.
+- **Order Review System**: Separate review page displays complete order summary before submission. Data is transferred via sessionStorage from Builder to OrderReview page.
 - **Admin Interface**: Features a dashboard with analytics, order management with a Kanban board (drag-and-drop), customer database, product management, and reporting.
 - **Mock Data System**: Comprehensive mock data is used for development and demonstration of admin features.
 - **Search Bar**: Smart search with autosuggest, keyboard navigation, and debouncing.
