@@ -1,0 +1,51 @@
+Proposals AI Can Create for Your CIS 3343 Group Project
+
+1. Backend Modernization Plan (Focused on CIS 3343 Specs)
+
+Goal: Upgrade the backend codebase for the GitHub-hosted CIS 3343 prototype, ensuring code is reusable, consistent, and testable.
+
+Steps:
+
+Examine the current Node.js/Express backend and PostgreSQL schema.
+
+Identify database improvements, like separating product options into flexible, normalized tables (for cakes, flavors, etc.).
+
+Refactor the backend API (add endpoints for complete CRUD—Create, Read, Update, Delete—for employees, customers, and orders).
+
+Add robust input validation and enforce all business and assignment rules (e.g., only valid customer types, enforce relationships between orders and users).
+
+Write automated tests using real and mock data to verify all changes before deployment.
+
+Jargon explained:
+
+CRUD: Operations that let you Create, Read, Update, and Delete entries in your database.
+
+Input validation: Checking that all data entering your system is clean, correct, and safe.
+
+2. Frontend-Backend Sync Plan (Within Design-Locked Rules)
+
+Goal: Enhance backend while keeping customer-facing pages (nav bar, homepage, menu, shop, custom builder, gallery) locked as required by CIS 3343 process.
+
+Steps:
+
+Implement APIs so that the shop and builder pages always load catalog/product info dynamically from the backend—do not hardcode options.
+
+Document API data contracts so the frontend (even when locked) always matches the backend (“single source of truth”).
+
+Use JSON schemas and Swagger/OpenAPI documentation for technical clarity.
+
+Why? Ensures design consistency—frontend always matches real-time backend inventory.
+
+3. Full Role-Based Back-End Interfaces Proposal
+
+Goal: Add dashboards for each user type (baker, accountant, manager), backed by the same API but with role-based permissions.
+
+Steps:
+
+Use a “role” field in the PostgreSQL employee table to track who has access to what features.
+
+Set up permission “middleware” in Express.js—checking user roles before any sensitive API route runs.
+
+Provide technical wireframes/prototypes in Canva or Figma for internal documentation (these do not alter locked customer interfaces).
+
+Example: Bakers see a simplified queue and update statuses; accountants manage payments; managers see reports.
