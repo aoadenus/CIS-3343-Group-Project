@@ -65,6 +65,19 @@ export default function App() {
     }
   };
 
+  // Decode JWT to get user name
+  const getUserName = (): string => {
+    const token = localStorage.getItem('token');
+    if (!token) return 'Guest User';
+    
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.name || 'Guest User';
+    } catch {
+      return 'Guest User';
+    }
+  };
+
   useEffect(() => {
     console.log('🌐 Emily Bakes Cakes - Loaded');
     
@@ -291,6 +304,8 @@ export default function App() {
                 activePage={activePage}
                 onNavigate={setActivePage}
                 onLogout={handleLogout}
+                userName={getUserName()}
+                userRole={getUserRole()}
               >
                 <div className="light-theme">
                   <AnimatePresence mode="wait">

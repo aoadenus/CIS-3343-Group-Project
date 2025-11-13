@@ -1,0 +1,498 @@
+SECTION 1 — Emily Bakes Cakes Standard Menu (Case Study Accurate)
+Standard Cakes
+
+
+Birthday Celebration
+
+
+Almond Delight
+
+
+Lemon & Cream Cheese
+
+
+Black Forest
+
+
+German Chocolate
+
+
+Cream Cheese Chocolate
+
+
+Italian Cream
+
+
+Lemon Doberge
+
+
+Chocolate Doberge
+
+
+½ & ½ Doberge (Lemon + Chocolate)
+
+
+Pecan Praline Cream Cheese
+
+
+Chocolate Banana
+
+
+Strawberry Delight
+
+
+Cookies & Cream Cake
+
+
+
+Cake Flavors
+
+
+Vanilla
+
+
+Almond
+
+
+Yellow
+
+
+Devil’s Food Chocolate
+
+
+Chocolate
+
+
+Strawberry
+
+
+
+Filling Flavors
+
+
+White Buttercream
+
+
+Chocolate Buttercream
+
+
+Almond Buttercream
+
+
+Cream Cheese
+
+
+Lemon Curd
+
+
+Strawberry
+
+
+Raspberry
+
+
+Rum-Strawberry
+
+
+Pecan Praline
+
+
+Chocolate Mousse
+
+
+Lemon Mousse
+
+
+Strawberry Mousse
+
+
+Raspberry Mousse
+
+
+White Chocolate Mousse
+
+
+Mango Mousse
+
+
+(Per case study: each layer may have no filling, one filling, or two layers of the same filling.)
+
+Icing Flavors
+
+
+White Buttercream
+
+
+Chocolate Buttercream
+
+
+Almond Buttercream
+
+
+White Chocolate Buttercream
+
+
+Cream Cheese
+
+
+Chocolate Ganache
+
+
+
+Cake Sizes
+
+
+6" Round Double Layer — $20
+
+
+8" Round Double Layer — $30
+
+
+10" Round Double Layer — $60
+
+
+12" Round Double Layer — $100
+
+
+14" Round Double Layer — $140
+
+
+16" Round Double Layer — $180
+
+
+¼ Sheet — $40
+
+
+½ Sheet — $100
+
+
+Full Sheet — $200
+
+
+
+Decorations
+
+
+Buttercream Flowers
+
+
+Fondant Decorations
+
+
+Silk Flowers (Iris, Rose, Daisy, Lily)
+
+
+Silk Butterflies
+
+
+Edible Sugar-Based Photos
+
+
+Toys (Trains, Dinosaurs, Race Cars, etc.)
+
+
+Plastic Decorations (Sports Equipment, Graduation Caps, Baby Items)
+
+
+Paper Parasols
+
+
+Plastic Pics (Flamingos, Mermaids, Seashells)
+
+
+Flags
+
+
+Ribbons (Multiple Colors)
+
+
+Plastic Trees, Animals, Camping Sets
+
+
+Rock Candy
+
+
+Plastic Star Explosion Insert
+
+
+
+SECTION 2 — Color Chart With Color Boxes + HEX Codes
+(Color boxes simulated with colored squares)
+
+PRIMARY COLORS
+🟥 Red — #FF0000
+🟦 Royal Blue — #0033A0
+🟩 Green — #008000
+🟨 Yellow — #FFFF00
+🟧 Orange — #FF7F00
+
+PASTEL COLORS
+🩷 Baby Pink — #F4C2C2
+🩵 Baby Blue — #A7D3F3
+🟩 Pastel Green — #B5E5B5
+🟨 Pastel Yellow — #FFF9A6
+🟪 Lavender — #C8A2C8
+
+NEON COLORS
+💗 Hot Pink — #FF69B4
+🔵 Sky Blue — #0096FF
+🟢 Neon Green — #39FF14
+💛 Neon Yellow — #E6FF00
+🟧 Neon Orange — #FF5F1F
+🟣 Purple — #6A0DAD
+
+FALL COLORS
+🟥 Fall Red — #8B0000
+🟩 Fall Green — #4F7942
+🟨 Fall Yellow — #F2AF34
+🟧 Fall Orange — #D35400
+🟫 Brown — #7B3F00
+
+EXTRA COLORS
+⚪ Ivory — #FFF8E7
+💛 Golden Yellow — #FFDF00
+🟨 Gold — #FFD700
+🌸 Fuchsia — #FF00FF
+🟥 Maroon — #800000
+🟥 Burgundy — #800020
+🟧 Burnt Orange — #CC5500
+🟦 Turquoise — #40E0D0
+🔵 Navy Blue — #000080
+⚪ Gray / Silver — #C0C0C0
+⚫ Black — #000000
+⚪ White — #FFFFFF
+
+SECTION 3 — FULL CUSTOM ORDER FORM (ADMIN SIDE)
+Designed to fit:
+✔ Case Study Rules
+✔ Staff workflow
+✔ Your prototype UI
+✔ Your drop-down logic
+✔ Inspo image upload
+✔ No “Occasion” (correct)
+
+CUSTOM CAKE ORDER FORM (ADMIN)
+
+1. Customer Information
+Customer:
+[Dropdown: Select Existing Customer]
+or
+[Button: Add New Customer]
+Phone Number:
+Email:
+Customer Type: Retail | Corporate
+Preferred Customer: Yes | No
+Corporate Location (if applicable):
+
+2. Pickup Information
+Order Date: Auto-filled
+Pickup Date: Calendar Input
+(Enforced: 2 days ahead unless Manager override)
+
+3. Product Selection
+Product Type:
+
+
+Cake
+
+
+Cupcakes
+
+
+Cookies
+
+
+Pastries
+
+
+Petit Fours
+
+
+Seasonal Product
+
+
+Standard Cake (Optional):
+[Dropdown with full standard menu]
+
+4. Cake Size
+[Dropdown]
+
+
+6” Round — $20
+
+
+8” Round — $30
+
+
+10” Round — $60
+
+
+12” Round — $100
+
+
+14” Round — $140
+
+
+16” Round — $180
+
+
+¼ Sheet — $40
+
+
+½ Sheet — $100
+
+
+Full Sheet — $200
+
+
+
+5. Layers & Fillings
+Number of Layers:
+[Dropdown: 2, 3, or 4]
+(Minimum 2 per case study)
+Layer 1 Filling:
+[Dropdown: All filling flavors]
+Layer 2 Filling:
+[Dropdown: All filling flavors]
+Layer 3 Filling (if applicable):
+Layer 4 Filling (if applicable):
+(System verifies no more than 2 layers of same filling.)
+
+6. Cake Flavor
+[Dropdown]
+
+
+Vanilla
+
+
+Almond
+
+
+Yellow
+
+
+Devil’s Food Chocolate
+
+
+Chocolate
+
+
+Strawberry
+
+
+
+7. Icing Flavor
+[Dropdown]
+
+
+White Buttercream
+
+
+Chocolate Buttercream
+
+
+Almond Buttercream
+
+
+Cream Cheese
+
+
+White Chocolate Buttercream
+
+
+Chocolate Ganache
+
+
+
+8. Icing & Writing Colors
+Icing Color:
+[Dropdown using HEX list above, display swatch next to each color]
+Writing Color:
+[Dropdown with same swatches]
+
+9. Decorations
+[Multi-select checkboxes]
+
+
+Buttercream Flowers
+
+
+Fondant Decorations
+
+
+Silk Flowers
+
+
+Edible Photo (Upload below)
+
+
+Ribbons (Color Dropdown)
+
+
+Toys
+
+
+Plastic Decorations
+
+
+Flags
+
+
+Paper Parasols
+
+
+Other (Text Input)
+
+
+
+10. Add Inspo Images
+(Per case study: customers may provide images)
+Upload Inspo Photo(s):
+[ Upload Button ]
+[ Add Another File ]
+Preview shows thumbnail + delete option.
+
+11. Writing on Cake (Optional)
+Message to Write:
+[Textbox]
+
+12. Pricing & Payment
+Quoted Price:
+[ Staff Input ]
+Required Deposit (50% Auto): Auto-calculated
+Deposit Paid:
+[Input]
+Payment Method:
+
+
+Cash
+
+
+Debit
+
+
+Credit
+
+
+
+13. Status
+Initial Status: New (Locked for Sales Staff)
+Bakers / Decorators will later update:
+Pending → In Baking → In Decorating → Completed → Ready for Pickup
+
+14. Staff Notes
+Internal Notes for Bakers/Decorators:
+[Textarea]
+
+15. Submit
+[ Create Order ]
+Gold Button (#FFD700) with Black Text
+
+If you want, I can also:
+✔ Generate the React/HTML version of this form
+✔ Produce a JSON data structure for developers
+✔ Create the database table layout for this form
+✔ Build the matching DFD (Level 0 + 1)
+✔ Build the updated ERD with all fields
+✔ Generate a printable PDF version
+Just tell me what you want next!

@@ -22,6 +22,8 @@ interface AdminLayoutProps {
   activePage: string;
   onNavigate: (page: string) => void;
   onLogout: () => void;
+  userName?: string;
+  userRole?: string;
 }
 
 // Professional OMS Navigation Structure
@@ -36,9 +38,22 @@ const navItems = [
   { id: 'system-configuration', label: 'Settings', icon: SettingsIcon, description: 'System Configuration' },
 ];
 
-export function AdminLayout({ children, activePage, onNavigate, onLogout }: AdminLayoutProps) {
+export function AdminLayout({ children, activePage, onNavigate, onLogout, userName, userRole }: AdminLayoutProps) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const getInitials = (name: string) => {
+    const parts = name.split(' ');
+    return parts.map(p => p[0]).join('').toUpperCase().substring(0, 2);
+  };
+
+  const formatRole = (role: string) => {
+    return role.charAt(0).toUpperCase() + role.slice(1);
+  };
+
+  const displayName = userName || 'Emily Baker';
+  const displayRole = userRole ? formatRole(userRole) : 'Administrator';
+  const initials = getInitials(displayName);
 
   return (
     <div className="h-screen overflow-hidden flex flex-col" style={{ background: '#F8EBD7' }}>
@@ -95,7 +110,7 @@ export function AdminLayout({ children, activePage, onNavigate, onLogout }: Admi
                 border: '2px solid rgba(255, 255, 255, 0.2)'
               }}
             >
-              <span style={{ color: '#FFFFFF', fontWeight: 600, fontSize: '14px' }}>EB</span>
+              <span style={{ color: '#FFFFFF', fontWeight: 600, fontSize: '14px' }}>{initials}</span>
             </div>
             <div className="hidden lg:block">
               <p style={{ 
@@ -104,14 +119,14 @@ export function AdminLayout({ children, activePage, onNavigate, onLogout }: Admi
                 color: '#FFFFFF',
                 fontFamily: 'Poppins, sans-serif'
               }}>
-                Emily Baker
+                {displayName}
               </p>
               <p style={{ 
                 fontSize: '12px', 
                 color: 'rgba(255, 255, 255, 0.6)',
                 fontFamily: 'Open Sans, sans-serif'
               }}>
-                Administrator
+                {displayRole}
               </p>
             </div>
           </div>
