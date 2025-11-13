@@ -219,6 +219,39 @@ export async function updateOrder(id: number, data: Partial<NewOrder>) {
   return updated;
 }
 
+// Get order by tracking token (public endpoint - limited fields)
+export async function getOrderByTrackingToken(token: string) {
+  const result = await db
+    .select({
+      id: orders.id,
+      status: orders.status,
+      trackingToken: orders.trackingToken,
+      customerName: customers.name,
+      customerEmail: customers.email,
+      customerPhone: customers.phone,
+      eventDate: orders.eventDate,
+      totalAmount: orders.totalAmount,
+      depositAmount: orders.depositAmount,
+      balanceDue: orders.balanceDue,
+      depositRequired: orders.depositRequired,
+      depositMet: orders.depositMet,
+      paymentStatus: orders.paymentStatus,
+      createdAt: orders.createdAt,
+      updatedAt: orders.updatedAt,
+    })
+    .from(orders)
+    .leftJoin(customers, eq(orders.customerId, customers.id))
+    .where(
+      and(
+        eq(orders.trackingToken, token),
+        isNull(orders.deletedAt)
+      )
+    )
+    .limit(1);
+
+  return result[0] || null;
+}
+
 // ============ INQUIRIES ============
 
 export async function createInquiry(data: NewInquiry) {

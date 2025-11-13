@@ -249,6 +249,55 @@ app.get('/api/orders', async (req, res) => {
   }
 });
 
+// Public order tracking endpoint (no authentication required)
+app.get('/api/orders/track/:token', async (req, res) => {
+  try {
+    const { token } = req.params;
+    
+    if (!token || token.trim().length === 0) {
+      return res.status(400).json({ error: 'Tracking token is required' });
+    }
+    
+    const orderData = await storage.getOrderByTrackingToken(token.trim());
+    
+    if (!orderData) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    
+    // Transform to DTO structure
+    const response = {
+      id: orderData.id,
+      status: orderData.status,
+      trackingToken: orderData.trackingToken,
+      customer: {
+        name: orderData.customerName,
+        email: orderData.customerEmail,
+        phone: orderData.customerPhone,
+      },
+      fulfillment: {
+        eventDate: orderData.eventDate,
+      },
+      payment: {
+        totalAmount: orderData.totalAmount,
+        depositAmount: orderData.depositAmount,
+        balanceDue: orderData.balanceDue,
+        depositRequired: orderData.depositRequired,
+        depositMet: orderData.depositMet,
+        paymentStatus: orderData.paymentStatus,
+      },
+      metadata: {
+        createdAt: orderData.createdAt,
+        updatedAt: orderData.updatedAt,
+      },
+    };
+    
+    res.json(response);
+  } catch (error) {
+    console.error('Error tracking order:', error);
+    res.status(500).json({ error: 'Failed to track order' });
+  }
+});
+
 app.get('/api/orders/:id', async (req, res) => {
   try {
     const id = parseInt(req.params.id);
