@@ -21,6 +21,7 @@ import { Textarea } from '../../components/ui/textarea';
 import { Checkbox } from '../../components/ui/checkbox';
 import { useToast } from '../../components/ToastContext';
 import { LayerBuilder } from '../../components/LayerBuilder';
+import { AdminBreadcrumbs } from '../../components/AdminBreadcrumbs';
 import { 
   standardCakes,
   cakeSizes,
@@ -104,15 +105,18 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
     { id: 'layer-2', flavor: '', fillings: [], icing: '', notes: '' }
   ]);
   
-  // Rush order detection effect
+  // Rush order detection effect - recomputes on EVERY eventDate change
   useEffect(() => {
     if (formData.eventDate) {
       const eventDate = new Date(formData.eventDate);
       const rushStatus = isRushOrder(eventDate);
       setIsRush(rushStatus);
-      if (!rushStatus) {
-        setManagerApproval(false); // Reset approval if not rush
-      }
+      // Always reset manager approval when date changes to require re-approval
+      setManagerApproval(false);
+    } else {
+      // Reset rush flags when eventDate is cleared
+      setIsRush(false);
+      setManagerApproval(false);
     }
   }, [formData.eventDate]);
 
@@ -165,13 +169,14 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
     }
   };
 
-  // Calculate totals based on cake size
+  // Calculate totals based on cake size (returns cents)
   const calculateTotal = () => {
     if (cakeType === 'standard') {
-      // For standard cakes, use standard cake base price + size adjustment
+      // For standard cakes, ADD base cake price + size price
       const standardCake = standardCakes.find(c => c.id === selectedStandardCake);
+      const standardCakeBasePrice = standardCake?.basePrice ? standardCake.basePrice * 100 : 0;
       const sizePrice = calculateSizeBasedPrice(selectedCakeSize);
-      return sizePrice || (standardCake?.basePrice || 0);
+      return standardCakeBasePrice + sizePrice;
     } else {
       // For custom cakes, use size as base price
       const sizePrice = calculateSizeBasedPrice(selectedCakeSize);
@@ -179,8 +184,8 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
     }
   };
   
-  const totalAmount = calculateTotal();
-  const depositRequired = Math.ceil(totalAmount * 0.5); // 50% deposit
+  const totalAmount = calculateTotal(); // In cents
+  const depositRequired = Math.ceil(totalAmount * 0.5); // 50% deposit in cents
 
   // Toggle icing color selection
   const toggleIcingColor = (colorId: string) => {
@@ -214,14 +219,30 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
     }
 
     if (cakeType === 'custom') {
-      if (layers.length < 2 || !layers[0].flavor || !layers[1].flavor) {
-        showToast('error', 'Please add at least two cake layers with flavors');
+      // Ensure at least 2 layers
+      if (layers.length < 2) {
+        showToast('error', 'Custom cakes must have at least 2 layers');
         return;
       }
-      // Check icing for each layer
+      
+      // Validate ALL layers have flavor (not just first 2)
+      const missingFlavor = layers.some(layer => !layer.flavor);
+      if (missingFlavor) {
+        showToast('error', 'Please select a flavor for all layers');
+        return;
+      }
+      
+      // Validate ALL layers have icing (not just first 2)
       const missingIcing = layers.some(layer => !layer.icing);
       if (missingIcing) {
         showToast('error', 'Please select icing flavor for all layers');
+        return;
+      }
+      
+      // Check maximum 2 fillings per layer (per case study)
+      const tooManyFillings = layers.some(layer => layer.fillings.length > 2);
+      if (tooManyFillings) {
+        showToast('error', 'Each layer can have a maximum of 2 fillings (per case study)');
         return;
       }
     } else {
@@ -267,9 +288,9 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
         adminNotes: formData.adminNotes,
         status: formData.status,
         priority: formData.priority,
-        depositAmount: formData.depositAmount ? parseFloat(formData.depositAmount) * 100 : depositRequired * 100,
+        depositAmount: formData.depositAmount ? parseFloat(formData.depositAmount) * 100 : depositRequired,
         paymentStatus: formData.paymentStatus,
-        totalAmount: totalAmount * 100,
+        totalAmount: totalAmount,
         createdBy: 'admin',
         customerId: selectedCustomer.id
       };
@@ -329,9 +350,37 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
     setOpenSections(prev => ({ ...prev, [section]: !prev[section] }));
   };
 
+  // Handle cake type change with state reset to prevent pollution
+  const handleCakeTypeChange = (type: 'standard' | 'custom') => {
+    setCakeType(type);
+    
+    if (type === 'standard') {
+      // Clear custom cake data
+      setSelectedStandardCake('');
+      // Reset to 2 blank layers with fresh IDs
+      setLayers([
+        { id: `layer-${Date.now()}-1`, flavor: '', fillings: [], icing: '', notes: '' },
+        { id: `layer-${Date.now()}-2`, flavor: '', fillings: [], icing: '', notes: '' }
+      ]);
+    } else {
+      // Switching TO custom - also reset with FRESH IDs
+      setSelectedStandardCake('');
+      setLayers([
+        { id: `layer-${Date.now()}-1`, flavor: '', fillings: [], icing: '', notes: '' },
+        { id: `layer-${Date.now()}-2`, flavor: '', fillings: [], icing: '', notes: '' }
+      ]);
+    }
+  };
+
   return (
     <div className="h-full overflow-auto p-6">
       <div className="max-w-5xl mx-auto">
+        {/* Breadcrumbs */}
+        <AdminBreadcrumbs items={[
+          { label: 'Orders', path: '/admin/order-management' },
+          { label: 'Create New Order' }
+        ]} />
+        
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-2">
@@ -610,7 +659,7 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
             <div className="space-y-4">
               <div className="flex gap-4">
                 <button
-                  onClick={() => setCakeType('standard')}
+                  onClick={() => handleCakeTypeChange('standard')}
                   className="flex-1 p-4 rounded-lg border-2 transition-all"
                   style={{
                     borderColor: cakeType === 'standard' ? '#C44569' : '#E0E0E0',
@@ -621,7 +670,7 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
                   <p style={{ fontSize: '13px', color: '#666' }}>Choose from our pre-designed cakes</p>
                 </button>
                 <button
-                  onClick={() => setCakeType('custom')}
+                  onClick={() => handleCakeTypeChange('custom')}
                   className="flex-1 p-4 rounded-lg border-2 transition-all"
                   style={{
                     borderColor: cakeType === 'custom' ? '#C44569' : '#E0E0E0',
@@ -726,7 +775,7 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
           </button>
 
               {openSections.layers && (
-                <LayerBuilder layers={layers} onLayersChange={setLayers} />
+                <LayerBuilder key={cakeType} layers={layers} onLayersChange={setLayers} />
               )}
             </Card>
           )}
@@ -1100,19 +1149,19 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
                 <div>
                   <p style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>Total Amount</p>
                   <p style={{ fontSize: '24px', fontWeight: 700, color: '#2B2B2B' }}>
-                    ${totalAmount.toFixed(2)}
+                    ${(totalAmount / 100).toFixed(2)}
                   </p>
                 </div>
                 <div>
                   <p style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>Deposit Required (50%)</p>
                   <p style={{ fontSize: '24px', fontWeight: 700, color: '#C44569' }}>
-                    ${depositRequired.toFixed(2)}
+                    ${(depositRequired / 100).toFixed(2)}
                   </p>
                 </div>
                 <div>
                   <p style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>Balance Due</p>
                   <p style={{ fontSize: '24px', fontWeight: 700, color: '#666' }}>
-                    ${(totalAmount - depositRequired).toFixed(2)}
+                    ${((totalAmount - depositRequired) / 100).toFixed(2)}
                   </p>
                 </div>
               </div>
@@ -1132,7 +1181,7 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
                     type="number"
                     value={formData.depositAmount}
                     onChange={(e) => setFormData({ ...formData, depositAmount: e.target.value })}
-                    placeholder={depositRequired.toFixed(2)}
+                    placeholder={(depositRequired / 100).toFixed(2)}
                     min="0"
                     step="0.01"
                   />

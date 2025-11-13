@@ -96,36 +96,39 @@ export interface ColorOption {
 }
 
 export const icingColors: ColorOption[] = [
-  // PRIMARY COLORS
+  // PRIMARY COLORS (6 colors)
   { id: 'red', name: 'Red', hex: '#FF0000', category: 'primary' },
   { id: 'royal-blue', name: 'Royal Blue', hex: '#0033A0', category: 'primary' },
   { id: 'green', name: 'Green', hex: '#008000', category: 'primary' },
   { id: 'yellow', name: 'Yellow', hex: '#FFFF00', category: 'primary' },
   { id: 'orange', name: 'Orange', hex: '#FF7F00', category: 'primary' },
+  { id: 'pink', name: 'Pink', hex: '#FFC0CB', category: 'primary' },
   
-  // PASTEL COLORS
+  // PASTEL COLORS (6 colors)
   { id: 'baby-pink', name: 'Baby Pink', hex: '#F4C2C2', category: 'pastel' },
   { id: 'baby-blue', name: 'Baby Blue', hex: '#A7D3F3', category: 'pastel' },
   { id: 'pastel-green', name: 'Pastel Green', hex: '#B5E5B5', category: 'pastel' },
   { id: 'pastel-yellow', name: 'Pastel Yellow', hex: '#FFF9A6', category: 'pastel' },
   { id: 'lavender', name: 'Lavender', hex: '#C8A2C8', category: 'pastel' },
+  { id: 'peach', name: 'Peach', hex: '#FFDAB9', category: 'pastel' },
   
-  // NEON COLORS
+  // NEON COLORS (7 colors)
   { id: 'hot-pink', name: 'Hot Pink', hex: '#FF69B4', category: 'neon' },
   { id: 'sky-blue', name: 'Sky Blue', hex: '#0096FF', category: 'neon' },
   { id: 'neon-green', name: 'Neon Green', hex: '#39FF14', category: 'neon' },
   { id: 'neon-yellow', name: 'Neon Yellow', hex: '#E6FF00', category: 'neon' },
   { id: 'neon-orange', name: 'Neon Orange', hex: '#FF5F1F', category: 'neon' },
   { id: 'purple', name: 'Purple', hex: '#6A0DAD', category: 'neon' },
+  { id: 'lime', name: 'Lime', hex: '#BFFF00', category: 'neon' },
   
-  // FALL COLORS
+  // FALL COLORS (5 colors)
   { id: 'fall-red', name: 'Fall Red', hex: '#8B0000', category: 'fall' },
   { id: 'fall-green', name: 'Fall Green', hex: '#4F7942', category: 'fall' },
   { id: 'fall-yellow', name: 'Fall Yellow', hex: '#F2AF34', category: 'fall' },
   { id: 'fall-orange', name: 'Fall Orange', hex: '#D35400', category: 'fall' },
   { id: 'brown', name: 'Brown', hex: '#7B3F00', category: 'fall' },
   
-  // EXTRA COLORS
+  // EXTRA COLORS (13 colors)
   { id: 'ivory', name: 'Ivory', hex: '#FFF8E7', category: 'extra' },
   { id: 'golden-yellow', name: 'Golden Yellow', hex: '#FFDF00', category: 'extra' },
   { id: 'gold', name: 'Gold', hex: '#FFD700', category: 'extra' },
@@ -134,6 +137,7 @@ export const icingColors: ColorOption[] = [
   { id: 'burgundy', name: 'Burgundy', hex: '#800020', category: 'extra' },
   { id: 'burnt-orange', name: 'Burnt Orange', hex: '#CC5500', category: 'extra' },
   { id: 'turquoise', name: 'Turquoise', hex: '#40E0D0', category: 'extra' },
+  { id: 'teal', name: 'Teal', hex: '#008080', category: 'extra' },
   { id: 'navy-blue', name: 'Navy Blue', hex: '#000080', category: 'extra' },
   { id: 'gray-silver', name: 'Gray / Silver', hex: '#C0C0C0', category: 'extra' },
   { id: 'black', name: 'Black', hex: '#000000', category: 'extra' },
@@ -225,10 +229,11 @@ export function calculateTotalPrice(layers: LayerData[]): number {
 
 /**
  * Calculate total price based on selected cake size
+ * Returns price in cents for consistency with API
  */
 export function calculateSizeBasedPrice(sizeId: string): number {
   const size = cakeSizes.find(s => s.id === sizeId);
-  return size ? size.price / 100 : 0; // Convert cents to dollars
+  return size ? size.price : 0; // Returns cents (e.g., 2000 for $20)
 }
 
 /**
