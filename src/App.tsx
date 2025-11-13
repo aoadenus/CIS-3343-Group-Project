@@ -13,6 +13,7 @@ import { Shop } from './pages/public/Shop';
 import { Gallery } from './pages/public/Gallery';
 import { About } from './pages/public/About';
 import { Contact } from './pages/public/Contact';
+import { TrackOrder } from './pages/public/TrackOrder';
 
 // Admin pages - direct imports
 import { Login } from './pages/admin/Login';
@@ -90,6 +91,8 @@ export default function App() {
         return <About />;
       case 'contact':
         return <Contact />;
+      case 'track':
+        return <TrackOrder />;
       default:
         return <PublicHome onNavigate={handlePublicNavigate} />;
     }
