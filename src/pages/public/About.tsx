@@ -156,7 +156,7 @@ export function About() {
               From Paris to Houston
             </h1>
 
-            <motion.p
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
@@ -188,7 +188,7 @@ export function About() {
                   borderRadius: '2px'
                 }}
               />
-            </motion.p>
+            </motion.div>
 
             <motion.p
               initial={{ opacity: 0 }}

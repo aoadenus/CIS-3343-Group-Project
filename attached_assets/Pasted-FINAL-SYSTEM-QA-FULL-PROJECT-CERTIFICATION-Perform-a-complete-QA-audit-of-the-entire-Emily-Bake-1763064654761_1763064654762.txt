@@ -1,0 +1,86 @@
+FINAL SYSTEM QA – FULL PROJECT CERTIFICATION
+
+Perform a complete QA audit of the entire Emily Bakes Cakes system. Confirm that all functionality, styling, text content, navigation, accessibility, business rules, deliverables, and technical requirements meet the final 4-Tier Implementation Plan.
+
+Verify the following categories:
+
+1. CORE SYSTEM FUNCTIONALITY
+• All pages render without errors on frontend and backend.
+• All routes function on Replit servers.
+• All protected routes require JWT and roles work correctly.
+• All dashboards show correct content for each role (sales, baker, decorator, accountant, manager, owner).
+• Public tracking page loads, auto-cycles 11 stages, and updates smoothly.
+
+2. UI/UX CONSISTENCY
+• Navigation menu matches all page titles exactly.
+• No broken navigation links.
+• All buttons use consistent color scheme and spacing.
+• All icons, headings, and spacing follow a unified design.
+• Page sections align cleanly (mobile + desktop).
+• All modals, dropdowns, and sidebars use standard styling.
+
+3. CONTENT ACCURACY
+• Footer text uses correct business details:
+  Emily Bakes Cakes
+  2847 Westheimer Road
+  Houston, TX 77098
+  (713) 555-CAKE
+  info@emilybakescakes.com
+  © 2025 Emily Bakes Cakes. All rights reserved.
+• “Call, visit, or email to order” message exists on all public pages.
+• No references to online ordering or custom builder for customers.
+
+4. COMPONENT QUALITY
+• All dropdown menus, select fields, inputs, and form elements render correctly.
+• Custom cake builder (admin-only) dropdowns match schema and work smoothly.
+• All filtering tables function without crashes.
+• Date pickers, charts, and filters are responsive.
+
+5. STYLE SYSTEM
+• Color scheme is consistent across all pages.
+• Buttons, forms, spacing, and typography match the shared design system.
+• No mismatched fonts or random styles.
+• No unstyled components.
+
+6. RESPONSIVENESS
+• Test mobile (375px), tablet (768px), and desktop.
+• All dashboards scroll properly.
+• Timeline + progress bar scale on mobile.
+• No horizontal overflow.
+
+7. PERFORMANCE
+• No major console errors.
+• No React key warnings.
+• No API 500 errors.
+• No infinite loops.
+• No abandoned intervals (clearInterval confirmed).
+
+8. REPORTS VERIFICATION
+• All six reports load without failing.
+• CSV export works.
+• Charts render with correct data.
+• Restricted reports enforce role checks.
+
+9. PUBLIC SITE POLISH
+• Home, Shop, Gallery, About, Contact all use correct CTAs.
+• No broken images.
+• Google Maps iframe loads.
+• Footer consistent on all pages.
+
+10. DATA INTEGRITY
+• Demo accounts login successfully.
+• Orders create properly with tracking token.
+• Status updates write to order_status_history.
+• Payments update correctly.
+
+11. DELIVERABLE COMPLIANCE
+• System meets 4 tiers of implementation.
+• Staff-only architecture confirmed.
+• Reports, dashboards, tracking, and email workflows function end-to-end.
+
+FINAL OUTPUT REQUIRED:
+• A PASS/FAIL checklist for each category.
+• A list of fixes applied.
+• A note confirming system is presentation-ready.
+
+Stop when done. Do not continue to another step.

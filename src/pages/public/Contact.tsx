@@ -191,8 +191,10 @@ export function Contact() {
               <div 
                 className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
                 style={{ background: '#C44569', boxShadow: '0 4px 12px rgba(196, 69, 105, 0.3)' }}
+                role="img"
+                aria-label="Payment deposit step"
               >
-                <span style={{ fontSize: '28px' }}>💳</span>
+                <span style={{ fontSize: '36px', lineHeight: 1 }}>💳</span>
               </div>
               <h4 className="mb-2" style={{ fontFamily: 'Poppins', fontSize: '18px', fontWeight: 600 }}>3. Deposit</h4>
               <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
@@ -205,8 +207,10 @@ export function Contact() {
               <div 
                 className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
                 style={{ background: '#8B3A5E', boxShadow: '0 4px 12px rgba(139, 58, 94, 0.3)' }}
+                role="img"
+                aria-label="Cake building step"
               >
-                <span style={{ fontSize: '28px' }}>🎂</span>
+                <span style={{ fontSize: '36px', lineHeight: 1 }}>🎂</span>
               </div>
               <h4 className="mb-2" style={{ fontFamily: 'Poppins', fontSize: '18px', fontWeight: 600 }}>4. Build</h4>
               <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
@@ -219,8 +223,10 @@ export function Contact() {
               <div 
                 className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
                 style={{ background: '#C44569', boxShadow: '0 4px 12px rgba(196, 69, 105, 0.3)' }}
+                role="img"
+                aria-label="Pickup or delivery step"
               >
-                <span style={{ fontSize: '28px' }}>📦</span>
+                <span style={{ fontSize: '36px', lineHeight: 1 }}>📦</span>
               </div>
               <h4 className="mb-2" style={{ fontFamily: 'Poppins', fontSize: '18px', fontWeight: 600 }}>5. Pickup</h4>
               <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
