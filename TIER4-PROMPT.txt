@@ -1,0 +1,346 @@
+================================================================================
+TIER 4 PROMPT - 6 CLIENT REPORTS WITH RECHARTS
+================================================================================
+Date: November 13, 2025
+Prerequisites: ✅ TIER 3 COMPLETE (Admin Site Perfection - Phases 1 & 2)
+Priority: Implement all 6 case study-required client reports
+
+================================================================================
+OBJECTIVE
+================================================================================
+
+Implement all 6 client reports with Recharts visualizations, role-based access 
+controls, advanced filtering, and multi-format exports (CSV, PDF) to complete 
+the Emily Bakes Cakes order management system.
+
+================================================================================
+REQUIREMENTS - 6 REPORTS (From Final Implementation Plan)
+================================================================================
+
+REPORT 1: Order Summary Report
+- Access: Sales, Baker, Decorator, Manager
+- Route: /staff/reports/order-summary
+- Features:
+  * Date range picker (default: today)
+  * Filter by status, assigned staff
+  * Table: Order#, Customer, Product, Pickup, Status, Price, Deposit, Balance
+  * Chart: Bar chart - Order volume by day (Recharts)
+  * Export: CSV, PDF
+  * Totals row
+
+REPORT 2: Customer List Report
+- Access: Sales, Baker, Decorator, Manager
+- Route: /staff/reports/customer-list
+- Features:
+  * Columns: Name, Email, Phone, Type, Total Orders, Total Spent
+  * Filters: Type (Retail/Corporate), spending range, VIP only
+  * Chart: Line chart - Customer acquisition over time (Recharts)
+  * Export: Email list, Phone list, Full CSV, PDF
+
+REPORT 3: Revenue Report ⭐
+- Access: Accountant, Manager ONLY
+- Route: /staff/reports/revenue
+- Features:
+  * Time periods: Day / Week / Month / Custom
+  * KPI cards: Total Revenue, Deposits, Outstanding, Collection Rate
+  * 3 Charts (Recharts):
+    1. Revenue trend (line chart)
+    2. Revenue by product type (pie chart)
+    3. Monthly comparison (bar chart)
+  * Breakdown by cake size, order type, payment method
+  * Export: CSV, PDF, Excel
+
+REPORT 4: Pending Orders Report ✅ (STARTED - needs completion)
+- Access: Sales, Baker, Decorator, Manager
+- Route: /staff/reports/pending-orders
+- Status: Component created, needs integration
+- Features:
+  * Statuses: Quote, Pending, Confirmed, In Production
+  * Columns: Order#, Customer, Pickup Date, Days Until Due, Staff, Status
+  * Chart: Funnel chart - Orders by status (Recharts)
+  * Color coding: 🟢 Green (>2 days), 🟡 Yellow (24-48h), 🔴 Red (<24h)
+
+REPORT 5: Completed Orders Report ✅ (STARTED - needs completion)
+- Access: Baker, Decorator, Manager
+- Route: /staff/reports/completed-orders
+- Status: Component created, needs integration
+- Features:
+  * Columns: Completion Date, Customer, Baker, Decorator, Days to Complete, Rating, Price
+  * Chart: Bar chart - Avg completion time by order type (Recharts)
+  * Filters: Date range, staff, satisfaction rating
+
+REPORT 6: Product Inventory Report ✅ (STARTED - needs completion)
+- Access: Manager ONLY
+- Route: /staff/reports/product-inventory
+- Status: Component created, needs integration
+- Features:
+  * Columns: Product, Category, Price, Times Ordered, Revenue, Trending
+  * Chart: Horizontal bar chart - Top 10 products by revenue (Recharts)
+  * Filters: Category, popularity, date range
+
+================================================================================
+IMPLEMENTATION TASKS
+================================================================================
+
+1. Complete Report Components (3 reports partially done)
+   Files: src/pages/staff/reports/PendingOrdersReport.tsx
+          src/pages/staff/reports/CompletedOrdersReport.tsx
+          src/pages/staff/reports/ProductInventoryReport.tsx
+   Tasks:
+   - Fix any LSP errors
+   - Connect to real API endpoints
+   - Test with live data
+   - Verify Recharts renders correctly
+
+2. Create Remaining Reports (3 new reports)
+   Files: src/pages/staff/reports/OrderSummaryReport.tsx
+          src/pages/staff/reports/CustomerListReport.tsx
+          src/pages/staff/reports/RevenueReport.tsx
+   Tasks:
+   - Use ReportLayout wrapper (already created)
+   - Implement Recharts charts as specified
+   - Add filter components
+   - Implement CSV/PDF exports using jsPDF + autoTable
+   - Role-based access guards
+
+3. Add Report Routes
+   File: src/App.tsx
+   Tasks:
+   - Add routes for all 6 reports under /staff/reports/*
+   - Implement role-based access control
+   - Ensure navigation from admin sidebar works
+
+4. Update Admin Navigation
+   Files: src/components/AdminLayout.tsx (or navigation component)
+   Tasks:
+   - Add "Reports" section to admin sidebar
+   - List all 6 reports
+   - Show only reports accessible to current user role
+   - Highlight active report
+
+5. Backend API Endpoints (if needed)
+   Files: server/* (backend routes)
+   Tasks:
+   - Ensure all data needed for reports is available via API
+   - Add aggregation endpoints if needed (revenue totals, etc.)
+   - Test API responses match report requirements
+
+6. Role-Based Access Guards
+   Tasks:
+   - Implement AuthContext or useRole hook
+   - Guard report routes by role
+   - Revenue report: Accountant + Manager only
+   - Product Inventory: Manager only
+   - Others: Sales, Baker, Decorator, Manager
+
+7. CSV Export Implementation
+   Library: Already have jsPDF + autoTable in package.json
+   Tasks:
+   - Create CSV generation utility
+   - Format data for each report type
+   - Trigger download on button click
+   - Test with large datasets
+
+8. PDF Export Implementation
+   Library: jsPDF with autoTable plugin
+   Tasks:
+   - Create PDF templates with Emily Bakes Cakes branding
+   - Add headers, footers, dates
+   - Format tables for readability
+   - Test print-friendly layouts
+
+9. Testing & QA
+   Tasks:
+   - Test all 6 reports with demo accounts
+   - Verify role access restrictions work
+   - Test charts render with various data sizes
+   - Verify exports work correctly
+   - Check responsive design on mobile
+   - Test filters and date ranges
+
+================================================================================
+TECHNICAL SPECIFICATIONS
+================================================================================
+
+Layout Wrapper (Already Created):
+- File: src/pages/staff/reports/ReportLayout.tsx
+- Features: Title, description, export buttons, filters section
+- Styling: Consistent with admin theme (Vanilla Raspberry)
+
+Charts Library:
+- Recharts (already in package.json)
+- Chart types needed:
+  * BarChart (Order Summary, Completed Orders, Product Inventory)
+  * LineChart (Customer List, Revenue trend)
+  * PieChart (Revenue by product type)
+  * FunnelChart (Pending Orders)
+
+Export Libraries:
+- jsPDF (already in package.json)
+- jspdf-autotable (already in package.json)
+- Custom CSV generation utility
+
+Styling:
+- Use existing Emily Bakes Cakes theme
+- Colors: Raspberry Pink #C44569, Cream #F8EBD7, Charcoal #2B2B2B
+- Fonts: Playfair Display (headings), Poppins (subheadings), Open Sans (body)
+
+Role-Based Access:
+- Sales: Reports 1, 2, 4
+- Baker: Reports 1, 2, 4, 5
+- Decorator: Reports 1, 2, 4, 5
+- Accountant: Reports 1, 2, 3, 4, 5
+- Manager: ALL reports (1-6)
+
+================================================================================
+CURRENT STATE
+================================================================================
+
+✅ Partially Complete:
+- ReportLayout wrapper created
+- 3 report components created (Pending, Completed, Product Inventory)
+- Need LSP error fixes
+- Need route integration
+- Need role guards
+
+🔲 Not Started:
+- 3 report components (Order Summary, Customer List, Revenue)
+- Route configuration
+- Navigation integration
+- Role-based access guards
+- API endpoint verification
+- Full testing with all roles
+
+================================================================================
+ACCEPTANCE CRITERIA
+================================================================================
+
+✅ All 6 reports accessible via /staff/reports/* routes
+✅ Recharts visualizations render correctly for all reports
+✅ Filters work and update data/charts in real-time
+✅ CSV export downloads correctly formatted files
+✅ PDF export creates professional-looking reports with branding
+✅ Role-based access enforced (users see only allowed reports)
+✅ Revenue report restricted to Accountant + Manager only
+✅ Product Inventory restricted to Manager only
+✅ All reports use live data from API (not mock data)
+✅ Responsive design works on mobile/tablet/desktop
+✅ No TypeScript/LSP errors
+✅ All 6 staff demo accounts can access appropriate reports
+
+================================================================================
+IMPLEMENTATION STRATEGY
+================================================================================
+
+Recommended Approach:
+1. Fix LSP errors in existing 3 reports (5 min)
+2. Add routes for all 6 reports in App.tsx (10 min)
+3. Create remaining 3 report components (45 min)
+4. Implement role guards on routes (15 min)
+5. Add navigation links in admin sidebar (10 min)
+6. Test with all 6 demo accounts (20 min)
+7. Fix any bugs found during testing (30 min)
+8. Final QA and polish (20 min)
+
+Total Estimated Time: 2.5-3 hours
+
+================================================================================
+DEMO CREDENTIALS FOR TESTING
+================================================================================
+
+All passwords: DemoPass123!
+
+1. emily@emilybakes.com (Owner/Manager) - Access: ALL reports
+2. manager@emilybakes.com (Manager) - Access: ALL reports
+3. sales@emilybakes.com (Sales) - Access: Reports 1, 2, 4
+4. baker@emilybakes.com (Baker) - Access: Reports 1, 2, 4, 5
+5. decorator@emilybakes.com (Decorator) - Access: Reports 1, 2, 4, 5
+6. accountant@emilybakes.com (Accountant) - Access: Reports 1, 2, 3, 4, 5
+
+================================================================================
+SUCCESS METRICS
+================================================================================
+
+1. Functionality: All 6 reports work correctly with live data
+2. Visualizations: All Recharts render without errors
+3. Role Access: Users see only their authorized reports
+4. Exports: CSV and PDF downloads work for all reports
+5. Performance: Reports load in < 2 seconds with typical data
+6. UX: Filters are intuitive and responsive
+7. Responsive: Works on mobile, tablet, desktop
+8. Code Quality: No TypeScript/LSP errors, clean code
+
+================================================================================
+DEPENDENCIES & PREREQUISITES
+================================================================================
+
+✅ TIER 3 Complete (Admin Site Perfection)
+✅ Recharts installed (in package.json)
+✅ jsPDF + autoTable installed
+✅ ReportLayout wrapper created
+✅ 3 report components started
+✅ Auth system in place (demo accounts)
+✅ API endpoints for orders, customers, products
+
+================================================================================
+DELIVERABLES
+================================================================================
+
+Code:
+- 6 complete report components with Recharts
+- Route configuration with role guards
+- Navigation integration
+- CSV/PDF export utilities
+
+Documentation:
+- TIER4-COMPLETION-LOG.txt (after completion)
+- User guide for accessing reports
+- Role permission matrix
+
+Testing:
+- Test results for all 6 demo accounts
+- Screenshots of all 6 reports
+- Export samples (CSV + PDF for each report)
+
+================================================================================
+NEXT STEPS TO BEGIN TIER 4
+================================================================================
+
+1. Fix LSP errors in existing report files:
+   - src/pages/staff/reports/PendingOrdersReport.tsx
+   - Check and fix any import or type issues
+
+2. Add report routes to App.tsx:
+   - /staff/reports/order-summary
+   - /staff/reports/customer-list
+   - /staff/reports/revenue
+   - /staff/reports/pending-orders
+   - /staff/reports/completed-orders
+   - /staff/reports/product-inventory
+
+3. Create remaining report components using ReportLayout wrapper
+
+4. Implement role-based access guards
+
+5. Test with all 6 staff demo accounts
+
+================================================================================
+TIER 4 PROMPT READY FOR IMPLEMENTATION
+================================================================================
+
+When ready to begin TIER 4, use this prompt:
+
+"Implement all 6 client reports with Recharts visualizations:
+1. Fix LSP errors in existing 3 reports (Pending, Completed, Product Inventory)
+2. Create 3 new reports (Order Summary, Customer List, Revenue)
+3. Add routes with role-based access guards
+4. Integrate into admin navigation
+5. Test with all 6 staff demo accounts
+6. Verify all charts render, filters work, and exports function correctly
+
+Use the ReportLayout wrapper already created. Follow the specifications in 
+TIER4-PROMPT.txt for each report's features, charts, and access controls."
+
+================================================================================
+END OF TIER 4 PROMPT
+================================================================================
