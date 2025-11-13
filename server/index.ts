@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import bcrypt from 'bcryptjs';
 import * as storage from './storage.js';
-import { authenticateToken, generateToken, type AuthRequest } from './authMiddleware.js';
+import { authenticateToken, generateToken, requireRole, type AuthRequest } from './authMiddleware.js';
 import type { NewProduct, NewOrder, NewInquiry, NewContactMessage, NewPayment } from '../shared/schema.js';
 
 const app = express();
@@ -681,7 +681,7 @@ app.get('/api/reports/customer-list', async (req, res) => {
 
 // Revenue Report (TIER 3 - Report 3)
 // Accountant, Manager ONLY - Financial analytics with invoiced revenue, deposits, outstanding
-app.get('/api/reports/revenue', async (req, res) => {
+app.get('/api/reports/revenue', authenticateToken, requireRole('accountant', 'manager', 'owner'), async (req: AuthRequest, res) => {
   try {
     const { period, startDate, endDate } = req.query;
     

@@ -7,6 +7,9 @@ import { LineChart, Line, PieChart, Pie, BarChart, Bar, Cell, XAxis, YAxis, Cart
 import { FileDown, Loader2, DollarSign, TrendingUp, AlertCircle } from 'lucide-react';
 import { useToast } from '../../components/ToastContext';
 import { RevenueReportResponse } from '../../types/reports';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import * as XLSX from 'xlsx';
 
 const TIME_PERIODS = [
   { value: 'day', label: 'Today' },
@@ -21,11 +24,23 @@ export function RevenueReport() {
   const { showToast } = useToast();
   const [loading, setLoading] = useState(true);
   const [exportingCSV, setExportingCSV] = useState(false);
+  const [exportingPDF, setExportingPDF] = useState(false);
+  const [exportingExcel, setExportingExcel] = useState(false);
   const [data, setData] = useState<RevenueReportResponse | null>(null);
   
   const [selectedPeriod, setSelectedPeriod] = useState('month');
   const [customStartDate, setCustomStartDate] = useState('');
   const [customEndDate, setCustomEndDate] = useState('');
+
+  const handleAuthError = () => {
+    // Clear expired/invalid token
+    localStorage.removeItem('token');
+    showToast('error', 'Your session has expired. Please login again.', 'Authentication Required');
+    // Redirect to login after a short delay
+    setTimeout(() => {
+      window.location.href = '/';
+    }, 2000);
+  };
 
   const fetchReportData = async () => {
     setLoading(true);
@@ -38,14 +53,37 @@ export function RevenueReport() {
         if (customEndDate) params.append('endDate', customEndDate);
       }
       
-      const response = await fetch(`/api/reports/revenue?${params}`);
-      if (!response.ok) throw new Error('Failed to fetch report data');
+      // Get JWT token from localStorage for authentication
+      const token = localStorage.getItem('token');
+      if (!token) {
+        handleAuthError();
+        return;
+      }
+      
+      const response = await fetch(`/api/reports/revenue?${params}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (!response.ok) {
+        if (response.status === 401) {
+          // Token expired or invalid - trigger auth recovery
+          handleAuthError();
+          return;
+        } else if (response.status === 403) {
+          showToast('error', 'You do not have permission to view this report.', 'Access Denied');
+          return;
+        }
+        throw new Error('Failed to fetch report data');
+      }
       
       const reportData = await response.json();
       setData(reportData);
     } catch (error) {
       console.error('Error fetching report:', error);
-      showToast('error', 'Failed to load revenue report. Please try again.', 'Error');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to load revenue report. Please try again.';
+      showToast('error', errorMessage, 'Error');
     } finally {
       setLoading(false);
     }
@@ -111,6 +149,186 @@ export function RevenueReport() {
     }, 800);
   };
 
+  const handleExportPDF = () => {
+    if (!data) return;
+    
+    setExportingPDF(true);
+    
+    try {
+      const doc = new jsPDF();
+      
+      // Header
+      doc.setFontSize(18);
+      doc.setTextColor(196, 69, 105);
+      doc.text('Revenue Report', 14, 20);
+      
+      // Date range
+      doc.setFontSize(10);
+      doc.setTextColor(90, 56, 37);
+      const dateRange = data.metadata.startDate && data.metadata.endDate
+        ? `${new Date(data.metadata.startDate).toLocaleDateString()} - ${new Date(data.metadata.endDate).toLocaleDateString()}`
+        : `Period: ${data.metadata.period}`;
+      doc.text(dateRange, 14, 28);
+      
+      // KPIs Summary
+      doc.setFontSize(12);
+      doc.setTextColor(43, 43, 43);
+      doc.text('Financial Summary', 14, 38);
+      doc.setFontSize(10);
+      doc.text(`Total Revenue: $${(data.kpis.totalRevenue / 100).toLocaleString()}`, 14, 45);
+      doc.text(`Total Deposits: $${(data.kpis.totalDeposits / 100).toLocaleString()}`, 14, 51);
+      doc.text(`Outstanding: $${(data.kpis.totalOutstanding / 100).toLocaleString()}`, 14, 57);
+      doc.text(`Collection Rate: ${data.kpis.collectionRate}%`, 14, 63);
+      doc.text(`Total Orders: ${data.metadata.orderCount}`, 14, 69);
+      
+      // Revenue Trend Table
+      doc.setFontSize(12);
+      doc.setTextColor(43, 43, 43);
+      doc.text('Revenue Trend', 14, 79);
+      
+      const trendTableData = data.trendChart.data.map(item => [
+        formatPeriodLabel(item.period, data.trendChart.bucketFormat),
+        `$${(item.revenue / 100).toLocaleString()}`
+      ]);
+      
+      autoTable(doc, {
+        head: [['Period', 'Revenue']],
+        body: trendTableData,
+        startY: 84,
+        headStyles: {
+          fillColor: [196, 69, 105],
+          textColor: [255, 255, 255],
+          fontStyle: 'bold'
+        },
+        styles: {
+          fontSize: 9,
+          cellPadding: 3
+        },
+        alternateRowStyles: {
+          fillColor: [248, 235, 215]
+        }
+      });
+      
+      // Product Type Breakdown
+      const finalY = (doc as any).lastAutoTable.finalY || 84;
+      doc.setFontSize(12);
+      doc.setTextColor(43, 43, 43);
+      doc.text('Revenue by Product Type', 14, finalY + 10);
+      
+      const pieTableData = data.pieChart.map(item => [
+        item.type,
+        `$${(item.revenue / 100).toLocaleString()}`
+      ]);
+      
+      autoTable(doc, {
+        head: [['Product Type', 'Revenue']],
+        body: pieTableData,
+        startY: finalY + 15,
+        headStyles: {
+          fillColor: [196, 69, 105],
+          textColor: [255, 255, 255],
+          fontStyle: 'bold'
+        },
+        styles: {
+          fontSize: 9,
+          cellPadding: 3
+        },
+        alternateRowStyles: {
+          fillColor: [248, 235, 215]
+        }
+      });
+      
+      // Download
+      doc.save(`revenue-report-${new Date().toISOString().split('T')[0]}.pdf`);
+      
+      showToast('success', 'PDF file downloaded successfully', 'Export Complete');
+    } catch (error) {
+      console.error('PDF export error:', error);
+      showToast('error', 'Failed to generate PDF. Please try again.', 'Export Failed');
+    } finally {
+      // Always reset state to re-enable button
+      setTimeout(() => {
+        setExportingPDF(false);
+      }, 800);
+    }
+  };
+
+  const handleExportExcel = () => {
+    if (!data) return;
+    
+    setExportingExcel(true);
+    
+    try {
+      // Create workbook
+      const wb = XLSX.utils.book_new();
+      
+      // Sheet 1: KPIs Summary
+      const kpiData = [
+        ['Emily Bakes Cakes - Revenue Report'],
+        [],
+        ['Financial Summary'],
+        ['Total Revenue', `$${(data.kpis.totalRevenue / 100).toLocaleString()}`],
+        ['Total Deposits', `$${(data.kpis.totalDeposits / 100).toLocaleString()}`],
+        ['Outstanding Balance', `$${(data.kpis.totalOutstanding / 100).toLocaleString()}`],
+        ['Collection Rate', `${data.kpis.collectionRate}%`],
+        ['Total Orders', data.metadata.orderCount],
+        [],
+        ['Date Range'],
+        ['Start Date', data.metadata.startDate ? new Date(data.metadata.startDate).toLocaleDateString() : 'N/A'],
+        ['End Date', data.metadata.endDate ? new Date(data.metadata.endDate).toLocaleDateString() : 'N/A'],
+        ['Period', data.metadata.period]
+      ];
+      const ws1 = XLSX.utils.aoa_to_sheet(kpiData);
+      XLSX.utils.book_append_sheet(wb, ws1, 'Summary');
+      
+      // Sheet 2: Revenue Trend
+      const trendData = [
+        ['Period', 'Revenue'],
+        ...data.trendChart.data.map(item => [
+          formatPeriodLabel(item.period, data.trendChart.bucketFormat),
+          (item.revenue / 100)
+        ])
+      ];
+      const ws2 = XLSX.utils.aoa_to_sheet(trendData);
+      XLSX.utils.book_append_sheet(wb, ws2, 'Revenue Trend');
+      
+      // Sheet 3: Product Breakdown
+      const pieData = [
+        ['Product Type', 'Revenue'],
+        ...data.pieChart.map(item => [
+          item.type,
+          (item.revenue / 100)
+        ])
+      ];
+      const ws3 = XLSX.utils.aoa_to_sheet(pieData);
+      XLSX.utils.book_append_sheet(wb, ws3, 'Product Breakdown');
+      
+      // Sheet 4: Monthly Comparison
+      const barData = [
+        ['Month', 'Revenue'],
+        ...data.barChart.map(item => [
+          formatMonthLabel(item.month),
+          (item.revenue / 100)
+        ])
+      ];
+      const ws4 = XLSX.utils.aoa_to_sheet(barData);
+      XLSX.utils.book_append_sheet(wb, ws4, 'Monthly Comparison');
+      
+      // Download
+      XLSX.writeFile(wb, `revenue-report-${new Date().toISOString().split('T')[0]}.xlsx`);
+      
+      showToast('success', 'Excel file downloaded successfully', 'Export Complete');
+    } catch (error) {
+      console.error('Excel export error:', error);
+      showToast('error', 'Failed to generate Excel file. Please try again.', 'Export Failed');
+    } finally {
+      // Always reset state to re-enable button
+      setTimeout(() => {
+        setExportingExcel(false);
+      }, 800);
+    }
+  };
+
   const formatPeriodLabel = (period: string, format: string) => {
     if (format === 'hour') {
       const date = new Date(period);
@@ -150,33 +368,85 @@ export function RevenueReport() {
             Financial analytics and collection tracking
           </p>
         </div>
-        <Button
-          onClick={handleExportCSV}
-          disabled={exportingCSV || !data}
-          variant="outline"
-          className="w-full sm:w-auto"
-          style={{ 
-            borderRadius: '8px', 
-            fontFamily: 'Poppins', 
-            fontWeight: 600,
-            borderColor: 'rgba(90, 56, 37, 0.3)',
-            color: '#5A3825',
-            height: '44px',
-            minWidth: '44px'
-          }}
-        >
-          {exportingCSV ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Exporting...
-            </>
-          ) : (
-            <>
-              <FileDown size={18} className="mr-2" />
-              Export CSV
-            </>
-          )}
-        </Button>
+        <div className="flex flex-wrap gap-3">
+          <Button
+            onClick={handleExportCSV}
+            disabled={exportingCSV || !data}
+            variant="outline"
+            className="w-full sm:w-auto"
+            style={{ 
+              borderRadius: '8px', 
+              fontFamily: 'Poppins', 
+              fontWeight: 600,
+              borderColor: 'rgba(90, 56, 37, 0.3)',
+              color: '#5A3825',
+              height: '44px',
+              minWidth: '44px'
+            }}
+          >
+            {exportingCSV ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Exporting...
+              </>
+            ) : (
+              <>
+                <FileDown size={18} className="mr-2" />
+                Export CSV
+              </>
+            )}
+          </Button>
+          <Button
+            onClick={handleExportPDF}
+            disabled={exportingPDF || !data}
+            className="text-white w-full sm:w-auto hover:shadow-bakery-hover transition-all"
+            style={{ 
+              borderRadius: '8px', 
+              fontFamily: 'Poppins', 
+              fontWeight: 600,
+              backgroundColor: '#C44569',
+              height: '44px',
+              minWidth: '44px'
+            }}
+          >
+            {exportingPDF ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Downloading...
+              </>
+            ) : (
+              <>
+                <FileDown size={18} className="mr-2" />
+                Download PDF
+              </>
+            )}
+          </Button>
+          <Button
+            onClick={handleExportExcel}
+            disabled={exportingExcel || !data}
+            className="text-white w-full sm:w-auto hover:shadow-bakery-hover transition-all"
+            style={{ 
+              borderRadius: '8px', 
+              fontFamily: 'Poppins', 
+              fontWeight: 600,
+              backgroundColor: '#5A3825',
+              height: '44px',
+              minWidth: '44px'
+            }}
+          >
+            {exportingExcel ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Exporting...
+              </>
+            ) : (
+              <>
+                <FileDown size={18} className="mr-2" />
+                Export Excel
+              </>
+            )}
+          </Button>
+        </div>
       </div>
 
       {/* Time Period Selector */}
