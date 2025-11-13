@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Users, 
   Plus, 
@@ -9,17 +9,27 @@ import {
   Search,
   ChevronDown,
   ChevronUp,
-  AlertCircle
+  AlertCircle,
+  Palette,
+  Sparkles,
+  Cake
 } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Card } from '../../components/ui/card';
 import { Input } from '../../components/ui/input';
 import { Textarea } from '../../components/ui/textarea';
+import { Checkbox } from '../../components/ui/checkbox';
 import { useToast } from '../../components/ToastContext';
 import { LayerBuilder } from '../../components/LayerBuilder';
 import { 
-  calculateTotalPrice, 
-  type LayerData 
+  standardCakes,
+  cakeSizes,
+  icingColors,
+  decorations,
+  isRushOrder,
+  calculateSizeBasedPrice,
+  type LayerData,
+  type ColorOption
 } from '../../data/cakeOptions';
 
 interface Customer {
@@ -44,10 +54,25 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
   const [showNewCustomerForm, setShowNewCustomerForm] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   
+  // Cake type selection
+  const [cakeType, setCakeType] = useState<'standard' | 'custom'>('custom');
+  const [selectedStandardCake, setSelectedStandardCake] = useState('');
+  const [selectedCakeSize, setSelectedCakeSize] = useState('');
+  const [selectedIcingColors, setSelectedIcingColors] = useState<string[]>([]);
+  const [selectedDecorations, setSelectedDecorations] = useState<string[]>([]);
+  
+  // Rush order detection
+  const [isRush, setIsRush] = useState(false);
+  const [managerApproval, setManagerApproval] = useState(false);
+  
   // Collapsible sections
   const [openSections, setOpenSections] = useState({
     customer: true,
+    cakeType: true,
+    size: true,
     layers: true,
+    icingColors: false,
+    decorations: false,
     eventInfo: true,
     adminSettings: true,
     payment: false
@@ -75,9 +100,21 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
 
   // Layers for custom cake - MINIMUM 2 LAYERS per case study
   const [layers, setLayers] = useState<LayerData[]>([
-    { id: 'layer-1', flavor: '', fillings: [], notes: '' },
-    { id: 'layer-2', flavor: '', fillings: [], notes: '' }
+    { id: 'layer-1', flavor: '', fillings: [], icing: '', notes: '' },
+    { id: 'layer-2', flavor: '', fillings: [], icing: '', notes: '' }
   ]);
+  
+  // Rush order detection effect
+  useEffect(() => {
+    if (formData.eventDate) {
+      const eventDate = new Date(formData.eventDate);
+      const rushStatus = isRushOrder(eventDate);
+      setIsRush(rushStatus);
+      if (!rushStatus) {
+        setManagerApproval(false); // Reset approval if not rush
+      }
+    }
+  }, [formData.eventDate]);
 
   // Search customers
   const handleSearchCustomers = async () => {
@@ -128,9 +165,40 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
     }
   };
 
-  // Calculate totals
-  const totalAmount = calculateTotalPrice(layers);
+  // Calculate totals based on cake size
+  const calculateTotal = () => {
+    if (cakeType === 'standard') {
+      // For standard cakes, use standard cake base price + size adjustment
+      const standardCake = standardCakes.find(c => c.id === selectedStandardCake);
+      const sizePrice = calculateSizeBasedPrice(selectedCakeSize);
+      return sizePrice || (standardCake?.basePrice || 0);
+    } else {
+      // For custom cakes, use size as base price
+      const sizePrice = calculateSizeBasedPrice(selectedCakeSize);
+      return sizePrice || 0;
+    }
+  };
+  
+  const totalAmount = calculateTotal();
   const depositRequired = Math.ceil(totalAmount * 0.5); // 50% deposit
+
+  // Toggle icing color selection
+  const toggleIcingColor = (colorId: string) => {
+    if (selectedIcingColors.includes(colorId)) {
+      setSelectedIcingColors(selectedIcingColors.filter(c => c !== colorId));
+    } else {
+      setSelectedIcingColors([...selectedIcingColors, colorId]);
+    }
+  };
+  
+  // Toggle decoration selection
+  const toggleDecoration = (decorationId: string) => {
+    if (selectedDecorations.includes(decorationId)) {
+      setSelectedDecorations(selectedDecorations.filter(d => d !== decorationId));
+    } else {
+      setSelectedDecorations([...selectedDecorations, decorationId]);
+    }
+  };
 
   // Submit order
   const handleSubmit = async () => {
@@ -139,30 +207,64 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
       showToast('error', 'Please select or create a customer');
       return;
     }
-
-    if (layers.length < 2 || !layers[0].flavor || !layers[1].flavor) {
-      showToast('error', 'Please add at least two cake layers');
+    
+    if (!selectedCakeSize) {
+      showToast('error', 'Please select a cake size');
       return;
     }
 
-    if (!formData.servings || !formData.eventDate) {
-      showToast('error', 'Please provide servings and event date');
+    if (cakeType === 'custom') {
+      if (layers.length < 2 || !layers[0].flavor || !layers[1].flavor) {
+        showToast('error', 'Please add at least two cake layers with flavors');
+        return;
+      }
+      // Check icing for each layer
+      const missingIcing = layers.some(layer => !layer.icing);
+      if (missingIcing) {
+        showToast('error', 'Please select icing flavor for all layers');
+        return;
+      }
+    } else {
+      if (!selectedStandardCake) {
+        showToast('error', 'Please select a standard cake');
+        return;
+      }
+    }
+
+    if (!formData.eventDate) {
+      showToast('error', 'Please provide event date');
+      return;
+    }
+    
+    // Check rush order manager approval
+    if (isRush && !managerApproval) {
+      showToast('error', 'Rush orders require manager approval');
       return;
     }
 
     setIsSubmitting(true);
 
     try {
+      // Get cake size details for servings
+      const cakeSizeData = cakeSizes.find(s => s.id === selectedCakeSize);
+      
       const orderPayload = {
         name: selectedCustomer.name,
         email: selectedCustomer.email,
         phone: selectedCustomer.phone || '',
-        servings: parseInt(formData.servings),
+        servings: formData.servings ? parseInt(formData.servings) : (cakeSizeData ? parseInt(cakeSizeData.servings.split('-')[0]) : 0),
         date: formData.eventDate,
         message: formData.message,
-        notes: formData.customerNotes, // Customer notes
-        layers: layers,
-        adminNotes: formData.adminNotes, // Admin notes (separate)
+        notes: formData.customerNotes,
+        layers: cakeType === 'custom' ? layers : [],
+        cakeType,
+        standardCakeId: cakeType === 'standard' ? selectedStandardCake : null,
+        cakeSize: selectedCakeSize,
+        icingColors: selectedIcingColors,
+        decorations: selectedDecorations,
+        isRushOrder: isRush,
+        managerApproval: isRush ? managerApproval : null,
+        adminNotes: formData.adminNotes,
         status: formData.status,
         priority: formData.priority,
         depositAmount: formData.depositAmount ? parseFloat(formData.depositAmount) * 100 : depositRequired * 100,
@@ -184,14 +286,21 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
       }
 
       const result = await response.json();
-      const order = result.order || result; // Handle both response formats
+      const order = result.order || result;
       showToast('success', `Order #${order.id} created successfully!`);
       
       // Reset form
       setSelectedCustomer(null);
+      setCakeType('custom');
+      setSelectedStandardCake('');
+      setSelectedCakeSize('');
+      setSelectedIcingColors([]);
+      setSelectedDecorations([]);
+      setIsRush(false);
+      setManagerApproval(false);
       setLayers([
-        { id: 'layer-1', flavor: '', fillings: [], notes: '' },
-        { id: 'layer-2', flavor: '', fillings: [], notes: '' }
+        { id: 'layer-1', flavor: '', fillings: [], icing: '', notes: '' },
+        { id: 'layer-2', flavor: '', fillings: [], icing: '', notes: '' }
       ]);
       setFormData({
         servings: '',
@@ -482,31 +591,130 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
           )}
         </Card>
 
-        {/* Layers Section */}
+        {/* Cake Type Selection */}
         <Card className="mb-6 p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
           <button
-            onClick={() => toggleSection('layers')}
+            onClick={() => toggleSection('cakeType')}
             className="w-full flex items-center justify-between mb-4"
           >
             <div className="flex items-center gap-2">
-              <div 
-                style={{ 
-                  width: '20px',
-                  height: '20px',
-                  background: '#C44569',
-                  borderRadius: '4px'
-                }}
-              />
-              <h2 
-                style={{ 
-                  fontFamily: 'Poppins, sans-serif',
-                  fontSize: '18px',
-                  fontWeight: 600,
-                  color: '#2B2B2B'
-                }}
-              >
-                2. Build Cake Layers
+              <Cake size={20} color="#C44569" />
+              <h2 style={{ fontFamily: 'Poppins, sans-serif', fontSize: '18px', fontWeight: 600, color: '#2B2B2B' }}>
+                2. Cake Type
               </h2>
+            </div>
+            {openSections.cakeType ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+          </button>
+
+          {openSections.cakeType && (
+            <div className="space-y-4">
+              <div className="flex gap-4">
+                <button
+                  onClick={() => setCakeType('standard')}
+                  className="flex-1 p-4 rounded-lg border-2 transition-all"
+                  style={{
+                    borderColor: cakeType === 'standard' ? '#C44569' : '#E0E0E0',
+                    background: cakeType === 'standard' ? 'rgba(196, 69, 105, 0.1)' : 'white'
+                  }}
+                >
+                  <h3 style={{ fontWeight: 600, fontSize: '16px', marginBottom: '4px' }}>Standard Cake</h3>
+                  <p style={{ fontSize: '13px', color: '#666' }}>Choose from our pre-designed cakes</p>
+                </button>
+                <button
+                  onClick={() => setCakeType('custom')}
+                  className="flex-1 p-4 rounded-lg border-2 transition-all"
+                  style={{
+                    borderColor: cakeType === 'custom' ? '#C44569' : '#E0E0E0',
+                    background: cakeType === 'custom' ? 'rgba(196, 69, 105, 0.1)' : 'white'
+                  }}
+                >
+                  <h3 style={{ fontWeight: 600, fontSize: '16px', marginBottom: '4px' }}>Custom Build</h3>
+                  <p style={{ fontSize: '13px', color: '#666' }}>Design your own layer by layer</p>
+                </button>
+              </div>
+
+              {cakeType === 'standard' && (
+                <div>
+                  <label style={{ display: 'block', fontWeight: 500, fontSize: '14px', marginBottom: '8px' }}>
+                    Select Standard Cake <span style={{ color: '#C44569' }}>*</span>
+                  </label>
+                  <select
+                    value={selectedStandardCake}
+                    onChange={(e) => setSelectedStandardCake(e.target.value)}
+                    className="w-full p-3 border-2 rounded-lg"
+                    style={{ borderColor: '#E0E0E0', fontSize: '14px' }}
+                  >
+                    <option value="">Choose a cake...</option>
+                    {standardCakes.map(cake => (
+                      <option key={cake.id} value={cake.id}>
+                        {cake.name} (Base: ${cake.basePrice})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+            </div>
+          )}
+        </Card>
+
+        {/* Cake Size Selection */}
+        <Card className="mb-6 p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
+          <button
+            onClick={() => toggleSection('size')}
+            className="w-full flex items-center justify-between mb-4"
+          >
+            <div className="flex items-center gap-2">
+              <DollarSign size={20} color="#C44569" />
+              <h2 style={{ fontFamily: 'Poppins, sans-serif', fontSize: '18px', fontWeight: 600, color: '#2B2B2B' }}>
+                3. Cake Size <span style={{ color: '#C44569' }}>*</span>
+              </h2>
+              {selectedCakeSize && (
+                <span className="px-3 py-1 rounded-full text-xs" style={{ background: 'rgba(196, 69, 105, 0.1)', color: '#C44569', fontWeight: 600 }}>
+                  {cakeSizes.find(s => s.id === selectedCakeSize)?.name}
+                </span>
+              )}
+            </div>
+            {openSections.size ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+          </button>
+
+          {openSections.size && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {cakeSizes.map(size => {
+                const isSelected = selectedCakeSize === size.id;
+                return (
+                  <button
+                    key={size.id}
+                    onClick={() => setSelectedCakeSize(size.id)}
+                    className="p-4 rounded-lg border-2 transition-all text-left"
+                    style={{
+                      borderColor: isSelected ? '#C44569' : '#E0E0E0',
+                      background: isSelected ? 'rgba(196, 69, 105, 0.1)' : 'white'
+                    }}
+                  >
+                    <h4 style={{ fontWeight: 600, fontSize: '14px', marginBottom: '4px' }}>{size.name}</h4>
+                    <p style={{ fontSize: '12px', color: '#666' }}>Serves {size.servings}</p>
+                    <p style={{ fontSize: '14px', fontWeight: 600, color: '#C44569', marginTop: '4px' }}>
+                      ${(size.price / 100).toFixed(2)}
+                    </p>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </Card>
+
+        {/* Layers Section (Custom Only) */}
+        {cakeType === 'custom' && (
+          <Card className="mb-6 p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
+            <button
+              onClick={() => toggleSection('layers')}
+              className="w-full flex items-center justify-between mb-4"
+            >
+              <div className="flex items-center gap-2">
+                <div style={{ width: '20px', height: '20px', background: '#C44569', borderRadius: '4px' }} />
+                <h2 style={{ fontFamily: 'Poppins, sans-serif', fontSize: '18px', fontWeight: 600, color: '#2B2B2B' }}>
+                  4. Build Cake Layers
+                </h2>
               <span 
                 className="px-2 py-1 rounded text-xs"
                 style={{ background: '#F0F0F0', color: '#666' }}
@@ -517,10 +725,149 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
             {openSections.layers ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </button>
 
-          {openSections.layers && (
-            <LayerBuilder layers={layers} onLayersChange={setLayers} />
+              {openSections.layers && (
+                <LayerBuilder layers={layers} onLayersChange={setLayers} />
+              )}
+            </Card>
+          )}
+
+        {/* Icing Colors Section */}
+        <Card className="mb-6 p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
+          <button
+            onClick={() => toggleSection('icingColors')}
+            className="w-full flex items-center justify-between mb-4"
+          >
+            <div className="flex items-center gap-2">
+              <Palette size={20} color="#C44569" />
+              <h2 style={{ fontFamily: 'Poppins, sans-serif', fontSize: '18px', fontWeight: 600, color: '#2B2B2B' }}>
+                5. Icing & Writing Colors (Optional)
+              </h2>
+              {selectedIcingColors.length > 0 && (
+                <span className="px-2 py-1 rounded text-xs" style={{ background: '#F0F0F0', color: '#666' }}>
+                  {selectedIcingColors.length} selected
+                </span>
+              )}
+            </div>
+            {openSections.icingColors ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+          </button>
+
+          {openSections.icingColors && (
+            <div className="space-y-4">
+              {['primary', 'pastel', 'neon', 'fall', 'extra'].map(category => {
+                const categoryColors = icingColors.filter(c => c.category === category);
+                return (
+                  <div key={category}>
+                    <h4 style={{ fontWeight: 600, fontSize: '13px', marginBottom: '8px', textTransform: 'capitalize' }}>
+                      {category} Colors
+                    </h4>
+                    <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
+                      {categoryColors.map(color => {
+                        const isSelected = selectedIcingColors.includes(color.id);
+                        return (
+                          <button
+                            key={color.id}
+                            onClick={() => toggleIcingColor(color.id)}
+                            className="flex flex-col items-center gap-1 p-2 rounded-lg border transition-all"
+                            style={{
+                              borderColor: isSelected ? '#C44569' : '#E0E0E0',
+                              borderWidth: isSelected ? '2px' : '1px'
+                            }}
+                            title={color.name}
+                          >
+                            <div
+                              style={{
+                                width: '32px',
+                                height: '32px',
+                                background: color.hex,
+                                borderRadius: '6px',
+                                border: '1px solid rgba(0,0,0,0.1)'
+                              }}
+                            />
+                            <span style={{ fontSize: '10px', textAlign: 'center', lineHeight: '1.2' }}>
+                              {color.name}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           )}
         </Card>
+
+        {/* Decorations Section */}
+        <Card className="mb-6 p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
+          <button
+            onClick={() => toggleSection('decorations')}
+            className="w-full flex items-center justify-between mb-4"
+          >
+            <div className="flex items-center gap-2">
+              <Sparkles size={20} color="#C44569" />
+              <h2 style={{ fontFamily: 'Poppins, sans-serif', fontSize: '18px', fontWeight: 600, color: '#2B2B2B' }}>
+                6. Decorations (Optional)
+              </h2>
+              {selectedDecorations.length > 0 && (
+                <span className="px-2 py-1 rounded text-xs" style={{ background: '#F0F0F0', color: '#666' }}>
+                  {selectedDecorations.length} selected
+                </span>
+              )}
+            </div>
+            {openSections.decorations ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+          </button>
+
+          {openSections.decorations && (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+              {decorations.map(decoration => {
+                const isSelected = selectedDecorations.includes(decoration.id);
+                return (
+                  <label
+                    key={decoration.id}
+                    className="flex items-center gap-2 p-3 rounded-lg border cursor-pointer transition-all"
+                    style={{
+                      borderColor: isSelected ? '#C44569' : '#E0E0E0',
+                      background: isSelected ? 'rgba(196, 69, 105, 0.05)' : 'white'
+                    }}
+                  >
+                    <Checkbox
+                      checked={isSelected}
+                      onCheckedChange={() => toggleDecoration(decoration.id)}
+                    />
+                    <span style={{ fontSize: '13px' }}>{decoration.name}</span>
+                  </label>
+                );
+              })}
+            </div>
+          )}
+        </Card>
+
+        {/* Rush Order Warning Banner */}
+        {isRush && (
+          <Card className="mb-6 p-4" style={{ background: 'linear-gradient(135deg, #DC2626 0%, #991B1B 100%)', border: 'none' }}>
+            <div className="flex items-start gap-3">
+              <AlertCircle size={24} color="white" />
+              <div className="flex-1">
+                <h3 style={{ color: 'white', fontWeight: 600, fontSize: '16px', marginBottom: '4px' }}>
+                  ⚠️ Rush Order Detected
+                </h3>
+                <p style={{ color: 'white', fontSize: '14px', marginBottom: '12px' }}>
+                  This order is due in less than 2 days. Manager approval is required to proceed.
+                </p>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <Checkbox
+                    checked={managerApproval}
+                    onCheckedChange={(checked) => setManagerApproval(checked as boolean)}
+                    style={{ borderColor: 'white' }}
+                  />
+                  <span style={{ color: 'white', fontSize: '14px', fontWeight: 500 }}>
+                    Manager Approval Granted
+                  </span>
+                </label>
+              </div>
+            </div>
+          </Card>
+        )}
 
         {/* Event Info Section */}
         <Card className="mb-6 p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
@@ -538,7 +885,7 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
                   color: '#2B2B2B'
                 }}
               >
-                3. Event Information
+                7. Event Information
               </h2>
             </div>
             {openSections.eventInfo ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
@@ -640,7 +987,7 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
                   color: '#C44569'
                 }}
               >
-                4. Admin Management Settings
+                8. Admin Management Settings
               </h2>
             </div>
             {openSections.adminSettings ? <ChevronUp size={20} /> : <ChevronDown size={20} />}

@@ -3,7 +3,7 @@ import { Plus, Trash2, AlertTriangle } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Textarea } from './ui/textarea';
-import { flavors, fillings, pricingConstants, type LayerData } from '../data/cakeOptions';
+import { cakeFlavors, fillingFlavors, icingFlavors, pricingConstants, type LayerData } from '../data/cakeOptions';
 
 interface LayerBuilderProps {
   layers: LayerData[];
@@ -16,6 +16,7 @@ export function LayerBuilder({ layers, onLayersChange }: LayerBuilderProps) {
       id: `layer-${Date.now()}`,
       flavor: '',
       fillings: [],
+      icing: '',
       notes: ''
     };
     onLayersChange([...layers, newLayer]);
@@ -156,8 +157,8 @@ export function LayerBuilder({ layers, onLayersChange }: LayerBuilderProps) {
                         cursor: 'pointer'
                       }}
                     >
-                      <option value="">Select a flavor</option>
-                      {flavors.map(flavor => (
+                      <option value="">Select a cake flavor</option>
+                      {cakeFlavors.map(flavor => (
                         <option key={flavor.id} value={flavor.id}>
                           {flavor.name} {flavor.price > 0 && `(+$${flavor.price})`}
                         </option>
@@ -177,7 +178,7 @@ export function LayerBuilder({ layers, onLayersChange }: LayerBuilderProps) {
                       Fillings (Max 2, $1 each)
                     </label>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '8px' }}>
-                      {fillings.map(filling => {
+                      {fillingFlavors.map(filling => {
                         const isSelected = layer.fillings?.includes(filling.id);
                         const isDisabled = !isSelected && (layer.fillings?.length || 0) >= pricingConstants.maxFillingsPerLayer;
                         
@@ -210,6 +211,41 @@ export function LayerBuilder({ layers, onLayersChange }: LayerBuilderProps) {
                     <p style={{ fontSize: '12px', color: '#5A3825', opacity: 0.7, marginTop: '8px' }}>
                       Selected: {layer.fillings?.length || 0}/2
                     </p>
+                  </div>
+
+                  <div>
+                    <label style={{
+                      display: 'block',
+                      fontFamily: 'Poppins',
+                      fontWeight: 600,
+                      fontSize: '14px',
+                      color: '#2B2B2B',
+                      marginBottom: '8px'
+                    }}>
+                      Icing Flavor <span style={{ color: '#C44569' }}>*</span>
+                    </label>
+                    <select
+                      value={layer.icing || ''}
+                      onChange={(e) => updateLayer(layer.id, { icing: e.target.value })}
+                      style={{
+                        width: '100%',
+                        padding: '12px',
+                        border: '2px solid #E0E0E0',
+                        borderRadius: '8px',
+                        fontSize: '14px',
+                        fontFamily: 'Open Sans',
+                        color: '#2B2B2B',
+                        background: '#F8F8F8',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <option value="">Select an icing flavor</option>
+                      {icingFlavors.map(icing => (
+                        <option key={icing.id} value={icing.id}>
+                          {icing.name} {icing.price > 0 && `(+$${icing.price})`}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <div>

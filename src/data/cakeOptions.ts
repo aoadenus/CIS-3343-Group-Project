@@ -198,6 +198,7 @@ export interface LayerData {
   id: string;
   flavor: string;
   fillings: string[];
+  icing: string; // Icing flavor for this layer
   notes: string;
 }
 
