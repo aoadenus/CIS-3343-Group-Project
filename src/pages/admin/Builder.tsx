@@ -24,11 +24,7 @@ const steps: Step[] = [
   { id: 5, title: 'Review', description: 'Confirm and submit' }
 ];
 
-interface BuilderProps {
-  onNavigate?: (page: string) => void;
-}
-
-export function Builder({ onNavigate }: BuilderProps = {}) {
+export function Builder() {
   const { showToast } = useToast();
   const [openStep, setOpenStep] = useState<number>(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
@@ -94,30 +90,7 @@ export function Builder({ onNavigate }: BuilderProps = {}) {
   };
 
   const handleSubmit = () => {
-    try {
-      const orderData = {
-        occasion: formData.occasion,
-        layers: layers,
-        design: formData.design,
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        date: formData.date,
-        servings: formData.servings,
-        message: formData.message,
-        notes: formData.notes,
-        imageCount: formData.inspirationImages.length,
-      };
-
-      sessionStorage.setItem('pendingCakeOrder', JSON.stringify(orderData));
-      
-      if (onNavigate) {
-        onNavigate('order-review');
-      }
-    } catch (error) {
-      console.error('Error saving order data:', error);
-      showToast('error', 'Failed to save order data. Please try again.');
-    }
+    showToast('success', 'Design preview complete! Use "Create Order" to save this design.');
   };
 
   const totalPrice = calculateTotalPrice(layers);
@@ -136,7 +109,7 @@ export function Builder({ onNavigate }: BuilderProps = {}) {
             fontSize: 'clamp(28px, 6vw, 48px)',
             marginBottom: '16px'
           }}>
-            Custom Cake Builder
+            Design Sandbox
           </h1>
           <p style={{ 
             fontSize: 'clamp(15px, 3vw, 18px)',
@@ -145,7 +118,7 @@ export function Builder({ onNavigate }: BuilderProps = {}) {
             margin: '0 auto',
             lineHeight: 1.6
           }}>
-            Design your perfect cake in 5 simple steps. Let's create something extraordinary together.
+            Staff-only tool to visualize custom cake designs. Use "Create Order" to save actual orders.
           </p>
         </motion.div>
 

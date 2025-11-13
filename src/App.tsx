@@ -10,8 +10,6 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 // Public pages - direct imports
 import { PublicHome } from './pages/public/Home';
 import { Shop } from './pages/public/Shop';
-import { Builder } from './pages/public/Builder';
-import { OrderReview } from './pages/public/OrderReview';
 import { Gallery } from './pages/public/Gallery';
 import { About } from './pages/public/About';
 import { Contact } from './pages/public/Contact';
@@ -22,6 +20,7 @@ import { AdminDashboard } from './pages/admin/Dashboard';
 import { OrderBoard } from './pages/admin/OrderBoard';
 import { OrderList } from './pages/admin/OrderList';
 import { OrderCreate } from './pages/admin/OrderCreate';
+import { Builder } from './pages/admin/Builder';
 import { AdminProducts } from './pages/admin/Products';
 import { Inquiries } from './pages/admin/Inquiries';
 import { Orders } from './pages/Orders';
@@ -85,10 +84,6 @@ export default function App() {
         return <PublicHome onNavigate={handlePublicNavigate} />;
       case 'shop':
         return <Shop onNavigate={handlePublicNavigate} />;
-      case 'builder':
-        return <Builder onNavigate={handlePublicNavigate} />;
-      case 'order-review':
-        return <OrderReview onNavigate={handlePublicNavigate} onBack={() => setActivePage('builder')} />;
       case 'gallery':
         return <Gallery />;
       case 'about':
@@ -112,6 +107,8 @@ export default function App() {
         return <OrderList onNavigate={setActivePage} />;
       case 'order-create':
         return <OrderCreate onBack={() => setActivePage('order-management')} />;
+      case 'design-sandbox':
+        return <Builder />;
       case 'inquiry-management':
         return <Inquiries />;
       case 'inventory-management':

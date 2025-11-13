@@ -3,7 +3,6 @@ import { User, Heart } from 'lucide-react';
 import { motion } from 'motion/react';
 import { HamburgerIcon } from './HamburgerIcon';
 import { MobileNav } from './MobileNav';
-import { StickyBottomCTA } from './StickyBottomCTA';
 
 interface PublicLayoutProps {
   children: React.ReactNode;
@@ -15,7 +14,6 @@ interface PublicLayoutProps {
 const navItems = [
   { id: 'home', label: 'Home' },
   { id: 'shop', label: 'Shop' },
-  { id: 'builder', label: 'Custom Builder' },
   { id: 'gallery', label: 'Gallery' },
   { id: 'about', label: 'About' },
   { id: 'contact', label: 'Contact' }
@@ -376,9 +374,6 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
           </div>
         </div>
       </footer>
-
-      {/* Sticky Bottom CTA */}
-      <StickyBottomCTA onOrderClick={() => onNavigate('builder')} />
     </div>
   );
 }
