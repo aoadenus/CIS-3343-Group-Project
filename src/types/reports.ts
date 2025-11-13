@@ -64,3 +64,42 @@ export interface CustomerListFilters {
   minSpending: string;
   maxSpending: string;
 }
+
+// Revenue Report Types (TIER 3 - Report 3)
+export interface RevenueKPIs {
+  totalRevenue: number;
+  totalDeposits: number;
+  totalOutstanding: number;
+  collectionRate: number; // Percentage (0-100)
+}
+
+export interface TrendDataPoint {
+  period: string; // ISO date or hour string
+  revenue: number;
+}
+
+export interface PieChartDataPoint {
+  type: string; // 'Custom', 'Shop', etc.
+  revenue: number;
+}
+
+export interface BarChartDataPoint {
+  month: string; // YYYY-MM
+  revenue: number;
+}
+
+export interface RevenueReportResponse {
+  kpis: RevenueKPIs;
+  trendChart: {
+    data: TrendDataPoint[];
+    bucketFormat: 'hour' | 'day' | 'week' | 'month';
+  };
+  pieChart: PieChartDataPoint[];
+  barChart: BarChartDataPoint[];
+  metadata: {
+    startDate: string;
+    endDate: string;
+    period: string;
+    orderCount: number;
+  };
+}

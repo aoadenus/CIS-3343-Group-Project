@@ -21,18 +21,58 @@ export function Login({ onLogin, onBackToPublic }: LoginProps) {
     e.preventDefault();
     
     if (!username || !password) {
-      showToast('error', 'Please enter both username and password');
+      showToast('error', 'Please enter both username and password', 'Validation Error');
       return;
     }
 
     setIsLoading(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    showToast('success', 'Welcome back, Emily!');
-    onLogin();
-    setIsLoading(false);
+    try {
+      // Clear any existing tokens before attempting login
+      localStorage.removeItem('token');
+      
+      // Call real authentication API
+      const response = await fetch('/api/auth/staff-login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: username.trim().toLowerCase(),
+          password: password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        // Handle authentication errors
+        showToast('error', data.error || 'Invalid email or password', 'Login Failed');
+        setIsLoading(false);
+        return;
+      }
+
+      // Validate response structure
+      if (!data.token || !data.user || !data.user.role) {
+        showToast('error', 'Invalid response from server', 'Login Failed');
+        setIsLoading(false);
+        return;
+      }
+
+      // Store JWT token in localStorage
+      localStorage.setItem('token', data.token);
+      
+      // Show success message with actual user name
+      showToast('success', `Welcome back, ${data.user.name}!`, 'Login Successful');
+      
+      // Redirect to admin portal
+      onLogin();
+    } catch (error) {
+      console.error('Login error:', error);
+      showToast('error', 'Network error. Please check your connection and try again.', 'Connection Error');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -209,10 +249,21 @@ export function Login({ onLogin, onBackToPublic }: LoginProps) {
             </Button>
           </form>
 
-          <div className="mt-8 pt-6 border-t border-[var(--border-subtle)] text-center">
-            <p style={{ color: 'var(--text-tertiary)', fontSize: '13px' }}>
-              Demo credentials: any username/password
+          <div className="mt-8 pt-6 border-t border-[var(--border-subtle)]">
+            <p className="text-center mb-3" style={{ color: 'var(--text-secondary)', fontSize: '14px', fontWeight: 600 }}>
+              Demo Credentials
             </p>
+            <div style={{ color: 'var(--text-tertiary)', fontSize: '12px', fontFamily: 'monospace' }}>
+              <p className="mb-1"><strong style={{ color: 'var(--text-secondary)' }}>Owner:</strong> emily@emilybakes.com</p>
+              <p className="mb-1"><strong style={{ color: 'var(--text-secondary)' }}>Manager:</strong> manager@emilybakes.com</p>
+              <p className="mb-1"><strong style={{ color: 'var(--text-secondary)' }}>Sales:</strong> sales@emilybakes.com</p>
+              <p className="mb-1"><strong style={{ color: 'var(--text-secondary)' }}>Baker:</strong> baker@emilybakes.com</p>
+              <p className="mb-1"><strong style={{ color: 'var(--text-secondary)' }}>Decorator:</strong> decorator@emilybakes.com</p>
+              <p className="mb-2"><strong style={{ color: 'var(--text-secondary)' }}>Accountant:</strong> accountant@emilybakes.com</p>
+              <p className="text-center" style={{ color: '#C44569', fontSize: '11px' }}>
+                All passwords: <strong>DemoPass123!</strong>
+              </p>
+            </div>
           </div>
         </Card>
       </motion.div>

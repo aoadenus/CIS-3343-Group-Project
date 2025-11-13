@@ -40,6 +40,7 @@ import { ManagerDashboard } from './pages/admin/dashboards/ManagerDashboard';
 // Staff Reports
 import { OrderSummaryReport } from './pages/staff/OrderSummaryReport';
 import { CustomerListReport } from './pages/staff/CustomerListReport';
+import { RevenueReport } from './pages/staff/RevenueReport';
 
 type AppMode = 'public' | 'login' | 'admin';
 
@@ -202,6 +203,12 @@ export default function App() {
         // RBAC: Sales, Baker, Decorator, Manager only
         if (['sales', 'baker', 'decorator', 'manager', 'owner'].includes(userRole || '')) {
           return <CustomerListReport />;
+        }
+        return getRoleDashboard(); // Redirect unauthorized users to their dashboard
+      case 'revenue-report':
+        // RBAC: Accountant, Manager ONLY (per TIER 3 - Report 3 requirements)
+        if (['accountant', 'manager', 'owner'].includes(userRole || '')) {
+          return <RevenueReport />;
         }
         return getRoleDashboard(); // Redirect unauthorized users to their dashboard
       case 'system-configuration':

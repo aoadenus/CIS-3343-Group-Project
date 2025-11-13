@@ -1,0 +1,195 @@
+# 🎂 **ADMIN DELIVERABLES - COMPLETE LIST**
+
+Based on the entire chat history and attached documents, here are all the admin/staff portal deliverables organized comprehensively:
+
+***
+
+## **TIER 1: CRITICAL FIXES (MOSTLY COMPLETE) ✅**
+
+**Public Page CTA Removal:**
+- Remove "Custom Builder" menu item from Navigation entirely
+- Remove "Start Building" button from Home page hero
+- Remove "Start Custom Builder" button from Gallery page
+- Remove all inquiry forms from Shop page
+- Remove price dropdowns/selectors from Shop page
+- Remove all instances of "Start Building Your Cake," "Prefer to Order Online," "Start Your Order"
+- Update Contact page with ordering workflow (Call → Discuss → Deposit → Build → Pickup)
+- Add phone, email, address prominently to Contact page
+
+---
+
+## **TIER 2: ADMIN PORTAL UX & AUTH (IN PROGRESS) 🔄**
+
+**Demo Credentials Display & Login:**
+- Display 6 demo staff credentials on login page (in visible box above/below form)
+- Fix login validation error handling (reject invalid credentials with error message)
+- Update admin menu labels per role: "Sales Dashboard," "Baker Dashboard," "Decorator Dashboard," etc.
+
+**Fix Role-Based Dashboard Switching (CRITICAL BUG):**
+- Verify JWT token stores correct role in payload
+- Fix backend login endpoint to read role from employees table and include in token
+- Implement conditional dashboard rendering based on role:
+  - Sales → SalesDashboard
+  - Baker → BakerDashboard (with Sales access tab)
+  - Decorator → DecoratorDashboard (with Sales access tab)
+  - Accountant → AccountantDashboard (financial KPIs only)
+  - Manager/Owner → ManagerDashboard (full system access)
+- Test all 6 demo accounts individually
+- Verify session persistence on page refresh
+
+***
+
+## **TIER 3: 6 CLIENT REPORTS WITH RECHARTS (CORE DELIVERABLE) 📊**
+
+**Report 1: Order Summary** (`/staff/reports/order-summary`)
+- Access: Sales, Baker, Decorator, Manager
+- Bar chart: Orders by day (past 30 days)
+- Table: Order #, Customer, Product, Pickup, Status, Price, Deposit, Balance
+- Features: Date range picker, status filter, CSV/PDF export
+- Totals row showing count + total revenue
+
+**Report 2: Customer List** (`/staff/reports/customer-list`)
+- Access: Sales, Baker, Decorator, Manager
+- Line chart: Customer acquisition trend over time
+- Table: Name, Email, Phone, Type, Total Orders, Total Spent
+- Filters: Retail/Corporate type, spending range, VIP only
+- Export: Email list, phone list, full CSV, PDF
+
+**Report 3: Revenue Report** (`/staff/reports/revenue`) ⭐
+- Access: Accountant, Manager ONLY (restricted access)
+- Time periods: Day/Week/Month/Custom range picker
+- KPI cards: Total Revenue, Deposits, Outstanding Balance, Collection Rate
+- 3 charts: Line (revenue trend), Pie (by product type), Bar (monthly comparison)
+- Breakdown filters: Cake size, order type, payment method
+- Export: CSV, PDF, Excel
+
+**Report 4: Pending Orders** (`/staff/reports/pending-orders`)
+- Access: Sales, Baker, Decorator, Manager
+- Funnel chart: Orders by status
+- Table: Order #, Customer, Pickup Date, Days Until Due, Assigned Staff, Status
+- Color coding: 🟢 Green (>2 days), 🟡 Yellow (24-48h), 🔴 Red (<24h)
+
+**Report 5: Completed Orders** (`/staff/reports/completed-orders`)
+- Access: Baker, Decorator, Manager
+- Bar chart: Average completion time by order type
+- Table: Completion Date, Customer, Baker, Decorator, Days to Complete, Rating, Price
+- Filters: Date range, assigned staff, satisfaction rating
+- Export: CSV, PDF
+
+**Report 6: Product Inventory** (`/staff/reports/product-inventory`)
+- Access: Manager ONLY
+- Horizontal bar chart: Top 10 products by revenue
+- Table: Product, Category, Price, Times Ordered, Revenue, Trending indicator
+- Filters: Category, popularity, date range
+- Export: CSV, PDF
+
+**Report Features (All 6):**
+- CSV/PDF export functionality
+- Role-based access enforcement (unauthorized redirect)
+- Sample data visualization
+- No console errors
+- Responsive design
+
+***
+
+## **TIER 4: EMAIL & FINAL VALIDATION ✉️**
+
+**Email Notifications:**
+- Install Resend API
+- Create email template for order tracking
+- Include in email: Order #, Pickup date/time, Total, Tracking link
+- Send email automatically on order creation with tracking link
+- Test: Create 5 orders, verify emails sent
+
+**Permissions Final Audit:**
+- Test all 6 demo accounts accessing reports (verify access/deny)
+- Sales: Order Summary, Customer List, Pending ✅ / Revenue, Inventory ❌
+- Baker: Order Summary, Customer List, Pending, Completed ✅ / Revenue, Inventory ❌
+- Decorator: Order Summary, Customer List, Pending, Completed ✅ / Revenue, Inventory ❌
+- Accountant: All 6 reports ✅ / Order Create ❌
+- Manager: All 6 reports + all admin ✅
+
+**Workflow Verification:**
+- Create order → auto-generates tracking_token
+- Email sent with tracking link
+- Click tracking link → /track/{token} auto-cycles (11 stages, 2-min loop)
+- Refresh page → status advances correctly
+- Mobile view → responsive
+
+**Final Technical Checks:**
+- Chrome DevTools: Zero console errors/warnings
+- Mobile responsive: 375px and 1200px viewports
+- All buttons: 44px+ touch targets
+- Charts scale properly
+- Forms responsive
+- Google Maps embed on Contact page
+
+***
+
+## **ALL STAFF PAGES (11 TOTAL)**
+
+1. **Login Page** `/admin/login` - ✅ Complete with JWT + demo credentials display
+2. **5 Role-Based Dashboards** `/admin/analytics-dashboard` - 🔄 Role switching fix needed
+3. **Fulfillment Board** `/admin/fulfillment-board` - ✅ Kanban drag-and-drop
+4. **Order Management** `/admin/order-management` - ✅ Table with filters
+5. **Order Create** `/admin/order-create` - ✅ Manual order entry (all staff)
+6. **Customers** `/admin/customer-accounts` - ✅ CRM with search
+7. **Products** `/admin/inventory-management` - ✅ Product CRUD
+8. **Reports** `/admin/business-intelligence` - 🔄 Needs 6 reports
+9. **Inquiries** `/admin/inquiry-management` - ✅ Customer inquiry management
+10. **Settings** `/admin/system-configuration` - ✅ System config
+11. **Public Tracking** `/track/:token` - ✅ Auto-cycling 11 stages
+
+***
+
+## **DATABASE DELIVERABLES**
+
+- ✅ **employees** table with role-based auth
+- ✅ **orders** table with tracking_token, assigned_baker, assigned_decorator
+- ✅ **order_status_history** table with timestamps
+- ✅ **customers** table with VIP status
+- ✅ **products** table with full catalog
+- ✅ **payments** table for tracking
+- ✅ **inquiries** table for customer inquiries
+- ✅ **contact_messages** table for contact form submissions
+
+***
+
+## **PERMISSION MATRIX BY ROLE**
+
+| Permission| Permission | Sales | Baker | Decorator | Accountant | Manager |
+|---|---|---|---|---|---|
+| Create orders | ✅ | ✅ | ✅ | ❌ | ✅ |
+| View all orders | ✅ | ✅ | ✅ | ✅ (read) | ✅ |
+| Edit orders | ✅ | ✅ | ✅ | ❌ | ✅ |
+| View customers | ✅ | ✅ | ✅ | ✅ (read) | ✅ |
+| Manage customers | ✅ | ✅ | ✅ | ❌ | ✅ |
+| Revenue reports | ❌ | ❌ | ❌ | ✅ | ✅ |
+| All 6 reports | ❌ | ❌ | ❌ | ✅ | ✅ |
+| Order Summary | ✅ | ✅ | ✅ | ❌ | ✅ |
+| Customer List | ✅ | ✅ | ✅ | ❌ | ✅ |
+| Pending Orders | ✅ | ✅ | ✅ | ❌ | ✅ |
+
+***
+
+## **DEMO CREDENTIALS (6 ACCOUNTS)**
+
+All use password: **DemoPass123!**
+
+1. **emily@emilybakes.com** - Owner (full access)
+2. **manager@emilybakes.com** - Manager (all reports + admin)
+3. **sales@emilybakes.com** - Sales (orders, customers, 4 reports)
+4. **baker@emilybakes.com** - Baker (full sales + baking queue)
+5. **decorator@emilybakes.com** - Decorator (full sales + decoration queue)
+6. **accountant@emilybakes.com** - Accountant (all 6 reports, financial only)
+
+***
+
+## **PRIORITY STATUS**
+
+🔴 **BLOCKING:** Role-based dashboard switching (Tier 2)
+🟡 **HIGH:** 6 client reports (Tier 3)
+🟢 **READY:** Email integration (Tier 4)
+✅ **COMPLETE:** Public pages + login + database + tracking
+
+**Total Admin Deliverables: 31 items across 4 tiers**
