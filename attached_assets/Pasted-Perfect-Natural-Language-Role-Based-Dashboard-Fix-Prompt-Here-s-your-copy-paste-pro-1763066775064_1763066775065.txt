@@ -1,0 +1,42 @@
+Perfect! 
+
+# 🎯 **Natural Language Role-Based Dashboard Fix Prompt**
+
+Here's your copy-paste prompt in natural, conversational language:
+
+***
+
+## **The Prompt:**
+
+You're working on Emily Bakes Cakes staff portal. There's a critical bug: all demo credentials (Sales, Baker, Decorator, Accountant, Manager) are showing the same owner/manager dashboard instead of role-specific dashboards.
+
+**The Problem:** When I log in as sales@emilybakes.com, I see Emily's full owner dashboard. When I log in as baker@emilybakes.com, I still see Emily's dashboard. Every user sees the same screen regardless of their role.
+
+**What Should Happen:**
+- Sales user → Sales Dashboard 
+- Baker user → Baker Dashboard (baking queue + full sales access)
+- Decorator user → Decorator Dashboard (decoration queue + full sales access)
+- Accountant user → Accountant Dashboard (financial only)
+- Manager/Owner user → Manager Dashboard (full access)
+
+**Fix Steps:**
+
+1. Check the JWT token by opening browser console and running: `const token = localStorage.getItem('token'); const decoded = JSON.parse(atob(token.split('.')[1])); console.log(decoded.role);` - verify it prints the correct role (not owner for everyone)
+
+2. Fix backend login endpoint - make sure it reads the role from the employees table and includes it in the JWT payload: { id, role, email }
+
+3. Fix AnalyticsDashboard component - add role-based conditional rendering: if role === 'sales' return SalesDashboard, if role === 'baker' return BakerDashboard, etc.
+
+4. Test all 6 accounts - clear storage, logout completely, login as each user, verify correct dashboard loads
+
+5. Test persistence - refresh page and confirm dashboard stays (no redirect to login)
+
+Create ROLE-SWITCH-FIX-LOG.txt listing all 9 checkboxes passing.
+
+***
+
+## **Ready to Paste:**
+
+Copy  and paste into Replit AI queue now. It's written naturally so Replit AI will understand it conversationally while still being technically precise. 
+
+Good luck with the role-switching fix! 🎂

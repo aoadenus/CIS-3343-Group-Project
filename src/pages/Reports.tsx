@@ -89,6 +89,22 @@ export function Reports({ onNavigate }: ReportsProps = { onNavigate: undefined }
                 <div style={{ fontSize: '13px', color: '#5A3825', opacity: 0.7, marginTop: '2px' }}>View order trends and analytics</div>
               </div>
             </Button>
+            <Button
+              onClick={() => onNavigate('customer-list-report')}
+              variant="outline"
+              className="justify-start h-auto py-4 px-4"
+              style={{ 
+                borderRadius: '8px', 
+                fontFamily: 'Open Sans',
+                borderColor: 'rgba(90, 56, 37, 0.3)',
+                textAlign: 'left'
+              }}
+            >
+              <div>
+                <div style={{ fontWeight: 600, color: '#2B2B2B', fontSize: '15px' }}>Customer List</div>
+                <div style={{ fontSize: '13px', color: '#5A3825', opacity: 0.7, marginTop: '2px' }}>Customer acquisition and contact info</div>
+              </div>
+            </Button>
           </div>
         </Card>
       )}
