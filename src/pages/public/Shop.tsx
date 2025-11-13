@@ -479,10 +479,10 @@ export function Shop({ onNavigate }: ShopProps = {}) {
               lineHeight: 1.5
             }}
           >
-            Create your dream cake with our custom cake builder!
+            Call or visit us to discuss your custom cake vision!
           </p>
           <Button
-            onClick={() => onNavigate?.('builder')}
+            onClick={() => onNavigate?.('contact')}
             className="btn-primary"
             style={{
               height: '44px',
@@ -492,7 +492,7 @@ export function Shop({ onNavigate }: ShopProps = {}) {
               fontFamily: 'Poppins'
             }}
           >
-            Create Your Custom Cake
+            Contact Us
           </Button>
         </motion.div>
 

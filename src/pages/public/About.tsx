@@ -745,9 +745,10 @@ export function About() {
               }}
             >
               Let's create a masterpiece together. From Paris to your celebration—
-              handcrafted with European precision and Texas heart.
+              handcrafted with European precision and Texas heart. Call or visit us today!
             </p>
-            <motion.button
+            <motion.a
+              href="tel:555-123-4567"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.98 }}
               style={{
@@ -762,11 +763,15 @@ export function About() {
                 cursor: 'pointer',
                 boxShadow: '0 6px 24px rgba(196, 69, 105, 0.4)',
                 minWidth: '240px',
-                minHeight: '56px'
+                minHeight: '56px',
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center'
               }}
             >
-              Start Your Order
-            </motion.button>
+              📞 Call Us to Order
+            </motion.a>
           </motion.div>
         </div>
       </section>

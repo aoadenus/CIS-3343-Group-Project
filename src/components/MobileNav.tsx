@@ -12,7 +12,6 @@ interface MobileNavProps {
 const navItems = [
   { id: 'home', label: 'Home' },
   { id: 'shop', label: 'Shop' },
-  { id: 'builder', label: 'Custom Builder' },
   { id: 'gallery', label: 'Gallery' },
   { id: 'about', label: 'About' },
   { id: 'contact', label: 'Contact' }

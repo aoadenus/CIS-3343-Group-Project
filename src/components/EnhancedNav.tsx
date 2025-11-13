@@ -259,36 +259,6 @@ export function EnhancedNav() {
                 </AnimatePresence>
               </div>
             ))}
-
-            {/* CTA Button */}
-            <motion.button
-              onClick={() => navigate('/builder')}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
-              style={{
-                background: '#C44569',
-                color: 'white',
-                border: 'none',
-                padding: '12px 24px',
-                borderRadius: '8px',
-                fontFamily: 'Poppins, sans-serif',
-                fontWeight: 600,
-                fontSize: '14px',
-                cursor: 'pointer',
-                boxShadow: '0 2px 8px rgba(196, 69, 105, 0.25)',
-                transition: 'all 200ms ease-out'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#D15577';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(196, 69, 105, 0.35)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = '#C44569';
-                e.currentTarget.style.boxShadow = '0 2px 8px rgba(196, 69, 105, 0.25)';
-              }}
-            >
-              Order Now
-            </motion.button>
           </div>
 
           {/* Mobile Menu Button */}

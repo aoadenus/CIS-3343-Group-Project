@@ -199,8 +199,8 @@ export function PublicHome({ onNavigate }: PublicHomeProps = {}) {
               <span style={{ color: '#C44569' }}>Love and Tradition</span>
             </h2>
             
-            <button
-              onClick={() => onNavigate?.('builder')}
+            <a
+              href="tel:555-123-4567"
               style={{
                 background: '#C44569',
                 color: 'white',
@@ -214,12 +214,13 @@ export function PublicHome({ onNavigate }: PublicHomeProps = {}) {
                 boxShadow: '0 8px 24px rgba(196, 69, 105, 0.6)',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '16px'
+                gap: '16px',
+                textDecoration: 'none'
               }}
             >
-              Build Your Dream Cake
+              📞 Call to Order
               <ArrowRight size={26} strokeWidth={3} />
-            </button>
+            </a>
           </div>
         </div>
       </section>
@@ -375,7 +376,7 @@ export function PublicHome({ onNavigate }: PublicHomeProps = {}) {
                       </div>
 
                       <button
-                        onClick={() => onNavigate?.('builder')}
+                        onClick={() => onNavigate?.('contact')}
                         style={{
                           background: '#C44569',
                           color: 'white',
@@ -400,7 +401,7 @@ export function PublicHome({ onNavigate }: PublicHomeProps = {}) {
                           e.currentTarget.style.boxShadow = '0 2px 8px rgba(196, 69, 105, 0.25)';
                         }}
                       >
-                        Order Now
+                        Contact Us
                       </button>
                     </CardContent>
                   </div>
@@ -777,14 +778,14 @@ export function PublicHome({ onNavigate }: PublicHomeProps = {}) {
                 marginBottom: 'clamp(32px, 6vw, 48px)'
               }}
             >
-              Let's design your perfect cake together. Start our interactive custom cake builder or connect with Emily to discuss your vision.
+              Emily creates beautiful, personalized cakes for every occasion. Call us today to discuss your vision and bring your celebration to life!
             </p>
 
             {/* Primary and Secondary CTAs */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              {/* Primary Button - "Start Building" */}
-              <button
-                onClick={() => onNavigate?.('builder')}
+              {/* Primary Button - "Call to Order" */}
+              <a
+                href="tel:555-123-4567"
                 className="group"
                 style={{
                   background: '#C44569',
@@ -802,7 +803,8 @@ export function PublicHome({ onNavigate }: PublicHomeProps = {}) {
                   minWidth: '48px',
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '12px'
+                  gap: '12px',
+                  textDecoration: 'none'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)';
@@ -812,13 +814,12 @@ export function PublicHome({ onNavigate }: PublicHomeProps = {}) {
                   e.currentTarget.style.transform = 'scale(1) translateY(0)';
                   e.currentTarget.style.boxShadow = '0 6px 18px rgba(196, 69, 105, 0.35)';
                 }}
-                aria-label="Start building your custom cake"
+                aria-label="Call to order your custom cake"
               >
-                Start Building
-                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-200" />
-              </button>
+                📞 Call to Order
+              </a>
 
-              {/* Secondary Button - "Contact Emily" */}
+              {/* Secondary Button - "Visit Us" */}
               <button
                 onClick={() => onNavigate?.('contact')}
                 className="group"
@@ -849,9 +850,9 @@ export function PublicHome({ onNavigate }: PublicHomeProps = {}) {
                   e.currentTarget.style.transform = 'translateY(0)';
                   e.currentTarget.style.boxShadow = 'none';
                 }}
-                aria-label="Contact Emily directly"
+                aria-label="Visit us or send a message"
               >
-                Contact Emily
+                📍 Visit Us
               </button>
             </div>
           </motion.div>

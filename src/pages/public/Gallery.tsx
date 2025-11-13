@@ -860,10 +860,11 @@ export function Gallery() {
                 margin: '0 auto 32px'
               }}
             >
-              These are just a few examples of our work. Let's create something unique for your special occasion.
+              These are just a few examples of our work. Interested in something similar? Call, visit, or email us to create your perfect cake!
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
-              <button
+              <a
+                href="tel:555-123-4567"
                 style={{
                   background: '#C44569',
                   color: 'white',
@@ -877,7 +878,10 @@ export function Gallery() {
                   boxShadow: '0 4px 12px rgba(196, 69, 105, 0.3)',
                   transition: 'all 250ms ease',
                   minWidth: '240px',
-                  minHeight: '48px'
+                  minHeight: '48px',
+                  textDecoration: 'none',
+                  display: 'inline-block',
+                  textAlign: 'center'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-2px)';
@@ -888,9 +892,10 @@ export function Gallery() {
                   e.currentTarget.style.boxShadow = '0 4px 12px rgba(196, 69, 105, 0.3)';
                 }}
               >
-                Start Custom Builder
-              </button>
-              <button
+                📞 Call Us to Order
+              </a>
+              <a
+                href="mailto:emily@emilybakes.com"
                 style={{
                   background: 'transparent',
                   color: '#C44569',
@@ -903,7 +908,10 @@ export function Gallery() {
                   cursor: 'pointer',
                   transition: 'all 250ms ease',
                   minWidth: '240px',
-                  minHeight: '48px'
+                  minHeight: '48px',
+                  textDecoration: 'none',
+                  display: 'inline-block',
+                  textAlign: 'center'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = 'rgba(196, 69, 105, 0.05)';
@@ -912,8 +920,8 @@ export function Gallery() {
                   e.currentTarget.style.background = 'transparent';
                 }}
               >
-                Contact Emily
-              </button>
+                📧 Email Us
+              </a>
             </div>
           </motion.div>
         </div>
