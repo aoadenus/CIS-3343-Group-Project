@@ -1,0 +1,265 @@
+CIS 3343 – Fall 2025 Case Study
+As of September 15th, 2025
+
+CIS 3343 – Fall 2025 Case Study
+Page | 2 As of September 15th, 2025
+Business Overview
+Emily Bakes Cake was founded by Emily Boudreaux in 2003 and is in Houston, Texas. Emily
+does have a physical storefront where she sells her standard products: cakes, cupcakes,
+cookies, and pastries. Emily’s specialty is her work customizing and decorating her EuropeanStyle cakes for her customers.
+Emily’s love of baking started when she was a young girl. Her grandmother, whom she lovingly
+called “Mommie”, would often include Emily whenever she was baking desserts for the family.
+Mommie always said “Everyone should have one special cake for their birthday or big event in
+their lives.” Emily continues to honor her grandmother by continuing that tradition.
+Later in life, Emily spent a few years in Europe developing her skills as a baker. She spent
+several years in Paris working for a Boulangerie (Bakery) and a year in Salzburg. In Salzburg,
+Emily learned Bavarian and Austrian baking techniques.
+Emily Bakes Cakes prides itself on the fact that they bake from scratch using her family’s recipes
+combined with her European baking skills that she learned in Europe. This has resulted in
+robust sales at their physical store location near the Galleria.
+While Emily Bakes Cakes continues to follow these traditions for their baking, this traditional
+approach has also affected their business processes. Their paper-based custom order tracking
+system is inefficient and prevents them from maximizing their revenue. Emily Bakes Cakes’
+sales staff currently spends about half of their time manually writing down custom cake orders.
+The bakery loses around 3 to 5 orders per month by misplacing or accidentally throwing away
+papers with order details or by letting an order slip through the cracks and not producing the
+product on the day it was needed. On average, it costs Emily Bakes Cakes around $4,800 per
+year. This lack of organization causes both a loss in immediate revenue, as well as future
+customer orders because of the reduced customer satisfaction and harm to the company’s
+reputation.
+The company’s revenue is also affected by their ability to store previous customer data and
+orders. As a result, inefficiency in anticipating the desires of their customers. According to
+Emily’s estimations, Emily Bakes Cake loses approximately 15% of their potential returning
+customers due to the lack of stored customer data. In addition, their web-portal is old and fails
+to properly support access from mobile-devices which limits the number of potential customers
+looking for customized bake goods.
+CIS 3343 – Fall 2025 Case Study
+Page | 3 As of September 15th, 2025
+Business Project Objective
+Objective Statement
+To:
+ Create a Customer and Order Web Database Application
+In A Way That:
+ Reduces customer order time creation
+ Reduces lost and duplicate orders
+ Increases customer retention
+So That:
+ Hours spent tracking customer orders is reduced by 25%
+ Costs of lost products due to order mismanagement is reduced by 80%
+ The number of returning customers is increased by 15%
+Can be Measured By:
+ Decrease salesperson time spent creating and handling orders from 20
+hours per week to 15 hours per week which reduces yearly operational
+costs from $40,000 to $30,000 by the end of year 3.
+ Reduced costs associated with lost products from $4,800 per year to
+$960 per year by the end of year 2.
+ The total number of returning customers has increased from 700 per
+year to 805 per year by the end of year three resulting in $8,400 of
+additional sales.
+
+CIS 3343 – Fall 2025 Case Study
+Page | 4 As of September 15th, 2025
+Business Roles and Business Processes
+Emily
+Emily’s primary role is the overall business owner and project sponsor. Emily works closely with
+James, the Bakery Manager. In addition, Emily is the Chief Decorator. If not busy, she can also
+serve as a baker or as a member of the sales staff. Emily also serves as the Bakery Manager
+when James is on vacation or away from the bakery.
+James (Bakery Manager)
+James’ primary role is to manage the day-to-day business of the bakery. James is responsible
+for ordering whatever is needed from the company’s various Suppliers. James will directly
+oversee the Sales, Baking, and Decorating Staff (except for Emily).
+Sales Staff
+The Sales Staff is responsible for selling products to “walk-in” customers. The Sales Staff also fill
+out Custom Cake orders. Once a custom cake order is completed, the Sales Staff places the
+custom orders in the Pink “To Be Created” basket located in the baking area. The Sales Staff are
+also the ones who hand out the custom cakes when a customer returns to pick up their custom
+order. At the end of each shift, the sales staff gives the money from their cash registers along
+with the associated credit card receipts to James.
+Bakers
+The baking staff’s primary role is to bake and assemble the cakes and the other standard
+products that are sold in the physical store. Each week, the Bakers tell James what baking
+ingredients are needed for the week. Regarding Custom Cakes, the decorators give their
+finished work to the Bakers who in turn bring the custom cakes to James for final approval.
+Bakers, if not busy, can also serve as sales staff.
+Decorators
+The decorators’ job is to decorate the assembled cakes provided by the bakers. The decorators
+are frequently consulted on the taking of custom orders. The Decorators also may have
+additional questions for the customer before and once decorating begins. Decorators, if not
+busy, can also serve as sales staff.
+Accountant / CPA
+Dan, who is also Emily’s cousin, serves as a part-time accountant for the business. Dan is a
+registered CPA. Dan works with James in the handling of the business receipts and business
+documents. Dan also handles all banking transactions. Dan provides weekly and monthly
+reports to James and Emily.
+CIS 3343 – Fall 2025 Case Study
+Page | 5 As of September 15th, 2025
+Business Rules
+ Never buy “ready-made” cake mixes.
+ Each unique person is a customer.
+ Customers can either be Retail or Corporate, not both.
+ Certain “Preferred” customers can receive a discount of 10% at the discretion of Emily
+or the Bakery Manager.
+ Corporate Customers can have more than one location, but a corporation should be
+considered a single customer.
+ One Cake or Product per Order.
+ Customers must pay at least 50% deposit on all custom orders.
+ Cash, Debit and Major Credit Cards are the valid forms of payment.
+ Customers can customize any of the “standard” cakes.
+ Cup Cakes can also be customized. However, all cupcake fillings are done in the top
+center portion of the cupcake.
+ Customized cakes should be ordered at least 2 days in advance. Exceptions can be
+made at the Store Manager’s discretion.
+ For multi-tiered cakes, Layer 1 is always the bottom-most layer.
+ Products can only be in one category. Products are categorized as follows:
+o Cakes
+o Pastries
+o Cup Cakes
+o Cookies
+o Petit Fours
+o Pies
+o Breads
+o Seasonal Products (limited availability per season)
+ One cake layer can have no filling, one filling, or at most two layers of the same filling.
+ Prices for decorated cakes are negotiated at the time of ordering. This is because the
+customization work may be very extensive, time consuming and required specialized
+decorating skills.
+ Cakes should be completed and fully decorated at least 4 hours before the customer’s
+scheduled pickup day/time.
+ The Bakery Manager or Emily must approve all completed customized cakes.
+ Cake Orders can be cancelled prior to baking beginning. Decorations can be modified
+before decorating begins. However, decorating changes could result in a change of the
+quoted price of the finished product.
+ Customers can provide photos, clippings, or example copies of their desired finished
+product. These examples will be evaluated to determine the feasibility of being
+replicated by our Cake Decorators. Cake Decorators will make the final decision.
+CIS 3343 – Fall 2025 Case Study
+Page | 6 As of September 15th, 2025
+Business Requirements
+After an initial interview with Emily, the Project Sponsor, stated that she wants the project to
+focus on the Custom Cake Order side of the business. The standard walk-in side of the business
+is working well. Regarding custom cake ordering, she identified these Initial High-Level
+Requirements for the project
+1. Customer Management
+The system should allow Emily Bakes Cake to input customer information and use this
+information as desired by the business. The system should provide additional marking
+functionality, such as the ability to pull up email lists and phone number lists. Overall,
+this requirement is one of the highest priorities and is categorized as mandatory by the
+Sponsor.
+2. Order Creation and Tracking
+The system should enable the bakery to create orders for customized orders by
+selecting a product and a customer. The system should remind the bakery when orders
+need to be made and update the status of orders as needed. Finally, the order should
+track who was the last employee working on an order. Overall, this requirement has the
+second priority, and it is categorized as mandatory.
+3. Product Management
+The system should allow the bakery to capture all their pricing information for their
+products and product options. The product data should be updatable as needed when
+prices change, or the products offered are changed. Overall, this requirement has the
+third level of priority. This requirement is categorized as key to the Sponsor.
+4. Optional Updated Website
+A newly revised customer-facing website should be created that has an improved user
+interface and provides more information about the bakery and its products. This overall
+requirement has the fourth level of priority and is optional at this time.
+NOTE: Inventory Management is NOT in scope.
+
+CIS 3343 – Fall 2025 Case Study
+Page | 7 As of September 15th, 2025
+Product Options
+Standard Cakes
+Birthday Celebration
+Almond Delight
+Lemon and Cream Cheese
+Black Forest
+German Chocolate Cream Cheese
+Chocolate Ganache
+Italian Cream
+Lemon Doberge
+Chocolate Doberge
+½ & ½ Doberge Cake (Lemon and Chocolate)
+Pecan Praline Cream Cheese
+Chocolate Banana
+Strawberry Delight
+Cookies and Cream
+Cake Flavors
+Vanilla, Almond, Yellow, Devil’s Food Chocolate, Chocolate, Strawberry
+Filling Flavors
+White Buttercream, Chocolate Buttercream, Almond Buttercream, Cream
+Cheese, Lemon Curd, Strawberry, Rum/Strawberry, Raspberry, Pecan Praline,
+Chocolate Mousse, Lemon Mousse, Strawberry Mousse, Raspberry Mousse,
+White Chocolate Mousse, and Mango Mousse.
+Icing Flavors
+White Buttercream, Chocolate Buttercream, Almond Buttercream, White
+Chocolate Buttercream, Cream Cheese, Chocolate Ganache
+CIS 3343 – Fall 2025 Case Study
+Page | 8 As of September 15th, 2025
+Cake Sizes with prices as of 10/2/2024
+ 6-inch Round Double Layer (Serves 4-6) - $20
+ 8-inch Round Double Layer (Serves 12-15) - $30
+ 10-inch Round Double Layer (Serves 25-30) - $60
+ 12-inch Round Double Layer (Serves 35) - $100
+ 14-inch Round Double Layer (Serves 40) - $140
+ 16-inch Round Double Layer (Serves 85) - $180
+ ¼ Sheet Double Layer (Serves 15-20) - $40
+ ½ Sheet Double Layer (Serves 30-50) - $100
+ Full Sheet Double Layer (Serves 90-100) - $200
+Icing and Writing Colors
+CIS 3343 – Fall 2025 Case Study
+Page | 9 As of September 15th, 2025
+Additional Cake Decorations
+ Buttercream Flowers
+ Fondant Decorations
+ Silk Flowers (Iris, Rose, Daisy, Lily)
+ Silk Butterflies
+ Edible Sugar-Based “Photos” (Customer Provided Photos)
+ Toy Trains
+ Plastic Dinosaurs
+ Various Dolls
+ Construction Toys
+ Plastic Deer, Squirrels, Rabbits
+ Camping Tent, Camping Fire
+ Race Cars
+ Plastic Ballet Slippers
+ Plastic Baby Rattles
+ Plastic Baby Bottle
+ Plastic Fish
+ Plastic Pine Trees
+ Plastic Palm Trees
+ Fleur-de-Lis pics
+ Rock Candy
+ Plastic Graduation Cap
+ Plastic Balloons
+ Plastic Firework Explosions
+ Ribbons (Red, Blue, Pink, Purple, Gold, Silver, Yellow, White, Green, and Black)
+ Plastic Star Explosion Insert
+ Paper Parasols
+ Plastic Pics (Flamingos, Fish, Mermaids, Flip Flops, Seashells)
+ Flags (US, Canada, Mexico)
+ Plastic Sports Equipment (Goal Posts, Soccer Nets, Basketball Nets)
+ Rainbows
+
+CIS 3343 – Fall 2025 Case Study
+Page | 10 As of September 15th, 2025
+High Level Project Timeline
+ Stage/Phase Deadline
+Project Initiation Monday, October 13th, 2025
+Analysis Monday, November 10th, 2025
+Required System Design Monday, January 26th, 2026
+Application Coding/Testing Monday, April 27th, 2026
+Implementation Monday, May 11th, 2026
+Project Closure Monday, May 18th, 2026
+Current Technical Infrastructure
+Currently, Emily Bakes Cakes’ Internet Service Provider (ISP) is Comcast/Xfinity. The current
+monthly contract is for 800 Mbps speed. The company is also renting a modem and router
+from Xfinity. The company has one Windows-based desktop machine in the
+baking/decorating space. Emily and James have their own company-provided laptops which
+connect to the internet using their Wi-Fi access via their ISP. The desktop is 4 years old and
+the laptops are 3 years old. There is a basic Canon color multi-function printer.
+Emily Bakes Cakes also has a Point-of-Sale Cash Register along with one Credit Card
+Processing machine.
+The bakery also has 1 Icingsinks Cake Topper Image Printer.
+*** NOTE - Case Study Disclaimer
+The information contained in this case study is to be used only as a case study example for teaching
+purposes. The information in the case study is both factual and fictional. Statements and opinions
+formulated by the author are intended to stimulate class discussion for project completion purposes.
+Thanks goes out to my previous students whose past projects have contributed to this case study.

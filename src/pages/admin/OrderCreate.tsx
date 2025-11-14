@@ -29,8 +29,7 @@ import {
   decorations,
   isRushOrder,
   calculateSizeBasedPrice,
-  type LayerData,
-  type ColorOption
+  type LayerData
 } from '../../data/cakeOptions';
 
 interface Customer {
