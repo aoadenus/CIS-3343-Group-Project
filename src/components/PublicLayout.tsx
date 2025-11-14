@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { User, Heart } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { motion } from 'motion/react';
 import { HamburgerIcon } from './HamburgerIcon';
 import { MobileNav } from './MobileNav';
@@ -112,33 +112,6 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
 
             {/* Right Section - Icons */}
             <div className="flex items-center gap-2 flex-shrink-0">
-              {/* Staff Login Button */}
-              <button
-                onClick={onAdminAccess}
-                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all"
-                style={{
-                  background: 'rgba(255, 255, 255, 0.15)',
-                  border: '1px solid rgba(255, 255, 255, 0.3)',
-                  color: 'white',
-                  fontFamily: 'Poppins, sans-serif',
-                  fontWeight: 600,
-                  fontSize: '13px',
-                  cursor: 'pointer',
-                  backdropFilter: 'blur(10px)',
-                  whiteSpace: 'nowrap'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
-                }}
-              >
-                <User size={16} />
-                <span className="hidden xl:inline">Staff Login</span>
-                <span className="xl:hidden">Login</span>
-              </button>
-
               {/* Mobile Menu Button - Only show when menu is closed */}
               {!mobileMenuOpen && (
                 <HamburgerIcon 
@@ -158,7 +131,6 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
         onClose={() => setMobileMenuOpen(false)}
         activePage={activePage}
         onNavigate={onNavigate}
-        onAdminAccess={onAdminAccess}
       />
 
       {/* Main Content */}
@@ -371,6 +343,29 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
             >
               © {new Date().getFullYear()} Emily Bakes Cakes. All rights reserved.
             </p>
+            <button
+              onClick={onAdminAccess}
+              style={{
+                fontFamily: 'Open Sans, sans-serif',
+                fontSize: '11px',
+                color: 'rgba(255, 255, 255, 0.4)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '8px',
+                marginTop: '8px',
+                textDecoration: 'underline',
+                transition: 'color 200ms ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'rgba(255, 255, 255, 0.4)';
+              }}
+            >
+              Staff Login
+            </button>
           </div>
         </div>
       </footer>

@@ -1,12 +1,10 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { User } from 'lucide-react';
 
 interface MobileNavProps {
   isOpen: boolean;
   onClose: () => void;
   activePage: string;
   onNavigate: (page: string) => void;
-  onAdminAccess: () => void;
 }
 
 const navItems = [
@@ -17,7 +15,7 @@ const navItems = [
   { id: 'contact', label: 'Contact' }
 ];
 
-export function MobileNav({ isOpen, onClose, activePage, onNavigate, onAdminAccess }: MobileNavProps) {
+export function MobileNav({ isOpen, onClose, activePage, onNavigate }: MobileNavProps) {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -165,48 +163,6 @@ export function MobileNav({ isOpen, onClose, activePage, onNavigate, onAdminAcce
                   </motion.button>
                 ))}
               </nav>
-
-              {/* Divider */}
-              <div className="border-t mb-4 flex-shrink-0" style={{ borderColor: 'rgba(90, 56, 37, 0.15)' }} />
-
-              {/* Staff Login Button */}
-              <button
-                onClick={() => {
-                  onAdminAccess();
-                  onClose();
-                }}
-                className="flex-shrink-0"
-                style={{
-                  background: '#C44569',
-                  color: 'white',
-                  fontFamily: 'Poppins',
-                  fontWeight: 600,
-                  fontSize: '15px',
-                  padding: '14px 24px',
-                  borderRadius: '12px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '10px',
-                  boxShadow: '0 4px 16px rgba(196, 69, 105, 0.3)',
-                  minHeight: '52px',
-                  transition: 'all 200ms ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(196, 69, 105, 0.4)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(196, 69, 105, 0.3)';
-                }}
-              >
-                <User size={20} />
-                Staff Login
-              </button>
 
               {/* Contact Info */}
               <div className="mt-6 p-4 rounded-xl flex-shrink-0" style={{ background: 'rgba(248, 235, 215, 0.5)' }}>
