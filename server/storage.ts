@@ -166,9 +166,7 @@ export async function getAllOrdersWithCustomers() {
       customerEmail: customers.email,
       customerPhone: customers.phone,
       orderType: orders.orderType,
-      occasion: orders.occasion,
       flavor: orders.flavor,
-      design: orders.design,
       servings: orders.servings,
       eventDate: orders.eventDate,
       message: orders.message,
@@ -222,14 +220,14 @@ export async function updateOrder(id: number, data: Partial<NewOrder>) {
 // Get customers with order statistics for reports
 export async function getCustomersForReport(minSpending?: number, maxSpending?: number, customerType?: string) {
   // Build WHERE conditions
-  const whereConditions = [isNull(customers.deletedAt)];
+  const whereConditions: any[] = [isNull(customers.deletedAt)];
   
   if (customerType && customerType !== 'all') {
-    whereConditions.push(eq(customers.customerType, customerType));
+    whereConditions.push(sql`${customers.customerType} = ${customerType}`);
   }
   
   // Build HAVING conditions for spending filters (SQL-based, not client-side)
-  const havingConditions = [];
+  const havingConditions: any[] = [];
   if (minSpending !== undefined) {
     havingConditions.push(sql`COALESCE(SUM(${orders.totalAmount}), 0) >= ${minSpending}`);
   }
@@ -435,9 +433,21 @@ export async function getEmployeeByEmail(email: string) {
   return employee || null;
 }
 
+export async function getEmployeeByEmailIncludingInactive(email: string) {
+  const [employee] = await db.select().from(employees)
+    .where(eq(employees.email, email));
+  return employee || null;
+}
+
 export async function getEmployeeById(id: number) {
   const [employee] = await db.select().from(employees)
     .where(and(eq(employees.id, id), eq(employees.isActive, true)));
+  return employee || null;
+}
+
+export async function getEmployeeByIdIncludingInactive(id: number) {
+  const [employee] = await db.select().from(employees)
+    .where(eq(employees.id, id));
   return employee || null;
 }
 
@@ -447,9 +457,46 @@ export async function getAllEmployees() {
     .orderBy(employees.name);
 }
 
+export async function getAllEmployeesIncludingInactive() {
+  return await db.select().from(employees)
+    .orderBy(desc(employees.createdAt));
+}
+
 export async function createEmployee(data: NewEmployee) {
   const [employee] = await db.insert(employees).values(data).returning();
   return employee;
+}
+
+export async function updateEmployee(id: number, data: Partial<NewEmployee>) {
+  const [updated] = await db.update(employees)
+    .set({ ...data, updatedAt: new Date() })
+    .where(eq(employees.id, id))
+    .returning();
+  return updated;
+}
+
+export async function toggleEmployeeStatus(id: number) {
+  const employee = await getEmployeeByIdIncludingInactive(id);
+  if (!employee) return null;
+  
+  const [updated] = await db.update(employees)
+    .set({ isActive: !employee.isActive, updatedAt: new Date() })
+    .where(eq(employees.id, id))
+    .returning();
+  return updated;
+}
+
+export async function searchEmployees(query: string) {
+  const searchPattern = `%${query}%`;
+  return await db.select().from(employees)
+    .where(
+      or(
+        ilike(employees.name, searchPattern),
+        ilike(employees.email, searchPattern)
+      )
+    )
+    .orderBy(employees.name)
+    .limit(20);
 }
 
 // ============ COMBINED QUERIES ============

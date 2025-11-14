@@ -318,13 +318,13 @@ app.get('/api/orders/:id', async (req, res) => {
 app.post('/api/orders/custom', async (req, res) => {
   try {
     const { 
-      name, email, phone, occasion, flavor, design, servings, date, message, notes, inspirationImages, layers,
+      name, email, phone, flavor, servings, date, message, notes, inspirationImages, layers,
       // Admin-specific fields
       customerId, adminNotes, status, priority, depositAmount, paymentStatus, totalAmount, createdBy
     } = req.body;
     
     // Validate required fields (support both legacy single flavor and new layer system)
-    if (!name || !email || !occasion || !design) {
+    if (!name || !email) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
     
@@ -370,9 +370,7 @@ app.post('/api/orders/custom', async (req, res) => {
     const orderData: NewOrder = {
       customerId: customer.id,
       orderType: 'custom',
-      occasion,
       flavor: flavor || null,
-      design,
       servings: servings ? parseInt(servings) : null,
       eventDate: date ? new Date(date) : null,
       message,
@@ -620,6 +618,136 @@ app.patch('/api/inquiries/:id/status', async (req, res) => {
   } catch (error) {
     console.error('Error updating inquiry status:', error);
     res.status(500).json({ error: 'Failed to update inquiry status' });
+  }
+});
+
+// ============ EMPLOYEES ============
+
+app.get('/api/employees', authenticateToken, requireRole('manager', 'owner'), async (req: AuthRequest, res) => {
+  try {
+    const employees = await storage.getAllEmployeesIncludingInactive();
+    const employeesWithoutPasswords = employees.map(({ passwordHash, ...employee }) => employee);
+    res.json(employeesWithoutPasswords);
+  } catch (error) {
+    console.error('Error fetching employees:', error);
+    res.status(500).json({ error: 'Failed to fetch employees' });
+  }
+});
+
+app.get('/api/employees/search', authenticateToken, requireRole('manager', 'owner'), async (req: AuthRequest, res) => {
+  try {
+    const query = req.query.q as string;
+    
+    if (!query || query.trim().length === 0) {
+      return res.status(400).json({ error: 'Search query is required' });
+    }
+    
+    const employees = await storage.searchEmployees(query.trim());
+    const employeesWithoutPasswords = employees.map(({ passwordHash, ...employee }) => employee);
+    res.json(employeesWithoutPasswords);
+  } catch (error) {
+    console.error('Error searching employees:', error);
+    res.status(500).json({ error: 'Failed to search employees' });
+  }
+});
+
+app.post('/api/employees', authenticateToken, requireRole('manager', 'owner'), async (req: AuthRequest, res) => {
+  try {
+    const { name, email, role, password } = req.body;
+    
+    if (!name || !email || !role || !password) {
+      return res.status(400).json({ error: 'Name, email, role, and password are required' });
+    }
+    
+    const validRoles = ['sales', 'baker', 'decorator', 'accountant', 'manager', 'owner'];
+    if (!validRoles.includes(role)) {
+      return res.status(400).json({ error: 'Invalid role' });
+    }
+    
+    if (password.length < 8) {
+      return res.status(400).json({ error: 'Password must be at least 8 characters' });
+    }
+    
+    const existing = await storage.getEmployeeByEmailIncludingInactive(email);
+    if (existing) {
+      return res.status(409).json({ error: 'Employee with this email already exists' });
+    }
+    
+    const passwordHash = await bcrypt.hash(password, 10);
+    
+    const employee = await storage.createEmployee({
+      name,
+      email: email.toLowerCase().trim(),
+      passwordHash,
+      role,
+      isActive: true,
+    });
+    
+    const { passwordHash: _, ...employeeWithoutPassword } = employee;
+    res.status(201).json(employeeWithoutPassword);
+  } catch (error) {
+    console.error('Error creating employee:', error);
+    res.status(500).json({ error: 'Failed to create employee' });
+  }
+});
+
+app.patch('/api/employees/:id', authenticateToken, requireRole('manager', 'owner'), async (req: AuthRequest, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const { name, email, role, password } = req.body;
+    
+    const existing = await storage.getEmployeeByIdIncludingInactive(id);
+    if (!existing) {
+      return res.status(404).json({ error: 'Employee not found' });
+    }
+    
+    const updates: any = {};
+    
+    if (name) updates.name = name;
+    if (email && email !== existing.email) {
+      const emailExists = await storage.getEmployeeByEmailIncludingInactive(email);
+      if (emailExists && emailExists.id !== id) {
+        return res.status(409).json({ error: 'Email already in use' });
+      }
+      updates.email = email.toLowerCase().trim();
+    }
+    if (role) {
+      const validRoles = ['sales', 'baker', 'decorator', 'accountant', 'manager', 'owner'];
+      if (!validRoles.includes(role)) {
+        return res.status(400).json({ error: 'Invalid role' });
+      }
+      updates.role = role;
+    }
+    if (password) {
+      if (password.length < 8) {
+        return res.status(400).json({ error: 'Password must be at least 8 characters' });
+      }
+      updates.passwordHash = await bcrypt.hash(password, 10);
+    }
+    
+    const updated = await storage.updateEmployee(id, updates);
+    const { passwordHash: _, ...employeeWithoutPassword } = updated;
+    res.json(employeeWithoutPassword);
+  } catch (error) {
+    console.error('Error updating employee:', error);
+    res.status(500).json({ error: 'Failed to update employee' });
+  }
+});
+
+app.patch('/api/employees/:id/status', authenticateToken, requireRole('manager', 'owner'), async (req: AuthRequest, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    
+    const employee = await storage.toggleEmployeeStatus(id);
+    if (!employee) {
+      return res.status(404).json({ error: 'Employee not found' });
+    }
+    
+    const { passwordHash: _, ...employeeWithoutPassword } = employee;
+    res.json(employeeWithoutPassword);
+  } catch (error) {
+    console.error('Error toggling employee status:', error);
+    res.status(500).json({ error: 'Failed to toggle employee status' });
   }
 });
 

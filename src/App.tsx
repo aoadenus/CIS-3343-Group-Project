@@ -26,6 +26,7 @@ import { Customers } from './pages/Customers';
 import { Products } from './pages/Products';
 import { Reports } from './pages/Reports';
 import { Settings } from './pages/Settings';
+import { StaffManagement } from './pages/StaffManagement';
 
 // Role-based dashboards
 import { SalesDashboard } from './pages/admin/dashboards/SalesDashboard';
@@ -221,6 +222,12 @@ export default function App() {
         return getRoleDashboard(); // Redirect unauthorized users to their dashboard
       case 'system-configuration':
         return <Settings />;
+      case 'staff-management':
+        // RBAC: Manager/Owner ONLY
+        if (['manager', 'owner'].includes(userRole || '')) {
+          return <StaffManagement />;
+        }
+        return getRoleDashboard(); // Redirect unauthorized users to their dashboard
       
       // Legacy routes (backward compatibility)
       case 'dashboard':
