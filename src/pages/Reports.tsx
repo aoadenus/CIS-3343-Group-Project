@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { Card } from '../components/ui/card';
 import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell, Area, AreaChart } from 'recharts';
 import { Download, Mail, Loader2, Calendar } from 'lucide-react';
 import { useToast } from '../components/ToastContext';
-import { StandardButton } from '../components/StandardButton';
 
 const monthlyRevenue = [
   { month: 'Jan', revenue: 6800 },
@@ -52,7 +50,7 @@ export function Reports({ onNavigate, userRole }: ReportsProps = { onNavigate: u
   const { showToast } = useToast();
   const [isDownloading, setIsDownloading] = useState(false);
   const [isEmailing, setIsEmailing] = useState(false);
-  const [dateRange, setDateRange] = useState('Last 6 Months');
+  const [dateRange] = useState('Last 6 Months');
 
   const handleDownload = async () => {
     setIsDownloading(true);
@@ -70,12 +68,15 @@ export function Reports({ onNavigate, userRole }: ReportsProps = { onNavigate: u
 
   return (
     <div className="space-y-6 lg:space-y-8">
-      {/* Client Reports Navigation */}
+      {/* General Reports - Sales, Baker, Decorator, Manager, Owner */}
       {onNavigate && (
         <Card className="p-6 rounded-xl bg-white" style={{ boxShadow: '0px 2px 8px rgba(90, 56, 37, 0.12)' }}>
           <h2 className="mb-4" style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: 'clamp(18px, 4vw, 22px)', color: '#2B2B2B' }}>
-            Client Reports
+            General Reports
           </h2>
+          <p className="mb-4" style={{ fontFamily: 'Open Sans', fontSize: '14px', color: '#5A3825', opacity: 0.8 }}>
+            Available to Sales, Baker, Decorator, Manager, and Owner roles
+          </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             <Button
               onClick={() => onNavigate('order-summary-report')}
@@ -107,6 +108,71 @@ export function Reports({ onNavigate, userRole }: ReportsProps = { onNavigate: u
               <div>
                 <div style={{ fontWeight: 600, color: '#2B2B2B', fontSize: '15px' }}>Customer List</div>
                 <div style={{ fontSize: '13px', color: '#5A3825', opacity: 0.7, marginTop: '2px' }}>Customer acquisition and contact info</div>
+              </div>
+            </Button>
+            <Button
+              onClick={() => onNavigate('pending-orders-report')}
+              variant="outline"
+              className="justify-start h-auto py-4 px-4"
+              style={{ 
+                borderRadius: '8px', 
+                fontFamily: 'Open Sans',
+                borderColor: 'rgba(90, 56, 37, 0.3)',
+                textAlign: 'left'
+              }}
+            >
+              <div>
+                <div style={{ fontWeight: 600, color: '#2B2B2B', fontSize: '15px' }}>Pending Orders</div>
+                <div style={{ fontSize: '13px', color: '#5A3825', opacity: 0.7, marginTop: '2px' }}>Track orders by status with urgency</div>
+              </div>
+            </Button>
+            <Button
+              onClick={() => onNavigate('completed-orders-report')}
+              variant="outline"
+              className="justify-start h-auto py-4 px-4"
+              style={{ 
+                borderRadius: '8px', 
+                fontFamily: 'Open Sans',
+                borderColor: 'rgba(90, 56, 37, 0.3)',
+                textAlign: 'left'
+              }}
+            >
+              <div>
+                <div style={{ fontWeight: 600, color: '#2B2B2B', fontSize: '15px' }}>Completed Orders</div>
+                <div style={{ fontSize: '13px', color: '#5A3825', opacity: 0.7, marginTop: '2px' }}>Completion times and performance</div>
+              </div>
+            </Button>
+          </div>
+        </Card>
+      )}
+
+      {/* Management Reports - Manager & Owner Only */}
+      {onNavigate && userRole && ['manager', 'owner'].includes(userRole) && (
+        <Card className="p-6 rounded-xl bg-white" style={{ boxShadow: '0px 2px 8px rgba(90, 56, 37, 0.12)', border: '2px solid rgba(90, 56, 37, 0.2)' }}>
+          <div className="flex items-center gap-2 mb-4">
+            <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#5A3825' }}></div>
+            <h2 style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: 'clamp(18px, 4vw, 22px)', color: '#5A3825' }}>
+              Management Reports
+            </h2>
+          </div>
+          <p className="mb-4" style={{ fontFamily: 'Open Sans', fontSize: '14px', color: '#5A3825', opacity: 0.8 }}>
+            Restricted to Manager and Owner roles only
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <Button
+              onClick={() => onNavigate('product-inventory-report')}
+              variant="outline"
+              className="justify-start h-auto py-4 px-4"
+              style={{ 
+                borderRadius: '8px', 
+                fontFamily: 'Open Sans',
+                borderColor: 'rgba(90, 56, 37, 0.4)',
+                textAlign: 'left'
+              }}
+            >
+              <div>
+                <div style={{ fontWeight: 600, color: '#5A3825', fontSize: '15px' }}>Product Inventory</div>
+                <div style={{ fontSize: '13px', color: '#5A3825', opacity: 0.7, marginTop: '2px' }}>Top products by revenue and frequency</div>
               </div>
             </Button>
           </div>

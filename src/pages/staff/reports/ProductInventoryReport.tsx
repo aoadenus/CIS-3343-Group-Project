@@ -30,25 +30,57 @@ export function ProductInventoryReport() {
   const fetchReportData = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/products');
-      if (!response.ok) throw new Error('Failed to fetch products');
+      const [productsResponse, ordersResponse] = await Promise.all([
+        fetch('/api/products'),
+        fetch('/api/orders')
+      ]);
       
-      const allProducts = await response.json();
+      if (!productsResponse.ok) throw new Error('Failed to fetch products');
+      if (!ordersResponse.ok) throw new Error('Failed to fetch orders');
       
-      const productsWithStats = allProducts.map((product: any) => ({
-        id: product.id,
-        name: product.name,
-        category: product.category || 'Uncategorized',
-        price: product.price / 100,
-        timesOrdered: Math.floor(Math.random() * 50), // Mock data
-        revenue: Math.floor(Math.random() * 5000), // Mock data
-        trending: Math.random() > 0.7
-      }));
+      const allProducts = await productsResponse.json();
+      const allOrders = await ordersResponse.json();
+      
+      const productNameMap = new Map<string, number>();
+      allProducts.forEach((p: any) => {
+        productNameMap.set(p.name.toLowerCase(), p.id);
+      });
+      
+      const productStats = new Map<number, { timesOrdered: number; revenue: number }>();
+      
+      allOrders.forEach((order: any) => {
+        if (order.orderType !== 'shop' || !order.productName) {
+          return;
+        }
+        
+        const productId = productNameMap.get(order.productName.toLowerCase());
+        if (!productId) {
+          return;
+        }
+        
+        const stats = productStats.get(productId) || { timesOrdered: 0, revenue: 0 };
+        stats.timesOrdered += 1;
+        stats.revenue += (order.totalAmount || 0) / 100;
+        productStats.set(productId, stats);
+      });
+      
+      const productsWithStats = allProducts.map((product: any) => {
+        const stats = productStats.get(product.id) || { timesOrdered: 0, revenue: 0 };
+        return {
+          id: product.id,
+          name: product.name,
+          category: product.category || 'Uncategorized',
+          price: product.price / 100,
+          timesOrdered: stats.timesOrdered,
+          revenue: stats.revenue,
+          trending: stats.timesOrdered > 5 && stats.revenue > 500
+        };
+      });
 
       setProducts(productsWithStats);
 
-      // Get top 10 by revenue
       const top10 = [...productsWithStats]
+        .filter(p => p.revenue > 0)
         .sort((a, b) => b.revenue - a.revenue)
         .slice(0, 10)
         .map(p => ({ name: p.name, revenue: p.revenue }));
@@ -160,10 +192,12 @@ export function ProductInventoryReport() {
     </div>
   );
 
+  const hasShopOrders = products.some(p => p.timesOrdered > 0);
+
   return (
     <ReportLayout
       title="Product Inventory Report"
-      description="Top products by revenue and order frequency (Manager Only)"
+      description="Catalog products with order statistics from shop purchases (Manager Only)"
       onExportCSV={handleExportCSV}
       onExportPDF={handleExportPDF}
       exportingCSV={exportingCSV}
@@ -174,18 +208,37 @@ export function ProductInventoryReport() {
         <Card className="p-8 text-center">Loading...</Card>
       ) : (
         <div className="space-y-6">
-          <Card className="p-6" style={{ background: 'white' }}>
-            <h3 className="text-lg font-semibold mb-4">Top 10 Products by Revenue</h3>
-            <ResponsiveContainer width="100%" height={400}>
-              <BarChart data={top10Data} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" label={{ value: 'Revenue ($)', position: 'insideBottom', offset: -5 }} />
-                <YAxis dataKey="name" type="category" width={150} />
-                <Tooltip />
-                <Bar dataKey="revenue" fill="#C44569" />
-              </BarChart>
-            </ResponsiveContainer>
-          </Card>
+          {!hasShopOrders && (
+            <Card className="p-6" style={{ background: '#FFF3E0', border: '1px solid #FFB300' }}>
+              <div className="flex items-start gap-3">
+                <span style={{ color: '#FFB300', fontSize: '20px' }}>ℹ️</span>
+                <div>
+                  <h4 style={{ fontWeight: 600, color: '#2B2B2B', marginBottom: '8px' }}>
+                    No Shop Orders Yet
+                  </h4>
+                  <p style={{ color: '#5D5D5D', fontSize: '14px', lineHeight: '1.5' }}>
+                    Products listed below are catalog items available for purchase. Currently, all orders in the system are custom orders. 
+                    Shop order statistics will appear here once customers place orders for standard catalog products.
+                  </p>
+                </div>
+              </div>
+            </Card>
+          )}
+
+          {top10Data.length > 0 && (
+            <Card className="p-6" style={{ background: 'white' }}>
+              <h3 className="text-lg font-semibold mb-4">Top 10 Products by Revenue</h3>
+              <ResponsiveContainer width="100%" height={400}>
+                <BarChart data={top10Data} layout="vertical">
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis type="number" label={{ value: 'Revenue ($)', position: 'insideBottom', offset: -5 }} />
+                  <YAxis dataKey="name" type="category" width={150} />
+                  <Tooltip />
+                  <Bar dataKey="revenue" fill="#C44569" />
+                </BarChart>
+              </ResponsiveContainer>
+            </Card>
+          )}
 
           <Card className="p-6" style={{ background: 'white' }}>
             <h3 className="text-lg font-semibold mb-4">All Products ({filteredProducts.length})</h3>

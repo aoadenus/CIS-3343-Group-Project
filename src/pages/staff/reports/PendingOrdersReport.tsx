@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Card } from '../../../components/ui/card';
-import { Input } from '../../../components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../components/ui/select';
 import { FunnelChart, Funnel, LabelList, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../../components/ui/table';
-import { Clock, AlertTriangle } from 'lucide-react';
 import { ReportLayout } from './ReportLayout';
 import { useToast } from '../../../components/ToastContext';
 import jsPDF from 'jspdf';

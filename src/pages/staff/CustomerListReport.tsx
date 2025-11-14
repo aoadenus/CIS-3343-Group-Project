@@ -4,9 +4,11 @@ import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { FileDown, Loader2, Users } from 'lucide-react';
+import { FileDown, Loader2, Users, FileText } from 'lucide-react';
 import { useToast } from '../../components/ToastContext';
 import { CustomerListResponse, CustomerListFilters } from '../../types/reports';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 const CUSTOMER_TYPES = ['all', 'retail', 'corporate'];
 
@@ -14,6 +16,7 @@ export function CustomerListReport() {
   const { showToast } = useToast();
   const [loading, setLoading] = useState(true);
   const [exportingCSV, setExportingCSV] = useState(false);
+  const [exportingPDF, setExportingPDF] = useState(false);
   const [data, setData] = useState<CustomerListResponse | null>(null);
   
   const [filters, setFilters] = useState<CustomerListFilters>({
@@ -98,6 +101,51 @@ export function CustomerListReport() {
     }, 800);
   };
 
+  const handleExportPDF = () => {
+    if (!data) return;
+    
+    setExportingPDF(true);
+    
+    try {
+      const doc = new jsPDF();
+      
+      doc.setFontSize(18);
+      doc.setTextColor(196, 69, 105);
+      doc.text('Customer List Report', 14, 20);
+      
+      doc.setFontSize(10);
+      doc.setTextColor(90, 56, 37);
+      doc.text(`Generated: ${new Date().toLocaleString()}`, 14, 28);
+      doc.text(`Total Customers: ${data.totals.customers}`, 14, 34);
+      doc.text(`Total Revenue: $${data.totals.revenue.toLocaleString()}`, 14, 40);
+      
+      const tableData = data.customers.map(customer => [
+        customer.name,
+        customer.email,
+        customer.phone || 'N/A'
+      ]);
+      
+      autoTable(doc, {
+        head: [['Name', 'Email', 'Phone']],
+        body: tableData,
+        startY: 48,
+        theme: 'grid',
+        headStyles: { fillColor: [196, 69, 105], textColor: [255, 255, 255] },
+        styles: { fontSize: 9 }
+      });
+      
+      doc.save(`customer-list-${new Date().toISOString().split('T')[0]}.pdf`);
+      
+      setTimeout(() => {
+        setExportingPDF(false);
+        showToast('success', 'PDF file with customer contact information downloaded successfully', 'Export Complete');
+      }, 800);
+    } catch (error) {
+      setExportingPDF(false);
+      showToast('error', 'Failed to export PDF. Please try again.', 'Error');
+    }
+  };
+
   const formatChartMonth = (monthStr: string) => {
     const [year, month] = monthStr.split('-');
     const date = new Date(parseInt(year), parseInt(month) - 1);
@@ -122,33 +170,62 @@ export function CustomerListReport() {
             Customer acquisition trends and contact information
           </p>
         </div>
-        <Button
-          onClick={handleExportCSV}
-          disabled={exportingCSV || !data}
-          variant="outline"
-          className="w-full sm:w-auto"
-          style={{ 
-            borderRadius: '8px', 
-            fontFamily: 'Poppins', 
-            fontWeight: 600,
-            borderColor: 'rgba(90, 56, 37, 0.3)',
-            color: '#5A3825',
-            height: '44px',
-            minWidth: '44px'
-          }}
-        >
-          {exportingCSV ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Exporting...
-            </>
-          ) : (
-            <>
-              <FileDown size={18} className="mr-2" />
-              Export CSV
-            </>
-          )}
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            onClick={handleExportCSV}
+            disabled={exportingCSV || !data}
+            variant="outline"
+            className="w-full sm:w-auto"
+            style={{ 
+              borderRadius: '8px', 
+              fontFamily: 'Poppins', 
+              fontWeight: 600,
+              borderColor: 'rgba(90, 56, 37, 0.3)',
+              color: '#5A3825',
+              height: '44px',
+              minWidth: '44px'
+            }}
+          >
+            {exportingCSV ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Exporting...
+              </>
+            ) : (
+              <>
+                <FileDown size={18} className="mr-2" />
+                Export CSV
+              </>
+            )}
+          </Button>
+          <Button
+            onClick={handleExportPDF}
+            disabled={exportingPDF || !data}
+            variant="outline"
+            className="w-full sm:w-auto"
+            style={{ 
+              borderRadius: '8px', 
+              fontFamily: 'Poppins', 
+              fontWeight: 600,
+              borderColor: 'rgba(90, 56, 37, 0.3)',
+              color: '#5A3825',
+              height: '44px',
+              minWidth: '44px'
+            }}
+          >
+            {exportingPDF ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Exporting...
+              </>
+            ) : (
+              <>
+                <FileText size={18} className="mr-2" />
+                Export PDF
+              </>
+            )}
+          </Button>
+        </div>
       </div>
 
       {/* Filters */}

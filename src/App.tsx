@@ -39,6 +39,9 @@ import { ManagerDashboard } from './pages/admin/dashboards/ManagerDashboard';
 import { OrderSummaryReport } from './pages/staff/OrderSummaryReport';
 import { CustomerListReport } from './pages/staff/CustomerListReport';
 import { RevenueReport } from './pages/staff/RevenueReport';
+import { PendingOrdersReport } from './pages/staff/reports/PendingOrdersReport';
+import { CompletedOrdersReport } from './pages/staff/reports/CompletedOrdersReport';
+import { ProductInventoryReport } from './pages/staff/reports/ProductInventoryReport';
 
 type AppMode = 'public' | 'login' | 'admin';
 
@@ -218,6 +221,24 @@ export default function App() {
         // RBAC: Accountant, Manager ONLY (per TIER 3 - Report 3 requirements)
         if (['accountant', 'manager', 'owner'].includes(userRole || '')) {
           return <RevenueReport />;
+        }
+        return getRoleDashboard(); // Redirect unauthorized users to their dashboard
+      case 'pending-orders-report':
+        // RBAC: Sales, Baker, Decorator, Manager, Owner (NOT Accountant)
+        if (['sales', 'baker', 'decorator', 'manager', 'owner'].includes(userRole || '')) {
+          return <PendingOrdersReport />;
+        }
+        return getRoleDashboard(); // Redirect unauthorized users to their dashboard
+      case 'completed-orders-report':
+        // RBAC: Sales, Baker, Decorator, Manager, Owner (NOT Accountant)
+        if (['sales', 'baker', 'decorator', 'manager', 'owner'].includes(userRole || '')) {
+          return <CompletedOrdersReport />;
+        }
+        return getRoleDashboard(); // Redirect unauthorized users to their dashboard
+      case 'product-inventory-report':
+        // RBAC: Manager, Owner only (sensitive inventory data)
+        if (['manager', 'owner'].includes(userRole || '')) {
+          return <ProductInventoryReport />;
         }
         return getRoleDashboard(); // Redirect unauthorized users to their dashboard
       case 'system-configuration':
