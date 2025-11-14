@@ -1014,6 +1014,128 @@ app.get('/api/reports/revenue', authenticateToken, requireRole('accountant', 'ma
   }
 });
 
+// Dashboard Report - Pre-validated metrics for Reports.tsx
+app.get('/api/reports/dashboard', authenticateToken, requireRole('accountant', 'manager', 'owner'), async (req: AuthRequest, res) => {
+  try {
+    const [allOrders, allCustomers] = await Promise.all([
+      storage.getAllOrdersWithCustomers(),
+      storage.getAllCustomers()
+    ]);
+
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+    const validOrders = allOrders.filter(order => order.status !== 'cancelled');
+    const recentOrders = validOrders.filter(order => new Date(order.createdAt) >= sixMonthsAgo);
+
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthlyRevenueMapCents: Record<string, number> = {};
+    
+    for (let i = 5; i >= 0; i--) {
+      const date = new Date();
+      date.setMonth(date.getMonth() - i);
+      const monthKey = monthNames[date.getMonth()];
+      monthlyRevenueMapCents[monthKey] = 0;
+    }
+
+    recentOrders.forEach(order => {
+      if (order.totalAmount) {
+        const orderDate = new Date(order.createdAt);
+        const monthKey = monthNames[orderDate.getMonth()];
+        if (monthKey in monthlyRevenueMapCents) {
+          monthlyRevenueMapCents[monthKey] += order.totalAmount;
+        }
+      }
+    });
+
+    const monthlyRevenue = Object.entries(monthlyRevenueMapCents).map(([month, revenueCents]) => ({
+      month,
+      revenue: parseFloat((revenueCents / 100).toFixed(2))
+    }));
+
+    const cakeCounts: Record<string, number> = {};
+    recentOrders.forEach(order => {
+      const cakeName = order.flavor || 'Custom Order';
+      cakeCounts[cakeName] = (cakeCounts[cakeName] || 0) + 1;
+    });
+
+    const topSellingCakes = Object.entries(cakeCounts)
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 5);
+
+    // Mutually exclusive cohorts that cover ALL customers
+    const vipCustomers = allCustomers.filter(c => c.isVip);
+    const returningNotVIP = allCustomers.filter(c => !c.isVip && c.totalOrders > 1);
+    const newNotVIP = allCustomers.filter(c => !c.isVip && c.totalOrders <= 1);
+
+    const total = allCustomers.length;
+    const customerDistribution = {
+      new: total > 0 ? Math.round((newNotVIP.length / total) * 100) : 0,
+      returning: total > 0 ? Math.round((returningNotVIP.length / total) * 100) : 0,
+      vip: total > 0 ? Math.round((vipCustomers.length / total) * 100) : 0,
+    };
+
+    const completedOrders = validOrders.filter(o => 
+      o.status === 'completed' && 
+      o.createdAt && 
+      o.updatedAt &&
+      new Date(o.updatedAt) > new Date(o.createdAt)
+    );
+
+    const dayOfWeekHours: Record<string, { total: number; count: number }> = {
+      'Mon': { total: 0, count: 0 },
+      'Tue': { total: 0, count: 0 },
+      'Wed': { total: 0, count: 0 },
+      'Thu': { total: 0, count: 0 },
+      'Fri': { total: 0, count: 0 },
+      'Sat': { total: 0, count: 0 },
+      'Sun': { total: 0, count: 0 },
+    };
+
+    completedOrders.forEach(order => {
+      const created = new Date(order.createdAt);
+      const completed = new Date(order.updatedAt);
+      const hours = (completed.getTime() - created.getTime()) / (1000 * 60 * 60);
+      
+      if (hours > 0 && hours < 720) {
+        const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const dayKey = dayNames[created.getDay()];
+        
+        if (dayKey in dayOfWeekHours) {
+          dayOfWeekHours[dayKey].total += hours;
+          dayOfWeekHours[dayKey].count += 1;
+        }
+      }
+    });
+
+    const completionTimeByDay = Object.entries(dayOfWeekHours).map(([day, data]) => ({
+      day,
+      avgHours: data.count > 0 ? Math.round(data.total / data.count) : 0
+    }));
+
+    const totalRevenueInCents = recentOrders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
+    const totalOrders = recentOrders.length;
+
+    res.json({
+      monthlyRevenue,
+      topSellingCakes,
+      customerDistribution,
+      completionTimeByDay,
+      kpis: {
+        totalRevenue: parseFloat((totalRevenueInCents / 100).toFixed(2)),
+        totalOrders,
+        avgOrderValue: totalOrders > 0 
+          ? parseFloat((totalRevenueInCents / totalOrders / 100).toFixed(2))
+          : 0
+      }
+    });
+  } catch (error) {
+    console.error('Error generating dashboard report:', error);
+    res.status(500).json({ error: 'Failed to generate dashboard report' });
+  }
+});
+
 // Order Summary Report
 app.get('/api/reports/order-summary', async (req, res) => {
   try {

@@ -1,46 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell, Area, AreaChart } from 'recharts';
-import { Download, Mail, Loader2, Calendar } from 'lucide-react';
+import { Loader2, Calendar } from 'lucide-react';
 import { useToast } from '../components/ToastContext';
-
-const monthlyRevenue = [
-  { month: 'Jan', revenue: 6800 },
-  { month: 'Feb', revenue: 7200 },
-  { month: 'Mar', revenue: 6500 },
-  { month: 'Apr', revenue: 7800 },
-  { month: 'May', revenue: 7400 },
-  { month: 'Jun', revenue: 8200 },
-];
-
-const topSellingCakes = [
-  { name: 'Birthday Celebration', sales: 45 },
-  { name: 'Lemon Doberge', sales: 38 },
-  { name: 'German Chocolate', sales: 35 },
-  { name: 'Black Forest', sales: 30 },
-  { name: 'Almond Delight', sales: 28 },
-];
-
-const customerReturnData = [
-  { name: 'New Customers', value: 35, color: '#C44569' },
-  { name: 'Returning', value: 45, color: '#5A3825' },
-  { name: 'VIP Regulars', value: 20, color: '#2B2B2B' },
-];
-
-const completionTime = [
-  { day: 'Mon', hours: 24 },
-  { day: 'Tue', hours: 28 },
-  { day: 'Wed', hours: 22 },
-  { day: 'Thu', hours: 26 },
-  { day: 'Fri', hours: 30 },
-  { day: 'Sat', hours: 25 },
-  { day: 'Sun', hours: 20 },
-];
 
 interface ReportsProps {
   onNavigate?: (page: string) => void;
   userRole?: string;
+}
+
+interface MonthlyRevenueData {
+  month: string;
+  revenue: number;
+}
+
+interface TopSellingCake {
+  name: string;
+  count: number;
+}
+
+interface CustomerDistributionData {
+  name: string;
+  value: number;
+  color: string;
+}
+
+interface CompletionTimeData {
+  day: string;
+  avgHours: number;
 }
 
 const ALLOWED_FINANCIAL_ROLES = ['accountant', 'manager', 'owner'];
@@ -48,23 +36,74 @@ const ALLOWED_FINANCIAL_ROLES = ['accountant', 'manager', 'owner'];
 export function Reports({ onNavigate, userRole }: ReportsProps = { onNavigate: undefined, userRole: undefined }) {
   const canViewFinancialReports = userRole && ALLOWED_FINANCIAL_ROLES.includes(userRole);
   const { showToast } = useToast();
-  const [isDownloading, setIsDownloading] = useState(false);
-  const [isEmailing, setIsEmailing] = useState(false);
+  
+  const [loading, setLoading] = useState(true);
+  const [monthlyRevenue, setMonthlyRevenue] = useState<MonthlyRevenueData[]>([]);
+  const [topSellingCakes, setTopSellingCakes] = useState<TopSellingCake[]>([]);
+  const [customerReturnData, setCustomerReturnData] = useState<CustomerDistributionData[]>([]);
+  const [completionTime, setCompletionTime] = useState<CompletionTimeData[]>([]);
+  const [totalRevenue, setTotalRevenue] = useState<number>(0);
+  const [totalOrders, setTotalOrders] = useState<number>(0);
+  const [avgOrderValue, setAvgOrderValue] = useState<number>(0);
   const [dateRange] = useState('Last 6 Months');
 
-  const handleDownload = async () => {
-    setIsDownloading(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    showToast('success', 'Your PDF report has been saved to downloads.', 'Report Downloaded');
-    setIsDownloading(false);
-  };
+  useEffect(() => {
+    const fetchReportsData = async () => {
+      setLoading(true);
+      try {
+        const token = localStorage.getItem('token');
 
-  const handleEmail = async () => {
-    setIsEmailing(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    showToast('success', 'Monthly report sent to your email address.', 'Report Emailed');
-    setIsEmailing(false);
-  };
+        // Guard against missing token
+        if (!token) {
+          showToast('error', 'Authentication required. Please log in again.');
+          setLoading(false);
+          return;
+        }
+
+        const response = await fetch('/api/reports/dashboard', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch dashboard data');
+        }
+
+        const data = await response.json();
+
+        setMonthlyRevenue(data.monthlyRevenue);
+        setTopSellingCakes(data.topSellingCakes);
+        
+        setCustomerReturnData([
+          { name: 'New Customers', value: data.customerDistribution.new, color: '#C44569' },
+          { name: 'Returning', value: data.customerDistribution.returning, color: '#5A3825' },
+          { name: 'VIP Regulars', value: data.customerDistribution.vip, color: '#2B2B2B' },
+        ]);
+
+        setCompletionTime(data.completionTimeByDay);
+        setTotalRevenue(data.kpis.totalRevenue);
+        setTotalOrders(data.kpis.totalOrders);
+        setAvgOrderValue(data.kpis.avgOrderValue);
+
+      } catch (error) {
+        console.error('Error fetching reports data:', error);
+        showToast('error', 'Failed to load reports data. Please try again.', 'Error');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReportsData();
+  }, [showToast]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-16">
+        <Loader2 className="h-8 w-8 animate-spin" style={{ color: '#C44569' }} />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 lg:space-y-8">
@@ -219,60 +258,6 @@ export function Reports({ onNavigate, userRole }: ReportsProps = { onNavigate: u
             Insights for sweet success
           </p>
         </div>
-        <div className="flex flex-wrap gap-3">
-          <Button
-            onClick={handleEmail}
-            disabled={isEmailing}
-            variant="outline"
-            className="w-full sm:w-auto"
-            style={{ 
-              borderRadius: '8px', 
-              fontFamily: 'Poppins', 
-              fontWeight: 600,
-              borderColor: 'rgba(90, 56, 37, 0.3)',
-              color: '#5A3825',
-              height: '44px',
-              minWidth: '44px'
-            }}
-          >
-            {isEmailing ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Sending...
-              </>
-            ) : (
-              <>
-                <Mail size={18} className="mr-2" />
-                Email Report
-              </>
-            )}
-          </Button>
-          <Button
-            onClick={handleDownload}
-            disabled={isDownloading}
-            className="text-white w-full sm:w-auto hover:shadow-bakery-hover transition-all"
-            style={{ 
-              borderRadius: '8px', 
-              fontFamily: 'Poppins', 
-              fontWeight: 600,
-              backgroundColor: '#C44569',
-              height: '44px',
-              minWidth: '44px'
-            }}
-          >
-            {isDownloading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Downloading...
-              </>
-            ) : (
-              <>
-                <Download size={18} className="mr-2" />
-                Download PDF
-              </>
-            )}
-          </Button>
-        </div>
       </div>
 
       {/* Revenue Overview - Line Chart with Gradient Fill */}
@@ -364,7 +349,7 @@ export function Reports({ onNavigate, userRole }: ReportsProps = { onNavigate: u
                   boxShadow: '0px 2px 8px rgba(90, 56, 37, 0.12)'
                 }} 
               />
-              <Bar dataKey="sales" fill="#5A3825" radius={[0, 8, 8, 0]} />
+              <Bar dataKey="count" fill="#5A3825" radius={[0, 8, 8, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </Card>
@@ -451,7 +436,7 @@ export function Reports({ onNavigate, userRole }: ReportsProps = { onNavigate: u
             />
             <Line 
               type="monotone" 
-              dataKey="hours" 
+              dataKey="avgHours" 
               stroke="#C44569" 
               strokeWidth={3}
               dot={{ fill: '#C44569', r: 5 }}
@@ -462,13 +447,13 @@ export function Reports({ onNavigate, userRole }: ReportsProps = { onNavigate: u
       </Card>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
         <Card className="p-6 rounded-xl bg-white" style={{ boxShadow: '0px 2px 8px rgba(90, 56, 37, 0.12)' }}>
           <p style={{ fontFamily: 'Open Sans', fontSize: '13px', color: '#5A3825', opacity: 0.7, marginBottom: '8px' }}>
-            Total Revenue (YTD)
+            Total Revenue (Last 6 Months)
           </p>
           <p style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: '28px', color: '#C44569' }}>
-            $44,900
+            ${totalRevenue.toLocaleString()}
           </p>
         </Card>
         <Card className="p-6 rounded-xl bg-white" style={{ boxShadow: '0px 2px 8px rgba(90, 56, 37, 0.12)' }}>
@@ -476,7 +461,7 @@ export function Reports({ onNavigate, userRole }: ReportsProps = { onNavigate: u
             Total Orders
           </p>
           <p style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: '28px', color: '#2B2B2B' }}>
-            176
+            {totalOrders}
           </p>
         </Card>
         <Card className="p-6 rounded-xl bg-white" style={{ boxShadow: '0px 2px 8px rgba(90, 56, 37, 0.12)' }}>
@@ -484,15 +469,7 @@ export function Reports({ onNavigate, userRole }: ReportsProps = { onNavigate: u
             Avg Order Value
           </p>
           <p style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: '28px', color: '#5A3825' }}>
-            $255
-          </p>
-        </Card>
-        <Card className="p-6 rounded-xl bg-white" style={{ boxShadow: '0px 2px 8px rgba(90, 56, 37, 0.12)' }}>
-          <p style={{ fontFamily: 'Open Sans', fontSize: '13px', color: '#5A3825', opacity: 0.7, marginBottom: '8px' }}>
-            Customer Satisfaction
-          </p>
-          <p style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: '28px', color: '#C44569' }}>
-            98%
+            ${avgOrderValue.toLocaleString()}
           </p>
         </Card>
       </div>
