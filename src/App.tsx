@@ -192,7 +192,7 @@ export default function App() {
       case 'order-management':
         return <OrderList onNavigate={setActivePage} />;
       case 'order-create':
-        return <OrderCreate onBack={() => setActivePage('order-management')} />;
+        return <OrderCreate onBack={() => setActivePage('order-management')} onNavigate={setActivePage} />;
       case 'design-sandbox':
         return <Builder />;
       case 'inventory-management':

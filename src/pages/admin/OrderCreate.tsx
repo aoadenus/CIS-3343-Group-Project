@@ -44,9 +44,10 @@ interface Customer {
 
 interface OrderCreateProps {
   onBack?: () => void;
+  onNavigate?: (page: string) => void;
 }
 
-export function OrderCreate({ onBack }: OrderCreateProps) {
+export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
   const { showToast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -376,10 +377,13 @@ export function OrderCreate({ onBack }: OrderCreateProps) {
     <div className="h-full overflow-auto p-6">
       <div className="max-w-5xl mx-auto">
         {/* Breadcrumbs */}
-        <AdminBreadcrumbs items={[
-          { label: 'Orders', path: '/admin/order-management' },
-          { label: 'Create New Order' }
-        ]} />
+        <AdminBreadcrumbs 
+          items={[
+            { label: 'Orders', page: 'order-management' },
+            { label: 'Create New Order' }
+          ]} 
+          onNavigate={onNavigate}
+        />
         
         {/* Header */}
         <div className="mb-6">
