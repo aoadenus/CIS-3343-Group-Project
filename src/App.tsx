@@ -206,38 +206,38 @@ export default function App() {
       case 'business-intelligence':
         return <Reports onNavigate={setActivePage} userRole={userRole || undefined} />;
       case 'order-summary-report':
-        // RBAC: Sales, Baker, Decorator, Manager only
-        if (['sales', 'baker', 'decorator', 'manager', 'owner'].includes(userRole || '')) {
+        // RBAC: Sales, Baker, Decorator, Accountant, Manager, Owner
+        if (['sales', 'baker', 'decorator', 'accountant', 'manager', 'owner'].includes(userRole || '')) {
           return <OrderSummaryReport />;
         }
         return getRoleDashboard(); // Redirect unauthorized users to their dashboard
       case 'customer-list-report':
-        // RBAC: Sales, Baker, Decorator, Manager only
-        if (['sales', 'baker', 'decorator', 'manager', 'owner'].includes(userRole || '')) {
+        // RBAC: Sales, Baker, Decorator, Accountant, Manager, Owner
+        if (['sales', 'baker', 'decorator', 'accountant', 'manager', 'owner'].includes(userRole || '')) {
           return <CustomerListReport />;
         }
         return getRoleDashboard(); // Redirect unauthorized users to their dashboard
       case 'revenue-report':
-        // RBAC: Accountant, Manager ONLY (per TIER 3 - Report 3 requirements)
+        // RBAC: Accountant, Manager, Owner (Financial Report)
         if (['accountant', 'manager', 'owner'].includes(userRole || '')) {
           return <RevenueReport />;
         }
         return getRoleDashboard(); // Redirect unauthorized users to their dashboard
       case 'pending-orders-report':
-        // RBAC: Sales, Baker, Decorator, Manager, Owner (NOT Accountant)
-        if (['sales', 'baker', 'decorator', 'manager', 'owner'].includes(userRole || '')) {
+        // RBAC: Sales, Baker, Decorator, Accountant, Manager, Owner
+        if (['sales', 'baker', 'decorator', 'accountant', 'manager', 'owner'].includes(userRole || '')) {
           return <PendingOrdersReport />;
         }
         return getRoleDashboard(); // Redirect unauthorized users to their dashboard
       case 'completed-orders-report':
-        // RBAC: Sales, Baker, Decorator, Manager, Owner (NOT Accountant)
-        if (['sales', 'baker', 'decorator', 'manager', 'owner'].includes(userRole || '')) {
+        // RBAC: Sales, Baker, Decorator, Accountant, Manager, Owner
+        if (['sales', 'baker', 'decorator', 'accountant', 'manager', 'owner'].includes(userRole || '')) {
           return <CompletedOrdersReport />;
         }
         return getRoleDashboard(); // Redirect unauthorized users to their dashboard
       case 'product-inventory-report':
-        // RBAC: Manager, Owner only (sensitive inventory data)
-        if (['manager', 'owner'].includes(userRole || '')) {
+        // RBAC: Accountant, Manager, Owner (Inventory & Financial Data)
+        if (['accountant', 'manager', 'owner'].includes(userRole || '')) {
           return <ProductInventoryReport />;
         }
         return getRoleDashboard(); // Redirect unauthorized users to their dashboard

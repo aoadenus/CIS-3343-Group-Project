@@ -107,14 +107,14 @@ export function Reports({ onNavigate, userRole }: ReportsProps = { onNavigate: u
 
   return (
     <div className="space-y-6 lg:space-y-8">
-      {/* General Reports - Sales, Baker, Decorator, Manager, Owner */}
+      {/* General Reports - Sales, Baker, Decorator, Accountant, Manager, Owner */}
       {onNavigate && (
         <Card className="p-6 rounded-xl bg-white" style={{ boxShadow: '0px 2px 8px rgba(90, 56, 37, 0.12)' }}>
           <h2 className="mb-4" style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: 'clamp(18px, 4vw, 22px)', color: '#2B2B2B' }}>
             General Reports
           </h2>
           <p className="mb-4" style={{ fontFamily: 'Open Sans', fontSize: '14px', color: '#5A3825', opacity: 0.8 }}>
-            Available to Sales, Baker, Decorator, Manager, and Owner roles
+            Available to Sales, Baker, Decorator, Accountant, Manager, and Owner roles
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             <Button
@@ -185,17 +185,17 @@ export function Reports({ onNavigate, userRole }: ReportsProps = { onNavigate: u
         </Card>
       )}
 
-      {/* Management Reports - Manager & Owner Only */}
-      {onNavigate && userRole && ['manager', 'owner'].includes(userRole) && (
+      {/* Inventory Reports - Accountant, Manager & Owner */}
+      {onNavigate && userRole && ['accountant', 'manager', 'owner'].includes(userRole) && (
         <Card className="p-6 rounded-xl bg-white" style={{ boxShadow: '0px 2px 8px rgba(90, 56, 37, 0.12)', border: '2px solid rgba(90, 56, 37, 0.2)' }}>
           <div className="flex items-center gap-2 mb-4">
             <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#5A3825' }}></div>
             <h2 style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: 'clamp(18px, 4vw, 22px)', color: '#5A3825' }}>
-              Management Reports
+              Inventory Reports
             </h2>
           </div>
           <p className="mb-4" style={{ fontFamily: 'Open Sans', fontSize: '14px', color: '#5A3825', opacity: 0.8 }}>
-            Restricted to Manager and Owner roles only
+            Available to Accountant, Manager, and Owner roles (Financial & Inventory Data)
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             <Button
