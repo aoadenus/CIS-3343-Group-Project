@@ -1,0 +1,1431 @@
+A. Full Developer Issue Log
+
+For Emily Bakes Cakes Internal Web App + Public Site
+Owner: Adetutu (Tutu) Adenusi – Student ID: 2180098
+
+Legend for severity
+
+Critical = breaks core functionality or violates case-study requirements.
+
+High = works, but is incorrect or misleading relative to business rules.
+
+Medium = UX / clarity / consistency issues that affect usability.
+
+Low = cosmetic or nice-to-have.
+
+1. Authentication & Navigation
+
+A-01
+
+Severity: Critical
+
+Component: Staff Logout Flow
+
+Issue: After staff logout, the user is redirected to the public website instead of back to the staff login.
+
+Required Change: Update logout route to redirect to /staff/login (or equivalent) and never to the public marketing site.
+
+Status: To Do
+
+A-02
+
+Severity: High
+
+Component: Login Visibility (Public vs Staff)
+
+Issue: Staff login is visible prominently in the main navigation for customers.
+
+Required Change: Remove staff login from the main public navbar. Only show staff login in an unobtrusive location (e.g. small link in footer, or a “Staff” link inside a hamburger menu).
+
+Status: To Do
+
+A-03
+
+Severity: Medium
+
+Component: Demo Credentials UI
+
+Issue: Demo password text is small and positioned too low on the page.
+
+Required Change: Increase font size, change to a high-contrast style, and move closer to the login fields.
+
+Status: To Do
+
+A-04
+
+Severity: Medium
+
+Component: Switch Accounts Flow
+
+Issue: No quick way for staff to “switch user” without doing a full logout.
+
+Required Change: Add “Switch User” action that logs out current user and takes them directly to the login screen, keeping staff context.
+
+Status: To Do
+
+2. Order Creation & Tracking (Core Requirement)
+
+B-01
+
+Severity: Critical
+
+Component: Create Order Form Submission
+
+Issue: “Missing required fields” error appears, but:
+
+Fields are not highlighted.
+
+Error does not clearly specify which fields.
+
+In some flows, the order never saves.
+
+Required Change:
+
+Implement field-level validation with clear inline messages.
+
+On submit, scroll to first invalid field.
+
+Disable submit button while validation is failing.
+
+Status: To Do
+
+B-02
+
+Severity: Critical
+
+Component: Create Order Route / Admin Context Crash
+
+Issue: “Create order” from admin/manager dashboard crashes (React useContext / basename error).
+
+Required Change:
+
+Fix routing provider hierarchy so the order page is correctly wrapped in the app router and context providers.
+
+Add regression tests for navigating from dashboard → new order.
+
+Status: To Do
+
+B-03
+
+Severity: High
+
+Component: Order Status Permissions
+
+Issue: Sales staff can change order statuses that should belong to bakers, decorators, and managers.
+
+Required Change:
+
+Implement role-based constraints:
+
+Sales: create orders + view status only.
+
+Bakers: change to “Baking / Assembled”.
+
+Decorators: change to “Decorating / Decorated”.
+
+Emily/James: final approval “Ready / Approved”.
+
+Status: To Do
+
+B-04
+
+Severity: High
+
+Component: Rush Orders (2-day Rule)
+
+Issue: Pickup dates sooner than 2 days do not trigger any case-study–compliant warning or manager approval.
+
+Required Change:
+
+On selecting a pickup date within 2 days, show a modal warning that rush orders require manager approval.
+
+Allow only Emily/James accounts to override and confirm.
+
+Status: To Do
+
+B-05
+
+Severity: Medium
+
+Component: “Serve Count” Input
+
+Issue: Manual serve count field appears even though cake size already implies serving count per case study.
+
+Required Change:
+
+Remove manual serve count input from the order form.
+
+If you show “Serves X–Y,” calculate from cake size using the case-study table.
+
+Status: To Do
+
+B-06
+
+Severity: High
+
+Component: “Last Employee to Touch Order” Field
+
+Issue: Case study requires tracking the last employee who worked on an order, but this is not correctly recorded.
+
+Required Change:
+
+Add a backend field last_updated_by and update it on every status transition.
+
+Show this in the order details (manager views at minimum).
+
+Status: To Do
+
+3. Layer Builder, Flavors, Fillings, Icing, Colors
+
+C-01
+
+Severity: High
+
+Component: Layer Builder Logic
+
+Issue: Layer builder does not properly enforce max fillings and consistent rules per case study (e.g., “no filling, one filling, or at most two layers of the same filling”).
+
+Required Change:
+
+Implement strict validation:
+
+Max 2 filling layers per cake, same flavor.
+
+Clearly show constraints in UI.
+
+Status: To Do
+
+C-02
+
+Severity: High
+
+Component: Standard Cakes Auto-fill
+
+Issue: Selecting a standard cake does not automatically populate default flavor/icing.
+
+Required Change:
+
+For standard cakes (e.g., Lemon Doberge, Italian Cream), auto-populate default cake flavor + icing as defined in the case study, with optional overrides.
+
+Status: To Do
+
+C-03
+
+Severity: High
+
+Component: Colors List (Icing/Writing)
+
+Issue: Color lists and hex values do not match the case study fully and contain extras (pink primary, peach pastel, etc.).
+
+Required Change:
+
+Remove: pink as primary, peach pastel, purple neon, lime neon, burgundy.
+
+Add white where appropriate.
+
+Display color swatches with bold hex codes aligned to case-study colors.
+
+Status: To Do
+
+C-04
+
+Severity: Medium
+
+Component: Color Grid Layout
+
+Issue: Excessive spacing in color grid, inconsistent alignment.
+
+Required Change:
+
+Tighten spacing, use a responsive grid (e.g., 4–5 columns) with consistent margin and padding.
+
+Status: To Do
+
+C-05
+
+Severity: High
+
+Component: Decorations List
+
+Issue: Decorations do not strictly match the case-study list; some items missing, others extra or mis-grouped.
+
+Required Change:
+
+Implement a structured decorations list exactly matching the case-study items (e.g. Buttercream flowers, fondant, toys, plastic decor, etc.).
+
+Group by category (Flowers, Toys, Figures, Seasonal, etc.).
+
+Status: To Do
+
+C-06
+
+Severity: High
+
+Component: Inspiration / Photo Upload
+
+Issue: Customers can provide example photos per case study; system must support this. Currently not fully implemented or integrated.
+
+Required Change:
+
+Add file upload input in order form for “Inspiration images / reference photos.”
+
+Ensure files are stored and visible to decorators from the decorator dashboard.
+
+Status: To Do
+
+4. Customer Management
+
+D-01
+
+Severity: High
+
+Component: Customer CRUD
+
+Issue: Editing and updating customers is unreliable or fails silently.
+
+Required Change:
+
+Fix customer edit and update API calls, handle errors gracefully, and confirm with success toasts.
+
+Status: To Do
+
+D-02
+
+Severity: High
+
+Component: Customer Preferred Status / Discount
+
+Issue: “VIP” or other labels not aligned with case study; discount rules unclear.
+
+Required Change:
+
+Use explicit fields: customer_type = Retail/Corporate, is_preferred = boolean.
+
+Preferred customers automatically receive 10 percent discount capability (with override controlled by Emily/James).
+
+Status: To Do
+
+D-03
+
+Severity: Medium
+
+Component: Customer Modal Placement
+
+Issue: Customer details popup appears top-left and partially off-screen.
+
+Required Change:
+
+Use a centered, responsive modal. Allow scroll when content overflows.
+
+Status: To Do
+
+D-04
+
+Severity: High
+
+Component: Corporate Customer Multiple Locations
+
+Issue: Case study allows corporate customers with multiple locations; app doesn’t support location sub-entities.
+
+Required Change:
+
+Create CustomerLocation entity/table with address, phone, etc.
+
+Support multiple locations per corporate customer.
+
+Status: To Do
+
+D-05
+
+Severity: Medium
+
+Component: Marketing Lists (Email/Phone)
+
+Issue: Case study expects using customer info for marketing lists; system doesn’t support or surface this.
+
+Required Change:
+
+Implement export views for email and phone lists with filters (preferred customers, corporate vs retail, etc.).
+
+Status: To Do
+
+5. Product Management / Product Catalog
+
+E-01
+
+Severity: High
+
+Component: Product CRUD
+
+Issue: Editing/updating products fails or is unreliable.
+
+Required Change:
+
+Fix product edit/update logic and ensure data persists correctly.
+
+Status: To Do
+
+E-02
+
+Severity: Medium
+
+Component: Component Naming
+
+Issue: “Product Catalog” is ambiguous for staff; this section behaves more like administrative product management.
+
+Required Change:
+
+Rename to “Product Management” in staff portal and keep “Shop” for public site.
+
+Status: To Do
+
+E-03
+
+Severity: Medium
+
+Component: Popularity Metric
+
+Issue: Popularity displayed as 0–100 scale; hard to interpret quickly.
+
+Required Change:
+
+Convert to 1–5 stars or similar discrete rating for quick scanning.
+
+Status: To Do
+
+E-04
+
+Severity: High
+
+Component: Product Categories
+
+Issue: Categories like Birthday/Wedding used instead of case-study product categories.
+
+Required Change:
+
+Define categories exactly as: Cakes, Pastries, Cupcakes, Cookies, Petit Fours, Pies, Breads, Seasonal Products.
+
+Status: To Do
+
+6. Role-Based Dashboards & Permissions
+
+F-01
+
+Severity: High
+
+Component: Sales Dashboard
+
+Issue: Sales dashboard exposes analytics and fulfillment tools beyond their role. Also has excessive empty space.
+
+Required Change:
+
+Limit sales view to:
+
+Today’s orders
+
+New order button
+
+Customer lookup
+
+Pick-up schedule
+
+Remove full revenue charts and admin tools.
+
+Status: To Do
+
+F-02
+
+Severity: High
+
+Component: Baker Dashboard
+
+Issue: Bakers can see or change data unrelated to their role (e.g., revenue, product CRUD, marketing info).
+
+Required Change:
+
+Show only baking queue, today’s baking schedule, and order detail view.
+
+Remove financials, customer CRUD, admin settings.
+
+Status: To Do
+
+F-03
+
+Severity: High
+
+Component: Decorator Dashboard
+
+Issue: Decorator UI is minimal and lackluster; does not show inspiration images or full design details.
+
+Required Change:
+
+Show decoration queue, full design details, uploaded inspiration images, and allow status updates to “Decorated/Completed.”
+
+Remove financial/admin controls.
+
+Status: To Do
+
+F-04
+
+Severity: High
+
+Component: Accountant Dashboard
+
+Issue: Accountant view is generic and missing accounting-specific data (deposits, balances, etc.), yet may expose operational tools.
+
+Required Change:
+
+Provide financial-focused views: deposits, balances due, payment status, weekly/monthly summaries.
+
+Remove non-financial operational elements.
+
+Status: To Do
+
+F-05
+
+Severity: Medium
+
+Component: Manager/Owner Dashboard (Emily + James)
+
+Issue: Not clearly differentiated from other roles; lacks staff scheduling and approvals.
+
+Required Change:
+
+Provide summary metrics, staffing view, approvals for rush orders and final cake approvals, and access to product/customer management.
+
+Status: To Do
+
+7. Reports, Analytics, and Fulfillment
+
+G-01
+
+Severity: Medium
+
+Component: Reports Layout & Scroll
+
+Issue: Reports charts are oversized and require excessive scrolling.
+
+Required Change:
+
+Reduce chart size, use multi-column layout on larger screens, ensure quick overview without scrolling.
+
+Status: To Do
+
+G-02
+
+Severity: Medium
+
+Component: Breadcrumbs in Reports
+
+Issue: Reports pages lack breadcrumb navigation.
+
+Required Change:
+
+Integrate shared breadcrumb component and show hierarchy (Dashboard → Reports → [Report Name]).
+
+Status: To Do
+
+G-03
+
+Severity: High
+
+Component: Revenue Visibility by Role
+
+Issue: Sales staff and other non-manager roles can see detailed revenue reports.
+
+Required Change:
+
+Restrict revenue and financial reports to Emily, James, and Accountant roles only.
+
+Status: To Do
+
+8. Public Website (Marketing Site)
+
+H-01
+
+Severity: Medium
+
+Component: Shop Filters (Public Site)
+
+Issue: Filters based on occasion (birthday, wedding) rather than product attributes (flavor, filling, color).
+
+Required Change:
+
+Replace with filters: All, Flavor, Filling, Color, Seasonal.
+
+Status: To Do
+
+H-02
+
+Severity: Medium
+
+Component: Call-to-Action Buttons
+
+Issue: “Call to order” and “Email us” buttons not consistently linked to Contact page.
+
+Required Change:
+
+Link CTA buttons to Contact page or open the mail/phone action while still keeping Contact page as central hub.
+
+Status: To Do
+
+H-03
+
+Severity: Low
+
+Component: About Page Layout
+
+Issue: Box layout misaligned and visually unbalanced.
+
+Required Change:
+
+Clean up grid layout, consistent spacing, and typography.
+
+Status: To Do
+
+H-04
+
+Severity: Medium
+
+Component: Contact Page Layout
+
+Issue: “How ordering works” box is oversized; layout feels unbalanced.
+
+Required Change:
+
+Place “How ordering works” on the left, stack contact info on the right with better visual hierarchy.
+
+Status: To Do
+
+H-05
+
+Severity: Medium
+
+Component: Google Maps Integration
+
+Issue: Store location map is missing or not integrated.
+
+Required Change:
+
+Add embedded map showing Emily Bakes Cakes location.
+
+Status: To Do
+
+9. Global UX and Design Consistency
+
+I-01
+
+Severity: Medium
+
+Component: Global White Space / Layout Density
+
+Issue: Dashboards and forms contain excessive white space, requiring scrolling with limited information density.
+
+Required Change:
+
+Tighten vertical spacing, align cards in a grid, ensure key content is visible above the fold for common resolutions.
+
+Status: To Do
+
+I-02
+
+Severity: Medium
+
+Component: Dropdown and Modal Styling
+
+Issue: Dropdown menus and modals lack consistent styling, alignment, and icon sizing.
+
+Required Change:
+
+Standardize UI components using a single library (e.g., Radix UI or ShadCN). Define global sizes and spacing tokens.
+
+Status: To Do
+
+I-03
+
+Severity: Medium
+
+Component: Breadcrumb Navigation (Global)
+
+Issue: Breadcrumbs exist in some places but missing or inconsistent in others.
+
+Required Change:
+
+Implement a single breadcrumb component wired to the router and use it across all staff pages.
+
+Status: To Do
+
+That’s the Issue Log (A) done.
+
+B. Replit AI / Perplexity Prompt Pack
+
+Short, queue-friendly prompts you can paste directly.
+Idea: Each prompt focuses on a cluster of issues using the IDs from the log.
+
+You can prefix all of them with this master context snippet once per workspace:
+
+You are helping implement the “Emily Bakes Cakes” internal custom order management system and public marketing site for a CIS 3343 class project. Follow the case-study rules strictly: staff-only order entry, 2-day rule for custom orders (manager override only), correct product categories, correct cake sizes, flavors, fillings, icing, decorations, and role-based dashboards (Sales, Baker, Decorator, Manager/Owner, Accountant). Use the issue IDs I mention (A-01, B-01, etc.) as the source of truth for what to fix.
+
+Now the chunked prompts:
+
+Prompt B1: Fix Create Order Flow and Validation (B-01, B-02, B-04, B-05, B-06, C-01)
+
+Implement the following fixes in the staff Order Creation flow for “Emily Bakes Cakes”.
+
+Fix the “Create Order” navigation crash from the manager/admin dashboard (issue B-02). Ensure React Router context and any basename/useContext assumptions are correct so a manager can click “Create Order” and land on the order form reliably.
+
+Implement proper form validation (issue B-01):
+
+Every required field must be explicitly validated.
+
+On submit, show clear inline error messages next to each invalid field.
+
+Scroll to the first invalid field.
+
+Disable the submit button while there are validation errors or while the form is submitting.
+
+Apply the 2-day rush-order rule (issue B-04):
+
+If the requested pickup date is within 2 days of the current date, show a modal saying this is a rush order and requires a manager override.
+
+Only users with the Manager/Owner role (Emily or James) can confirm the rush order; others must cancel or change the date.
+
+Remove any manual “Serve count” field and instead derive serving estimates from cake size (issue B-05). If you display “Serves X–Y,” use the exact mapping from the case-study cake sizes.
+
+Add a backend field and UI display for “last_updated_by” whenever an order status or key order detail is changed (issue B-06). Show this in the order detail view for managers.
+
+In the layer builder, enforce the rule that each cake layer can have no filling, one filling, or at most two layers of the same filling flavor (issue C-01). Show the rule text near the layer UI and block submission if violated.
+
+Explain in comments which code sections implement each issue ID so I can cross-reference with my issue log.
+
+Prompt B2: Role-Based Dashboards and Permissions (F-01 to F-05, G-03)
+
+Update all staff dashboards to enforce strict role-based access as described: Sales, Baker, Decorator, Manager/Owner (Emily & James), and Accountant (Dan). Align with these issues: F-01, F-02, F-03, F-04, F-05, and G-03.
+
+Requirements:
+
+Sales Dashboard (F-01):
+
+Show: Today’s orders, New Order button, Customer lookup, Pick-up schedule.
+
+Hide: financial reports, product CRUD, staff management, and order fulfillment board controls.
+
+Baker Dashboard (F-02):
+
+Show: Baking queue, orders that are in “Baking” or “Ready to bake”, basic order details.
+
+Hide: revenue charts, marketing exports, and product/customer CRUD.
+
+Decorator Dashboard (F-03):
+
+Show: Decoration queue, design notes, uploaded inspiration images, ability to set “Decorated / Completed” status.
+
+Hide: financial data and admin tools.
+
+Manager/Owner Dashboard (F-05, B-04, B-06):
+
+Show: overview metrics (orders, revenue summary), approvals for rush orders, approvals for completed cakes, access to product and customer management, staff scheduling/overview.
+
+Accountant Dashboard (F-04, G-03):
+
+Show: deposits, balances due, payment status, weekly and monthly financial summaries, exportable financial reports.
+
+Hide: fulfillment boards and non-financial controls.
+
+Restrict detailed revenue and financial reports to Manager/Owner and Accountant roles only (G-03).
+
+Implement this as:
+
+Centralized role-based access control,
+
+Guarded routes or feature flags per role,
+
+Tests or comments confirming each dashboard only renders permitted widgets for that role.
+
+Prompt B3: Customer & Product Management (D-01 to D-05, E-01 to E-04)
+
+Implement the following changes to Customer Management and Product Management, using the case study as the source of truth, and mapping to issues D-01 through D-05 and E-01 through E-04.
+
+Customer Management:
+
+Fix customer edit/update API calls and UI flows so updates reliably save and display confirmation (D-01).
+
+Replace any “VIP” or inconsistent labels with explicit fields:
+
+customer_type: “Retail” or “Corporate”.
+
+is_preferred: boolean indicating eligibility for a 10 percent discount (D-02).
+
+Support multiple locations for corporate customers by adding a CustomerLocation entity/table with address, phone, and a foreign key to Customer (D-04).
+
+Provide a marketing list export: views or endpoints to get email and phone lists for selected filters (e.g., preferred only, corporate only) (D-05).
+
+Fix customer detail modal layout so it is centered, fully visible, and scrollable on small screens (D-03).
+
+Product Management:
+6. Fix product edit/update logic and ensure that changes persist correctly (E-01).
+7. Rename the internal staff section “Product Catalog” to “Product Management” in the staff app, but keep “Shop” for customers on the public site (E-02).
+8. Change the popularity field from a 0–100 numeric scale to a 1–5 star rating with clear display components (E-03).
+9. Enforce product categories exactly as defined in the case study: Cakes, Pastries, Cupcakes, Cookies, Petit Fours, Pies, Breads, Seasonal Products (E-04). Ensure there are no “Birthday/Wedding” style categories in staff product management.
+
+Show me which files you touched and annotate key changes with the corresponding issue IDs as comments.
+
+Prompt B4: Public Website UX Fixes (H-01 to H-05, I-01, I-02)
+
+Apply the following UX and content fixes to the public marketing site (not the staff portal), for issues H-01 to H-05, I-01, I-02.
+
+Shop page filters (H-01):
+
+Replace occasion-based filters with: All, Flavor, Filling, Color, Seasonal.
+
+Call-to-action buttons (H-02):
+
+Ensure “Call to order” and “Email us” buttons are wired to the Contact page (and phone/mail actions where appropriate), not random external or dead links.
+
+About page layout (H-03):
+
+Fix misaligned content boxes. Use a clean, centered grid with consistent spacing and typography.
+
+Contact page layout (H-04):
+
+Move “How ordering works” to the left column and stack the actual contact information (address, phone, email, hours) in a right column or stacked layout.
+
+Map integration (H-05):
+
+Embed a map showing the bakery’s location.
+
+Global white space and component styling (I-01, I-02):
+
+Reduce excessive vertical spacing on public pages.
+
+Standardize dropdowns, modals, and buttons using the same design system as the staff app.
+
+Comment the main layout changes and note which issue each one addresses.
+
+Prompt B5: Decorations, Colors, Inspiration Upload (C-02 to C-06)
+
+Fix the decorations and colors system for the order builder, aligned with the case-study list and issues C-02 through C-06.
+
+Standard cake patterns (C-02):
+
+When a user selects a named standard cake, auto-fill the base cake flavor and icing flavor according to the case study (e.g., Italian Cream, Lemon Doberge, etc.), while still allowing overrides if needed.
+
+Colors (C-03, C-04):
+
+Replace the current color sets with a set that exactly matches the case-study icing and writing colors.
+
+Remove pink from primary, remove extra pastel/neon colors not defined in the case study, remove burgundy, and add white where needed.
+
+Use a compact, responsive color grid with color swatches and bold hex codes.
+
+Decorations (C-05):
+
+Implement a canonical decorations list from the case study: buttercream flowers, fondant decorations, silk flowers, toy trains, plastic dinosaurs, various dolls, plastic sports equipment, etc.
+
+Group them by category: Flowers, Toys, Plastic Figures, Seasonal, Miscellaneous.
+
+Use multi-select-friendly UI.
+
+Inspiration image upload (C-06):
+
+Add a file upload field to the order form (e.g., “Upload inspiration image / reference photo”).
+
+Store the files and show links or thumbnails in the Baker and Decorator dashboards.
+
+Annotate code changes with comments referencing each issue ID.
+
+Those are enough prompts to push through the bulk of your issue log in Replit/Perplexity (B done).
+
+C. Updated System Requirements Document
+
+Emily Bakes Cakes – Customer and Order Web Database Application
+Author: Adetutu (Tutu) Adenusi – Student ID: 2180098
+
+You can drop this into Word or Gamma as your SRD baseline.
+
+1. Introduction
+
+1.1 Purpose
+This document defines the functional and non-functional requirements for the “Emily Bakes Cakes” Customer and Order Web Database Application and its associated public marketing site. The focus is on replacing the bakery’s paper-based custom cake order process with a staff-only web application that improves efficiency, reduces lost orders, and increases customer retention.
+
+1.2 Background
+Emily Bakes Cakes is a specialty bakery in Houston, Texas, owned by Emily Boudreaux. The bakery currently uses paper forms to track custom cake orders, leading to lost orders, revenue loss, and poor customer retention. An outdated public website also limits marketing effectiveness and mobile access.
+
+1.3 Scope
+In scope:
+
+Staff-only internal web application for managing custom cake orders.
+
+Customer and product data management for marketing and operational use.
+
+Role-based dashboards for Sales, Bakers, Decorators, Manager/Owner, and Accountant.
+
+Optional refreshed public website for viewing products and contact information.
+
+Out of scope:
+
+Inventory management or stock-level tracking.
+
+Full e-commerce ordering by customers (no self-service online ordering).
+
+Payroll, human resources, or advanced accounting system integration.
+
+2. Stakeholders and Roles
+
+2.1 Stakeholders
+
+Emily Boudreaux (Owner, Chief Decorator, Project Sponsor)
+
+James (Bakery Manager)
+
+Sales Staff
+
+Bakers
+
+Decorators
+
+Dan (Accountant/CPA)
+
+Customers (Retail and Corporate)
+
+CIS 3343 Instructor and Graders
+
+2.2 System User Roles
+
+Manager/Owner (Emily / James)
+
+Full oversight of customers, orders, products, and reports.
+
+Approves rush orders and completed custom cakes.
+
+Manages staff scheduling and high-level product pricing.
+
+Sales Staff
+
+Creates custom cake orders for customers who call, email, or visit in person.
+
+Looks up existing customer records.
+
+Views order status and pick-up schedules.
+
+Baker
+
+Views baking queue and production schedule.
+
+Updates order status when baking and assembly are completed.
+
+Decorator
+
+Views decorating queue with design details and inspiration images.
+
+Updates status when decorating is complete.
+
+Accountant (Dan)
+
+Oversees payments, deposits, and balances due.
+
+Views and exports financial reports (weekly, monthly, yearly).
+
+Public Website Visitor
+
+Browses product information and gallery.
+
+Reads about the bakery.
+
+Uses contact channels (email, phone, contact form).
+
+Does not create or manage orders online.
+
+3. High-Level Business Objectives
+
+The system shall support the following objectives (from case study):
+
+Reduce salesperson time spent creating and handling orders by 25 percent.
+
+Reduce yearly costs associated with lost products due to mismanaged orders by 80 percent.
+
+Increase returning customers by 15 percent through improved customer data management.
+
+4. Functional Requirements
+4.1 Customer Management
+
+FR-C1: The system shall allow staff to create, view, update, and search for customers.
+FR-C2: Each customer shall be classified as Retail or Corporate.
+FR-C3: A customer may be flagged as “Preferred,” enabling a 10 percent discount subject to Emily/Manager discretion.
+FR-C4: Corporate customers shall support multiple locations, stored as child entities with address and contact details.
+FR-C5: The system shall store customer email and phone numbers and support exporting marketing lists by filter (e.g., preferred only, corporate only).
+FR-C6: Each customer record shall show a history of past orders and total spend.
+
+4.2 Product Management
+
+FR-P1: The system shall store a catalog of products and product options.
+FR-P2: Products must be categorized exactly as: Cakes, Pastries, Cupcakes, Cookies, Petit Fours, Pies, Breads, Seasonal Products.
+FR-P3: The system shall store standard cake definitions, including default flavors, fillings, icing, sizes, and base prices.
+FR-P4: Price adjustments for custom decorations shall be supported by allowing a “negotiated price” override on orders.
+FR-P5: Staff with Manager/Owner role may create, edit, or deactivate products.
+FR-P6: Product popularity shall be tracked and displayed as a 1–5 star rating.
+
+4.3 Order Creation and Tracking (Core)
+
+FR-O1: Only staff (Sales, Manager, Emily) may create custom cake orders; customers cannot create orders directly.
+FR-O2: An order shall be associated with exactly one customer and one product.
+FR-O3: The system shall support standard and customized versions of cakes, cupcakes, and other products.
+FR-O4: The order form shall include:
+
+Customer selection (with “Create new customer” if needed).
+
+Product selection.
+
+Cake size, flavor, filling, icing, colors.
+
+Decorations from the official decorations list.
+
+Pickup date and time.
+
+Special instructions and allergy notes.
+
+Deposit amount (minimum 50 percent) and payment method.
+
+FR-O5: The system shall enforce a minimum 50 percent deposit for all custom orders.
+FR-O6: The system shall enforce the 2-day rule for custom orders:
+
+If pickup date is less than 2 days away, the order is flagged as a rush order.
+
+Rush orders require Manager/Owner approval.
+
+FR-O7: Each order shall record created_by and last_updated_by staff member.
+FR-O8: The system shall track order status through well-defined stages:
+
+New, Scheduled, Baking, Assembled, Decorating, Completed, Ready for Pickup, Picked Up, Cancelled.
+FR-O9: Different roles shall have restricted ability to update order status as defined in section 2.2.
+FR-O10: Orders may be cancelled before baking begins, and decorations may be modified before decorating begins, with updated price if needed.
+
+4.4 Layer, Colors, and Decorations
+
+FR-L1: The system shall support a layer builder interface that complies with the business rule:
+
+Each cake layer may have no filling, one filling, or at most two layers of the same filling flavor.
+FR-L2: When a standard cake is selected, default flavor, filling, and icing should auto-populate based on the case-study definitions.
+FR-L3: Icing and writing colors shall be selectable from a color palette that matches the case-study color list exactly, including hex codes.
+FR-L4: Decorations shall be selectable from the case-study decorations list, grouped logically (e.g., flowers, toys, plastic decorations).
+FR-L5: Customers may provide photos, clippings, or example images; the system shall allow staff to upload these as “Inspiration Images” per order.
+
+4.5 Role-Specific Dashboards
+
+FR-D1: Manager/Owner dashboard shall display key metrics (orders, revenue summary, in-progress cakes), approval queues (rush orders, completed cakes), and access to customer and product management.
+FR-D2: Sales dashboard shall display today’s orders, new order button, customer search, and pickup schedule.
+FR-D3: Baker dashboard shall display a baking queue (orders in Baking/Ready to Bake), with ability to update status to Assembled.
+FR-D4: Decorator dashboard shall display a decorating queue, with design details and inspiration images, and allow status updates to Decorated/Completed.
+FR-D5: Accountant dashboard shall provide views and exports for deposits, balances due, and financial reports by week, month, and year.
+FR-D6: Role-based access control shall ensure that financial reports and revenue-level metrics are visible only to Manager/Owner and Accountant.
+
+4.6 Reporting and Analytics
+
+FR-R1: The system shall provide basic reporting on:
+
+Total orders by time period.
+
+Revenue by time period.
+
+Orders by customer type (Retail vs Corporate).
+
+Product popularity.
+FR-R2: Reports shall be filtered by date range and exportable (CSV/PDF where applicable).
+FR-R3: Reports shall be sized to avoid excessive scrolling and use a clear visual layout.
+
+4.7 Public Website Features
+
+FR-W1: The public site shall allow customers to:
+
+View products and descriptions.
+
+View cake sizes and general pricing ranges.
+
+View gallery images of completed cakes.
+
+Read about Emily and the bakery’s background.
+
+Access contact information and directions.
+
+FR-W2: Public site “Shop” filters shall allow filtering by flavor, filling, color, and seasonal tags.
+FR-W3: Public CTAs such as “Call to order” and “Email us” shall lead to the Contact page and appropriate communication actions.
+FR-W4: A map or location section showing the bakery’s address shall be present on the Contact page.
+FR-W5: The public website shall not provide self-service online ordering functionality.
+
+5. Non-Functional Requirements
+
+NFR-1: Usability
+
+Forms shall provide clear validation messages and avoid “mystery” errors.
+
+Key staff features (new order, queues) should be reachable within one or two clicks from the user’s dashboard.
+
+NFR-2: Performance
+
+Core dashboard views shall load in under 2 seconds on a standard connection.
+
+Pagination or lazy loading shall be used for long lists.
+
+NFR-3: Reliability
+
+System shall handle expected load for a small specialty bakery with room for moderate growth.
+
+Key actions (order creation, updates) must be robust against transient network errors with proper error messaging.
+
+NFR-4: Security
+
+Staff-only application shall require authenticated login with role-based authorization.
+
+The public website shall not expose internal operations or staff tools.
+
+NFR-5: Maintainability
+
+Codebase should use clear separation of concerns (frontend, API, database), shared UI components, and consistent naming conventions.
+
+That’s the SRD-level “C” complete.
+
+E. New UI Wireframes (Text-First)
+
+These are text wireframes you can hand to your designer brain or to Gamma/Figma.
+
+E.1 Public Home Page
+
+Structure:
+
+Top Navigation
+
+Logo (top-left)
+
+Links: Home | Shop | Gallery | About | Contact
+
+Optional small “Staff Login” tucked in top-right or footer only.
+
+Hero Section
+
+Left: Heading: “Emily Bakes Cakes – European-style custom cakes in Houston”
+
+Subtext: Short description with emphasis on handcrafted, from-scratch recipes.
+
+Buttons:
+
+“View Custom Cakes” → Shop
+
+“Contact Us to Order” → Contact
+
+Right: Featured cake image collage or hero image.
+
+“Our Story” Preview
+
+Short paragraph from About page.
+
+“Learn more about Emily” link.
+
+“Explore Our Cakes”
+
+Grid of 3–4 featured standard cakes with image, name, flavor highlight.
+
+“View full menu” button → Shop.
+
+Testimonials / Social Proof (optional).
+
+Footer
+
+Address, phone, email.
+
+Mini-nav: Home, Shop, Gallery, About, Contact.
+
+Small “Staff Access” link (goes to staff login).
+
+E.2 Public Shop Page
+
+Top Section
+
+Title: “Standard Cakes & Signature Creations”
+
+Subtitle: Clear note that orders are placed via phone, email, or in person.
+
+Filter Bar (horizontal)
+
+Dropdown: Flavor
+
+Dropdown: Filling
+
+Dropdown: Color
+
+Tag filter: Seasonal
+
+Reset filters button.
+
+Product Grid
+
+For each cake card:
+
+Image
+
+Name (e.g., “Lemon Doberge”)
+
+Short description (“Lemon layers with cream cheese icing”)
+
+Size and starting price (“6-inch round from $20”)
+
+“Details” link → opens modal with flavor/filling options and recommended pairings.
+
+Bottom CTA
+
+“Ready to order? Call us at (713) 555-CAKE or visit our Contact page.”
+
+E.3 Contact Page
+
+Two-column Layout (on desktop; stack on mobile)
+
+Left column:
+
+“How Ordering Works” box
+
+Step 1: Browse our cakes and think about your budget, flavors, and pickup date.
+
+Step 2: Call, email, or visit and our staff will create the order in our system.
+
+Step 3: We confirm pickup details, deposit, and final design.
+
+Right column:
+
+Contact Information
+
+Address
+
+Phone (“Tap to call” on mobile)
+
+Email (“Tap to email”)
+
+Hours of operation
+
+Embedded Map
+
+Google Maps or similar showing exact location.
+
+Optional basic contact form (name, email, phone, message).
+
+E.4 Staff Login Page
+
+Centered Card
+
+Logo + small title “Emily Bakes Cakes Staff Portal”
+
+Inputs: Email/username, password.
+
+Button: “Sign in”
+
+Small text: “For bakery staff only. Customers should call, email, or visit to place orders.”
+
+Demo Credentials Area
+
+Larger, high-contrast section under the form with sample login for demo.
+
+E.5 Manager/Owner Dashboard (Emily & James)
+
+Layout:
+
+Header
+
+Greeting: “Good morning, Emily”
+
+Date and time.
+
+Top Row Cards
+
+“Orders Today” (count)
+
+“Open Rush Orders”
+
+“Revenue This Week”
+
+“Orders Awaiting Approval” (final cake approvals).
+
+Middle Row
+
+Left:
+
+“Orders in Progress” table with columns: Customer, Product, Status, Pickup date, Last updated by.
+
+Right:
+
+“Upcoming Pickups” list (today + next 2 days).
+
+Bottom Row
+
+Left: “Staff Overview” mini-card: show counts of active Sales, Bakers, Decorators.
+
+Right: “Quick Actions”
+
+Create new order
+
+Manage products
+
+Manage customers
+
+View financial reports
+
+Breadcrumb: “Dashboard” (root).
+
+E.6 Sales Dashboard
+
+Header
+
+“Sales Dashboard – [Staff Name]”
+
+Top Section
+
+Quick buttons:
+
+“Create New Order”
+
+“Find Customer”
+
+“Today’s Pickup Schedule”
+
+Main Panel: Today’s Orders Table
+
+Columns: Customer, Product, Status, Pickup Time, Deposit Paid.
+
+Sidebar or secondary section: “Recent Customers”
+
+Last 5 customers created.
+
+No revenue charts, no product CRUD, no system-level reports.
+
+E.7 Baker Dashboard
+
+Header
+
+“Baking Queue”
+
+Top Filters
+
+Filter by pickup date (Today, Tomorrow, Next 7 days).
+
+Filter by status (Ready to Bake, Baking).
+
+Main List
+
+Each row/card:
+
+Customer name
+
+Cake name and size
+
+Pickup date/time
+
+Notes (allergies, special baking notes)
+
+Buttons: “Start Baking,” “Mark Assembled”
+
+No financial information, no customer editing from here.
+
+E.8 Decorator Dashboard
+
+Header
+
+“Decorating Queue”
+
+Main Layout
+
+Left column: List of orders needing decoration, sorted by pickup time.
+
+Right column: Detailed view of selected order:
+
+Cake flavor, filling, icing
+
+Colors
+
+Decorations list
+
+Special instructions
+
+Inspiration images thumbnails (click to enlarge)
+
+Buttons: “In Progress,” “Decorated / Completed”
+
+No revenue, no customer CRUD.
+
+E.9 Accountant Dashboard
+
+Header
+
+“Accounting Overview – Dan”
+
+Top Cards
+
+Deposits this week
+
+Outstanding balances
+
+Paid-in-full orders this month
+
+Middle section
+
+Table: Orders with columns: Customer, Total, Deposit, Balance, Status, Pickup date.
+
+Filters by date range and status.
+
+Bottom section
+
+Buttons: “Export Weekly Report,” “Export Monthly Report”
+
+No baking/decoration queue.
+
+E.10 Order Detail & Edit Page (Staff)
+
+Breadcrumb: “Dashboard → Orders → [Order ID]”
+
+Left Column
+
+Customer info (name, contact, type, preferred flag).
+
+Order metadata (created by, last updated by, created date).
+
+Middle Panel (Tabbed)
+
+Tab 1: Cake Details
+
+Product name, size, flavor, filling, icing, colors, decorations.
+
+Tab 2: Layer Builder
+
+Visualization of layers + filling rule enforcement.
+
+Tab 3: Payments
+
+Total price, deposit paid, balance, payment method.
+
+Right Column
+
+Status timeline
+
+Buttons for allowed transitions based on role.
+
+E.11 New Order Form (Sales)
+
+Stepper UI (3 steps):
+
+Step 1: Customer
+
+Search existing or “Create new customer.”
+
+Step 2: Cake Details
+
+Select product (standard cake) → auto-populate defaults.
+
+Adjust size, flavor, filling, icing, colors, decorations.
+
+Upload inspiration images.
+
+Add special notes and allergy notes.
+
+Step 3: Pickup & Payment
+
+Choose pickup date/time (rush rule check here).
+
+Show required deposit and accept deposit info.
+
+At the top of the page: progress indicator (Customer → Cake Details → Pickup & Payment).

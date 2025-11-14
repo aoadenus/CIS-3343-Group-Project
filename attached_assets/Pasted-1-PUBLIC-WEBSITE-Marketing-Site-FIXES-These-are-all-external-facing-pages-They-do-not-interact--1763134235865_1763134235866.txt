@@ -1,0 +1,528 @@
+1. PUBLIC WEBSITE (Marketing Site) FIXES
+
+These are all external-facing pages. They do not interact with the staff system.
+
+1.1 Shop Page Filters Are Wrong
+
+Issue: Filters show birthday, wedding, seasonal, etc.
+Fix: Replace with
+
+All cakes
+
+Flavor
+
+Filling
+
+Color
+Why: Case study product catalog = cakes only. Categories like Birthday/Wedding are not part of the system’s scope.
+
+1.2 “Call to order” + “Email us” Buttons Must Link to Contact Page
+
+Currently linking externally.
+Fix: Direct them to internal Contact page.
+Reason: Better UX + consistent navigation.
+
+1.3 About Page: Misaligned Box Layout
+
+Your partner can fix, but you correctly identified this requires visual layout correction.
+
+1.4 Contact Page: “How Ordering Works” Box Is Oversized
+
+Fix: Move “How ordering works” to left and vertically stack the contact info on the right.
+Why: Accessibility and priority of information.
+
+1.5 Hide Login Button for Customers
+
+Fix:
+
+Remove staff login from top nav.
+
+Only show via hamburger menu on right.
+Reason: Access control clarity + avoids customers accidentally entering staff portal.
+
+1.6 Google Maps Missing
+
+Fix: Add proper Google Maps iframe or API snippet.
+
+2. STAFF LOGIN & AUTHENTICATION
+2.1 Demo Password Text Too Small
+
+Fix: Enlarge demo password UI and move upward.
+Why: Usability for testing, professor accessibility.
+
+2.2 After Logout, Staff Should Return to Staff Login (NOT the public website)
+
+Fix:
+
+Logout redirects → /staff/login
+Why: System is an internal staff app, not customer-facing.
+
+2.3 Switch-User Functionality (Requested)
+
+Issue: No “Switch Accounts” option.
+Fix: Add a “Switch User” without full logout.
+Why: Supports store workflow (“baker steps away, manager takes over quickly”).
+
+3. MANAGER (EMILY + JAMES) DASHBOARD ISSUES
+3.1 Create Order Button Crashes
+
+Error: React 19 useContext basename issue.
+Fix: Update routing + provider structure.
+Priority: Emergency. Without this, you cannot demonstrate order creation.
+
+3.2 Missing Breadcrumbs
+
+Breadcrumbs appear in some pages but missing in others.
+
+Fix:
+
+Global breadcrumb component
+
+Auto-generated based on router
+Why: Professor explicitly required breadcrumb navigation.
+
+3.3 Dropdown Menus Have Wrong Icon Sizes & Alignment
+
+Fix:
+
+Larger icons
+
+Consistent left/right alignment
+
+Standard Radix UI / Headless UI dropdown patterns
+Why: Required by professor UI critique.
+
+3.4 Too Much Positive White Space
+
+This applies to dashboards, forms, and reports.
+
+Fix:
+
+Reduce padding
+
+Use tighter card layouts
+
+Decrease empty sections
+Why: Business dashboard usability + professor hates unnecessary scrolling.
+
+4. ORDER MANAGEMENT: CRITICAL PROBLEMS
+
+This is the most important deliverable and currently the most broken.
+
+4.1 Create Order Form Cannot Submit
+
+You repeatedly got:
+“Missing required fields”
+with no highlight, no message, no field identification.
+
+Fix Requirements
+
+Field-level validation
+
+Inline errors
+
+Scroll-to-error behavior
+
+Disable submit until requirements met
+
+Why This Matters
+
+Order creation is the core mandatory requirement in the case study. If it fails, the project fails.
+
+4.2 Layer Builder – Not Aligned With Case Study Rules
+
+Your findings are accurate.
+
+Fix List
+
+“Double layer / Max layers” incorrect
+
+Terminology mismatched
+
+Some flavor lists incomplete
+
+Fillings and icings must use dropdown menus
+
+Special notes functioning but layout sloppy
+
+Case Study Requirements
+
+Exactly these flavors
+
+Maximum TWO fillings (same flavor)
+
+Each layer must align with real cake layering rules
+
+Layer 1 is always the bottom
+
+4.3 Colors Section Problems
+
+You noticed too much spacing + missing/incorrect colors.
+
+Must Fix
+
+Remove pink from primary
+
+Remove peach from pastel
+
+Remove purple and lime from neon
+
+Remove burgundy
+
+Add white
+
+Bold hex codes
+
+Fix grid spacing
+Why: Must match case study color sheet exactly.
+
+4.4 Decorations Are Incorrect + Missing
+
+You were 100% correct: decorations must match the case study list exactly.
+
+Fix
+
+All decorations must be present
+
+Change scattered list → structured dropdowns by category
+
+Add tiny icon images
+
+Edible sugar photos must allow file upload (case study requires it)
+
+Toys must be grouped, example:
+
+Toys → {Dinosaurs, Race cars, Trains, Dolls…}
+
+4.5 Rush-Order Flow is Broken
+Fix Requirements
+
+If pickup date < 2 days, pop up RUSH WARNING
+
+Managers (Emily + James) can override
+
+Sales cannot approve rush orders
+Reason: Case study rule.
+
+4.6 Serve Count Field Should Be Removed
+
+Why: Serve count is determined by cake size. Not a required input.
+
+4.7 Order Status Flow Wrong for Sales
+
+In your walkthrough, sales staff can change statuses. This violates the business process.
+
+Correct Flow
+
+Sales staff: create orders only
+
+Bakers: update “Baking” and “Assembled”
+
+Decorators: update “Decorating / Completed”
+
+Emily or James: final approval
+
+5. CUSTOMER MANAGEMENT ISSUES
+5.1 Customer Popup Appears Top-Left and Cut Off
+
+Fix: Center modal, full visibility, scrollable.
+
+5.2 CRUD Incomplete
+
+Edits fail
+
+Updates fail
+
+No delete safeguards
+Fix: Rebuild customer CRUD with correct API calls.
+
+5.3 Preferred Customer Status Incorrect
+
+Case study says:
+
+Preferred customers only = 10% discount
+
+Corporate vs Retail required
+Fix: Remove “VIP” entirely. Use:
+Retail | Corporate | Preferred
+
+6. PRODUCT CATALOG ISSUES (ADMIN + STAFF)
+6.1 Should Be Called “Product Management,” Not “Product Catalog”
+
+Admin needs CRUD; catalog term misleading.
+
+6.2 CRUD Not Working
+
+You tested edit/update: it fails.
+Fix: Repair PUT route + validation.
+
+6.3 Popularity Scale Wrong
+
+Change 0–100 → 1–5 stars.
+
+6.4 Category List Wrong
+
+Case study categories are:
+
+Cakes
+
+Pastries
+
+Cupcakes
+
+Cookies
+
+Petit Fours
+
+Pies
+
+Breads
+
+Seasonal
+Not birthday, wedding, etc.
+
+7. REPORTS & ANALYTICS FIXES
+7.1 Charts Too Large → Too Much Scroll
+
+Fix spacing + reduce chart size.
+
+7.2 Reports Should Have Breadcrumbs
+
+Currently missing.
+
+7.3 Sales Staff Should NOT See Full Revenue Reports
+
+They currently do.
+Fix by role-based permission.
+
+8. ROLE-BASED DASHBOARD FIXES
+8.1 Sales Dashboard
+
+Issues you identified:
+
+Too much white space
+
+Wrong access (reports, fulfillment board)
+
+Should show today’s orders, quick actions, common tasks only
+
+8.2 Baker Dashboard
+
+Bakers should NOT:
+
+Change financial details
+
+Use product CRUD
+
+See financial reports
+They should:
+
+See queue of cakes to bake
+
+Update status to “Baked / Assembled”
+
+8.3 Decorator Dashboard
+
+Same as baker, but for decoration tasks:
+
+Should have “Needs Clarification” requests
+
+Should upload completed cake photo
+
+Should NOT have revenue, CRUD, analytics, or IT functions
+
+8.4 Accountant Dashboard
+
+You were right to expect more here.
+Current version is too generic.
+
+Dan needs:
+
+Deposits overview
+
+Payments pending
+
+Balance due
+
+Weekly & monthly summaries
+
+Downloadable financial statements
+
+Customer refund history (optional)
+
+He should not have:
+
+Fulfillment board
+
+Decorative or baking tools
+
+Product CRUD
+
+9. CASE STUDY CORRECTIONS YOU IDENTIFIED
+
+All correct and must be applied across the app:
+
+Emily’s last name is Boudreaux, not Baker
+
+System must store email/phone lists for marketing
+
+Orders must track “last employee who touched it”
+
+Prices for decorated cakes are negotiable
+
+→ Add “negotiated price override” field
+
+Cupcake customization must place filling at top center
+
+2-day rule for custom orders must be implemented
+
+Corporate customers may have multiple locations
+
+Photos must be uploadable
+
+Optional updated website is separate from internal system
+
+Inventory is NOT in scope
+
+10. MISSING FEATURES THAT MUST BE ADDED
+10.1 Staff Scheduling
+
+Case study strongly implies scheduling, staffing, performance tracking.
+
+10.2 Order Alerts for Bakers/Decorators
+
+When an order arrives:
+
+Baker notified
+
+Decorator notified
+
+Emily/James notified for final approval
+Could be in-app notifications or a small internal alert queue.
+
+10.3 Emergency / Disaster Recovery File Button
+
+You mentioned this correctly.
+Fix: Add a “Download All Files” button for managers.
+
+10.4 Corporate Customer Multiple Location Support
+
+Add sub-table for locations.
+
+10.5 Standard Cake “Auto-Fill”
+
+If user selects a standard cake, layers and icing should auto-populate.
+
+11. GLOBAL DESIGN + UX FIXES
+11.1 Reduce Positive Space
+
+Every dashboard and board needs tighter layout.
+
+11.2 Dynamic Dropdown Menus Everywhere
+
+Professor requires this.
+
+11.3 Standardization of UI Components
+
+Use one component library (Radix UI or ShadCN).
+Right now spacing, dropdowns, modals, card sizes are inconsistent.
+
+11.4 Partner Tasks You Identified
+
+About Page visuals
+
+Contact page layout
+
+Front-end animations
+
+Button placements
+
+Gallery updates
+
+12. STAFF PORTAL STRUCTURE (Ideal Final Version)
+
+Here is how dashboards should be structured:
+
+Emily (Full Access)
+
+Everything
+
+Final approvals
+
+Staff scheduling
+
+Decorating + baking view
+
+Full reports
+
+Product + price overrides
+
+Customer CRUD
+
+Marketing lists
+
+James (Manager)
+
+Everything except decorating tools
+
+Staffing
+
+Approvals
+
+Reports
+
+Baking view
+
+Sales Staff
+
+Create orders
+
+View customer list
+
+View pick-ups
+
+No revenue
+
+No product CRUD
+
+No fulfillment board
+
+Bakers
+
+Baking queue
+
+Change status to “Baked / Assembled”
+
+View order details
+
+Cannot see payment info
+
+Cannot CRUD customers
+
+Decorators
+
+Decoration queue
+
+Upload final cake photo
+
+Mark “Decorated”
+
+Cannot see financials
+
+Cannot CRUD customers
+
+Accountant (Dan)
+
+Payments
+
+Deposits
+
+Balance due
+
+Financial reports
+
+No baking boards
+
+No decoration queue
+
+No product CRUD
