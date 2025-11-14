@@ -480,22 +480,18 @@ export function Contact() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5 }}
           >
-            {/* Map Placeholder */}
-            <Card className="surface-elevated overflow-hidden">
-              <div 
-                className="w-full h-80 flex items-center justify-center"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(196, 69, 105, 0.1) 0%, rgba(90, 56, 37, 0.05) 100%)'
-                }}
-              >
-                <div className="text-center">
-                  <MapPin size={64} color="rgba(196, 69, 105, 0.3)" className="mx-auto mb-4" />
-                  <p style={{ color: 'var(--text-secondary)' }}>
-                    123 Magazine Street<br />
-                    New Orleans, LA 70130
-                  </p>
-                </div>
-              </div>
+            {/* Google Maps Embed */}
+            <Card className="surface-elevated overflow-hidden rounded-lg">
+              <iframe
+                src="https://www.google.com/maps?q=123+Magazine+Street+New+Orleans+LA+70130&output=embed"
+                width="100%"
+                height="320"
+                style={{ border: 0, display: 'block' }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Emily Bakes Cakes Location"
+              />
             </Card>
 
             {/* Quick Info */}
