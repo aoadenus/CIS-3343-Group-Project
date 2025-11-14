@@ -98,42 +98,42 @@ export function Contact() {
           </p>
         </motion.div>
 
-        {/* Two-Column Layout: How Ordering Works (40%) + Contact Info (60%) */}
+        {/* Two-Column Layout: How Ordering Works + Contact Info Cards */}
         <motion.div
           className="mb-16"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
         >
-          <div className="grid grid-cols-1 lg:grid-cols-[40%_60%] gap-8">
-            {/* LEFT COLUMN (40%): How Ordering Works */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* LEFT COLUMN: How Ordering Works */}
             <div
-              className="glass-card p-6 md:p-8"
+              className="glass-card p-6 md:p-7"
               style={{
                 background: 'linear-gradient(135deg, rgba(196, 69, 105, 0.08) 0%, rgba(196, 69, 105, 0.03) 100%)',
                 border: '2px solid rgba(196, 69, 105, 0.2)'
               }}
             >
-              <div className="mb-6">
-                <h2 className="mb-2" style={{ color: '#C44569', fontSize: '28px' }}>How Ordering Works</h2>
+              <div className="mb-5">
+                <h2 className="mb-2" style={{ color: '#C44569', fontSize: '26px' }}>How Ordering Works</h2>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>
                   Our personalized ordering process
                 </p>
               </div>
               
               {/* Vertical stack of workflow steps */}
-              <div className="space-y-5">
+              <div className="space-y-4">
                 {/* Step 1: Call */}
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-3">
                   <div 
-                    className="w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0"
+                    className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
                     style={{ background: '#C44569', boxShadow: '0 4px 12px rgba(196, 69, 105, 0.3)' }}
                   >
-                    <Phone size={24} color="white" />
+                    <Phone size={20} color="white" />
                   </div>
                   <div className="flex-1">
-                    <h4 className="mb-1" style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: 600 }}>1. Call</h4>
-                    <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '8px' }}>
+                    <h4 className="mb-1" style={{ fontFamily: 'Poppins', fontSize: '15px', fontWeight: 600 }}>1. Call</h4>
+                    <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '6px' }}>
                       Reach us at
                     </p>
                     <a 
@@ -153,203 +153,212 @@ export function Contact() {
                 </div>
 
                 {/* Step 2: Discuss */}
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-3">
                   <div 
-                    className="w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0"
+                    className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
                     style={{ background: '#8B3A5E', boxShadow: '0 4px 12px rgba(139, 58, 94, 0.3)' }}
                   >
-                    <MessageCircle size={24} color="white" />
+                    <MessageCircle size={20} color="white" />
                   </div>
                   <div className="flex-1">
-                    <h4 className="mb-1" style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: 600 }}>2. Discuss</h4>
+                    <h4 className="mb-1" style={{ fontFamily: 'Poppins', fontSize: '15px', fontWeight: 600 }}>2. Discuss</h4>
                     <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                      Share your vision, flavor preferences, and event details with our team
+                      Share your vision, flavor preferences, and event details
                     </p>
                   </div>
                 </div>
 
                 {/* Step 3: Deposit */}
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-3">
                   <div 
-                    className="w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0"
+                    className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
                     style={{ background: '#C44569', boxShadow: '0 4px 12px rgba(196, 69, 105, 0.3)' }}
                     role="img"
                     aria-label="Payment deposit step"
                   >
-                    <span style={{ fontSize: '32px', lineHeight: 1 }}>💳</span>
+                    <span style={{ fontSize: '28px', lineHeight: 1 }}>💳</span>
                   </div>
                   <div className="flex-1">
-                    <h4 className="mb-1" style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: 600 }}>3. Deposit</h4>
+                    <h4 className="mb-1" style={{ fontFamily: 'Poppins', fontSize: '15px', fontWeight: 600 }}>3. Deposit</h4>
                     <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                      Secure your order with a 50% deposit to begin the creation process
+                      Secure your order with a 50% deposit
                     </p>
                   </div>
                 </div>
 
                 {/* Step 4: Build */}
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-3">
                   <div 
-                    className="w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0"
+                    className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
                     style={{ background: '#8B3A5E', boxShadow: '0 4px 12px rgba(139, 58, 94, 0.3)' }}
                     role="img"
                     aria-label="Cake building step"
                   >
-                    <span style={{ fontSize: '32px', lineHeight: 1 }}>🎂</span>
+                    <span style={{ fontSize: '28px', lineHeight: 1 }}>🎂</span>
                   </div>
                   <div className="flex-1">
-                    <h4 className="mb-1" style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: 600 }}>4. Build</h4>
+                    <h4 className="mb-1" style={{ fontFamily: 'Poppins', fontSize: '15px', fontWeight: 600 }}>4. Build</h4>
                     <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                      Our bakers handcraft your custom cake with care and precision
+                      Our bakers handcraft your custom cake
                     </p>
                   </div>
                 </div>
 
                 {/* Step 5: Pickup */}
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-3">
                   <div 
-                    className="w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0"
+                    className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
                     style={{ background: '#C44569', boxShadow: '0 4px 12px rgba(196, 69, 105, 0.3)' }}
                     role="img"
                     aria-label="Pickup or delivery step"
                   >
-                    <span style={{ fontSize: '32px', lineHeight: 1 }}>📦</span>
+                    <span style={{ fontSize: '28px', lineHeight: 1 }}>📦</span>
                   </div>
                   <div className="flex-1">
-                    <h4 className="mb-1" style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: 600 }}>5. Pickup</h4>
+                    <h4 className="mb-1" style={{ fontFamily: 'Poppins', fontSize: '15px', fontWeight: 600 }}>5. Pickup</h4>
                     <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                      Collect your masterpiece or arrange delivery to your event
+                      Collect your masterpiece or arrange delivery
                     </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* RIGHT COLUMN (60%): Prominent Contact Information */}
-            <div
-              className="glass-card p-8 md:p-10"
-              style={{
-                background: 'linear-gradient(135deg, rgba(196, 69, 105, 0.12) 0%, rgba(196, 69, 105, 0.06) 100%)',
-                border: '2px solid rgba(196, 69, 105, 0.3)'
-              }}
-            >
-              <div className="mb-8">
-                <h2 className="mb-2" style={{ color: '#C44569', fontSize: '32px' }}>Contact Us</h2>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '15px' }}>
-                  Get in touch to place your order
-                </p>
+            {/* RIGHT COLUMN: Contact Info Blocks (Stacked Vertically) */}
+            <div className="space-y-5">
+              {/* Phone Number Card */}
+              <div
+                className="glass-card p-5"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(196, 69, 105, 0.12) 0%, rgba(196, 69, 105, 0.06) 100%)',
+                  border: '2px solid rgba(196, 69, 105, 0.3)'
+                }}
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div 
+                    className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+                    style={{ background: '#C44569', boxShadow: '0 4px 12px rgba(196, 69, 105, 0.3)' }}
+                  >
+                    <Phone size={20} color="white" />
+                  </div>
+                  <div>
+                    <p style={{ fontSize: '11px', fontWeight: 600, color: '#C44569', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '2px' }}>
+                      Primary Ordering Method
+                    </p>
+                    <h5 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>Call Us</h5>
+                  </div>
+                </div>
+                <a 
+                  href="tel:555-123-4567"
+                  style={{
+                    color: '#C44569',
+                    fontWeight: 700,
+                    fontSize: '24px',
+                    textDecoration: 'none',
+                    display: 'block',
+                    marginBottom: '4px',
+                    fontFamily: 'Poppins'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
+                  onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
+                >
+                  (555) 123-4567
+                </a>
+                <p style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>Mon-Sat: 9 AM - 6 PM</p>
               </div>
 
-              <div className="space-y-8">
-                {/* Phone Number - Primary */}
-                <div>
-                  <div className="flex items-center gap-3 mb-3">
-                    <div 
-                      className="w-12 h-12 rounded-full flex items-center justify-center"
-                      style={{ background: '#C44569', boxShadow: '0 4px 12px rgba(196, 69, 105, 0.3)' }}
-                    >
-                      <Phone size={22} color="white" />
-                    </div>
-                    <div>
-                      <p style={{ fontSize: '12px', fontWeight: 600, color: '#C44569', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '2px' }}>
-                        Primary Ordering Method
-                      </p>
-                      <h5 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>Call Us</h5>
-                    </div>
-                  </div>
-                  <a 
-                    href="tel:555-123-4567"
-                    style={{
-                      color: '#C44569',
-                      fontWeight: 700,
-                      fontSize: '28px',
-                      textDecoration: 'none',
-                      display: 'block',
-                      marginBottom: '4px',
-                      fontFamily: 'Poppins'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
-                    onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
+              {/* Email Card */}
+              <div
+                className="glass-card p-5"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(196, 69, 105, 0.08) 0%, rgba(196, 69, 105, 0.03) 100%)',
+                  border: '2px solid rgba(196, 69, 105, 0.2)'
+                }}
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div 
+                    className="w-12 h-12 rounded-full flex items-center justify-center"
+                    style={{ background: 'rgba(196, 69, 105, 0.15)' }}
                   >
-                    (555) 123-4567
-                  </a>
-                  <p style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>Mon-Sat: 9 AM - 6 PM</p>
-                </div>
-
-                {/* Email */}
-                <div>
-                  <div className="flex items-center gap-3 mb-3">
-                    <div 
-                      className="w-12 h-12 rounded-full flex items-center justify-center"
-                      style={{ background: 'rgba(196, 69, 105, 0.15)' }}
-                    >
-                      <Mail size={22} color="#C44569" />
-                    </div>
-                    <h5 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>Email Us</h5>
+                    <Mail size={20} color="#C44569" />
                   </div>
-                  <a 
-                    href="mailto:hello@emilybakescakes.com"
-                    style={{
-                      color: '#C44569',
-                      fontWeight: 600,
-                      fontSize: '18px',
-                      textDecoration: 'none',
-                      display: 'block',
-                      marginBottom: '4px'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
-                    onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
+                  <h5 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>Email Us</h5>
+                </div>
+                <a 
+                  href="mailto:hello@emilybakescakes.com"
+                  style={{
+                    color: '#C44569',
+                    fontWeight: 600,
+                    fontSize: '16px',
+                    textDecoration: 'none',
+                    display: 'block',
+                    marginBottom: '4px'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
+                  onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
+                >
+                  hello@emilybakescakes.com
+                </a>
+                <p style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>Response within 24 hours</p>
+              </div>
+
+              {/* Address Card */}
+              <div
+                className="glass-card p-5"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(196, 69, 105, 0.08) 0%, rgba(196, 69, 105, 0.03) 100%)',
+                  border: '2px solid rgba(196, 69, 105, 0.2)'
+                }}
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div 
+                    className="w-12 h-12 rounded-full flex items-center justify-center"
+                    style={{ background: 'rgba(196, 69, 105, 0.15)' }}
                   >
-                    hello@emilybakescakes.com
-                  </a>
-                  <p style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>Response within 24 hours</p>
-                </div>
-
-                {/* Physical Address */}
-                <div>
-                  <div className="flex items-center gap-3 mb-3">
-                    <div 
-                      className="w-12 h-12 rounded-full flex items-center justify-center"
-                      style={{ background: 'rgba(196, 69, 105, 0.15)' }}
-                    >
-                      <MapPin size={22} color="#C44569" />
-                    </div>
-                    <h5 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>Visit Us</h5>
+                    <MapPin size={20} color="#C44569" />
                   </div>
-                  <a 
-                    href="https://maps.google.com/?q=123+Magazine+Street+New+Orleans+LA+70130"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      color: '#C44569',
-                      fontWeight: 600,
-                      fontSize: '16px',
-                      textDecoration: 'none',
-                      display: 'block'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
-                    onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
+                  <h5 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>Visit Us</h5>
+                </div>
+                <a 
+                  href="https://maps.google.com/?q=123+Magazine+Street+New+Orleans+LA+70130"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: '#C44569',
+                    fontWeight: 600,
+                    fontSize: '15px',
+                    textDecoration: 'none',
+                    display: 'block'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
+                  onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
+                >
+                  123 Magazine Street<br />
+                  New Orleans, LA 70130
+                </a>
+              </div>
+
+              {/* Business Hours Card */}
+              <div
+                className="glass-card p-5"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(196, 69, 105, 0.08) 0%, rgba(196, 69, 105, 0.03) 100%)',
+                  border: '2px solid rgba(196, 69, 105, 0.2)'
+                }}
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div 
+                    className="w-12 h-12 rounded-full flex items-center justify-center"
+                    style={{ background: 'rgba(196, 69, 105, 0.15)' }}
                   >
-                    123 Magazine Street<br />
-                    New Orleans, LA 70130
-                  </a>
+                    <Clock size={20} color="#C44569" />
+                  </div>
+                  <h5 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>Business Hours</h5>
                 </div>
-
-                {/* Business Hours */}
-                <div>
-                  <div className="flex items-center gap-3 mb-3">
-                    <div 
-                      className="w-12 h-12 rounded-full flex items-center justify-center"
-                      style={{ background: 'rgba(196, 69, 105, 0.15)' }}
-                    >
-                      <Clock size={22} color="#C44569" />
-                    </div>
-                    <h5 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>Business Hours</h5>
-                  </div>
-                  <div style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.8 }}>
-                    <p><strong style={{ color: 'var(--text-primary)' }}>Monday - Friday:</strong> 9 AM - 6 PM</p>
-                    <p><strong style={{ color: 'var(--text-primary)' }}>Saturday:</strong> 10 AM - 4 PM</p>
-                    <p><strong style={{ color: 'var(--text-primary)' }}>Sunday:</strong> Closed</p>
-                  </div>
+                <div style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+                  <p><strong style={{ color: 'var(--text-primary)' }}>Monday - Friday:</strong> 9 AM - 6 PM</p>
+                  <p><strong style={{ color: 'var(--text-primary)' }}>Saturday:</strong> 10 AM - 4 PM</p>
+                  <p><strong style={{ color: 'var(--text-primary)' }}>Sunday:</strong> Closed</p>
                 </div>
               </div>
             </div>
