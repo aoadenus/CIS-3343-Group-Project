@@ -323,7 +323,7 @@ export function Shop({ onNavigate }: ShopProps = {}) {
                   Ready to order?
                 </p>
                 <a 
-                  href="tel:555-123-4567"
+                  href="tel:713-555-2253"
                   style={{
                     fontFamily: 'Poppins',
                     fontSize: '22px',
@@ -334,7 +334,7 @@ export function Shop({ onNavigate }: ShopProps = {}) {
                   onMouseEnter={(e) => e.currentTarget.style.color = '#8B3A5E'}
                   onMouseLeave={(e) => e.currentTarget.style.color = '#C44569'}
                 >
-                  (555) 123-4567
+                  (713) 555-CAKE
                 </a>
               </div>
             </div>
@@ -570,7 +570,7 @@ export function Shop({ onNavigate }: ShopProps = {}) {
               <div className="flex items-center justify-center gap-3 mt-4">
                 <Phone size={20} color="#C44569" />
                 <a 
-                  href="tel:555-123-4567"
+                  href="tel:713-555-2253"
                   style={{
                     fontFamily: 'Poppins',
                     fontSize: '18px',
@@ -581,7 +581,7 @@ export function Shop({ onNavigate }: ShopProps = {}) {
                   onMouseEnter={(e) => e.currentTarget.style.color = '#8B3A5E'}
                   onMouseLeave={(e) => e.currentTarget.style.color = '#C44569'}
                 >
-                  Call (555) 123-4567 to order with these flavors
+                  Call (713) 555-CAKE to order with these flavors
                 </a>
               </div>
             </div>
@@ -677,7 +677,7 @@ export function Shop({ onNavigate }: ShopProps = {}) {
               <div className="flex items-center justify-center gap-3 mt-4">
                 <Phone size={20} color="#C44569" />
                 <a 
-                  href="tel:555-123-4567"
+                  href="tel:713-555-2253"
                   style={{
                     fontFamily: 'Poppins',
                     fontSize: '18px',
@@ -688,7 +688,7 @@ export function Shop({ onNavigate }: ShopProps = {}) {
                   onMouseEnter={(e) => e.currentTarget.style.color = '#8B3A5E'}
                   onMouseLeave={(e) => e.currentTarget.style.color = '#C44569'}
                 >
-                  Call (555) 123-4567 to order with these fillings
+                  Call (713) 555-CAKE to order with these fillings
                 </a>
               </div>
             </div>
@@ -1014,7 +1014,7 @@ export function Shop({ onNavigate }: ShopProps = {}) {
                           style={{ borderColor: 'var(--border-subtle)' }}
                         >
                           <a 
-                            href="tel:555-123-4567"
+                            href="tel:713-555-2253"
                             className="flex items-center gap-2 text-center"
                             style={{
                               color: '#C44569',

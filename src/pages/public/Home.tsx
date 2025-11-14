@@ -213,7 +213,7 @@ export function PublicHome({ onNavigate }: PublicHomeProps = {}) {
             </p>
             
             <a
-              href="tel:555-123-4567"
+              href="tel:713-555-2253"
               style={{
                 background: '#C44569',
                 color: 'white',
@@ -798,7 +798,7 @@ export function PublicHome({ onNavigate }: PublicHomeProps = {}) {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               {/* Primary Button - "Call to Order" */}
               <a
-                href="tel:555-123-4567"
+                href="tel:713-555-2253"
                 className="group"
                 style={{
                   background: '#C44569',

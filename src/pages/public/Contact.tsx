@@ -14,7 +14,7 @@ const faqs = [
   },
   {
     question: 'Do you offer delivery?',
-    answer: 'Yes! We offer delivery within a 25-mile radius of our New Orleans location. Delivery fees vary based on distance and cake complexity.'
+    answer: 'Yes! We offer delivery within a 25-mile radius of our Houston location. Delivery fees vary based on distance and cake complexity.'
   },
   {
     question: 'Can I schedule a tasting?',
@@ -137,7 +137,7 @@ export function Contact() {
                       Reach us at
                     </p>
                     <a 
-                      href="tel:555-123-4567"
+                      href="tel:713-555-2253"
                       style={{
                         color: '#C44569',
                         fontWeight: 700,
@@ -147,7 +147,7 @@ export function Contact() {
                       onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
                       onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
                     >
-                      (555) 123-4567
+                      (713) 555-CAKE
                     </a>
                   </div>
                 </div>
@@ -249,7 +249,7 @@ export function Contact() {
                   </div>
                 </div>
                 <a 
-                  href="tel:555-123-4567"
+                  href="tel:713-555-2253"
                   style={{
                     color: '#C44569',
                     fontWeight: 700,
@@ -262,9 +262,9 @@ export function Contact() {
                   onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
                   onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
                 >
-                  (555) 123-4567
+                  (713) 555-CAKE
                 </a>
-                <p style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>Mon-Sat: 9 AM - 6 PM</p>
+                <p style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>713-555-2253</p>
               </div>
 
               {/* Email Card */}
@@ -285,7 +285,7 @@ export function Contact() {
                   <h5 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>Email Us</h5>
                 </div>
                 <a 
-                  href="mailto:hello@emilybakescakes.com"
+                  href="mailto:info@emilybakescakes.com"
                   style={{
                     color: '#C44569',
                     fontWeight: 600,
@@ -297,7 +297,7 @@ export function Contact() {
                   onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
                   onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
                 >
-                  hello@emilybakescakes.com
+                  info@emilybakescakes.com
                 </a>
                 <p style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>Response within 24 hours</p>
               </div>
@@ -320,7 +320,7 @@ export function Contact() {
                   <h5 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>Visit Us</h5>
                 </div>
                 <a 
-                  href="https://maps.google.com/?q=123+Magazine+Street+New+Orleans+LA+70130"
+                  href="https://maps.google.com/?q=2847+Westheimer+Road+Houston+TX+77098"
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
@@ -333,8 +333,8 @@ export function Contact() {
                   onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
                   onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
                 >
-                  123 Magazine Street<br />
-                  New Orleans, LA 70130
+                  2847 Westheimer Road<br />
+                  Houston, TX 77098
                 </a>
               </div>
 
@@ -427,7 +427,7 @@ export function Contact() {
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="(555) 123-4567"
+                      placeholder="(713) 555-CAKE"
                       className="input-field h-12"
                     />
                   </div>
@@ -492,7 +492,7 @@ export function Contact() {
             {/* Google Maps Embed */}
             <Card className="surface-elevated overflow-hidden rounded-lg">
               <iframe
-                src="https://www.google.com/maps?q=123+Magazine+Street+New+Orleans+LA+70130&output=embed"
+                src="https://www.google.com/maps?q=2847+Westheimer+Road+Houston+TX+77098&output=embed"
                 width="100%"
                 height="320"
                 style={{ border: 0, display: 'block' }}
@@ -595,11 +595,11 @@ export function Contact() {
         >
           <h3 className="mb-4">Ready to Order Your Cake?</h3>
           <p className="mb-8" style={{ color: 'var(--text-secondary)' }}>
-            Call us at (555) 123-4567 or visit our shop to discuss your custom cake vision with our team.
+            Call us at (713) 555-CAKE or visit our shop to discuss your custom cake vision with our team.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <a 
-              href="tel:555-123-4567"
+              href="tel:713-555-2253"
               className="btn-primary"
               style={{ minWidth: '200px', height: '56px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}
             >

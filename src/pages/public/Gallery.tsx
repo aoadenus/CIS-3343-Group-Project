@@ -864,7 +864,7 @@ export function Gallery() {
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
               <a
-                href="tel:555-123-4567"
+                href="tel:713-555-2253"
                 style={{
                   background: '#C44569',
                   color: 'white',

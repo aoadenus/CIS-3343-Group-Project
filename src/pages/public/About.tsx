@@ -748,7 +748,7 @@ export function About() {
               handcrafted with European precision and Texas heart. Call or visit us today!
             </p>
             <motion.a
-              href="tel:555-123-4567"
+              href="tel:713-555-2253"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.98 }}
               style={{

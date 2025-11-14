@@ -748,7 +748,7 @@ export function AboutParisian() {
               handcrafted with European precision and Texas heart.
             </p>
             <a
-              href="tel:555-123-4567"
+              href="tel:713-555-2253"
               style={{
                 background: '#C44569',
                 color: 'white',
