@@ -27,18 +27,85 @@ export function BackToSiteDropdown({ onLogout, onSwitchAccount }: BackToSiteDrop
       </button>
 
       {open && (
-        <div style={{ position: 'absolute', top: 40, left: 0, width: 200, background: 'rgba(43,43,43,0.95)', backdropFilter: 'blur(12px)', borderRadius: 10, boxShadow: '0 8px 24px rgba(0,0,0,0.4)', padding: 8, zIndex: 100 }}>
-          <button onClick={() => { window.location.href = '/'; }} style={{ width: '100%', height: 42, display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', background: 'transparent', border: 'none', color: '#FFFFFF', borderRadius: 6, cursor: 'pointer' }}>
+        <div style={{ 
+          position: 'absolute', 
+          top: '100%', 
+          left: 0, 
+          marginTop: 8,
+          width: 220, 
+          background: 'rgba(43,43,43,0.98)', 
+          backdropFilter: 'blur(12px)', 
+          borderRadius: 10, 
+          boxShadow: '0 8px 24px rgba(0,0,0,0.5)', 
+          padding: 8, 
+          zIndex: 9999,
+          border: '1px solid rgba(255,255,255,0.1)'
+        }}>
+          <button 
+            onClick={() => { setOpen(false); window.location.href = '/'; }} 
+            style={{ 
+              width: '100%', 
+              height: 44, 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 10, 
+              padding: '10px 12px', 
+              background: 'transparent', 
+              border: 'none', 
+              color: '#FFFFFF', 
+              borderRadius: 6, 
+              cursor: 'pointer',
+              transition: 'background 200ms ease'
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(196, 69, 105, 0.2)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
+          >
             <ArrowLeft size={16} />
             <span style={{ fontFamily: 'Poppins', fontSize: 14 }}>Back to Public Site</span>
           </button>
 
-          <button onClick={() => { onSwitchAccount?.(); }} style={{ width: '100%', height: 42, display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', background: 'transparent', border: 'none', color: '#FFFFFF', borderRadius: 6, cursor: 'pointer' }}>
+          <button 
+            onClick={() => { setOpen(false); onSwitchAccount?.(); }} 
+            style={{ 
+              width: '100%', 
+              height: 44, 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 10, 
+              padding: '10px 12px', 
+              background: 'transparent', 
+              border: 'none', 
+              color: '#FFFFFF', 
+              borderRadius: 6, 
+              cursor: 'pointer',
+              transition: 'background 200ms ease'
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(196, 69, 105, 0.2)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
+          >
             <RefreshCw size={16} />
             <span style={{ fontFamily: 'Poppins', fontSize: 14 }}>Switch Accounts</span>
           </button>
 
-          <button onClick={() => { onLogout(); }} style={{ width: '100%', height: 42, display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', background: 'transparent', border: 'none', color: '#FFFFFF', borderRadius: 6, cursor: 'pointer' }}>
+          <button 
+            onClick={() => { setOpen(false); onLogout(); }} 
+            style={{ 
+              width: '100%', 
+              height: 44, 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 10, 
+              padding: '10px 12px', 
+              background: 'transparent', 
+              border: 'none', 
+              color: '#FF5555', 
+              borderRadius: 6, 
+              cursor: 'pointer',
+              transition: 'background 200ms ease'
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255, 85, 85, 0.1)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
+          >
             <LogOut size={16} />
             <span style={{ fontFamily: 'Poppins', fontSize: 14 }}>Log Out</span>
           </button>
