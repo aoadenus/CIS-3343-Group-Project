@@ -1,0 +1,1181 @@
+# 🎯 REPLIT AI: COMPLETE DASHBOARD RECONSTRUCTION PROMPT
+
+**CONTEXT**: You are rebuilding ALL role-based dashboards for Emily Bakes Cakes from scratch. The current dashboards are plain, boring, and non-functional. You will create professional, business-grade dashboards that match enterprise SaaS applications like Salesforce, Toast POS, and Square Dashboard.
+
+---
+
+## 📋 GLOBAL DASHBOARD REQUIREMENTS (APPLY TO ALL 6 ROLES)
+
+### **Brand Standards (STRICT ENFORCEMENT)**
+```css
+/* COLOR PALETTE - Use ONLY these colors */
+--raspberry-pink: #C44569;    /* Primary actions, KPI highlights */
+--cream-vanilla: #F8EBD7;     /* Card backgrounds */
+--chocolate-brown: #5A3825;   /* Secondary text */
+--charcoal-gray: #2B2B2B;     /* Primary text */
+--white: #FFFFFF;             /* Card surfaces */
+
+/* SUCCESS/WARNING/ERROR */
+--success-green: #10B981;
+--warning-amber: #F59E0B;
+--error-red: #EF4444;
+--info-blue: #3B82F6;
+```
+
+### **Typography System**
+```css
+/* HEADINGS */
+H1: Playfair Display, 32px, Bold, Charcoal Gray
+H2: Poppins, 24px, SemiBold, Charcoal Gray
+H3: Poppins, 20px, SemiBold, Charcoal Gray
+
+/* BODY */
+Body: Open Sans, 16px, Regular, Chocolate Brown
+Small: Open Sans, 14px, Regular, Chocolate Brown
+Tiny: Open Sans, 12px, Regular, Chocolate Brown
+```
+
+### **Layout Structure (ALL Dashboards)**
+```
+┌─────────────────────────────────────────────────────────┐
+│ HEADER (80px height, fixed)                             │
+│ - Logo (left, 180px wide)                               │
+│ - Page Title (Poppins 24px SemiBold)                    │
+│ - User Badge (right, role + name + avatar)              │
+│ - Logout (right, 40px icon button)                      │
+└─────────────────────────────────────────────────────────┘
+│ MAIN CONTENT (padding: 32px, max-width: 1400px)         │
+│                                                          │
+│ ┌─── KPI SECTION (grid-cols-4, gap-6) ────┐            │
+│ │ [KPI Card 1] [KPI Card 2] [KPI Card 3] [KPI Card 4] │
+│ └───────────────────────────────────────────┘            │
+│                                                          │
+│ ┌─── QUICK ACTIONS (flex, gap-4) ──────────┐            │
+│ │ [Primary Button] [Secondary Button] [...] │            │
+│ └───────────────────────────────────────────┘            │
+│                                                          │
+│ ┌─── DATA SECTION (2-column grid) ─────────┐            │
+│ │ [Chart/Table Left]  [Activity Feed Right] │            │
+│ └───────────────────────────────────────────┘            │
+│                                                          │
+└─────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────┐
+│ FOOTER (60px height)                                    │
+│ - Last Updated: [timestamp] (left)                      │
+│ - Help Link (center)                                    │
+│ - Version (right)                                       │
+└─────────────────────────────────────────────────────────┘
+```
+
+### **KPI Card Component (STANDARDIZED)**
+```tsx
+// STRUCTURE
+<div className="kpi-card">
+  <div className="kpi-header">
+    <Icon size={24} color={iconColor} />
+    <h3>{title}</h3>
+  </div>
+  <div className="kpi-value">{value}</div>
+  <div className="kpi-trend">
+    <TrendIcon />
+    <span>{trendPercentage}</span>
+    <span className="kpi-period">{period}</span>
+  </div>
+  <button onClick={handleViewDetails}>View Details →</button>
+</div>
+
+// STYLING
+.kpi-card {
+  background: var(--white);
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+  cursor: pointer; /* ENTIRE CARD IS CLICKABLE */
+}
+
+.kpi-card:hover {
+  box-shadow: 0 4px 12px rgba(196,69,105,0.2);
+  border-color: var(--raspberry-pink);
+  transform: translateY(-2px);
+}
+
+.kpi-value {
+  font-family: 'Poppins', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--charcoal-gray);
+  margin: 12px 0;
+}
+
+// CLICK BEHAVIOR: Opens modal with detailed breakdown
+```
+
+### **Modal System (ALL Detail Views)**
+```tsx
+// TRIGGER: Clicking any KPI card
+// POSITION: Centered overlay (50% from top, 50% from left, transform)
+// SIZE: max-width: 800px, max-height: 90vh
+// BACKDROP: rgba(0,0,0,0.5)
+
+<Modal>
+  <ModalHeader>
+    <h2>{kpiTitle} - Detailed Breakdown</h2>
+    <CloseButton aria-label="Close modal" />
+  </ModalHeader>
+  
+  <ModalBody>
+    {/* Dynamic content based on KPI */}
+    <DataTable 
+      columns={...}
+      data={...}
+      exportable={true}
+      sortable={true}
+    />
+  </ModalBody>
+  
+  <ModalFooter>
+    <Button variant="secondary" onClick={handleExport}>
+      Export to CSV
+    </Button>
+    <Button variant="primary" onClick={handleClose}>
+      Close
+    </Button>
+  </ModalFooter>
+</Modal>
+
+// WCAG COMPLIANCE
+- Focus trap within modal
+- Escape key closes modal
+- Focus returns to trigger element on close
+- aria-modal="true"
+- aria-labelledby points to modal title
+```
+
+---
+
+## 🛒 SALES STAFF DASHBOARD
+
+### **Route**: `/admin/analytics-dashboard?role=sales`
+
+### **Business Functions**
+1. Create new custom cake orders
+2. View today's pickups
+3. Check pending deposits
+4. Access customer history
+5. View recent inquiries from public contact form
+
+### **KPI Cards (4-column grid)**
+
+#### **KPI 1: Today's Orders**
+```tsx
+Icon: ShoppingCart (Lucide React)
+Color: Raspberry Pink
+Value: {count} (e.g., "12")
+Trend: "+3 from yesterday"
+Click Action: Opens modal showing:
+  - Table of all orders created today
+  - Columns: Order ID, Customer Name, Cake Type, Total, Status
+  - Each row clickable → navigates to /admin/order-management?id={orderId}
+```
+
+#### **KPI 2: Pending Deposits**
+```tsx
+Icon: DollarSign
+Color: Warning Amber (#F59E0B)
+Value: "$1,245" (sum of all partial deposits owed)
+Trend: "5 orders awaiting final payment"
+Click Action: Opens modal showing:
+  - Table of orders with payment_status = 'partial_deposit'
+  - Columns: Customer, Order Date, Total, Paid, Balance Due, Action
+  - Action button: "Send Reminder Email"
+```
+
+#### **KPI 3: Pickups Today**
+```tsx
+Icon: Package
+Color: Success Green
+Value: {count} "8"
+Trend: "Next pickup: 2:00 PM"
+Click Action: Opens modal showing:
+  - List of orders scheduled for pickup today
+  - Sorted by pickup time (earliest first)
+  - Each shows: Customer, Time, Order Summary, Phone Number
+  - "Mark as Picked Up" button (updates status to 'completed')
+```
+
+#### **KPI 4: Recent Inquiries**
+```tsx
+Icon: MessageCircle
+Color: Info Blue
+Value: {count} "3 unread"
+Trend: "Last inquiry: 45 min ago"
+Click Action: Opens modal showing:
+  - Table from contact_messages where status = 'pending'
+  - Columns: Name, Email, Subject, Date, Action
+  - Action: "Mark as Contacted" button
+```
+
+### **Quick Actions Section**
+```tsx
+<div className="quick-actions" style={{
+  display: 'flex',
+  gap: '16px',
+  marginTop: '32px'
+}}>
+  <Button 
+    variant="primary" 
+    size="large"
+    leftIcon={<Plus />}
+    onClick={() => navigate('/admin/order-create')}
+  >
+    Create New Order
+  </Button>
+  
+  <Button 
+    variant="secondary"
+    leftIcon={<Users />}
+    onClick={() => navigate('/admin/customer-accounts')}
+  >
+    Manage Customers
+  </Button>
+  
+  <Button 
+    variant="secondary"
+    leftIcon={<FileText />}
+    onClick={() => navigate('/admin/order-management')}
+  >
+    View All Orders
+  </Button>
+</div>
+```
+
+### **Recent Orders Section (Below Quick Actions)**
+```tsx
+<Card className="recent-orders">
+  <CardHeader>
+    <h3>Recent Orders (Last 7 Days)</h3>
+    <Button 
+      variant="ghost" 
+      onClick={() => navigate('/admin/order-management')}
+    >
+      View All →
+    </Button>
+  </CardHeader>
+  
+  <CardBody>
+    <DataTable
+      columns={[
+        { header: 'Order ID', accessor: 'id' },
+        { header: 'Customer', accessor: 'customerName' },
+        { header: 'Cake Type', accessor: 'cakeType' },
+        { header: 'Pickup Date', accessor: 'pickupDate' },
+        { header: 'Total', accessor: 'totalAmount', format: 'currency' },
+        { header: 'Status', accessor: 'status', render: StatusBadge }
+      ]}
+      data={recentOrders}
+      pageSize={10}
+      rowClick={(order) => navigate(`/admin/order-management?id=${order.id}`)}
+    />
+  </CardBody>
+</Card>
+
+// TABLE STYLING
+- Zebra striping: alternate rows rgba(196,69,105,0.05)
+- Hover: rgba(196,69,105,0.1)
+- Row height: 56px
+- Font: Open Sans 14px
+```
+
+### **Activity Feed (Right Sidebar)**
+```tsx
+<Card className="activity-feed" style={{
+  position: 'sticky',
+  top: '96px', // Below fixed header
+  maxHeight: 'calc(100vh - 176px)',
+  overflowY: 'auto'
+}}>
+  <CardHeader>
+    <h3>Activity Feed</h3>
+  </CardHeader>
+  
+  <CardBody>
+    {activities.map(activity => (
+      <ActivityItem key={activity.id}>
+        <Avatar user={activity.user} size={32} />
+        <div>
+          <p><strong>{activity.user}</strong> {activity.action}</p>
+          <time>{activity.timestamp}</time>
+        </div>
+      </ActivityItem>
+    ))}
+  </CardBody>
+</Card>
+
+// SAMPLE ACTIVITIES:
+- "Sarah Chen created Order #1234"
+- "Mike Baker moved Order #1230 to 'In Baking'"
+- "Lisa Decorator completed Order #1228"
+```
+
+---
+
+## 👨‍🍳 BAKER DASHBOARD
+
+### **Route**: `/admin/analytics-dashboard?role=baker`
+
+### **Business Functions**
+1. View baking queue (orders assigned to baker)
+2. Check tomorrow's schedule
+3. Update order status (to_be_created → in_baking → completed)
+4. View layer details for each order
+5. Access sales functions (bakers can also sell)
+
+### **KPI Cards**
+
+#### **KPI 1: My Baking Queue**
+```tsx
+Icon: ChefHat
+Color: Chocolate Brown
+Value: {count} "5 orders"
+Trend: "2 due today"
+Priority Indicator: Red dot if any orders due in < 4 hours
+Click Action: Scrolls to "Baking Queue" section below
+```
+
+#### **KPI 2: Tomorrow's Schedule**
+```tsx
+Icon: Calendar
+Color: Info Blue
+Value: {count} "8 orders"
+Trend: "3 multi-tier cakes"
+Click Action: Opens modal with:
+  - Timeline view of tomorrow's orders
+  - Sorted by pickup time (work backward 4 hours)
+  - Shows complexity (number of layers, decorations)
+```
+
+#### **KPI 3: Completed Today**
+```tsx
+Icon: CheckCircle
+Color: Success Green
+Value: {count} "12"
+Trend: "+2 from yesterday"
+Click Action: Opens modal showing:
+  - List of orders moved to 'in_decorating' status today
+  - Shows time taken per order
+```
+
+#### **KPI 4: Sales Performance** (Shared with Sales)
+```tsx
+Icon: TrendingUp
+Color: Raspberry Pink
+Value: "$3,420" (orders created when baker was on sales duty)
+Trend: "You created 8 orders this week"
+Click Action: Same as Sales KPI 1
+```
+
+### **Quick Actions**
+```tsx
+<Button variant="primary" onClick={() => navigate('/admin/order-create')}>
+  Create Order (Sales Mode)
+</Button>
+<Button variant="secondary" onClick={() => navigate('/admin/fulfillment-board')}>
+  View Kanban Board
+</Button>
+```
+
+### **Baking Queue (Primary Section)**
+```tsx
+<Card className="baking-queue">
+  <CardHeader>
+    <h3>My Baking Queue</h3>
+    <TabGroup>
+      <Tab active>My Queue ({myQueueCount})</Tab>
+      <Tab>All Orders ({allOrdersCount})</Tab>
+    </TabGroup>
+  </CardHeader>
+  
+  <CardBody>
+    {orders.map(order => (
+      <OrderCard key={order.id} urgency={getUrgency(order.pickupDate)}>
+        {/* LEFT SIDE */}
+        <div className="order-header">
+          <h4>Order #{order.id} - {order.customerName}</h4>
+          <UrgencyBadge urgency={order.urgency} />
+        </div>
+        
+        {/* MIDDLE */}
+        <div className="order-details">
+          <div className="detail-row">
+            <Icon: Cake />
+            <span>{order.cakeType}</span>
+          </div>
+          <div className="detail-row">
+            <Icon: Layers />
+            <span>{order.layerCount} layers</span>
+          </div>
+          <div className="detail-row">
+            <Icon: Clock />
+            <span>Pickup: {formatDate(order.pickupDate)}</span>
+          </div>
+        </div>
+        
+        {/* EXPANDABLE LAYER DETAILS */}
+        <Collapsible trigger="View Layers">
+          <LayerList>
+            {order.layers.map((layer, idx) => (
+              <LayerItem key={idx}>
+                <strong>Layer {idx + 1}:</strong>
+                <span>Flavor: {layer.flavor}</span>
+                <span>Filling: {layer.filling}</span>
+                <span>Icing: {layer.icing}</span>
+              </LayerItem>
+            ))}
+          </LayerList>
+        </Collapsible>
+        
+        {/* RIGHT SIDE - ACTIONS */}
+        <div className="order-actions">
+          <Button 
+            variant="primary"
+            onClick={() => updateStatus(order.id, 'in_baking')}
+          >
+            Start Baking
+          </Button>
+          <Button 
+            variant="success"
+            onClick={() => updateStatus(order.id, 'in_decorating')}
+          >
+            Send to Decorator
+          </Button>
+        </div>
+      </OrderCard>
+    ))}
+  </CardBody>
+</Card>
+
+// URGENCY STYLING
+- High (< 4 hours): Red left border (4px), red background tint
+- Medium (< 24 hours): Orange left border
+- Low (> 24 hours): Green left border
+
+// VISUAL PRIORITY
+- Sort by urgency DESC, then pickup date ASC
+- High urgency orders at top with pulsing animation
+```
+
+---
+
+## 🎨 DECORATOR DASHBOARD
+
+### **Route**: `/admin/analytics-dashboard?role=decorator`
+
+### **Business Functions**
+1. View decoration queue (orders in 'in_decorating' status)
+2. Access customer reference photos
+3. Check decoration requirements (colors, decorations)
+4. Update order status (in_decorating → ready)
+5. Access sales functions
+
+### **KPI Cards**
+
+#### **KPI 1: Decoration Queue**
+```tsx
+Icon: Palette
+Color: Raspberry Pink
+Value: {count} "4 orders"
+Trend: "1 complex design"
+Priority: Red dot if < 4 hours to pickup
+Click Action: Scrolls to queue section
+```
+
+#### **KPI 2: Reference Photos**
+```tsx
+Icon: Image
+Color: Info Blue
+Value: {count} "7 photos uploaded"
+Trend: "3 orders with inspiration"
+Click Action: Opens modal with:
+  - Gallery grid of all customer-uploaded photos
+  - Grouped by order
+  - Lightbox on click
+```
+
+#### **KPI 3: Completed Today**
+```tsx
+Icon: CheckCircle
+Color: Success Green
+Value: {count} "6"
+Trend: "Average time: 1.2 hours/order"
+Click Action: Same as Baker KPI 3
+```
+
+#### **KPI 4: Sales Performance** (Shared)
+```tsx
+Same as Baker KPI 4
+```
+
+### **Decoration Queue (Primary Section)**
+```tsx
+<Card className="decoration-queue">
+  <CardHeader>
+    <h3>Decoration Queue</h3>
+    <TabGroup>
+      <Tab active>My Queue ({myQueueCount})</Tab>
+      <Tab>All Orders ({allOrdersCount})</Tab>
+    </TabGroup>
+  </CardHeader>
+  
+  <CardBody>
+    {orders.map(order => (
+      <OrderCard key={order.id}>
+        {/* SIMILAR TO BAKER CARD BUT: */}
+        
+        {/* DECORATION REQUIREMENTS SECTION */}
+        <div className="decoration-requirements">
+          <h5>Design Requirements</h5>
+          
+          {/* COLOR SWATCHES */}
+          <div className="color-palette">
+            <span>Colors:</span>
+            {order.icingColors.map(color => (
+              <ColorSwatch 
+                key={color}
+                color={color}
+                size={32}
+                tooltip={color}
+              />
+            ))}
+          </div>
+          
+          {/* DECORATIONS LIST */}
+          <div className="decorations-list">
+            <span>Decorations:</span>
+            <ul>
+              {order.decorations.map(deco => (
+                <li key={deco}>{deco}</li>
+              ))}
+            </ul>
+          </div>
+          
+          {/* CAKE MESSAGE */}
+          {order.cakeMessage && (
+            <div className="cake-message">
+              <span>Message:</span>
+              <p className="message-preview" style={{
+                fontFamily: order.messageFont === 'Script' 
+                  ? 'Lucida Handwriting' 
+                  : 'Open Sans'
+              }}>
+                "{order.cakeMessage}"
+              </p>
+            </div>
+          )}
+        </div>
+        
+        {/* CUSTOMER PHOTOS */}
+        {order.inspirationPhotos.length > 0 && (
+          <div className="inspiration-photos">
+            <h5>Customer Reference Photos</h5>
+            <div className="photo-grid" style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
+              gap: '12px'
+            }}>
+              {order.inspirationPhotos.map(photo => (
+                <img 
+                  key={photo.id}
+                  src={photo.url}
+                  alt="Customer inspiration"
+                  className="photo-thumbnail"
+                  onClick={() => openLightbox(photo)}
+                  style={{
+                    width: '100%',
+                    aspectRatio: '1/1',
+                    objectFit: 'cover',
+                    borderRadius: '8px',
+                    cursor: 'pointer'
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        
+        {/* ACTIONS */}
+        <div className="order-actions">
+          <Button 
+            variant="primary"
+            onClick={() => updateStatus(order.id, 'in_decorating')}
+          >
+            Start Decorating
+          </Button>
+          <Button 
+            variant="success"
+            onClick={() => updateStatus(order.id, 'ready')}
+          >
+            Ready for Pickup
+          </Button>
+          <Button 
+            variant="ghost"
+            onClick={() => navigate(`/admin/order-management?id=${order.id}`)}
+          >
+            View Full Order
+          </Button>
+        </div>
+      </OrderCard>
+    ))}
+  </CardBody>
+</Card>
+```
+
+---
+
+## 📊 ACCOUNTANT DASHBOARD
+
+### **Route**: `/admin/analytics-dashboard?role=accountant`
+
+### **Business Functions**
+1. View revenue metrics
+2. Track outstanding deposits
+3. Access all 6 financial reports
+4. Monitor payment status
+5. Export financial data
+
+### **KPI Cards**
+
+#### **KPI 1: Total Revenue (This Month)**
+```tsx
+Icon: DollarSign
+Color: Success Green
+Value: "$45,230"
+Trend: "+12% from last month"
+Chart: Mini sparkline showing daily revenue
+Click Action: Opens modal with:
+  - Daily revenue breakdown (line chart)
+  - Top revenue days
+  - Payment method breakdown (Cash 30%, Credit 70%)
+```
+
+#### **KPI 2: Outstanding Deposits**
+```tsx
+Icon: AlertCircle
+Color: Warning Amber
+Value: "$8,450" (sum of all partial deposits)
+Trend: "23 orders awaiting final payment"
+Click Action: Opens modal with:
+  - Table of all partial_deposit orders
+  - Aging buckets: 0-7 days, 8-14 days, 15+ days
+  - Each row shows: Customer, Order Date, Total, Paid, Balance, Days Overdue
+  - Action: "Generate Payment Reminder Report" (PDF)
+```
+
+#### **KPI 3: Completed Orders**
+```tsx
+Icon: CheckCircle
+Color: Info Blue
+Value: {count} "156" (this month)
+Trend: "+8 from last month"
+Click Action: Opens modal with:
+  - Calendar heatmap showing order volume by day
+  - Busiest days highlighted
+```
+
+#### **KPI 4: Average Order Value**
+```tsx
+Icon: TrendingUp
+Color: Raspberry Pink
+Value: "$127.50"
+Trend: "+$5.20 from last month"
+Click Action: Opens modal with:
+  - Distribution chart (histogram of order values)
+  - Median, Mean, Mode
+  - Top 5 highest-value orders
+```
+
+### **Quick Actions**
+```tsx
+<Button variant="primary" onClick={() => navigate('/admin/business-intelligence')}>
+  View All Reports
+</Button>
+<Button variant="secondary" onClick={() => navigate('/admin/revenue-report')}>
+  Revenue Report
+</Button>
+<Button variant="secondary" onClick={() => handleExportFinancials()}>
+  Export Financials (CSV)
+</Button>
+```
+
+### **Financial Summary (Primary Section)**
+```tsx
+<div className="financial-grid" style={{
+  display: 'grid',
+  gridTemplateColumns: '2fr 1fr',
+  gap: '24px'
+}}>
+  {/* LEFT: REVENUE CHART */}
+  <Card>
+    <CardHeader>
+      <h3>Revenue Trend (Last 30 Days)</h3>
+      <Select onChange={handlePeriodChange}>
+        <option>Last 7 Days</option>
+        <option>Last 30 Days</option>
+        <option>Last 90 Days</option>
+        <option>This Year</option>
+      </Select>
+    </CardHeader>
+    <CardBody>
+      <ResponsiveContainer width="100%" height={300}>
+        <LineChart data={revenueData}>
+          <XAxis dataKey="date" />
+          <YAxis />
+          <CartesianGrid strokeDasharray="3 3" />
+          <Tooltip 
+            contentStyle={{
+              background: 'white',
+              border: '1px solid #E5E7EB',
+              borderRadius: '8px'
+            }}
+          />
+          <Line 
+            type="monotone" 
+            dataKey="revenue" 
+            stroke="#10B981" 
+            strokeWidth={3}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </CardBody>
+  </Card>
+  
+  {/* RIGHT: PAYMENT BREAKDOWN */}
+  <Card>
+    <CardHeader>
+      <h3>Payment Methods</h3>
+    </CardHeader>
+    <CardBody>
+      <ResponsiveContainer width="100%" height={300}>
+        <PieChart>
+          <Pie
+            data={paymentMethodData}
+            dataKey="amount"
+            nameKey="method"
+            cx="50%"
+            cy="50%"
+            outerRadius={80}
+            label
+          >
+            {paymentMethodData.map((entry, index) => (
+              <Cell key={index} fill={COLORS[index]} />
+            ))}
+          </Pie>
+          <Tooltip />
+          <Legend />
+        </PieChart>
+      </ResponsiveContainer>
+    </CardBody>
+  </Card>
+</div>
+
+// BELOW: QUICK REPORT ACCESS
+<Card className="report-shortcuts">
+  <CardHeader>
+    <h3>Quick Report Access</h3>
+  </CardHeader>
+  <CardBody>
+    <div className="report-grid" style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(3, 1fr)',
+      gap: '16px'
+    }}>
+      {reports.map(report => (
+        <ReportCard 
+          key={report.id}
+          icon={report.icon}
+          title={report.title}
+          description={report.description}
+          onClick={() => navigate(report.route)}
+        />
+      ))}
+    </div>
+  </CardBody>
+</Card>
+```
+
+---
+
+## 👔 MANAGER DASHBOARD (James)
+
+### **Route**: `/admin/analytics-dashboard?role=manager`
+
+### **Business Functions**
+1. View system health at-a-glance
+2. Monitor all staff activity
+3. Access all 6 reports
+4. Approve completed orders
+5. Manage staff and products
+
+### **KPI Cards**
+
+#### **KPI 1: Orders Pipeline**
+```tsx
+Icon: BarChart3
+Color: Raspberry Pink
+Value: {count} "34 active"
+Breakdown: "5 to_be_created, 12 in_baking, 8 in_decorating, 9 ready"
+Click Action: Opens modal with:
+  - Funnel chart showing order distribution across statuses
+  - Bottleneck detection (status with longest avg time)
+```
+
+#### **KPI 2: Staff Performance**
+```tsx
+Icon: Users
+Color: Info Blue
+Value: "8 active" (online employees)
+Trend: "Sarah Chen (top performer: 15 orders)"
+Click Action: Opens modal with:
+  - Leaderboard table: Employee, Orders Completed, Avg Time, Rating
+  - Color-coded: Green (excellent), Yellow (average), Red (needs improvement)
+```
+
+#### **KPI 3: Pending Approvals**
+```tsx
+Icon: Clock
+Color: Warning Amber
+Value: {count} "3"
+Trend: "Awaiting your review"
+Click Action: Opens modal with:
+  - List of orders in 'ready' status
+  - Each shows: Order details, Photos of finished cake, Approve/Reject buttons
+```
+
+#### **KPI 4: Revenue Today**
+```tsx
+Icon: DollarSign
+Color: Success Green
+Value: "$1,890"
+Trend: "+15% vs. yesterday"
+Click Action: Same as Accountant KPI 1
+```
+
+### **Quick Actions**
+```tsx
+<Button variant="primary" onClick={() => navigate('/admin/fulfillment-board')}>
+  View Kanban Board
+</Button>
+<Button variant="secondary" onClick={() => navigate('/admin/staff-management')}>
+  Manage Staff
+</Button>
+<Button variant="secondary" onClick={() => navigate('/admin/business-intelligence')}>
+  View Reports
+</Button>
+```
+
+### **System Overview (Primary Section)**
+```tsx
+<div className="manager-grid" style={{
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr',
+  gap: '24px'
+}}>
+  {/* LEFT: ORDER PIPELINE */}
+  <Card>
+    <CardHeader>
+      <h3>Order Pipeline (Real-Time)</h3>
+    </CardHeader>
+    <CardBody>
+      <KanbanPreview 
+        columns={['To Be Created', 'In Baking', 'Decorating', 'Ready', 'Completed']}
+        data={ordersByStatus}
+        onClick={() => navigate('/admin/fulfillment-board')}
+      />
+    </CardBody>
+  </Card>
+  
+  {/* RIGHT: RECENT ACTIVITY */}
+  <Card>
+    <CardHeader>
+      <h3>Recent Activity (Last Hour)</h3>
+    </CardHeader>
+    <CardBody>
+      <Timeline>
+        {activities.map(activity => (
+          <TimelineItem key={activity.id}>
+            <TimelineMarker color={activity.type} />
+            <TimelineContent>
+              <strong>{activity.employee}</strong> {activity.action}
+              <time>{activity.timestamp}</time>
+            </TimelineContent>
+          </TimelineItem>
+        ))}
+      </Timeline>
+    </CardBody>
+  </Card>
+</div>
+
+// BELOW: SYSTEM HEALTH
+<Card className="system-health">
+  <CardHeader>
+    <h3>System Health</h3>
+  </CardHeader>
+  <CardBody>
+    <HealthMetrics>
+      <Metric 
+        label="Orders Processing" 
+        value="34" 
+        status="healthy"
+        icon={<CheckCircle color="green" />}
+      />
+      <Metric 
+        label="Overdue Orders" 
+        value="2" 
+        status="warning"
+        icon={<AlertTriangle color="orange" />}
+      />
+      <Metric 
+        label="Database Status" 
+        value="Optimal" 
+        status="healthy"
+        icon={<CheckCircle color="green" />}
+      />
+    </HealthMetrics>
+  </CardBody>
+</Card>
+```
+
+---
+
+## 👑 OWNER DASHBOARD (Emily)
+
+### **Route**: `/admin/analytics-dashboard?role=owner`
+
+### **Identical to Manager Dashboard PLUS:**
+
+#### **Additional KPI: Business Growth**
+```tsx
+Icon: TrendingUp
+Color: Raspberry Pink
+Value: "+18% MoM"
+Trend: "Best month: August ($52K)"
+Click Action: Opens modal with:
+  - Year-over-year comparison chart
+  - Key metrics: Revenue, Orders, Customer Retention
+```
+
+#### **Additional Section: Strategic Insights**
+```tsx
+<Card className="strategic-insights">
+  <CardHeader>
+    <h3>Strategic Insights</h3>
+  </CardHeader>
+  <CardBody>
+    <InsightGrid>
+      <Insight 
+        title="Top Product" 
+        value="Birthday Celebration Cake"
+        metric="45% of orders"
+      />
+      <Insight 
+        title="Peak Day" 
+        value="Saturdays"
+        metric="2x average volume"
+      />
+      <Insight 
+        title="Customer Retention" 
+        value="72%"
+        metric="+5% from Q3"
+      />
+    </InsightGrid>
+  </CardBody>
+</Card>
+```
+
+---
+
+## 🎯 IMPLEMENTATION CHECKLIST FOR REPLIT AI
+
+### **Phase 1: Foundation (Do First)**
+```bash
+1. Create new dashboards directory structure:
+   /src/pages/admin/dashboards/
+   ├── components/
+   │   ├── KPICard.tsx
+   │   ├── DetailModal.tsx
+   │   ├── OrderCard.tsx
+   │   └── ActivityFeed.tsx
+   ├── SalesDashboard.tsx
+   ├── BakerDashboard.tsx
+   ├── DecoratorDashboard.tsx
+   ├── AccountantDashboard.tsx
+   ├── ManagerDashboard.tsx
+   └── OwnerDashboard.tsx
+
+2. Install required packages:
+   npm install recharts lucide-react date-fns
+
+3. Create shared types:
+   /src/types/dashboard.ts
+```
+
+### **Phase 2: Components (Build Reusable)**
+```tsx
+// KPICard.tsx - MUST IMPLEMENT EXACTLY
+interface KPICardProps {
+  icon: LucideIcon;
+  iconColor: string;
+  title: string;
+  value: string | number;
+  trend: string;
+  trendDirection: 'up' | 'down' | 'neutral';
+  onClick: () => void; // REQUIRED: Opens modal
+}
+
+// DetailModal.tsx - MUST IMPLEMENT
+interface DetailModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  children: React.ReactNode;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+}
+
+// OrderCard.tsx - MUST IMPLEMENT
+interface OrderCardProps {
+  order: Order;
+  urgency: 'high' | 'medium' | 'low';
+  role: UserRole; // Different actions per role
+  onStatusUpdate: (orderId: number, newStatus: OrderStatus) => void;
+}
+```
+
+### **Phase 3: API Integration**
+```typescript
+// Create new endpoints in server/routes/dashboard.ts
+
+// GET /api/dashboard/sales
+// Returns: { kpis: {...}, recentOrders: [...], activities: [...] }
+
+// GET /api/dashboard/baker
+// Returns: { kpis: {...}, bakingQueue: [...], activities: [...] }
+
+// GET /api/dashboard/decorator
+// Returns: { kpis: {...}, decorationQueue: [...], photos: [...] }
+
+// GET /api/dashboard/accountant
+// Returns: { kpis: {...}, revenueData: [...], paymentMethods: [...] }
+
+// GET /api/dashboard/manager
+// Returns: { kpis: {...}, orderPipeline: [...], staffPerformance: [...] }
+```
+
+### **Phase 4: Styling (Brand Consistency)**
+```css
+/* Create /src/styles/dashboard.css */
+
+/* APPLY GLOBALLY TO ALL DASHBOARDS */
+.dashboard-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px;
+  background: #FAF5F0; /* Warm background */
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.kpi-card {
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.kpi-card:hover {
+  box-shadow: 0 4px 12px rgba(196,69,105,0.2);
+  border-color: #C44569;
+  transform: translateY(-2px);
+}
+
+/* URGENT ORDER STYLING */
+.order-card.urgent-high {
+  border-left: 4px solid #EF4444;
+  background: rgba(239, 68, 68, 0.05);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.9; }
+}
+```
+
+### **Phase 5: WCAG Compliance**
+```tsx
+// EVERY interactive element MUST have:
+1. aria-label or aria-labelledby
+2. keyboard navigation (Tab, Enter, Escape)
+3. focus indicators (2px solid outline)
+4. proper heading hierarchy (H1 → H2 → H3)
+5. color contrast ratio ≥ 4.5:1
+
+// EXAMPLE
+<button
+  onClick={handleClick}
+  aria-label="View today's order details"
+  onKeyDown={(e) => e.key === 'Enter' && handleClick()}
+  className="kpi-card"
+  tabIndex={0}
+>
+  {/* content */}
+</button>
+```
+
+---
+
+## ✅ COMPLETION CRITERIA
+
+**DO NOT STOP UNTIL:**
+
+1. ✅ All 6 dashboards created with unique routes
+2. ✅ Every KPI card is clickable and opens a modal
+3. ✅ All modals have proper data tables with export functionality
+4. ✅ Brand colors applied consistently (Raspberry Pink, Cream Vanilla, Chocolate Brown)
+5. ✅ Typography matches style guide (Playfair Display, Poppins, Open Sans)
+6. ✅ All hover states, transitions, and animations implemented
+7. ✅ Urgency styling works (red border + background for high-priority orders)
+8. ✅ Charts use Recharts with branded colors
+9. ✅ All buttons navigate to correct pages
+10. ✅ WCAG 2.1 AA compliance verified (contrast, keyboard nav, ARIA labels)
+11. ✅ Mobile responsive (tested at 320px, 768px, 1024px, 1440px)
+12. ✅ Loading states implemented (skeleton loaders)
+13. ✅ Error states handled (empty states with illustrations)
+14. ✅ Real-time activity feed works
+15. ✅ All role-specific features functional
+
+---
+
+## 🚨 CRITICAL REMINDERS
+
+1. **NO GENERIC UI**: Every dashboard must look professional, not like a dev tool
+2. **CLICKABLE KPIS**: Every single KPI card MUST open a detailed modal
+3. **VISUAL HIERARCHY**: Urgent orders must visually stand out (red border, animation)
+4. **BRAND COLORS**: Use ONLY the 5 specified colors (no random blues, greens, etc.)
+5. **TYPOGRAPHY**: Headings = Playfair Display, Body = Open Sans
+6. **WCAG**: All interactive elements must be keyboard accessible
+7. **MODALS**: Centered, max-width 800px, dark backdrop, focus trap
+8. **CHARTS**: Recharts with branded colors (#C44569, #10B981, #F59E0B)
+9. **SPACING**: 8px grid system (padding/margins must be multiples of 8)
+10. **PERFORMANCE**: Lazy load modals, debounce API calls
+
+---
+
+**START IMPLEMENTATION NOW. DO NOT STOP UNTIL ALL 6 DASHBOARDS MEET ENTERPRISE STANDARDS.**
