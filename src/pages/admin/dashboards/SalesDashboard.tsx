@@ -4,6 +4,7 @@ import { Plus, Users, Clock, Package, DollarSign } from 'lucide-react';
 import { KPICard } from '../../../components/dashboard/KPICard';
 import { OrderQueueCard } from '../../../components/dashboard/OrderQueueCard';
 import { QuickActionCard } from '../../../components/dashboard/QuickActionCard';
+import { PickupSearchSection } from '../../../components/dashboard/PickupSearchSection';
 
 interface SalesDashboardProps {
   onNavigate?: (page: string) => void;
@@ -119,6 +120,10 @@ export function SalesDashboard({ onNavigate }: SalesDashboardProps) {
           icon={Clock}
           color="#C44569"
           index={0}
+          onClick={() => {
+            const pickupsSection = document.getElementById('todays-pickups');
+            pickupsSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }}
         />
         <KPICard
           title="Pending Orders"
@@ -126,6 +131,7 @@ export function SalesDashboard({ onNavigate }: SalesDashboardProps) {
           icon={Package}
           color="#F59E0B"
           index={1}
+          onClick={() => onNavigate?.('order-management')}
         />
         <KPICard
           title="This Week"
@@ -134,6 +140,7 @@ export function SalesDashboard({ onNavigate }: SalesDashboardProps) {
           icon={DollarSign}
           color="#10B981"
           index={2}
+          onClick={() => onNavigate?.('order-management')}
         />
         <KPICard
           title="Total Orders"
@@ -141,8 +148,15 @@ export function SalesDashboard({ onNavigate }: SalesDashboardProps) {
           icon={Package}
           color="#5A3825"
           index={3}
+          onClick={() => onNavigate?.('order-management')}
         />
       </div>
+
+      {/* Order Pickup Search */}
+      <PickupSearchSection 
+        orders={orders}
+        onOrderClick={() => onNavigate?.('order-management')}
+      />
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -157,14 +171,14 @@ export function SalesDashboard({ onNavigate }: SalesDashboardProps) {
             title="Recent Orders"
             orders={recentOrders}
             emptyMessage="No recent orders"
-            onOrderClick={(order) => onNavigate?.('order-management')}
+            onOrderClick={() => onNavigate?.('order-management')}
           />
         </div>
       </div>
 
       {/* Today's Pickups */}
       {todayPickups.length > 0 && (
-        <div className="mt-6">
+        <div className="mt-6" id="todays-pickups">
           <OrderQueueCard
             title="🎯 Today's Pickups - Priority"
             orders={todayPickups.slice(0, 5).map(o => ({
@@ -176,7 +190,7 @@ export function SalesDashboard({ onNavigate }: SalesDashboardProps) {
               priority: 'high'
             }))}
             emptyMessage="No pickups today"
-            onOrderClick={(order) => onNavigate?.('order-management')}
+            onOrderClick={() => onNavigate?.('order-management')}
           />
         </div>
       )}
