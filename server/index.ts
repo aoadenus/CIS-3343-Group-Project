@@ -1217,6 +1217,225 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
+// ============ DASHBOARD METRICS ============
+
+// Sales Dashboard
+app.get('/api/dashboards/sales', authenticateToken, requireRole('sales', 'manager', 'owner'), async (req: AuthRequest, res) => {
+  try {
+    const metrics = await storage.getSalesDashboardMetrics();
+
+    const response = {
+      kpis: {
+        kpi1: {
+          value: metrics.todayOrdersCount,
+          trend: metrics.ordersTrend >= 0 ? `+${metrics.ordersTrend} from yesterday` : `${metrics.ordersTrend} from yesterday`,
+          trendType: metrics.ordersTrend > 0 ? 'up' : metrics.ordersTrend < 0 ? 'down' : 'neutral',
+          detail: `${metrics.todayOrdersCount} orders created today`,
+        },
+        kpi2: {
+          value: `$${(metrics.pendingDepositAmount / 100).toFixed(2)}`,
+          trend: `${metrics.pendingDepositCount} orders awaiting final payment`,
+          trendType: 'neutral',
+          detail: 'Pending deposits from partial payments',
+        },
+        kpi3: {
+          value: metrics.pickupsTodayCount,
+          trend: metrics.pickupsTodayCount > 0 ? 'Orders ready for pickup' : 'No pickups scheduled',
+          trendType: 'neutral',
+          detail: `${metrics.pickupsTodayCount} pickups scheduled for today`,
+        },
+        kpi4: {
+          value: `${metrics.unreadInquiriesCount} unread`,
+          trend: metrics.unreadInquiriesCount > 0 ? 'Requires attention' : 'All caught up',
+          trendType: metrics.unreadInquiriesCount > 5 ? 'down' : 'neutral',
+          detail: 'Recent customer inquiries',
+        },
+      },
+      activities: [],
+      recentOrders: metrics.recentOrders,
+    };
+
+    res.json(response);
+  } catch (error) {
+    console.error('Error fetching sales dashboard metrics:', error);
+    res.status(500).json({ error: 'Failed to fetch dashboard metrics' });
+  }
+});
+
+// Baker Dashboard
+app.get('/api/dashboards/baker', authenticateToken, requireRole('baker', 'manager', 'owner'), async (req: AuthRequest, res) => {
+  try {
+    const bakerId = req.user!.id;
+    const metrics = await storage.getBakerDashboardMetrics(bakerId);
+
+    const response = {
+      kpis: {
+        kpi1: {
+          value: metrics.queueCount,
+          trend: metrics.queueCount > 0 ? `${metrics.dueTodayCount} due today` : 'Queue empty',
+          trendType: metrics.queueCount > 10 ? 'down' : 'neutral',
+          detail: 'Orders assigned to you',
+        },
+        kpi2: {
+          value: metrics.dueTodayCount,
+          trend: metrics.dueTodayCount > 0 ? 'Requires immediate attention' : 'All clear',
+          trendType: metrics.dueTodayCount > 5 ? 'down' : 'neutral',
+          detail: 'Orders due for pickup today',
+        },
+        kpi3: {
+          value: `${metrics.completionRate}%`,
+          trend: metrics.completionRate >= 90 ? 'Excellent performance' : metrics.completionRate >= 70 ? 'Good performance' : 'Needs improvement',
+          trendType: metrics.completionRate >= 90 ? 'up' : metrics.completionRate >= 70 ? 'neutral' : 'down',
+          detail: 'Completion rate (last 30 days)',
+        },
+        kpi4: {
+          value: metrics.tomorrowCount,
+          trend: `${metrics.tomorrowCount} orders scheduled`,
+          trendType: 'neutral',
+          detail: 'Orders for tomorrow',
+        },
+      },
+      activities: [],
+      queueOrders: metrics.queueOrders,
+    };
+
+    res.json(response);
+  } catch (error) {
+    console.error('Error fetching baker dashboard metrics:', error);
+    res.status(500).json({ error: 'Failed to fetch dashboard metrics' });
+  }
+});
+
+// Decorator Dashboard
+app.get('/api/dashboards/decorator', authenticateToken, requireRole('decorator', 'manager', 'owner'), async (req: AuthRequest, res) => {
+  try {
+    const decoratorId = req.user!.id;
+    const metrics = await storage.getDecoratorDashboardMetrics(decoratorId);
+
+    const response = {
+      kpis: {
+        kpi1: {
+          value: metrics.queueCount,
+          trend: metrics.queueCount > 0 ? 'Active decorations' : 'Queue empty',
+          trendType: metrics.queueCount > 10 ? 'down' : 'neutral',
+          detail: 'Orders in your decoration queue',
+        },
+        kpi2: {
+          value: metrics.awaitingPhotosCount,
+          trend: metrics.awaitingPhotosCount > 0 ? 'Photos needed' : 'All documented',
+          trendType: metrics.awaitingPhotosCount > 5 ? 'down' : 'neutral',
+          detail: 'Completed orders awaiting photos',
+        },
+        kpi3: {
+          value: `${metrics.completionRate}%`,
+          trend: metrics.completionRate >= 90 ? 'Excellent performance' : metrics.completionRate >= 70 ? 'Good performance' : 'Needs improvement',
+          trendType: metrics.completionRate >= 90 ? 'up' : metrics.completionRate >= 70 ? 'neutral' : 'down',
+          detail: 'Completion rate (last 30 days)',
+        },
+        kpi4: {
+          value: metrics.urgentOrdersCount,
+          trend: metrics.urgentOrdersCount > 0 ? 'Immediate attention needed' : 'No urgent orders',
+          trendType: metrics.urgentOrdersCount > 0 ? 'down' : 'up',
+          detail: 'Orders due within 24 hours',
+        },
+      },
+      activities: [],
+      queueOrders: metrics.queueOrders,
+    };
+
+    res.json(response);
+  } catch (error) {
+    console.error('Error fetching decorator dashboard metrics:', error);
+    res.status(500).json({ error: 'Failed to fetch dashboard metrics' });
+  }
+});
+
+// Accountant Dashboard
+app.get('/api/dashboards/accountant', authenticateToken, requireRole('accountant', 'manager', 'owner'), async (req: AuthRequest, res) => {
+  try {
+    const metrics = await storage.getAccountantDashboardMetrics();
+
+    const response = {
+      kpis: {
+        kpi1: {
+          value: `$${(metrics.todayRevenue / 100).toFixed(2)}`,
+          trend: metrics.revenueTrend >= 0 ? `+$${(metrics.revenueTrend / 100).toFixed(2)} from yesterday` : `-$${Math.abs(metrics.revenueTrend / 100).toFixed(2)} from yesterday`,
+          trendType: metrics.revenueTrend > 0 ? 'up' : metrics.revenueTrend < 0 ? 'down' : 'neutral',
+          detail: 'Revenue collected today',
+        },
+        kpi2: {
+          value: `$${(metrics.outstandingBalance / 100).toFixed(2)}`,
+          trend: `${metrics.outstandingCount} orders with balance due`,
+          trendType: metrics.outstandingBalance > 10000 ? 'down' : 'neutral',
+          detail: 'Total outstanding balances',
+        },
+        kpi3: {
+          value: metrics.paidInFullCount,
+          trend: 'Fully paid orders',
+          trendType: 'up',
+          detail: 'Orders paid in full',
+        },
+        kpi4: {
+          value: metrics.pendingDepositsCount,
+          trend: metrics.pendingDepositsCount > 0 ? 'Requires follow-up' : 'All caught up',
+          trendType: metrics.pendingDepositsCount > 10 ? 'down' : 'neutral',
+          detail: 'Orders awaiting deposits',
+        },
+      },
+      activities: [],
+    };
+
+    res.json(response);
+  } catch (error) {
+    console.error('Error fetching accountant dashboard metrics:', error);
+    res.status(500).json({ error: 'Failed to fetch dashboard metrics' });
+  }
+});
+
+// Manager Dashboard (also accessible to Owner)
+app.get('/api/dashboards/manager', authenticateToken, requireRole('manager', 'owner'), async (req: AuthRequest, res) => {
+  try {
+    const metrics = await storage.getManagerDashboardMetrics();
+
+    const response = {
+      kpis: {
+        kpi1: {
+          value: metrics.totalOrdersCount,
+          trend: 'All-time orders',
+          trendType: 'neutral',
+          detail: 'Total orders (non-cancelled)',
+        },
+        kpi2: {
+          value: `$${(metrics.thisWeekRevenue / 100).toFixed(2)}`,
+          trend: metrics.revenueTrend >= 0 
+            ? `+$${(metrics.revenueTrend / 100).toFixed(2)} from last week` 
+            : `-$${Math.abs(metrics.revenueTrend / 100).toFixed(2)} from last week`,
+          trendType: metrics.revenueTrend > 0 ? 'up' : metrics.revenueTrend < 0 ? 'down' : 'neutral',
+          detail: 'Revenue this week',
+        },
+        kpi3: {
+          value: `${metrics.teamPerformance}%`,
+          trend: metrics.teamPerformance >= 90 ? 'Excellent' : metrics.teamPerformance >= 70 ? 'Good' : 'Needs improvement',
+          trendType: metrics.teamPerformance >= 90 ? 'up' : metrics.teamPerformance >= 70 ? 'neutral' : 'down',
+          detail: 'Team performance (last 30 days)',
+        },
+        kpi4: {
+          value: `${metrics.satisfactionScore}%`,
+          trend: metrics.satisfactionScore >= 80 ? 'High satisfaction' : metrics.satisfactionScore >= 60 ? 'Moderate satisfaction' : 'Low satisfaction',
+          trendType: metrics.satisfactionScore >= 80 ? 'up' : metrics.satisfactionScore >= 60 ? 'neutral' : 'down',
+          detail: 'Customer satisfaction score',
+        },
+      },
+      activities: [],
+    };
+
+    res.json(response);
+  } catch (error) {
+    console.error('Error fetching manager dashboard metrics:', error);
+    res.status(500).json({ error: 'Failed to fetch dashboard metrics' });
+  }
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`🚀 API Server running on port ${PORT}`);
