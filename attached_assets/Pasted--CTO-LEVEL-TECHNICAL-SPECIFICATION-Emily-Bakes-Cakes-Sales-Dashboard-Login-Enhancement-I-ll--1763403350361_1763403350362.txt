@@ -1,0 +1,1169 @@
+🏢 CTO-LEVEL TECHNICAL SPECIFICATION
+Emily Bakes Cakes - Sales Dashboard & Login Enhancement
+I'll create a comprehensive technical specification covering every pixel, color, interaction, and structural change needed for the Staff Login Button, Login Page, and Sales Dashboard improvements.
+
+📐 SECTION 1: STAFF LOGIN BUTTON (Homepage Navigation)
+Current State Analysis:
+Location: Public homepage header/navigation
+Style: Underlined gray text link
+Visibility: Low contrast, easily missed
+Size: ~14px font, minimal padding
+New Specification:
+Component Structure:
+<Button className="staff-login-cta">
+  <Lock size={14} />
+  <span>Staff Login</span>
+</Button>
+
+Exact Positioning:
+Desktop (≥1024px): Top-right corner of navigation bar
+
+Position: absolute or flex align-right
+Distance from right edge: 40px
+Distance from top: Vertically centered in navbar (navbar height: 80px)
+Alignment with other nav items: Right of all public links
+Tablet (768px - 1023px):
+
+Same right position: 24px from edge
+Mobile menu: Include at top of slide-out menu
+Mobile (<768px):
+
+Hidden in collapsed state
+Visible in hamburger menu (first item, highlighted)
+Exact Dimensions:
+Width: Auto (content-based) with padding
+
+Min-width: 120px
+Max-width: 160px
+Actual: ~140px with icon + text
+Height: 40px (compact vertical footprint)
+
+Top padding: 10px
+Bottom padding: 10px
+Total internal height: 20px (icon + text line-height)
+Border radius: 8px (soft rounded corners, not pill-shaped)
+
+Color Specifications:
+Background (Default):
+
+Primary: #C44569 (Raspberry Pink)
+Gradient: linear-gradient(135deg, #C44569 0%, #D4567A 100%)
+Opacity: 100%
+Background (Hover):
+
+Gradient: linear-gradient(135deg, #D4567A 0%, #E06389 100%)
+Transform: scale(1.03) (subtle growth)
+Transition: all 0.2s ease-out
+Background (Active/Click):
+
+Gradient: linear-gradient(135deg, #B03D5D 0%, #C44569 100%) (darker)
+Transform: scale(0.98) (press effect)
+Text Color:
+
+Default: #FFFFFF (pure white)
+Font weight: 600 (semi-bold)
+Letter spacing: 0.3px
+Border:
+
+Width: 2px
+Color: rgba(255, 255, 255, 0.2) (subtle white outline)
+Style: solid
+Box Shadow:
+
+Default: 0 4px 12px rgba(196, 69, 105, 0.25)
+Hover: 0 6px 20px rgba(196, 69, 105, 0.35)
+Blur radius increases, spread increases
+Typography:
+Font Family: 'Poppins', sans-serif
+Font Size: 14px
+Font Weight: 600
+Line Height: 20px
+Text Transform: None (sentence case: "Staff Login")
+Letter Spacing: 0.3px
+Icon Specifications:
+Icon: Lock (from lucide-react)
+Size: 14px × 14px
+Stroke Width: 2.5px (slightly bold)
+Color: #FFFFFF
+Position: Left of text
+Margin Right: 8px (gap between icon and text)
+Internal Spacing:
+Padding Left: 16px
+Padding Right: 20px
+Padding Top: 10px
+Padding Bottom: 10px
+Icon-to-text gap: 8px
+Interactive States:
+1. Default State:
+
+Opacity: 100%
+Cursor: pointer
+No animation
+2. Hover State:
+
+Background brightens (lighter gradient)
+Scale: 1.03
+Shadow elevation increases
+Cursor: pointer
+Transition: 200ms ease-out
+3. Focus State (Keyboard Navigation):
+
+Outline: 2px solid #C44569
+Outline offset: 3px
+Maintains accessibility (WCAG AA)
+4. Active/Press State:
+
+Scale: 0.98
+Background darkens
+Shadow reduces slightly
+Duration: 100ms
+5. Disabled State (if applicable):
+
+Background: #9CA3AF (gray)
+Cursor: not-allowed
+Opacity: 60%
+No hover effects
+Responsive Behavior:
+Desktop (≥1024px):
+
+Full button visible
+Position: Absolute right alignment
+Z-index: 50 (above most elements)
+Tablet (768-1023px):
+
+Same visual style
+Slightly smaller padding (left: 14px, right: 18px)
+Font size: 13px
+Mobile (<768px):
+
+Hidden in header
+Appears in mobile menu as:
+Full-width button
+Height: 48px (larger touch target)
+Margin bottom: 16px
+First item in menu list
+Accessibility:
+ARIA Label: "Access staff portal login"
+Role: button
+Tab Index: 0 (keyboard accessible)
+Focus Indicator: Visible outline
+Screen Reader Text: "Staff login button - access employee portal"
+Animation on Page Load:
+Delay: 500ms (after other nav items)
+Entry: Fade in + slide from right
+Duration: 400ms
+Easing: cubic-bezier(0.4, 0, 0.2, 1)
+📐 SECTION 2: SALES LOGIN PAGE ENHANCEMENTS
+A. DEMO CREDENTIALS TOGGLE
+Current State:
+Always visible, takes ~400px vertical space
+6 role credentials + password section
+Gray highlighted email boxes
+No collapse functionality
+New Collapsible Structure:
+Toggle Button (Collapsed State):
+
+<button className="demo-credentials-toggle collapsed">
+  <KeyRound size={16} />
+  <span>Show Demo Credentials</span>
+  <ChevronDown size={16} className="chevron" />
+</button>
+
+Exact Specifications:
+
+Collapsed State (Default):
+
+Width: 100% (matches card width)
+Height: 48px
+Background: rgba(196, 69, 105, 0.05) (very light pink)
+Border: 1px solid rgba(196, 69, 105, 0.15)
+Border Radius: 10px
+Padding: 12px 16px
+Margin Top: 24px (below form)
+Button Contents:
+
+Icon (Left): KeyRound icon, 16px, #C44569 color
+Text: "Show Demo Credentials" (Poppins, 14px, weight 600, #2B2B2B)
+Chevron (Right): ChevronDown icon, 16px, #5A3825, rotates 180° when expanded
+Justify Content: space-between
+Hover State:
+
+Background: rgba(196, 69, 105, 0.08)
+Border: 1px solid rgba(196, 69, 105, 0.25)
+Cursor: pointer
+Transition: 150ms ease
+Expanded State:
+
+Height: Auto (expands to ~380px with animation)
+Chevron: Rotated 180° (points up)
+Text Changes To: "Hide Demo Credentials"
+Animation: Smooth expand over 300ms with ease-out
+Demo Credentials Content (When Expanded):
+
+Container:
+
+Background: rgba(196, 69, 105, 0.08)
+Border: 2px solid rgba(196, 69, 105, 0.2)
+Border Radius: 12px
+Padding: 20px
+Backdrop Filter: blur(10px)
+Margin Top: 12px (gap from toggle button)
+Credentials List:
+
+Remove ALL gray highlights from email boxes
+New email display style:
+Background: rgba(0, 0, 0, 0.2) (dark semi-transparent)
+Padding: 6px 10px
+Border radius: 6px
+Font: 'Courier New', monospace, 15px
+Color: #E9E9E9 (light gray, high contrast)
+User-select: all (click to select entire email)
+Each Role Row:
+
+Layout: Flex row, gap 12px
+Role Label:
+Width: 110px (fixed, right-aligned)
+Font: Poppins, 15px, weight 700
+Color: #2B2B2B
+Email Display:
+Flex: 1 (takes remaining space)
+Font: Monospace
+Background: rgba(0, 0, 0, 0.2) (NOT GRAY)
+Hover: rgba(0, 0, 0, 0.3) + cursor text
+Password Section (Bottom):
+
+Divider Above: 1px solid rgba(196, 69, 105, 0.3), margin 16px vertical
+"All Passwords" Label:
+Font: Poppins, 15px, weight 600
+Color: #2B2B2B
+Margin bottom: 8px
+Password Display:
+DemoPass123!
+Font: Monospace, 17px, weight 700
+Color: #C44569 (raspberry pink - stands out)
+Background: rgba(0, 0, 0, 0.3)
+Padding: 10px 18px
+Border radius: 8px
+Display: inline-block
+Letter spacing: 1px
+User-select: all
+Footer Text:
+
+"Click credentials to select and copy"
+Font: Open Sans, 12px, italic
+Color: rgba(43, 43, 43, 0.5)
+Text align: center
+Margin top: 12px
+B. "BACK TO SITE" LINK ENHANCEMENT
+Current State:
+Simple text link with arrow icon
+Top-left position
+No hover options
+Only redirects to public site
+New Specification - Hover Dropdown Menu:
+Primary Link (Default State):
+
+Position: Absolute, top: 32px, left: 32px
+Display: Flex row, align items center, gap 8px
+Color: rgba(255, 255, 255, 0.7) (semi-transparent white)
+Font: Poppins, 14px, weight 500
+Icon: ArrowLeft, 18px, same color
+Hover State (Link Itself):
+
+Color: #C44569 (raspberry pink)
+Underline: None
+Transition: color 200ms ease
+Cursor: pointer
+Hover Dropdown Trigger:
+
+When user hovers over "Back to Site" link for 200ms
+Dropdown menu appears below the link
+Dropdown Menu Container:
+
+<div className="back-link-dropdown">
+  <button className="dropdown-option logout">
+    <LogOut size={16} />
+    <span>Log Out</span>
+  </button>
+  <button className="dropdown-option switch">
+    <RefreshCw size={16} />
+    <span>Switch Accounts</span>
+  </button>
+</div>
+
+Dropdown Exact Specifications:
+
+Container:
+
+Position: Absolute (relative to parent link)
+Top: 32px (directly below link)
+Left: 0 (aligned with link)
+Width: 200px
+Background: rgba(43, 43, 43, 0.95) (dark with slight transparency)
+Backdrop Filter: blur(12px)
+Border: 1px solid rgba(255, 255, 255, 0.1)
+Border Radius: 10px
+Box Shadow: 0 8px 24px rgba(0, 0, 0, 0.4)
+Padding: 8px
+Z-Index: 100
+Animation In:
+
+Opacity: 0 → 1
+Transform: translateY(-8px) → translateY(0)
+Duration: 200ms
+Easing: ease-out
+Animation Out (when mouse leaves):
+
+Opacity: 1 → 0
+Transform: translateY(0) → translateY(-4px)
+Duration: 150ms
+Delay: 100ms (allows user to move mouse)
+Each Button in Dropdown:
+
+1. Log Out Button:
+
+Width: 100%
+Height: 42px
+Display: Flex row, align items center, gap 10px
+Padding: 10px 12px
+Background (Default): Transparent
+Background (Hover): rgba(196, 69, 105, 0.15)
+Border: None
+Border Radius: 6px
+Cursor: pointer
+Icon (LogOut):
+
+Size: 16px
+Color: #FFFFFF
+Stroke width: 2px
+Text:
+
+Font: Poppins, 14px, weight 500
+Color: #FFFFFF
+Letter spacing: 0.2px
+Hover State:
+
+Background: rgba(196, 69, 105, 0.15)
+Transform: translateX(2px) (subtle slide right)
+Transition: 150ms ease
+Click Action:
+
+Removes JWT token from localStorage
+Shows toast: "Logged out successfully"
+Redirects to public homepage (/)
+2. Switch Accounts Button:
+
+Same dimensions and styling as Log Out
+Icon: RefreshCw (16px)
+Text: "Switch Accounts"
+Hover: Same background and transform
+Click Action:
+Removes current JWT token
+Redirects to login page (/admin/login)
+Shows toast: "Switching accounts..."
+Dropdown Interaction Logic:
+
+Show When: Mouse enters "Back to Site" link area OR dropdown area
+Hide When: Mouse leaves both link and dropdown for >300ms
+Stay Open: If mouse moves from link to dropdown within 300ms
+Close Immediately: After clicking either button
+C. LOGIN PAGE SCROLLING REDUCTION
+Current Issue:
+Page requires scrolling on most laptop screens (1366x768)
+Demo credentials section forces vertical overflow
+Solution Specifications:
+Page Container:
+
+Min Height: 100vh
+Padding: 24px (not 48px)
+Display: Flex, align items center, justify content center
+Login Card:
+
+Max Height: 90vh (fits in viewport)
+Overflow-Y: Auto (scrollable if needed, but should fit)
+Padding: Reduced from 48px to 32px (top/bottom), 40px (left/right)
+Spacing Adjustments:
+
+Lock icon container: Margin bottom 20px (was 24px)
+Heading margin bottom: 6px (was 8px)
+Subtitle margin bottom: 24px (was 32px)
+Form field gaps: 20px (was 24px)
+Remember me section: Margin top 12px (was 16px)
+Submit button margin top: 20px (was 24px)
+Demo credentials toggle: Margin top 20px (was 32px)
+Result:
+
+Total height with collapsed demo: ~620px (fits 768px height screens)
+Total height with expanded demo: ~800px (requires minimal scroll on small screens)
+📐 SECTION 3: SALES DASHBOARD - TODAY'S PICKUPS ENHANCEMENT
+Current State:
+Minimal order information
+Generic order cards
+No payment/urgency indicators
+Missing customer context
+New Order Card Specification:
+Card Container:
+<div className="pickup-order-card" data-priority="high">
+  <div className="priority-stripe"></div>
+  <div className="card-header">
+    <div className="customer-info">...</div>
+    <div className="badges">...</div>
+  </div>
+  <div className="card-body">...</div>
+  <div className="card-footer">...</div>
+</div>
+
+Exact Dimensions:
+Width: 100% (responsive container)
+Min Height: 140px
+Max Height: 180px (auto, based on content)
+Padding: 16px
+Border Radius: 12px
+Background: #FFFFFF
+Border: 1px solid #E0E0E0
+Box Shadow: 0 2px 8px rgba(0, 0, 0, 0.06)
+Priority Left Stripe:
+Width: 4px
+Height: 100% (full card height)
+Position: Absolute, left: 0, top: 0
+Border Radius: 12px 0 0 12px (matches card corners)
+Colors by Priority:
+High/Rush: #EF4444 (bright red)
+Medium: #F59E0B (amber)
+Low/Normal: #9CA3AF (gray)
+Card Header (Top Section):
+Layout:
+
+Display: Flex
+Justify Content: space-between
+Align Items: flex-start
+Margin Bottom: 12px
+Customer Info (Left Side):
+
+Customer Name:
+
+Font: Poppins, 16px, weight 700
+Color: #2B2B2B
+Margin Bottom: 4px
+Line height: 1.2
+Example: "Jennifer Martinez"
+Order Description:
+
+Font: Open Sans, 13px, weight 400
+Color: #5A3825
+Margin Bottom: 0
+Max width: 280px
+Text overflow: ellipsis
+White space: nowrap
+Example: "3-Layer Red Velvet with Cream Cheese Frosting"
+Badges (Right Side):
+
+Display: Flex
+Gap: 6px
+Flex wrap: wrap
+Justify content: flex-end
+Status Badge:
+
+<span className="status-badge ready">Ready</span>
+
+Exact Specifications:
+
+Height: 24px
+Padding: 4px 10px
+Border Radius: 6px
+Font: Poppins, 11px, weight 600
+Letter Spacing: 0.3px
+Text Transform: Uppercase
+Colors by Status:
+
+Ready: Background #D4EDDA, Text #155724, Border 1px solid #C3E6CB
+Pending: Background #FFF3CD, Text #856404, Border 1px solid #FFEAA7
+Baking: Background #F8D7DA, Text #721C24, Border 1px solid #F5C6CB
+Decorating: Background #E2D3F3, Text #6A1B9A, Border 1px solid #D1B3ED
+Rush Order Badge (if applicable):
+
+<span className="rush-badge">🔥 RUSH</span>
+
+Background: #FEE2E2
+Text Color: #991B1B
+Border: 2px solid #EF4444
+Font weight: 700
+Animation: Subtle pulse (scale 1 → 1.05 → 1, duration 2s, infinite)
+Card Body (Middle Section):
+Layout:
+
+Display: Grid
+Grid Template Columns: 1fr 1fr
+Gap: 12px
+Margin Bottom: 12px
+Pickup Time Section (Left):
+
+Label:
+
+Font: Open Sans, 11px, weight 600
+Color: #6B7280
+Text Transform: Uppercase
+Letter Spacing: 0.5px
+Margin Bottom: 4px
+Example: "PICKUP TIME"
+Time Display:
+
+<div className="pickup-time">
+  <Clock size={14} />
+  <span>Today, 3:00 PM</span>
+</div>
+
+Specifications:
+
+Display: Flex, align items center, gap 6px
+Font: Poppins, 14px, weight 600
+Color: #2B2B2B
+Icon (Clock):
+
+Size: 14px
+Color: #C44569
+Stroke width: 2.5px
+Time Remaining Indicator (if <24 hours):
+
+<div className="time-remaining urgent">
+  <AlertCircle size={12} />
+  <span>6 hrs remaining</span>
+</div>
+
+Specifications:
+
+Display: Flex, align items center, gap 4px
+Margin Top: 4px
+Padding: 4px 8px
+Background: #FEE2E2
+Border: 1px solid #EF4444
+Border Radius: 4px
+Font: Open Sans, 11px, weight 600
+Color: #991B1B
+Payment Status Section (Right):
+
+Label:
+
+Same styling as Pickup Time label
+Example: "PAYMENT STATUS"
+Payment Badge:
+
+<div className="payment-status pending-deposit">
+  <DollarSign size={14} />
+  <span>Pending Deposit</span>
+</div>
+
+Badge Specifications by Status:
+
+1. Pending Deposit (Emphasized):
+
+Background: #FEF3C7 (bright yellow)
+Border: 2px solid #F59E0B (amber, thicker border)
+Color: #92400E (dark amber)
+Font weight: 700 (very bold)
+Animation: Gentle pulse
+Padding: 6px 10px
+Border radius: 6px
+2. Partial Payment:
+
+Background: #DBEAFE
+Border: 1px solid #3B82F6
+Color: #1E40AF
+Font weight: 600
+3. Paid in Full:
+
+Background: #D1FAE5
+Border: 1px solid #10B981
+Color: #065F46
+Font weight: 600
+Icon: CheckCircle (instead of DollarSign)
+Payment Amount Details:
+
+<div className="payment-details">
+  <div className="payment-row">
+    <span className="label">Total:</span>
+    <span className="value">$245.00</span>
+  </div>
+  <div className="payment-row">
+    <span className="label">Paid:</span>
+    <span className="value paid">$122.50</span>
+  </div>
+  <div className="payment-row balance">
+    <span className="label">Balance:</span>
+    <span className="value balance">$122.50</span>
+  </div>
+</div>
+
+Row Specifications:
+
+Display: Flex, justify content space-between
+Margin Bottom: 4px
+Font: Open Sans, 12px
+Labels:
+
+Color: #6B7280
+Font weight: 500
+Values:
+
+Color: #2B2B2B
+Font weight: 600
+Balance Value (Outstanding):
+
+Color: #EF4444 (red, shows amount due)
+Font weight: 700
+Font size: 13px (slightly larger)
+Card Footer (Bottom Actions):
+Layout:
+
+Display: Flex
+Gap: 8px
+Justify Content: flex-start
+Margin Top: 12px
+Padding Top: 12px
+Border Top: 1px solid #E5E7EB
+Action Buttons (3 total):
+
+1. View Button:
+
+<button className="card-action-btn view">
+  <Eye size={14} />
+  <span>View</span>
+</button>
+
+Specifications:
+
+Width: Auto
+Height: 32px
+Padding: 6px 12px
+Background: #F3F4F6
+Border: 1px solid #D1D5DB
+Border Radius: 6px
+Font: Poppins, 12px, weight 500
+Color: #374151
+Display: Flex, align items center, gap 6px
+Hover:
+
+Background: #E5E7EB
+Border: 1px solid #9CA3AF
+Transform: translateY(-1px)
+Box Shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
+2. Update Status Button:
+
+<button className="card-action-btn update-status">
+  <Edit2 size={14} />
+  <span>Update Status</span>
+</button>
+
+Specifications:
+
+Same dimensions as View
+Background: rgba(196, 69, 105, 0.08)
+Border: 1px solid rgba(196, 69, 105, 0.3)
+Color: #C44569
+Hover:
+
+Background: rgba(196, 69, 105, 0.15)
+Border: 1px solid #C44569
+Click Action:
+
+Opens inline dropdown below button
+Dropdown options:
+"Mark as Picked Up" (checkmark icon)
+"Still Waiting" (clock icon)
+"Customer No-Show" (x icon)
+3. Mark Picked Up Button (Quick Action):
+
+<button className="card-action-btn pickup">
+  <CheckCircle size={14} />
+  <span>Picked Up</span>
+</button>
+
+Specifications:
+
+Background: #D4EDDA
+Border: 1px solid #10B981
+Color: #065F46
+Hover:
+
+Background: #10B981
+Color: #FFFFFF
+Transform: scale(1.05)
+Click Action:
+
+Updates order status to "completed"
+Shows toast: "Order marked as picked up"
+Card animates out (fade + slide up, 300ms)
+📐 SECTION 4: ORDER PICKUP SEARCH FEATURE (NEW)
+Location:
+Below KPI cards, above "Today's Pickups" section
+Full-width container, max-width 1200px
+Component Structure:
+<div className="pickup-search-section">
+  <div className="search-header">
+    <h3>Quick Pickup Search</h3>
+    <p>Find customer orders for today's pickups</p>
+  </div>
+  <div className="search-input-container">
+    <Search size={20} />
+    <input type="text" placeholder="Search by last name (e.g., Chen)..." />
+    <button className="search-btn">Search</button>
+  </div>
+  <div className="search-results">...</div>
+</div>
+
+Container Specifications:
+Width: 100%
+Max Width: 1200px
+Background: #FFFFFF
+Border: 2px solid #C44569
+Border Radius: 16px
+Padding: 24px
+Margin Bottom: 24px
+Box Shadow: 0 4px 16px rgba(196, 69, 105, 0.12)
+Search Header:
+Heading:
+
+Font: Playfair Display, 24px, weight 700
+Color: #2B2B2B
+Margin Bottom: 4px
+Icon: 🔍 (emoji, 20px, margin right 8px)
+Subtitle:
+
+Font: Open Sans, 14px, weight 400
+Color: #5A3825
+Margin Bottom: 20px
+Search Input Container:
+Layout:
+
+Display: Flex
+Align Items: center
+Gap: 12px
+Width: 100%
+Max Width: 600px
+Search Icon:
+
+Position: Absolute, left 16px inside input
+Size: 20px
+Color: #9CA3AF
+Input Field:
+
+Width: Flex 1 (takes remaining space)
+Height: 52px
+Padding: 14px 16px 14px 48px (left padding for icon)
+Background: #F9FAFB
+Border: 2px solid #E5E7EB
+Border Radius: 10px
+Font: Poppins, 15px, weight 400
+Color: #2B2B2B
+Focus State:
+
+Border: 2px solid #C44569
+Background: #FFFFFF
+Box Shadow: 0 0 0 4px rgba(196, 69, 105, 0.1)
+Outline: None
+Placeholder:
+
+Color: #9CA3AF
+Font style: Italic
+Search Button:
+
+Width: 120px
+Height: 52px
+Background: Gradient linear-gradient(135deg, #C44569 0%, #D4567A 100%)
+Border: None
+Border Radius: 10px
+Font: Poppins, 15px, weight 600
+Color: #FFFFFF
+Cursor: Pointer
+Hover:
+
+Background: linear-gradient(135deg, #D4567A 0%, #E06389 100%)
+Transform: translateY(-2px)
+Box Shadow: 0 6px 16px rgba(196, 69, 105, 0.3)
+Search Results Display:
+When No Search:
+
+Empty state illustration (magnifying glass + cake)
+Text: "Enter a customer's last name to search for today's pickups"
+Color: #9CA3AF
+Font: Open Sans, 14px, italic
+When Results Found:
+
+Grid layout, 2 columns on desktop, 1 on mobile
+Gap: 16px
+Margin top: 20px
+Shows order cards (same style as Today's Pickups)
+Maximum 6 results shown, "View All" link if more
+No Results State:
+
+Icon: Search with X
+Heading: "No pickups found for 'Chen'"
+Subtitle: "Try checking All Orders or a different name"
+Button: "View All Today's Orders"
+📐 SECTION 5: KPI CARDS ENHANCEMENT
+Current Issues:
+Generic card design
+No hover interactions
+No click-through navigation
+Missing sorting/filtering context
+Enhanced KPI Card Specifications:
+Card Container:
+<div className="kpi-card" data-kpi="todays-pickups">
+  <div className="kpi-icon-wrapper">
+    <Clock size={24} />
+  </div>
+  <div className="kpi-content">
+    <h4 className="kpi-title">Today's Pickups</h4>
+    <div className="kpi-value">3</div>
+    <div className="kpi-trend">
+      <TrendingUp size={14} />
+      <span>+2 from yesterday</span>
+    </div>
+  </div>
+  <button className="kpi-action">
+    <ChevronRight size={16} />
+  </button>
+</div>
+
+Exact Dimensions:
+Width: 100% (responsive grid)
+Height: 120px (fixed height for consistency)
+Padding: 20px
+Border Radius: 14px
+Background: #FFFFFF
+Border: 2px solid transparent
+Box Shadow: 0 2px 12px rgba(0, 0, 0, 0.08)
+Icon Wrapper (Top Left):
+Size: 48px × 48px
+Border Radius: 12px
+Display: Flex, center content
+Background: Gradient based on KPI type
+Backgrounds by KPI:
+
+Today's Pickups: linear-gradient(135deg, rgba(196, 69, 105, 0.15) 0%, rgba(196, 69, 105, 0.05) 100%)
+Pending Orders: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.05) 100%)
+This Week: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%)
+Total Orders: linear-gradient(135deg, rgba(90, 56, 37, 0.15) 0%, rgba(90, 56, 37, 0.05) 100%)
+Icon:
+
+Size: 24px
+Stroke width: 2.5px
+Color: Matches gradient primary color
+KPI Content (Center):
+Title:
+
+Font: Poppins, 12px, weight 600
+Color: #6B7280
+Text Transform: Uppercase
+Letter Spacing: 0.5px
+Margin Bottom: 4px
+Value:
+
+Font: Playfair Display, 32px, weight 700
+Color: #2B2B2B
+Line Height: 1
+Margin Bottom: 8px
+Trend Indicator:
+
+Display: Flex, align items center, gap 4px
+Font: Open Sans, 11px, weight 600
+Margin Top: 8px
+Positive Trend:
+
+Color: #10B981 (green)
+Icon: TrendingUp, 14px
+Negative Trend:
+
+Color: #EF4444 (red)
+Icon: TrendingDown, 14px
+Neutral:
+
+Color: #6B7280 (gray)
+Icon: Minus, 14px
+Action Button (Top Right):
+Size: 32px × 32px
+Border Radius: 8px
+Background: #F3F4F6
+Border: 1px solid #E5E7EB
+Display: Flex, center content
+Icon: ChevronRight, 16px, #6B7280
+Hover (Action Button):
+
+Background: #C44569
+Icon color: #FFFFFF
+Transform: translateX(2px)
+Hover State (Entire Card):
+Border: 2px solid rgba(196, 69, 105, 0.3)
+Box Shadow: 0 8px 24px rgba(196, 69, 105, 0.15)
+Transform: translateY(-4px)
+Cursor: pointer
+Transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1)
+Active/Click State:
+
+Transform: translateY(-2px) scale(0.99)
+Duration: 100ms
+Click Actions by KPI:
+1. Today's Pickups:
+
+Navigates to: "Today's Pickups" section (smooth scroll)
+OR Opens modal with filtered list
+Shows only orders with status "ready" and eventDate = today
+2. Pending Orders:
+
+Navigates to: Order Management page
+Auto-applies filter: Status = "Pending"
+Sorts by: Event date (ascending) - soonest first
+3. This Week:
+
+Navigates to: Order Management page
+Auto-applies filter: Created date = Last 7 days
+Sorts by: Created date (descending) - newest first
+4. Total Orders:
+
+Navigates to: Order Management page
+Shows: All orders, no filters
+Sorts by: Created date (descending)
+Responsive Grid:
+Desktop (≥1024px):
+
+Grid: 4 columns
+Gap: 20px
+Tablet (768-1023px):
+
+Grid: 2 columns
+Gap: 16px
+Mobile (<768px):
+
+Grid: 1 column
+Gap: 12px
+Height: Auto (allows content to stack)
+📐 SECTION 6: DASHBOARD AESTHETIC ENHANCEMENTS
+A. BAKERY PATTERN OVERLAY
+Implementation:
+<div className="dashboard-header-pattern">
+  <!-- SVG pattern with bakery icons -->
+</div>
+
+Specifications:
+
+Position: Absolute, behind header text
+Width: 100%
+Height: 120px (header area only)
+Opacity: 3-5% (very subtle)
+Z-Index: 1 (behind text which is z-index 2)
+Pattern Icons:
+
+Rolling pin (horizontal)
+Whisk
+Cake slice
+Cupcake
+Mixing bowl
+SVG Specifications:
+
+Fill: #5A3825 (brown)
+Size: 24px × 24px each icon
+Spacing: 80px between icons
+Pattern repeat: Diagonal grid
+Rotation: Random 0-15° for organic feel
+CSS:
+
+.dashboard-header-pattern {
+  background-image: url('/patterns/bakery-icons.svg');
+  background-size: 80px 80px;
+  background-repeat: repeat;
+  opacity: 0.04;
+  pointer-events: none;
+}
+
+B. SECTION HEADER ENHANCEMENTS
+Current: Plain text headers
+New: Icons + enhanced typography
+
+Example:
+
+<div className="section-header">
+  <div className="header-icon">
+    <Clock size={20} />
+  </div>
+  <div className="header-content">
+    <h3>Today's Pickups</h3>
+    <span className="header-count">3 orders</span>
+  </div>
+</div>
+
+Specifications:
+
+Container:
+
+Display: Flex, align items center, gap 12px
+Margin Bottom: 16px
+Icon Circle:
+
+Size: 36px × 36px
+Border Radius: 10px
+Background: rgba(196, 69, 105, 0.1)
+Display: Flex, center content
+Icon: 20px, #C44569
+Header Text:
+
+Font: Playfair Display, 20px, weight 700
+Color: #2B2B2B
+Line height: 1.2
+Count Badge:
+
+Font: Poppins, 12px, weight 600
+Color: #6B7280
+Background: #F3F4F6
+Padding: 4px 10px
+Border Radius: 6px
+Margin Left: 8px
+C. CARD BORDER STRIPE SYSTEM
+Left Border Color Coding:
+
+By Status:
+
+Pending: #F59E0B (amber)
+Baking: #F97316 (orange)
+Decorating: #8B5CF6 (purple)
+Ready: #10B981 (green)
+Completed: #3B82F6 (blue)
+By Priority:
+
+High/Rush: #EF4444 (red)
+Medium: #F59E0B (amber)
+Low: #9CA3AF (gray)
+Stripe Specs:
+
+Width: 4px
+Height: 100%
+Border Radius: Matches card (left side only)
+Position: Absolute left
+D. EMPTY STATE REDESIGN
+Current: Generic "No data" message
+New: Friendly, actionable empty state
+
+Component:
+
+<div className="empty-state">
+  <div className="empty-icon">
+    <Cake size={48} />
+    <CheckCircle size={24} className="checkmark-overlay" />
+  </div>
+  <h4>No recent orders today - all set! 🎉</h4>
+  <p>You're caught up on all orders.</p>
+  <button className="empty-action-btn">
+    <Plus size={16} />
+    Create a New Order
+  </button>
+</div>
+
+Specifications:
+
+Container:
+
+Display: Flex column, align center
+Padding: 60px 20px
+Background: #FAFBFC
+Border: 2px dashed #E5E7EB
+Border Radius: 12px
+Icon Container:
+
+Position: Relative
+Size: 80px × 80px
+Margin Bottom: 20px
+Cake Icon:
+
+Size: 48px
+Color: #C44569
+Stroke width: 2px
+Checkmark Overlay:
+
+Position: Absolute, bottom right
+Size: 24px
+Color: #10B981
+Background: #FFFFFF
+Border Radius: 50%
+Box Shadow: 0 2px 8px rgba(0, 0, 0, 0.1)
+Heading:
+
+Font: Poppins, 18px, weight 600
+Color: #2B2B2B
+Margin Bottom: 8px
+Paragraph:
+
+Font: Open Sans, 14px, weight 400
+Color: #6B7280
+Margin Bottom: 20px
+Action Button:
+
+Same style as primary CTA buttons
+Height: 44px
+Padding: 12px 24px
+E. DASHBOARD FOOTER
+New Component:
+
+<footer className="dashboard-footer">
+  <div className="footer-left">
+    <Clock size={14} />
+    <span>Last updated: 2:45 PM</span>
+  </div>
+  <div className="footer-center">
+    <button className="footer-btn refresh">
+      <RefreshCw size={14} />
+      Refresh
+    </button>
+  </div>
+  <div className="footer-right">
+    <button className="footer-btn help">
+      <HelpCircle size={14} />
+      Help
+    </button>
+  </div>
+</footer>
+
+Specifications:
+
+Container:
+
+Position: Sticky, bottom: 0
+Width: 100%
+Height: 56px
+Background: rgba(255, 255, 255, 0.95)
+Backdrop Filter: blur(8px)
+Border Top: 1px solid #E5E7EB
+Display: Flex, justify space-between, align center
+Padding: 0 24px
+Z-Index: 10
+Last Update Time:
+
+Display: Flex, align items center, gap 8px
+Font: Open Sans, 13px, weight 500
+Color: #6B7280
+Icon: Clock, 14px
+Refresh Button:
+
+Height: 36px
+Padding: 8px 16px
+Background: #F3F4F6
+Border: 1px solid #D1D5DB
+Border Radius: 8px
+Font: Poppins, 13px, weight 500
+Color: #374151
+Display: Flex, align items center, gap 6px
+Refresh Hover:
+
+Background: #C44569
+Color: #FFFFFF
+Border: 1px solid #C44569
+Icon rotates: 180deg, duration 300ms
+Help Button:
+
+Same dimensions as Refresh
+Hover: Background #E5E7EB
+Click Actions:
+
+Refresh: Calls fetchOrders() again, shows loading spinner in button
+Help: Opens help modal or external documentation link
+This comprehensive specification covers every pixel, color, interaction, and structural detail needed for the CTO-level implementation of all requested changes. Each section includes exact measurements, color codes, typography specs, hover states, animations, and functional behaviors.
+
+Would you like me to create the task list to begin implementing these changes?
