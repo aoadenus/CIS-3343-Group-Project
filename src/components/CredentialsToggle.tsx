@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { KeyRound, ChevronDown } from 'lucide-react';
 
 const demoAccounts = [
-  { role: 'Sales Manager', email: 'demo.sales@emilyb.com', password: 'DemoPass123!' },
-  { role: 'Sales Rep', email: 'demo.rep@emilyb.com', password: 'DemoPass123!' },
-  { role: 'Kitchen', email: 'demo.kitchen@emilyb.com', password: 'DemoPass123!' },
-  { role: 'Pickup Desk', email: 'demo.pickup@emilyb.com', password: 'DemoPass123!' },
-  { role: 'Admin', email: 'demo.admin@emilyb.com', password: 'DemoPass123!' },
-  { role: 'Support', email: 'demo.support@emilyb.com', password: 'DemoPass123!' }
+  { role: 'Owner', email: 'emily@emilybakes.com', password: 'DemoPass123!' },
+  { role: 'Manager', email: 'manager@emilybakes.com', password: 'DemoPass123!' },
+  { role: 'Sales', email: 'sales@emilybakes.com', password: 'DemoPass123!' },
+  { role: 'Baker', email: 'baker@emilybakes.com', password: 'DemoPass123!' },
+  { role: 'Decorator', email: 'decorator@emilybakes.com', password: 'DemoPass123!' },
+  { role: 'Accountant', email: 'accountant@emilybakes.com', password: 'DemoPass123!' }
 ];
 
 export default function CredentialsToggle() {
@@ -41,7 +41,7 @@ export default function CredentialsToggle() {
       >
         <div className="flex items-center gap-3">
           <KeyRound size={16} color="#C44569" />
-          <span style={{ fontFamily: 'Poppins', fontSize: 14, fontWeight: 600, color: '#2B2B2B' }}>
+          <span style={{ fontFamily: 'Poppins', fontSize: 14, fontWeight: 600, color: '#FFFFFF' }}>
             {isOpen ? 'Hide Demo Credentials' : 'Show Demo Credentials'}
           </span>
         </div>
@@ -54,18 +54,18 @@ export default function CredentialsToggle() {
           id="demo-credentials-panel"
           className="mt-3"
           style={{
-            background: 'rgba(196, 69, 105, 0.08)',
-            border: '2px solid rgba(196, 69, 105, 0.2)',
+            background: 'rgba(196, 69, 105, 0.15)',
+            border: '2px solid rgba(196, 69, 105, 0.3)',
             borderRadius: 12,
             padding: 20,
-            backdropFilter: 'blur(6px)'
+            backdropFilter: 'blur(8px)'
           }}
         >
           <div className="space-y-3">
             {demoAccounts.map((acct) => (
               <div key={acct.email} className="flex items-center gap-4">
                 <div style={{ width: 110, textAlign: 'right' }}>
-                  <span style={{ fontFamily: 'Poppins', fontSize: 15, fontWeight: 700, color: '#2B2B2B' }}>
+                  <span style={{ fontFamily: 'Poppins', fontSize: 15, fontWeight: 700, color: '#FFFFFF' }}>
                     {acct.role}
                   </span>
                 </div>
@@ -91,7 +91,7 @@ export default function CredentialsToggle() {
 
             <div style={{ borderTop: '1px solid rgba(196,69,105,0.3)', marginTop: 16, paddingTop: 16 }}>
               <div style={{ marginBottom: 8 }}>
-                <span style={{ fontFamily: 'Poppins', fontSize: 15, fontWeight: 600, color: '#2B2B2B' }}>
+                <span style={{ fontFamily: 'Poppins', fontSize: 15, fontWeight: 600, color: '#FFFFFF' }}>
                   All Passwords
                 </span>
               </div>
@@ -113,7 +113,7 @@ export default function CredentialsToggle() {
                 {demoAccounts[0].password}
               </button>
 
-              <p style={{ marginTop: 12, textAlign: 'center', fontFamily: 'Open Sans', fontSize: 12, fontStyle: 'italic', color: 'rgba(43,43,43,0.5)' }}>
+              <p style={{ marginTop: 12, textAlign: 'center', fontFamily: 'Open Sans', fontSize: 12, fontStyle: 'italic', color: 'rgba(255,255,255,0.6)' }}>
                 Click credentials to select and copy
               </p>
             </div>
