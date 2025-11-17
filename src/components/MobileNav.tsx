@@ -1,10 +1,12 @@
 import { motion, AnimatePresence } from 'motion/react';
+import { StaffLoginCTA } from './StaffLoginCTA';
 
 interface MobileNavProps {
   isOpen: boolean;
   onClose: () => void;
   activePage: string;
   onNavigate: (page: string) => void;
+  onAdminAccess?: () => void;
 }
 
 const navItems = [
@@ -15,7 +17,7 @@ const navItems = [
   { id: 'contact', label: 'Contact' }
 ];
 
-export function MobileNav({ isOpen, onClose, activePage, onNavigate }: MobileNavProps) {
+export function MobileNav({ isOpen, onClose, activePage, onNavigate, onAdminAccess }: MobileNavProps) {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -123,6 +125,19 @@ export function MobileNav({ isOpen, onClose, activePage, onNavigate }: MobileNav
                   Emily Bakes Cakes
                 </h3>
               </div>
+
+              {/* Staff Login Button - First Item */}
+              {onAdminAccess && (
+                <div className="mb-4 flex-shrink-0">
+                  <StaffLoginCTA 
+                    onClick={() => {
+                      onAdminAccess();
+                      onClose();
+                    }}
+                    variant="mobile"
+                  />
+                </div>
+              )}
 
               {/* Navigation Links */}
               <nav className="space-y-1 mb-6 flex-shrink-0">

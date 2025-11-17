@@ -3,6 +3,7 @@ import { Heart } from 'lucide-react';
 import { motion } from 'motion/react';
 import { HamburgerIcon } from './HamburgerIcon';
 import { MobileNav } from './MobileNav';
+import { StaffLoginCTA } from './StaffLoginCTA';
 
 interface PublicLayoutProps {
   children: React.ReactNode;
@@ -108,6 +109,11 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
                   )}
                 </button>
               ))}
+              
+              {/* Staff Login Button - Desktop */}
+              <div style={{ marginLeft: '12px' }}>
+                <StaffLoginCTA onClick={onAdminAccess} variant="desktop" />
+              </div>
             </div>
 
             {/* Right Section - Icons */}
@@ -131,6 +137,7 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
         onClose={() => setMobileMenuOpen(false)}
         activePage={activePage}
         onNavigate={onNavigate}
+        onAdminAccess={onAdminAccess}
       />
 
       {/* Main Content */}
