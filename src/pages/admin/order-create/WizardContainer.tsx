@@ -47,7 +47,20 @@ function WizardContent({ onBack, onNavigate }: WizardContainerProps) {
 
   const handleNext = () => {
     if (!canGoNext) {
-      showToast('error', 'Please complete all required fields');
+      // Find first invalid field in the current step and focus it
+      const container = document.querySelector('.my-8');
+      const firstError = container?.querySelector<HTMLElement>('.validation-error, [aria-invalid="true"]');
+      if (firstError) {
+        try {
+          firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          (firstError as HTMLElement).focus();
+          firstError.classList.add('animate-pulse');
+          setTimeout(() => firstError.classList.remove('animate-pulse'), 1500);
+        } catch (e) {
+          // ignore focus errors
+        }
+      }
+      showToast('error', 'Please fix errors before continuing');
       return;
     }
 
@@ -70,7 +83,17 @@ function WizardContent({ onBack, onNavigate }: WizardContainerProps) {
 
   const handleSubmit = async () => {
     if (!canGoNext) {
-      showToast('error', 'Please complete all required fields');
+      const container = document.querySelector('.my-8');
+      const firstError = container?.querySelector<HTMLElement>('.validation-error, [aria-invalid="true"]');
+      if (firstError) {
+        try {
+          firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          (firstError as HTMLElement).focus();
+          firstError.classList.add('animate-pulse');
+          setTimeout(() => firstError.classList.remove('animate-pulse'), 1500);
+        } catch (e) {}
+      }
+      showToast('error', 'Please fix errors before continuing');
       return;
     }
 

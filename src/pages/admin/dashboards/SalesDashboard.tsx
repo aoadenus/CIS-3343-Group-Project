@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'motion/react';
 import { Plus, Users, Clock, Package, DollarSign, Zap, ListOrdered, Target } from 'lucide-react';
 import { KPICard } from '../../../components/dashboard/KPICard';
@@ -15,53 +15,88 @@ interface SalesDashboardProps {
 export function SalesDashboard({ onNavigate }: SalesDashboardProps) {
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [filter, setFilter] = useState<'all' | 'today_paid' | 'partial_deposit' | 'ready_pickup' | 'overdue'>('all');
+  const [recentLimit, setRecentLimit] = useState(5);
 
   useEffect(() => {
-    fetchOrders();
+    const abort = new AbortController();
+    async function load() {
+      setLoading(true);
+      setError(null);
+      try {
+        const token = localStorage.getItem('token');
+        const headers: any = { 'Content-Type': 'application/json' };
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+
+        // Primary orders list
+        const ordersRes = await fetch('/api/orders?status=all&role=sales', { signal: abort.signal, headers });
+        if (!ordersRes.ok) throw new Error('Failed to load orders');
+        const ordersData = await ordersRes.json();
+
+        // optional stats endpoints (best-effort)
+        const [statsTodayRes, overdueRes, pickupsTodayRes] = await Promise.all([
+          fetch('/api/orders/stats/today', { signal: abort.signal, headers }).catch(() => null),
+          fetch('/api/orders/overdue', { signal: abort.signal, headers }).catch(() => null),
+          fetch('/api/orders/pickups-today', { signal: abort.signal, headers }).catch(() => null)
+        ]);
+
+        const statsToday = statsTodayRes && statsTodayRes.ok ? await statsTodayRes.json() : null;
+        const overdueData = overdueRes && overdueRes.ok ? await overdueRes.json() : null;
+        const pickupsToday = pickupsTodayRes && pickupsTodayRes.ok ? await pickupsTodayRes.json() : null;
+
+        // Prefer server-provided lists when available, otherwise derive from ordersData
+        setOrders(Array.isArray(ordersData) ? ordersData : []);
+        // We could store stats separately if needed, but KPIs will be derived below
+      } catch (err: any) {
+        console.error('Failed to fetch orders:', err);
+        setError(err?.message || 'Unable to load orders');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    load();
+    return () => abort.abort();
   }, []);
 
-  const fetchOrders = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('/api/orders', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setOrders(data);
-      }
-    } catch (error) {
-      console.error('Failed to fetch orders:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   // Calculate KPIs
-  const today = new Date().toDateString();
-  const todayPickups = orders.filter(o => 
-    o.eventDate && new Date(o.eventDate).toDateString() === today && o.status === 'ready'
-  );
-  const pendingOrders = orders.filter(o => o.status === 'pending');
-  const thisWeekOrders = orders.filter(o => {
-    const created = new Date(o.createdAt);
-    const weekAgo = new Date();
-    weekAgo.setDate(weekAgo.getDate() - 7);
-    return created >= weekAgo;
-  });
+  const today = useMemo(() => new Date().toDateString(), []);
 
-  // Recent orders (last 5)
-  const recentOrders = orders
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 5)
-    .map(o => ({
-      id: o.id,
-      customerName: o.customerName || 'Unknown',
-      occasion: o.occasion || 'Custom Order',
-      eventDate: o.eventDate,
-      status: o.status,
-      priority: o.priority || 'medium'
-    }));
+  const todayPickups = orders.filter(o =>
+    o.pickupDate && new Date(o.pickupDate).toDateString() === today && o.status === 'ready'
+  );
+
+  const pendingDeposits = orders.filter(o => o.paymentStatus === 'partial_deposit');
+
+  const readyForPickup = orders.filter(o => o.status === 'ready' && o.pickupDate && new Date(o.pickupDate).toDateString() === today);
+
+  const overdueOrders = orders.filter(o => o.pickupDate && new Date(o.pickupDate) < new Date() && o.status !== 'completed');
+
+  const todaysRevenue = orders
+    .filter(o => o.paymentStatus === 'paid_in_full' && o.createdAt && new Date(o.createdAt).toDateString() === today)
+    .reduce((sum, o) => sum + (o.totalAmount || 0), 0);
+
+  // Recent orders with pagination
+  const sortedOrders = orders.slice().sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  const recentOrders = sortedOrders.slice(0, recentLimit).map(o => ({
+    id: o.id,
+    customerName: (o.customer && (o.customer.name || `${o.customer.firstName} ${o.customer.lastName}`)) || o.customerName || 'Unknown',
+    occasion: o.occasion || (o.cakeType === 'standard' ? `${o.standardCakeName || 'Standard Cake'}` : 'Custom Order'),
+    eventDate: o.pickupDate || o.eventDate,
+    status: o.status,
+    priority: o.priority || computePriority(o)
+  }));
+
+  function computePriority(o: any) {
+    if (!o.pickupDate) return 'low';
+    const hours = (new Date(o.pickupDate).getTime() - Date.now()) / (1000 * 60 * 60);
+    if (hours < 0) return 'overdue';
+    if (hours < 6) return 'high';
+    if (hours < 24) return 'urgent';
+    if (hours < 48) return 'warning';
+    return 'normal';
+  }
 
   const quickActions = [
     {
@@ -88,6 +123,21 @@ export function SalesDashboard({ onNavigate }: SalesDashboardProps) {
     return (
       <div className="h-full flex items-center justify-center" style={{ background: '#F8EBD7' }}>
         <p style={{ fontFamily: 'Open Sans, sans-serif', color: '#5A3825' }}>Loading dashboard...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="h-full flex items-center justify-center flex-col" style={{ background: '#F8EBD7' }}>
+        <p style={{ fontFamily: 'Open Sans, sans-serif', color: '#B00020', marginBottom: 12 }}>Unable to load orders</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 rounded"
+          style={{ background: '#C44569', color: 'white' }}
+        >
+          Retry
+        </button>
       </div>
     );
   }
@@ -121,40 +171,36 @@ export function SalesDashboard({ onNavigate }: SalesDashboardProps) {
       {/* KPIs */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <KPICard
-          title="Today's Pickups"
-          value={todayPickups.length}
-          icon={Clock}
+          title="Today's Revenue"
+          value={`$${(todaysRevenue / 100).toFixed(2)}`}
+          icon={DollarSign}
           color="#C44569"
           index={0}
-          onClick={() => {
-            const pickupsSection = document.getElementById('todays-pickups');
-            pickupsSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }}
+          onClick={() => setFilter('today_paid')}
         />
         <KPICard
-          title="Pending Orders"
-          value={pendingOrders.length}
+          title="Pending Deposits"
+          value={pendingDeposits.length}
           icon={Package}
           color="#F59E0B"
           index={1}
-          onClick={() => onNavigate?.('order-management')}
+          onClick={() => setFilter('partial_deposit')}
         />
         <KPICard
-          title="This Week"
-          value={thisWeekOrders.length}
-          change="+12%"
-          icon={DollarSign}
+          title="Ready for Pickup"
+          value={readyForPickup.length}
+          icon={Clock}
           color="#10B981"
           index={2}
-          onClick={() => onNavigate?.('order-management')}
+          onClick={() => setFilter('ready_pickup')}
         />
         <KPICard
-          title="Total Orders"
-          value={orders.length}
-          icon={Package}
+          title="Overdue Orders"
+          value={overdueOrders.length}
+          icon={Target}
           color="#5A3825"
           index={3}
-          onClick={() => onNavigate?.('order-management')}
+          onClick={() => setFilter('overdue')}
         />
       </div>
 
@@ -184,11 +230,22 @@ export function SalesDashboard({ onNavigate }: SalesDashboardProps) {
             count={recentOrders.length}
           />
           <OrderQueueCard
-            title="Recent Orders"
+            title={filter === 'all' ? 'Recent Orders' : filter === 'today_paid' ? "Today's Paid Orders" : filter === 'partial_deposit' ? 'Pending Deposits' : filter === 'ready_pickup' ? 'Ready for Pickup' : 'Overdue Orders'}
             orders={recentOrders}
             emptyMessage="No recent orders"
             onOrderClick={() => onNavigate?.('order-management')}
           />
+          {sortedOrders.length > recentLimit && (
+            <div className="mt-3 text-center">
+              <button
+                onClick={() => setRecentLimit((p) => p + 5)}
+                className="px-4 py-2 rounded"
+                style={{ background: '#C44569', color: 'white' }}
+              >
+                Load More
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

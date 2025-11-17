@@ -40,8 +40,8 @@ export function BakerDashboard({ onNavigate }: BakerDashboardProps) {
     .filter(o => ['pending', 'baking', 'cooling'].includes(o.status?.toLowerCase() || ''))
     .sort((a, b) => {
       // Priority: high > medium > low
-      const priorityOrder = { high: 3, medium: 2, low: 1 };
-      return (priorityOrder[b.priority] || 0) - (priorityOrder[a.priority] || 0);
+      const priorityOrder: Record<string, number> = { high: 3, medium: 2, low: 1 };
+      return ((priorityOrder as any)[b.priority] || 0) - ((priorityOrder as any)[a.priority] || 0);
     })
     .slice(0, 10)
     .map(o => ({

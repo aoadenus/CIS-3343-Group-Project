@@ -6,10 +6,15 @@ import { Textarea } from '../../../../components/ui/textarea';
 import { Checkbox } from '../../../../components/ui/checkbox';
 import { useWizard } from '../WizardContext';
 import { isRushOrder } from '../../../../data/cakeOptions';
+import { isDateAtLeastDaysAway, daysUntil } from '../../../../utils/validation';
+import { useToast } from '../../../../components/ToastContext';
 
 export function Step8Pickup() {
   const { formData, updateFormData } = useWizard();
   const [isRush, setIsRush] = useState(false);
+  const [eventDateError, setEventDateError] = useState<string | null>(null);
+  const [showRequestRushSuggestion, setShowRequestRushSuggestion] = useState(false);
+  const { showToast } = useToast();
 
   // Rush order detection
   useEffect(() => {
@@ -21,9 +26,20 @@ export function Step8Pickup() {
         isRushOrder: rushStatus,
         managerApproval: false // Reset approval when date changes
       });
+
+      // Validate at least 2 days away
+      if (!isDateAtLeastDaysAway(formData.eventDate, 2)) {
+        setEventDateError('Must be 2 days from today');
+        setShowRequestRushSuggestion(true);
+      } else {
+        setEventDateError(null);
+        setShowRequestRushSuggestion(false);
+      }
     } else {
       setIsRush(false);
       updateFormData({ isRushOrder: false, managerApproval: false });
+      setEventDateError(null);
+      setShowRequestRushSuggestion(false);
     }
   }, [formData.eventDate]);
 
@@ -110,16 +126,44 @@ export function Step8Pickup() {
             >
               Event/Pickup Date <span style={{ color: '#C44569' }}>*</span>
             </label>
-            <Input
-              type="date"
-              value={formData.eventDate}
-              onChange={(e) => updateFormData({ eventDate: e.target.value })}
-              min={new Date().toISOString().split('T')[0]}
-              style={{
-                borderColor: !formData.eventDate ? '#C44569' : '#E0E0E0',
-                borderWidth: !formData.eventDate ? '2px' : '1px'
-              }}
-            />
+            <div style={{ position: 'relative' }}>
+              <Input
+                type="date"
+                value={formData.eventDate}
+                onChange={(e) => updateFormData({ eventDate: e.target.value })}
+                min={new Date().toISOString().split('T')[0]}
+                aria-invalid={!!eventDateError}
+                aria-describedby={eventDateError ? 'event-date-error' : undefined}
+                className={eventDateError ? 'validation-error' : undefined}
+                style={{
+                  borderColor: !formData.eventDate ? '#C44569' : eventDateError ? '#DC2626' : '#E0E0E0',
+                  borderWidth: !formData.eventDate ? '2px' : '1px'
+                }}
+              />
+
+              {eventDateError ? (
+                <p id="event-date-error" role="alert" style={{ fontSize: '12px', color: '#DC2626', marginTop: '8px' }}>
+                  {eventDateError}
+                </p>
+              ) : null}
+
+              {showRequestRushSuggestion && (
+                <div style={{ marginTop: '8px' }}>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <Checkbox
+                      checked={formData.isRushOrder || false}
+                      onCheckedChange={(checked) => {
+                        updateFormData({ isRushOrder: checked as boolean });
+                        if (checked) showToast('info', 'Rush order requested — provide justification in Customer step');
+                      }}
+                    />
+                    <span style={{ fontSize: '13px', color: '#2B2B2B' }}>
+                      Request Rush Order (less than 2 days)
+                    </span>
+                  </label>
+                </div>
+              )}
+            </div>
           </div>
 
           <div>

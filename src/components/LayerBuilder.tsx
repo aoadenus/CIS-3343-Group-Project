@@ -11,6 +11,10 @@ interface LayerBuilderProps {
 }
 
 export function LayerBuilder({ layers, onLayersChange }: LayerBuilderProps) {
+  // Compute per-layer validation state: flavor and icing are required
+  const invalidLayerIds = layers
+    .filter(l => !l.flavor || !l.icing)
+    .map(l => l.id);
   const addLayer = () => {
     const newLayer: LayerData = {
       id: `layer-${Date.now()}`,
@@ -142,21 +146,24 @@ export function LayerBuilder({ layers, onLayersChange }: LayerBuilderProps) {
                     }}>
                       Flavor <span style={{ color: '#C44569' }}>*</span>
                     </label>
-                    <select
-                      value={layer.flavor}
-                      onChange={(e) => updateLayer(layer.id, { flavor: e.target.value })}
-                      style={{
-                        width: '100%',
-                        padding: '12px',
-                        border: '2px solid #E0E0E0',
-                        borderRadius: '8px',
-                        fontSize: '14px',
-                        fontFamily: 'Open Sans',
-                        color: '#2B2B2B',
-                        background: '#F8F8F8',
-                        cursor: 'pointer'
-                      }}
-                    >
+                    <div style={{ position: 'relative' }}>
+                      <select
+                        value={layer.flavor}
+                        onChange={(e) => updateLayer(layer.id, { flavor: e.target.value })}
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          border: `2px solid ${!layer.flavor ? '#999' : '#E0E0E0'}`,
+                          borderRadius: '8px',
+                          fontSize: '14px',
+                          fontFamily: 'Open Sans',
+                          color: '#2B2B2B',
+                          background: '#F8F8F8',
+                          cursor: 'pointer'
+                        }}
+                        aria-invalid={!layer.flavor}
+                        className={!layer.flavor ? 'validation-error' : undefined}
+                      >
                       <option value="">Select a cake flavor</option>
                       {cakeFlavors.map(flavor => (
                         <option key={flavor.id} value={flavor.id}>
@@ -164,6 +171,10 @@ export function LayerBuilder({ layers, onLayersChange }: LayerBuilderProps) {
                         </option>
                       ))}
                     </select>
+                      {!layer.flavor && (
+                        <p role="alert" style={{ fontSize: '12px', color: '#999', marginTop: '8px' }}>*Required</p>
+                      )}
+                    </div>
                   </div>
 
                   <div>
@@ -224,21 +235,24 @@ export function LayerBuilder({ layers, onLayersChange }: LayerBuilderProps) {
                     }}>
                       Icing Flavor <span style={{ color: '#C44569' }}>*</span>
                     </label>
-                    <select
-                      value={layer.icing || ''}
-                      onChange={(e) => updateLayer(layer.id, { icing: e.target.value })}
-                      style={{
-                        width: '100%',
-                        padding: '12px',
-                        border: '2px solid #E0E0E0',
-                        borderRadius: '8px',
-                        fontSize: '14px',
-                        fontFamily: 'Open Sans',
-                        color: '#2B2B2B',
-                        background: '#F8F8F8',
-                        cursor: 'pointer'
-                      }}
-                    >
+                    <div style={{ position: 'relative' }}>
+                      <select
+                        value={layer.icing || ''}
+                        onChange={(e) => updateLayer(layer.id, { icing: e.target.value })}
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          border: `2px solid ${!layer.icing ? '#999' : '#E0E0E0'}`,
+                          borderRadius: '8px',
+                          fontSize: '14px',
+                          fontFamily: 'Open Sans',
+                          color: '#2B2B2B',
+                          background: '#F8F8F8',
+                          cursor: 'pointer'
+                        }}
+                        aria-invalid={!layer.icing}
+                        className={!layer.icing ? 'validation-error' : undefined}
+                      >
                       <option value="">Select an icing flavor</option>
                       {icingFlavors.map(icing => (
                         <option key={icing.id} value={icing.id}>
@@ -246,6 +260,10 @@ export function LayerBuilder({ layers, onLayersChange }: LayerBuilderProps) {
                         </option>
                       ))}
                     </select>
+                      {!layer.icing && (
+                        <p role="alert" style={{ fontSize: '12px', color: '#999', marginTop: '8px' }}>*Required</p>
+                      )}
+                    </div>
                   </div>
 
                   <div>

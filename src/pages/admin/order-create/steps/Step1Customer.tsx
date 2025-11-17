@@ -7,6 +7,8 @@ import { Checkbox } from '../../../../components/ui/checkbox';
 import { Textarea } from '../../../../components/ui/textarea';
 import { useWizard } from '../WizardContext';
 import { useToast } from '../../../../components/ToastContext';
+import { useDebouncedValue } from '../../../../hooks/useDebouncedValue';
+import { isValidEmail } from '../../../../utils/validation';
 
 interface Customer {
   id: number;
@@ -38,6 +40,22 @@ export function Step1Customer() {
     phone: '',
     isPreferred: false
   });
+
+  const [newCustomerErrors, setNewCustomerErrors] = useState<{ name?: string; email?: string }>({});
+  const debouncedEmail = useDebouncedValue(newCustomer.email, 500);
+
+  useEffect(() => {
+    if (!debouncedEmail) {
+      setNewCustomerErrors((e) => ({ ...e, email: undefined }));
+      return;
+    }
+
+    if (!isValidEmail(debouncedEmail)) {
+      setNewCustomerErrors((e) => ({ ...e, email: 'Not a valid email' }));
+    } else {
+      setNewCustomerErrors((e) => ({ ...e, email: undefined }));
+    }
+  }, [debouncedEmail]);
 
   // Load recent customers on mount
   useEffect(() => {
@@ -105,11 +123,11 @@ export function Step1Customer() {
     }
 
     // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(newCustomer.email)) {
-      showToast('error', 'Please enter a valid email address');
-      return;
-    }
+      if (!isValidEmail(newCustomer.email)) {
+        showToast('error', 'Please enter a valid email address');
+        setNewCustomerErrors((e) => ({ ...e, email: 'Not a valid email' }));
+        return;
+      }
 
     try {
       const response = await fetch('/api/customers', {
@@ -267,7 +285,7 @@ export function Step1Customer() {
                         VIP
                       </span>
                     )}
-                    {formData.customer.isPreferred && (
+                    {(formData.customer as any)?.isPreferred && (
                       <span
                         className="px-2 py-0.5 rounded text-xs"
                         style={{ background: '#C44569', color: '#FFFFFF', fontWeight: 600 }}
@@ -516,23 +534,49 @@ export function Step1Customer() {
                   >
                     Email <span style={{ color: '#C44569' }}>*</span>
                   </label>
-                  <Input
-                    type="email"
-                    value={newCustomer.email}
-                    onChange={(e) =>
-                      setNewCustomer({ ...newCustomer, email: e.target.value })
-                    }
-                    placeholder="email@example.com"
-                    style={{
-                      borderColor: !newCustomer.email ? '#C44569' : '#E0E0E0',
-                      borderWidth: !newCustomer.email ? '2px' : '1px'
-                    }}
-                  />
-                  {!newCustomer.email && (
+                  <div style={{ position: 'relative' }}>
+                    <Input
+                      type="email"
+                      value={newCustomer.email}
+                      onChange={(e) => {
+                        setNewCustomer({ ...newCustomer, email: e.target.value });
+                        // clear immediate errors while typing
+                        setNewCustomerErrors((prev) => ({ ...prev, email: undefined }));
+                      }}
+                      placeholder="email@example.com"
+                      aria-invalid={!!newCustomerErrors.email}
+                      aria-describedby={newCustomerErrors.email ? 'new-customer-email-error' : undefined}
+                      style={{
+                        borderColor: !newCustomer.email ? '#C44569' : newCustomerErrors.email ? '#DC2626' : isValidEmail(newCustomer.email) ? '#10B981' : '#E0E0E0',
+                        borderWidth: !newCustomer.email ? '2px' : '1px',
+                        paddingRight: '36px'
+                      }}
+                      className={newCustomerErrors.email ? 'validation-error' : undefined}
+                    />
+
+                    {/* validation icon */}
+                    <div style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)' }}>
+                      {newCustomer.email ? (
+                        isValidEmail(debouncedEmail) ? (
+                          <span style={{ color: '#10B981', fontWeight: 700 }} aria-hidden>✓</span>
+                        ) : (
+                          <span style={{ color: '#DC2626', fontWeight: 700 }} aria-hidden>✕</span>
+                        )
+                      ) : (
+                        <span style={{ color: '#999' }} aria-hidden>*</span>
+                      )}
+                    </div>
+
+                  </div>
+                  {newCustomerErrors.email ? (
+                    <p id="new-customer-email-error" role="alert" style={{ fontSize: '12px', color: '#DC2626', marginTop: '4px' }}>
+                      Not a valid email
+                    </p>
+                  ) : !newCustomer.email ? (
                     <p style={{ fontSize: '12px', color: '#C44569', marginTop: '4px' }}>
                       Email is required
                     </p>
-                  )}
+                  ) : null}
                 </div>
 
                 <div>

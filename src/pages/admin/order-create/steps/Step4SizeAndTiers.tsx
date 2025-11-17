@@ -45,16 +45,19 @@ export function Step4SizeAndTiers() {
         >
           Cake Size <span style={{ color: '#C44569' }}>*</span>
         </label>
-        <select
-          value={formData.cakeSize}
-          onChange={(e) => updateFormData({ cakeSize: e.target.value })}
-          className="w-full p-3 border-2 rounded-lg"
-          style={{
-            borderColor: !formData.cakeSize ? '#C44569' : '#E0E0E0',
-            fontSize: '14px',
-            fontFamily: 'Open Sans, sans-serif'
-          }}
-        >
+        <div style={{ position: 'relative' }}>
+          <select
+            value={formData.cakeSize}
+            onChange={(e) => updateFormData({ cakeSize: e.target.value })}
+            className="w-full p-3 border-2 rounded-lg"
+            style={{
+              borderColor: !formData.cakeSize ? '#999' : '#E0E0E0',
+              fontSize: '14px',
+              fontFamily: 'Open Sans, sans-serif',
+              appearance: 'none'
+            }}
+            aria-invalid={false}
+          >
           <option value="">Choose a size...</option>
           {cakeSizes.map((size) => (
             <option key={size.id} value={size.id}>
@@ -62,6 +65,14 @@ export function Step4SizeAndTiers() {
             </option>
           ))}
         </select>
+          {formData.cakeSize ? (
+            <div style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', color: '#10B981', fontWeight: 700 }} aria-hidden>
+              ✓
+            </div>
+          ) : (
+            <p style={{ fontSize: '12px', color: '#999', marginTop: '8px' }}>*Required</p>
+          )}
+        </div>
       </Card>
 
       {/* Visual Size Cards */}
