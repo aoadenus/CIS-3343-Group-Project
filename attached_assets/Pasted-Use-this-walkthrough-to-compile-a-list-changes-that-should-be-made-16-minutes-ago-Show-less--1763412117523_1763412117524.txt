@@ -1,0 +1,181 @@
+Use this walkthrough to compile a list changes that should be made:
+
+16 minutes ago
+
+Show less
+
+Decided on file reading approach
+I see there's an encoding issue with the attached file. Let me try to access it:
+
+
+Show 11 more
+
+Planned Order Form improvements (7 seconds)
+📋 Comprehensive Change List from Walkthrough
+Based on the walkthrough transcript, here's a complete breakdown of requested changes for the Create Order Form:
+
+🎯 PRIMARY OBJECTIVE
+Transform the Create Order page from a long, overwhelming scrolling form into a multi-step wizard with progress indicators.
+
+🚨 CRITICAL CHANGES (Must Implement)
+1. Multi-Step Form Wizard Structure
+Current: Single long scrolling form with all sections stacked vertically
+New: Step-by-step wizard with progress indicator
+
+Steps:
+
+Step 1: Customer Selection
+
+Search existing customers OR create new customer
+Buttons: "Save" (if creating new) / "Next" (if selecting existing)
+Include "Is this a rush order?" checkbox at this step
+Step 2: Cake Type Selection
+
+Radio/dropdown: "Standard Cake" vs "Custom Build"
+Display 14 standard cakes dropdown (Birthday Celebration, Almond Delight, Lemon & Cream Cheese, Black Forest, German Chocolate, Cream Cheese Chocolate Ganache, Italian Cream, Lemon Doubles, Chocolate Doubles, Half-and-Half, Dori's Lemon & Chocolate Pecan, Pearlene Cream Cheese Chocolate Banana, Chocolate Banana Strawberry Light, Cookies & Cream)
+Must have "Next" button after selection
+Step 3: Layer Configuration (For both Standard & Custom)
+
+If Standard Cake: Pre-populate layers based on selection, but allow editing
+Example: Birthday Celebration = Yellow cake + White buttercream (editable)
+User can change from white buttercream → chocolate buttercream while keeping "Birthday Celebration" label
+If Custom Build: Empty layer builder
+Use dropdown menus for everything (flavors, fillings, colors, decorations)
+Add visual layer preview
+Step 4: Cake Size & Tiers
+
+Current section is "fine" but needs dropdown menus
+Step 5: Design Options
+
+Color schemes (dropdown)
+Decorative elements (dropdown)
+Writing text and font options (NEW - add font selector for cake writing)
+Step 6: Inspiration Images
+
+Upload up to 5 images minimum
+Simple file upload interface
+Show thumbnails of uploaded images
+Step 7: Pricing & Payment
+
+Detailed price breakdown:
+Base cake cost (by tier/size)
+Layers & filling extra cost (if applicable)
+Special decorations cost (itemized)
+Total itemized list of what's included
+Payment information:
+Remove "Pending" status
+Keep only: "Partial Deposit", "Paid in Full"
+Auto-populate payment fields where possible
+If rush order: Skip payment entry temporarily
+Step 8: Pickup Information
+
+Pickup date/time
+Special instructions
+Step 9: Review & Submit
+
+Complete order summary
+"Submit Order" button
+🔴 HIGH PRIORITY CHANGES
+2. Rush Order Handling
+Move rush order checkbox to Step 1 (Customer Selection)
+If rush order selected:
+Show rush indicator throughout wizard
+Allow skipping payment information initially
+Add "Send as Rush Order" button option
+3. Payment Status Simplification
+Remove: "Pending" payment status
+Keep: "Partial Deposit", "Paid in Full"
+Rationale: "We're not going to let anybody not pay for their cake"
+
+4. Admin Management Settings - RBAC
+Current: Visible to all roles (Sales staff can see it)
+New: Only visible to Manager/Owner roles
+Alternative: Remove entirely from Sales staff view
+
+🟡 MEDIUM PRIORITY ENHANCEMENTS
+5. Enhanced Price Display
+Show detailed breakdown:
+
+Base cake: "3 tiers - $X.XX"
+Filling & layers extra cost: "$X.XX"
+Special decorations: "$X.XX per item"
+Running total as items are added
+Current: Only shows Total Amount, Deposit, Balance Due
+New: Full itemized breakdown with explanations
+
+6. Customer Lookup Improvements
+Better search functionality
+Quick customer creation inline
+Display recent/frequent customers
+7. Visual Layer Builder
+Preview of cake layers as they're added
+Visual representation of colors/flavors
+Drag-to-reorder layers (maybe)
+🟢 REQUIRED VALIDATION & UX IMPROVEMENTS
+8. Real-Time Form Validation
+Must implement:
+
+As user types - validate immediately
+Show green checkmark when field is correct
+Show red error when field is wrong
+Error highlighting:
+Auto-scroll to error field
+Highlight error field with red border
+Show toast message indicating error location
+Specific validations:
+
+Email: "Not a valid email" error
+Date: "Must be 2 days from today" error
+Rush orders: If date < 2 days, suggest "Request Rush Order" option
+9. Dropdown Menu Prioritization
+Guideline: "Use dropdown menus as often as possible to stop it from being overwhelming"
+
+Convert these to dropdowns:
+
+Cake flavors
+Fillings
+Colors
+Decorations
+Cake sizes
+Font options (NEW)
+Standard cake selection
+📊 FORM FLOW SUMMARY
+Before: Long overwhelming form → No progress indicator → Mountain to climb
+After:
+
+Multi-step wizard with 9 clear steps
+Progress indicator showing current step
+"Save & Next" navigation between steps
+Dropdowns reduce cognitive load
+Real-time validation prevents errors
+Visual previews aid decision-making
+🎨 DESIGN REQUIREMENTS
+Progress Indicator: Show steps 1-9 with current step highlighted
+Navigation Buttons: "Back", "Save & Next", "Submit Order"
+Visual Feedback: Green checkmarks, red errors, loading states
+Responsive: Must work on all staff devices
+Accessibility: Keyboard navigation, ARIA labels, focus management
+💼 BUSINESS RULES
+Standard cakes can be edited - Pre-populate but allow customization
+Rush orders skip initial payment - Can be filled in later
+No "Pending" payment status - Only Partial/Paid in Full
+Admin settings - Manager/Owner only
+Minimum 2-day lead time - Unless rush order requested
+5+ inspiration images - Required for complex orders
+🚀 IMPLEMENTATION PRIORITY
+Phase 1 (Critical):
+
+Multi-step wizard structure (Steps 1-9)
+Real-time validation
+Rush order flow
+Phase 2 (High):
+
+Standard cake pre-population with editing
+Enhanced price breakdown
+Payment status cleanup
+Phase 3 (Medium):
+
+Visual layer preview
+Font options for writing
+Image upload (5 images)
+Would you like me to create a detailed implementation task list for Phase 1 (Multi-Step Wizard)? This is a major feature that will significantly improve the sales staff workflow.
