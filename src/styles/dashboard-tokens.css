@@ -1,0 +1,264 @@
+/**
+ * Dashboard Design Tokens - Enterprise Dashboard v2
+ * 
+ * This file contains all design system tokens for the dashboard rebuild.
+ * Use these CSS variables for consistent styling across all dashboard components.
+ */
+
+:root {
+  /* ========================================
+     BRAND COLORS
+     ======================================== */
+  
+  --db-color-raspberry: #C44569;
+  --db-color-cream: #F8EBD7;
+  --db-color-chocolate: #5A3825;
+  --db-color-charcoal: #2B2B2B;
+  --db-color-white: #FFFFFF;
+  
+  /* Color Variants */
+  --db-color-raspberry-light: rgba(196, 69, 105, 0.15);
+  --db-color-raspberry-medium: rgba(196, 69, 105, 0.25);
+  --db-color-raspberry-hover: #E36B86;
+  --db-color-cream-dark: #EAD4B8;
+  --db-color-chocolate-light: rgba(90, 56, 37, 0.1);
+  
+  /* ========================================
+     SEMANTIC COLORS
+     ======================================== */
+  
+  /* Success */
+  --db-color-success: #10B981;
+  --db-color-success-light: rgba(16, 185, 129, 0.1);
+  --db-color-success-border: #059669;
+  
+  /* Warning */
+  --db-color-warning: #F59E0B;
+  --db-color-warning-light: rgba(245, 158, 11, 0.1);
+  --db-color-warning-border: #D97706;
+  
+  /* Error */
+  --db-color-error: #EF4444;
+  --db-color-error-light: rgba(239, 68, 68, 0.1);
+  --db-color-error-border: #DC2626;
+  
+  /* Info */
+  --db-color-info: #3B82F6;
+  --db-color-info-light: rgba(59, 130, 246, 0.1);
+  --db-color-info-border: #2563EB;
+  
+  /* ========================================
+     NEUTRAL COLORS
+     ======================================== */
+  
+  --db-color-gray-50: #F9FAFB;
+  --db-color-gray-100: #F3F4F6;
+  --db-color-gray-200: #E5E7EB;
+  --db-color-gray-300: #D1D5DB;
+  --db-color-gray-400: #9CA3AF;
+  --db-color-gray-500: #6B7280;
+  --db-color-gray-600: #4B5563;
+  --db-color-gray-700: #374151;
+  --db-color-gray-800: #1F2937;
+  --db-color-gray-900: #111827;
+  
+  /* ========================================
+     TYPOGRAPHY
+     ======================================== */
+  
+  /* Font Families */
+  --db-font-display: 'Playfair Display', serif;
+  --db-font-sans: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --db-font-heading: 'Poppins', sans-serif;
+  
+  /* Font Sizes - Display */
+  --db-text-display: 48px;
+  --db-text-display-line-height: 1.1;
+  --db-text-display-weight: 700;
+  --db-text-display-spacing: -0.02em;
+  
+  /* Font Sizes - Headings */
+  --db-text-h1: 36px;
+  --db-text-h1-line-height: 1.2;
+  --db-text-h1-weight: 700;
+  --db-text-h1-spacing: -0.02em;
+  
+  --db-text-h2: 28px;
+  --db-text-h2-line-height: 1.3;
+  --db-text-h2-weight: 600;
+  --db-text-h2-spacing: -0.01em;
+  
+  --db-text-h3: 24px;
+  --db-text-h3-line-height: 1.3;
+  --db-text-h3-weight: 600;
+  
+  --db-text-h4: 20px;
+  --db-text-h4-line-height: 1.4;
+  --db-text-h4-weight: 600;
+  
+  --db-text-h5: 18px;
+  --db-text-h5-line-height: 1.4;
+  --db-text-h5-weight: 600;
+  
+  --db-text-h6: 16px;
+  --db-text-h6-line-height: 1.5;
+  --db-text-h6-weight: 600;
+  
+  /* Font Sizes - Body */
+  --db-text-base: 16px;
+  --db-text-base-line-height: 1.5;
+  --db-text-base-weight: 400;
+  
+  --db-text-lg: 18px;
+  --db-text-lg-line-height: 1.6;
+  --db-text-lg-weight: 400;
+  
+  --db-text-sm: 14px;
+  --db-text-sm-line-height: 1.5;
+  --db-text-sm-weight: 400;
+  
+  --db-text-xs: 13px;
+  --db-text-xs-line-height: 1.4;
+  --db-text-xs-weight: 400;
+  
+  --db-text-tiny: 12px;
+  --db-text-tiny-line-height: 1.4;
+  --db-text-tiny-weight: 500;
+  
+  /* Font Weights */
+  --db-weight-regular: 400;
+  --db-weight-medium: 500;
+  --db-weight-semibold: 600;
+  --db-weight-bold: 700;
+  
+  /* ========================================
+     SPACING SYSTEM
+     ======================================== */
+  
+  --db-space-0: 0;
+  --db-space-1: 4px;
+  --db-space-2: 8px;
+  --db-space-3: 12px;
+  --db-space-4: 16px;
+  --db-space-5: 20px;
+  --db-space-6: 24px;
+  --db-space-8: 32px;
+  --db-space-10: 40px;
+  --db-space-12: 48px;
+  --db-space-16: 64px;
+  --db-space-20: 80px;
+  --db-space-24: 96px;
+  --db-space-32: 128px;
+  
+  /* Layout Specific Spacing */
+  --db-header-height: 80px;
+  --db-footer-height: 60px;
+  --db-content-max-width: 1400px;
+  --db-content-padding: 32px;
+  --db-content-padding-mobile: 20px;
+  
+  /* ========================================
+     BORDER RADIUS
+     ======================================== */
+  
+  --db-radius-none: 0;
+  --db-radius-xs: 4px;
+  --db-radius-sm: 8px;
+  --db-radius-md: 12px;
+  --db-radius-lg: 14px;
+  --db-radius-xl: 16px;
+  --db-radius-2xl: 20px;
+  --db-radius-3xl: 24px;
+  --db-radius-full: 9999px;
+  
+  /* ========================================
+     SHADOWS
+     ======================================== */
+  
+  /* Card Shadows */
+  --db-shadow-card: 0 2px 12px rgba(0, 0, 0, 0.08);
+  --db-shadow-card-hover: 0 8px 24px rgba(196, 69, 105, 0.2);
+  
+  /* Component Shadows */
+  --db-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --db-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --db-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --db-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+  --db-shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.25);
+  
+  /* Modal Shadow */
+  --db-shadow-modal: 0 25px 50px rgba(0, 0, 0, 0.25);
+  
+  /* Colored Shadows */
+  --db-shadow-raspberry: 0 4px 16px rgba(196, 69, 105, 0.3);
+  --db-shadow-success: 0 4px 12px rgba(16, 185, 129, 0.2);
+  --db-shadow-warning: 0 4px 12px rgba(245, 158, 11, 0.2);
+  --db-shadow-error: 0 4px 12px rgba(239, 68, 68, 0.2);
+  
+  /* Inner Shadows */
+  --db-shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+  --db-shadow-inner-strong: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+  
+  /* ========================================
+     BORDERS
+     ======================================== */
+  
+  --db-border-width: 1px;
+  --db-border-width-thick: 2px;
+  
+  --db-border-light: #E5E7EB;
+  --db-border-medium: #D1D5DB;
+  --db-border-dark: #9CA3AF;
+  --db-border-raspberry: rgba(196, 69, 105, 0.3);
+  
+  /* ========================================
+     TRANSITIONS
+     ======================================== */
+  
+  --db-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --db-transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --db-transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  --db-transition-smooth: 300ms ease-out;
+  
+  /* ========================================
+     Z-INDEX SCALE
+     ======================================== */
+  
+  --db-z-base: 0;
+  --db-z-dropdown: 10;
+  --db-z-sticky: 20;
+  --db-z-fixed: 30;
+  --db-z-modal-backdrop: 40;
+  --db-z-modal: 50;
+  --db-z-popover: 60;
+  --db-z-tooltip: 70;
+  
+  /* ========================================
+     BREAKPOINTS (for reference)
+     ======================================== */
+  
+  /* Use these in media queries:
+   * Mobile: < 640px
+   * Tablet: 640px - 1024px
+   * Desktop: > 1024px
+   * Wide: > 1400px
+   */
+  --db-breakpoint-sm: 640px;
+  --db-breakpoint-md: 768px;
+  --db-breakpoint-lg: 1024px;
+  --db-breakpoint-xl: 1280px;
+
+  /* ========================================
+     ELEVATION/SURFACE TOKENS
+     ======================================== */
+  
+  --db-elevation-1: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --db-elevation-2: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --db-elevation-3: 0 8px 24px rgba(0, 0, 0, 0.2);
+
+  /* ========================================
+     GRID SYSTEM
+     ======================================== */
+  
+  --db-grid-max-width: 1400px;
+}
