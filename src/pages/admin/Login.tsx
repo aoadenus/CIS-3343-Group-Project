@@ -87,19 +87,12 @@ export default function Login({ onLogin, onBackToPublic, onLogout }: LoginProps)
         />
       </div>
 
-      {/* Back to Site dropdown (logout / switch account) */}
-      <div className="absolute top-8 left-8">
+      {/* Back to Site dropdown (logout) */}
+      <div className="absolute top-8 right-8">
         <BackToSiteDropdown
           onLogout={() => {
             onLogout?.();
             showToast('info', 'You have been logged out', 'Logged Out');
-          }}
-          onSwitchAccount={() => {
-            // Clear any local session state and notify user
-            localStorage.removeItem('token');
-            setUsername('');
-            setPassword('');
-            showToast('info', 'Cleared session — enter new credentials to switch accounts', 'Switch Account');
           }}
         />
       </div>

@@ -129,7 +129,7 @@ export function AdminLayout({ children, activePage, onNavigate, onLogout, userNa
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <BackToSiteDropdown onLogout={onLogout} onSwitchAccount={() => onNavigate('login')} />
+            <BackToSiteDropdown onLogout={onLogout} />
           </div>
         </div>
       </header>
