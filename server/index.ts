@@ -1076,11 +1076,13 @@ app.get('/api/reports/dashboard', authenticateToken, requireRole('accountant', '
       vip: total > 0 ? Math.round((vipCustomers.length / total) * 100) : 0,
     };
 
+    // For completion time calculation, use event_date as proxy for completion
+    // In a real system, we'd query order_status_history for actual completion timestamps
     const completedOrders = validOrders.filter(o => 
       o.status === 'completed' && 
       o.createdAt && 
-      o.updatedAt &&
-      new Date(o.updatedAt) > new Date(o.createdAt)
+      o.eventDate &&
+      new Date(o.eventDate) > new Date(o.createdAt)
     );
 
     const dayOfWeekHours: Record<string, { total: number; count: number }> = {
@@ -1095,8 +1097,8 @@ app.get('/api/reports/dashboard', authenticateToken, requireRole('accountant', '
 
     completedOrders.forEach(order => {
       const created = new Date(order.createdAt);
-      const completed = new Date(order.updatedAt);
-      const hours = (completed.getTime() - created.getTime()) / (1000 * 60 * 60);
+      const eventDate = new Date(order.eventDate!);
+      const hours = (eventDate.getTime() - created.getTime()) / (1000 * 60 * 60);
       
       if (hours > 0 && hours < 720) {
         const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
