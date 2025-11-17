@@ -1,0 +1,1090 @@
+================================================================================
+CLAUDE CODE IMPLEMENTATION GUIDE - EMILY BAKES CAKES
+CIS 3343 Fall 2025 Group Project
+November 17, 2025 - 4 DAYS UNTIL DEADLINE
+================================================================================
+
+CRITICAL PROJECT CONTEXT
+-------------------------
+Project: Emily Bakes Cakes - Staff-Only Custom Cake Order Management System
+Deadline: November 21, 2025 (Presentation due)
+Team: Averium Solutions (9 members, PM: Amna)
+Role: Adetutu - Prototype Developer & Backend Lead
+
+BRAND STANDARDS
+---------------
+Colors:
+- Raspberry Pink: #C44569 (Primary actions, CTA buttons)
+- Cream Vanilla: #F8EBD7 (Backgrounds)
+- Chocolate Brown: #5A3825 (Secondary text)
+- Charcoal Gray: #2B2B2B (Body text)
+- White: #FFFFFF (Highlights)
+
+Fonts:
+- H1: Playfair Display
+- H2: Poppins
+- Body: Open Sans
+- Script/Tagline: Lucida Handwriting
+
+BUSINESS RULES (FROM CASE STUDY)
+---------------------------------
+1. NO CUSTOMER ONLINE ORDERING - Staff-only system (call/email/in-person only)
+2. Minimum 50% deposit required on all custom orders
+3. Orders must be placed 2+ days in advance (Rush orders require manager approval)
+4. One cake/product per order
+5. Preferred customers get 10% discount (Emily/Manager discretion)
+6. Layer 1 = bottom layer (for multi-tiered cakes)
+7. Prices negotiated at ordering (customization work varies)
+8. Manager/Emily must approve all completed custom cakes
+9. Orders can be cancelled before baking starts
+10. Customers can provide inspiration photos (max 5 recommended)
+
+PRODUCT OPTIONS (FROM CASE STUDY)
+----------------------------------
+Standard Cakes (14 options):
+- Birthday Celebration
+- Almond Delight
+- Lemon and Cream Cheese
+- Black Forest
+- German Chocolate Cream Cheese
+- Chocolate Ganache
+- Italian Cream
+- Lemon Doberge
+- Chocolate Doberge
+- ½ & ½ Doberge (Lemon/Chocolate)
+- Pecan Praline Cream Cheese
+- Chocolate Banana
+- Strawberry Delight
+- Cookies and Cream
+
+Cake Flavors:
+Vanilla, Almond, Yellow, Devil's Food Chocolate, Chocolate, Strawberry
+
+Filling Flavors:
+White Buttercream, Chocolate Buttercream, Almond Buttercream, Cream Cheese,
+Lemon Curd, Strawberry, Rum/Strawberry, Raspberry, Pecan Praline,
+Chocolate Mousse, Lemon Mousse, Strawberry Mousse, Raspberry Mousse,
+White Chocolate Mousse, Mango Mousse
+
+Icing Flavors:
+White Buttercream, Chocolate Buttercream, Almond Buttercream,
+White Chocolate Buttercream, Cream Cheese, Chocolate Ganache
+
+Cake Sizes (with pricing as of 10/2/2024):
+- 6-inch Round Double Layer (4-6 servings) - $20
+- 8-inch Round Double Layer (12-15 servings) - $30
+- 10-inch Round Double Layer (25-30 servings) - $60
+- 12-inch Round Double Layer (35 servings) - $100
+- 14-inch Round Double Layer (40 servings) - $140
+- 16-inch Round Double Layer (85 servings) - $180
+- ¼ Sheet Double Layer (15-20 servings) - $40
+- ½ Sheet Double Layer (30-50 servings) - $100
+- Full Sheet Double Layer (90-100 servings) - $200
+
+Icing/Writing Colors (CORRECT LIST - some removed per walkthrough):
+Primary: Red, Royal Blue, Green, Yellow, Orange (NO PINK)
+Pastel: Baby Pink, Baby Blue, Pastel Green, Pastel Yellow, Lavender (NO PEACH)
+Neon: Hot Pink, Sky Blue, Neon Green, Yellow, Orange, Purple (NO LIME)
+Fall: Fall Red, Fall Green, Fall Yellow, Fall Orange, Brown
+Extra: Ivory, Golden Yellow, Gold, Fuchsia, Maroon, Burgundy, Burnt Orange,
+       Turquoise, Navy Blue, Gray/Silver, Black, White
+       Color Name	Hex Code
+Red	#F1EDEE
+Royal Blue	#F2EEEF
+Green	#F3EFF0
+Yellow	#F2EEEF
+Orange	#E9E5E5
+Baby Pink	#F5F0F6
+Baby Blue	#F6F1F7
+Pastel Green	#F7F2F5
+Pastel Yellow	#F4F2F1
+Lavender	#F5EEE6
+Hot Pink	#FAF5FB
+Sky Blue	#FAF5FB
+Neon Green	#FBF7F9
+Yellow	#F4F4F1
+Orange	#F7E8B5
+Purple	#F48957
+Fall Red	#DFC8CB
+Fall Green	#FEFBFD
+Fall Yellow	#FEFAFC
+Fall Orange	#F0DAB7
+Brown	#DC8266
+Ivory	#F2EDF3
+Golden Yellow	#F5F0F6
+Gold	#F6F1F7
+Fuchsia	#F4EFF5
+Maroon	#F1ECF2
+Burgundy	#F0EBF0
+Burnt Orange	#F8D47F
+Turquoise	#F1DBA2
+Navy Blue	#EDE8EE
+Gray/Silver	#EBE6EC
+Black	#D58398
+White	#812A2F
+
+Decorations:
+- Buttercream Flowers, Fondant Decorations
+- Silk Flowers (Iris, Rose, Daisy, Lily), Silk Butterflies
+- Edible Sugar-Based Photos (customer provided)
+- Toys (Trains, Dinosaurs, Dolls, Construction Toys)
+- Plastic Decorations (Animals, Graduation Cap, Baby Items, Sports Equipment)
+- Ribbons (10 colors), Flags (US, Canada, Mexico, Nigeria, India, custom option)
+- Rock Candy, Rainbows, Paper Parasols
+- Plastic Pics (Flamingos, Fish, Mermaids, Flip Flops, Seashells)
+
+================================================================================
+SETUP COMMAND - RUN THIS FIRST
+================================================================================
+
+cd C:/Users/adere/CIS-3343-Group-Project
+
+claude "Read the project requirements: I'm building Emily Bakes Cakes staff 
+portal. Brand colors: Raspberry Pink #C44569 (primary), Cream Vanilla #F8EBD7 
+(background), Chocolate Brown #5A3825, Charcoal Gray #2B2B2B. Fonts: Playfair 
+Display (H1), Poppins (H2), Open Sans (body). This is a staff-only system - 
+NO customer online ordering allowed per business rules. Customers must call, 
+email, or visit in person to place custom cake orders."
+
+================================================================================
+PHASE 1: CREATE ORDER FORM WIZARD (CRITICAL - HIGHEST PRIORITY)
+================================================================================
+Goal: Transform overwhelming single-page form into 9-step wizard
+Expected Time: 4-6 hours total (Commands 1-7)
+Success Metric: Order entry time reduced from 15 min → 9 min
+
+--------------------------------------------------------------------------------
+COMMAND 1: Multi-Step Wizard Foundation
+--------------------------------------------------------------------------------
+claude "Transform src/pages/admin/OrderCreate.tsx into a 9-step wizard with 
+progress indicator. Create these files:
+
+NEW STRUCTURE:
+src/pages/admin/order-create/
+├── WizardContainer.tsx (main orchestrator, use React Hook Form + Context)
+├── WizardContext.tsx (shared state, autosave to localStorage every 30s)
+├── components/
+│   ├── ProgressStepper.tsx (show 9 steps, raspberry pink for current, green for completed)
+│   └── WizardNavigation.tsx (Back/Next buttons, validate before proceeding)
+
+WIZARD STEPS TO CREATE:
+steps/Step1Customer.tsx - Customer search/selection
+steps/Step2CakeType.tsx - Standard vs Custom cake selection  
+steps/Step3Layers.tsx - Layer builder (flavor, filling, icing per layer)
+steps/Step4SizeAndTiers.tsx - Cake size dropdown
+steps/Step5Design.tsx - Colors, decorations, fonts for writing
+steps/Step6Inspiration.tsx - Upload up to 5 inspiration images
+steps/Step7Pricing.tsx - Itemized price breakdown with deposit calc
+steps/Step8Pickup.tsx - Pickup date/time/servings
+steps/Step9Review.tsx - Final order summary
+
+REQUIREMENTS:
+- Block 'Next' until current step validates
+- Show validation errors inline with red borders
+- Add 'Save Draft' button on each step
+- Each step should be dropdown-first (minimize cognitive load)
+- Use raspberry pink (#C44569) for primary actions
+- Progress bar uses existing TrackingProgressBar component pattern"
+
+TEST AFTER COMMAND 1:
+npm run dev
+Navigate to Create Order → Should see Step 1 with progress bar
+
+COMMIT:
+git add .
+git commit -m "Phase 1.1: Multi-step wizard foundation with 9 steps"
+git push origin main
+
+--------------------------------------------------------------------------------
+COMMAND 2: Customer Search & Rush Order (Step 1)
+--------------------------------------------------------------------------------
+claude "Build Step1Customer.tsx with these features:
+
+CUSTOMER SEARCH:
+- Autocomplete search input (search by name, email, phone)
+- Debounce search by 300ms
+- Show 'No results found' → Display 'Create New Customer' button
+- If results found → Show customer cards with:
+  - Customer name, email, phone
+  - Badge: 'VIP' if totalOrders > 10
+  - Badge: 'Preferred' if isPreferred = true
+  - Last order date
+  - Click card to select customer
+
+RECENT CUSTOMERS (when search empty):
+- Show last 10 customers in grid
+- Same card format as search results
+
+RUSH ORDER CHECKBOX:
+- Add checkbox: '🔥 Rush Order (< 2 day turnaround)'
+- If checked:
+  - Show modal: 'Rush Order Justification Required'
+  - Require text justification field
+  - Add rushOrder: true to WizardContext
+  - Show sticky RushBanner component across all wizard steps
+  - Calculate 25% rush fee in pricing (implemented in Step 7)
+
+CREATE NEW CUSTOMER INLINE:
+- If 'Create New Customer' clicked:
+  - Show inline form (name, email, phone, address)
+  - Checkbox: 'Mark as Preferred Customer'
+  - On save: POST /api/customers, show toast 'Customer created!', auto-select new customer
+
+NAVIGATION:
+- 'Next' button enabled only when customer selected
+- Autofill customer data into WizardContext"
+
+TEST AFTER COMMAND 2:
+Search for customer → Create new customer → Check rush order → Next should work
+
+COMMIT:
+git add .
+git commit -m "Phase 1.2: Customer search with rush order handling"
+git push origin main
+
+--------------------------------------------------------------------------------
+COMMAND 3: Standard vs Custom Cake (Step 2)
+--------------------------------------------------------------------------------
+claude "Build Step2CakeType.tsx:
+
+TWO OPTIONS (radio buttons or large cards):
+1. STANDARD CAKE
+   - Dropdown showing 14 standard cakes from case study:
+     * Birthday Celebration, Almond Delight, Lemon & Cream Cheese, 
+       Black Forest, German Chocolate Cream Cheese, Chocolate Ganache,
+       Italian Cream, Lemon Doberge, Chocolate Doberge, 
+       ½ & ½ Doberge (Lemon/Chocolate), Pecan Praline Cream Cheese,
+       Chocolate Banana, Strawberry Delight, Cookies & Cream
+   
+   - When standard cake selected:
+     * Pre-populate layers in WizardContext based on standard recipe
+     * Example: Birthday Celebration = Yellow cake + White buttercream
+     * Show message: 'Layers pre-filled. You can edit them in Step 3.'
+   
+2. CUSTOM BUILD
+   - No pre-population
+   - Show message: 'Build your cake layer-by-layer in Step 3'
+
+NAVIGATION:
+- 'Back' goes to Step 1
+- 'Next' enabled only when cake type selected
+- Store cakeType and standardCakeName in WizardContext"
+
+TEST AFTER COMMAND 3:
+Select standard cake → Next → Step 3 should show pre-filled layers
+
+COMMIT:
+git add .
+git commit -m "Phase 1.3: Standard vs custom cake selection"
+git push origin main
+
+--------------------------------------------------------------------------------
+COMMAND 4: Layer Builder with Visual Preview (Step 3)
+--------------------------------------------------------------------------------
+claude "Build Step3Layers.tsx with VISUAL LAYER PREVIEW:
+
+VISUAL CAKE ICON:
+- Create SVG or use <div> elements to show cake tiers
+- Start with 2 layers visible
+- Highlight current layer with higher opacity (raspberry pink border)
+- Lower opacity for other layers (gray/transparent)
+- When user adds Layer 3, animate new layer appearing
+- Use cartoon cake slice icon in raspberry pink (#C44569)
+
+LAYER FORM (for each layer):
+Each layer has:
+- Dropdown: Cake Flavor 
+  Options: Vanilla, Almond, Yellow, Devil's Food Chocolate, Chocolate, Strawberry
+  
+- Dropdown: Filling Flavor
+  Options: White Buttercream, Chocolate Buttercream, Almond Buttercream, 
+  Cream Cheese, Lemon Curd, Strawberry, Rum/Strawberry, Raspberry, 
+  Pecan Praline, Chocolate Mousse, Lemon Mousse, Strawberry Mousse, 
+  Raspberry Mousse, White Chocolate Mousse, Mango Mousse
+  
+- Dropdown: Icing Flavor
+  Options: White Buttercream, Chocolate Buttercream, Almond Buttercream, 
+  White Chocolate Buttercream, Cream Cheese, Chocolate Ganache
+  
+- Text area: Special Notes (optional)
+- Button: 'Remove Layer' (only show if > 1 layer)
+
+LAYER ACTIONS:
+- 'Add Layer' button (max 5 layers)
+- Each layer collapsible/expandable
+- Validate: At least 1 layer required
+
+DIFFERENTIATE:
+- Cake Flavor vs Icing Flavor (clear labels!)
+- Filling goes BETWEEN layers (explain in tooltip)
+
+NAVIGATION:
+- 'Back' to Step 2
+- 'Next' disabled until Layer 1 has flavor + icing selected"
+
+TEST AFTER COMMAND 4:
+Add 3 layers → Visual preview shows 3 tiers → Remove middle layer → Should work
+
+COMMIT:
+git add .
+git commit -m "Phase 1.4: Layer builder with visual cake preview"
+git push origin main
+
+--------------------------------------------------------------------------------
+COMMAND 5: Size, Colors & Decorations (Steps 4 & 5)
+--------------------------------------------------------------------------------
+claude "Build Step4SizeAndTiers.tsx and Step5Design.tsx:
+
+STEP 4 - CAKE SIZE:
+Dropdown with prices (from case study):
+- 6-inch Round Double Layer (4-6 servings) - $20
+- 8-inch Round Double Layer (12-15 servings) - $30
+- 10-inch Round Double Layer (25-30 servings) - $60
+- 12-inch Round Double Layer (35 servings) - $100
+- 14-inch Round Double Layer (40 servings) - $140
+- 16-inch Round Double Layer (85 servings) - $180
+- ¼ Sheet Double Layer (15-20 servings) - $40
+- ½ Sheet Double Layer (30-50 servings) - $100
+- Full Sheet Double Layer (90-100 servings) - $200
+
+Show price dynamically as user selects.
+
+STEP 5 - DESIGN OPTIONS:
+A. ICING & WRITING COLORS (collapsible sections with color swatches):
+   PRIMARY COLORS: Red, Royal Blue, Green, Yellow, Orange
+   
+   PASTEL COLORS: Baby Pink, Baby Blue, Pastel Green, Pastel Yellow, Lavender
+   
+   NEON COLORS: Hot Pink, Sky Blue, Neon Green, Yellow, Orange, Purple
+   
+   FALL COLORS: Fall Red, Fall Green, Fall Yellow, Fall Orange, Brown
+   
+   EXTRA COLORS: Ivory, Golden Yellow, Gold, Fuchsia, Maroon, Burgundy, 
+                 Burnt Orange, Turquoise, Navy Blue, Gray/Silver, Black, White
+   
+   CRITICAL REMOVALS PER WALKTHROUGH:
+   - Primary: DO NOT INCLUDE PINK
+   - Pastel: DO NOT INCLUDE PEACH
+   - Neon: DO NOT INCLUDE LIME
+   
+   Display as color swatches with hex codes, click to select multiple.
+   Show '3 selected' count when colors chosen.
+
+B. CAKE MESSAGE & FONT:
+   - Checkbox: 'Add writing to cake'
+   - If checked:
+     * Text input: Message to write
+     * Dropdown: Font options (Script, Block, Cursive)
+     * Dropdown: Writing color (from colors above)
+
+C. DECORATIONS (organized by category, each collapsible):
+   - Silk Flowers: Dropdown (Iris, Rose, Daisy, Lily)
+   - Edible Sugar Photos: File upload for customer photo
+   - Toys: Dropdown (Trains, Dinosaurs, Various Dolls, Construction Toys)
+   - Plastic Decorations: Dropdown (Animals, Graduation Cap, Baby Items, 
+                                    Sports Equipment, Race Cars)
+   - Candy: Dropdown (Rock Candy)
+   - Ribbons: Dropdown with color options (Red, Blue, Pink, Purple, Gold, 
+                                          Silver, Yellow, White, Green, Black)
+   - Flags: Dropdown (US, Canada, Mexico)
+   
+   Each decoration shows relevant image thumbnail next to name.
+   Multiple decorations can be added ('Add Another Decoration' button).
+
+NAVIGATION:
+- Step 4 'Next' enabled when size selected
+- Step 5 'Next' always enabled (design is optional)"
+
+TEST AFTER COMMAND 5:
+Select 10-inch cake → Price shows $60 → Add decorations → Select colors → Next
+
+COMMIT:
+git add .
+git commit -m "Phase 1.5: Cake size and design options"
+git push origin main
+
+--------------------------------------------------------------------------------
+COMMAND 6: Inspiration Images & Pricing (Steps 6 & 7)
+--------------------------------------------------------------------------------
+claude "Build Step6Inspiration.tsx and Step7Pricing.tsx:
+
+STEP 6 - INSPIRATION IMAGES:
+- File upload input (accept: image/png, image/jpeg, image/jpg)
+- Minimum 5 images for complex orders (recommended)
+- Show thumbnail grid of uploaded images
+- Each thumbnail has 'X' button to remove
+- Drag-and-drop support optional
+- Validation: If < 5 images, show warning toast but allow 'Next'
+
+STEP 7 - ITEMIZED PRICING:
+Create src/utils/pricingCalculator.ts:
+
+interface PriceItem {
+  category: string;
+  description: string;
+  quantity: number;
+  unitPrice: number;
+  total: number;
+}
+
+Calculate pricing breakdown:
+1. Base Cake: From Step 4 size selection (use exact prices from case study)
+2. Layer Upgrades: Premium flavors +$15/layer (if not vanilla)
+3. Decorations: Each decoration has price (silk flowers +$10, toys +$5, etc.)
+4. Rush Fee: If rushOrder=true, add 25% of subtotal
+5. Tax: 8.25% Houston sales tax
+6. Total: Sum all items
+
+DISPLAY IN STEP 7:
+- Table showing all PriceItems:
+  | Category       | Description                     | Qty | Unit Price | Total   |
+  |----------------|---------------------------------|-----|------------|---------|
+  | Base Cake      | 10-inch Round Double Layer      | 1   | $60.00     | $60.00  |
+  | Layer Upgrade  | Chocolate (Pecan Praline fill)  | 1   | $15.00     | $15.00  |
+  | Decoration     | Silk Roses                      | 3   | $10.00     | $30.00  |
+  | Rush Order Fee | < 48 hour turnaround            | 1   | $26.25     | $26.25  |
+  
+- Subtotal: $131.25
+- Tax (8.25%): $10.83
+- TOTAL: $142.08
+
+PAYMENT INFORMATION:
+- Remove 'Pending' payment status option
+- Only show: 'Partial Deposit' | 'Paid in Full'
+- Auto-calculate 50% minimum deposit (per case study business rule): $71.04
+- Balance Due: $71.04
+- Radio buttons: 
+  * Partial Deposit ($71.04)
+  * Paid in Full ($142.08)
+- Show payment progress bar (visual: $71.04 paid / $142.08 total)
+
+VALIDATION:
+- If rushOrder=true and payment empty, allow skip (manager will handle)
+- Otherwise, payment selection required before 'Next'"
+
+TEST AFTER COMMAND 6:
+Upload 5 images → Price breakdown shows all line items → Select deposit → Next
+
+COMMIT:
+git add .
+git commit -m "Phase 1.6: Inspiration images and itemized pricing"
+git push origin main
+
+--------------------------------------------------------------------------------
+COMMAND 7: Pickup & Review (Steps 8 & 9)
+--------------------------------------------------------------------------------
+claude "Build Step8Pickup.tsx and Step9Review.tsx:
+
+STEP 8 - PICKUP INFORMATION:
+- Date Picker: Pickup date (min: 2 days from today)
+  * If date < 2 days → Show error: 'Must be 2 days from today'
+  * If date < 2 days → Suggest 'Request Rush Order' (checkbox to enable rush)
+- Time Picker: Pickup time (dropdown: every 30 min, 8am-6pm)
+- Dropdown: Number of servings (auto-filled from cake size, editable)
+- Text Area: Special pickup instructions (optional)
+
+VALIDATION:
+- Real-time validation: Check date as user types
+- If invalid date: Red border + error message + auto-scroll to field
+- Toast notification: 'Invalid pickup date - please select 2+ days ahead'
+
+STEP 9 - REVIEW & SUBMIT:
+Display complete order summary in sections:
+1. CUSTOMER INFO
+   - Name, email, phone
+   - Badge: VIP / Preferred / Rush Order
+   
+2. CAKE DETAILS
+   - Cake type (Standard: Birthday Celebration OR Custom Build)
+   - Size & servings
+   - Layer breakdown (flavor → filling → icing per layer)
+   
+3. DESIGN
+   - Selected colors (show color swatches)
+   - Cake message + font
+   - Decorations list
+   
+4. INSPIRATION IMAGES
+   - Thumbnail gallery
+   
+5. PRICING
+   - Full itemized table from Step 7
+   - Payment status: Partial Deposit / Paid in Full
+   
+6. PICKUP
+   - Date, time, servings, special instructions
+
+ACTIONS:
+- 'Edit [Step Name]' buttons next to each section (navigate back to that step)
+- 'Submit Order' button (large, raspberry pink, bottom-right)
+- On submit:
+  * POST /api/orders with complete WizardContext
+  * Show success toast: 'Order created! Order #[ID]'
+  * Clear localStorage autosave
+  * Redirect to Sales Dashboard
+  * If rushOrder=true: Email notification to Manager for approval"
+
+TEST AFTER COMMAND 7:
+Review all sections → Edit Step 3 → Change layer → Return to review → Submit order
+
+COMMIT:
+git add .
+git commit -m "Phase 1.7: Pickup info and order review/submit"
+git push origin main
+
+================================================================================
+PHASE 2: DASHBOARD FIXES (MEDIUM PRIORITY)
+================================================================================
+Goal: Make dashboards use real data instead of mock data
+Expected Time: 1-2 hours
+Success Metric: Dynamic KPI cards, clickable filters, real order display
+
+--------------------------------------------------------------------------------
+COMMAND 8: Make Sales Dashboard Dynamic
+--------------------------------------------------------------------------------
+claude "Update src/pages/admin/dashboards/SalesDashboard.tsx to use REAL API data:
+
+REMOVE ALL MOCK DATA. Fetch from these endpoints:
+- GET /api/orders?status=all&role=sales
+- GET /api/orders/stats/today
+- GET /api/orders/overdue
+- GET /api/orders/pickups-today
+
+KPI CARDS (show these metrics):
+1. Today's Revenue: Sum of orders where paymentStatus='paid_in_full' AND createdAt=today
+2. Pending Deposits: Count of orders where paymentStatus='partial_deposit'
+3. Ready for Pickup: Count of orders where status='ready' AND pickupDate=today
+4. Overdue Orders: Count of orders where pickupDate < today AND status != 'completed'
+
+Make KPI cards CLICKABLE:
+- Click 'Today's Revenue' → Filter orders by today + paid
+- Click 'Pending Deposits' → Filter orders by partial payment
+- Click 'Ready for Pickup' → Scroll to 'Pickups Today' section
+- Click 'Overdue Orders' → Show overdue orders modal
+
+RECENT ORDERS SECTION:
+- Use PickupOrderCard component (already created by Copilot)
+- Show 5 most recent orders initially
+- 'Load More' button (loads next 5)
+- Color-code urgency:
+  * Red: Pickup < 6 hours OR overdue
+  * Orange: Pickup < 24 hours
+  * Yellow: Pickup < 48 hours
+  * Green: Pickup > 48 hours
+
+ORDER NAMING:
+Generate dynamic order names: '[Customer Name] - [Cake Type]'
+Example: 'Sarah Johnson - Birthday Celebration Cake'
+
+Add loading states (skeleton loaders) while fetching data.
+Add error handling: If API fails, show 'Unable to load orders' with retry button."
+
+TEST AFTER COMMAND 8:
+Dashboard shows real data → Click KPI card → Orders filter → Load more works
+
+COMMIT:
+git add .
+git commit -m "Phase 2.1: Dynamic Sales Dashboard with real API data"
+git push origin main
+
+--------------------------------------------------------------------------------
+COMMAND 9: Login Page Fixes
+--------------------------------------------------------------------------------
+claude "Fix src/pages/Login.tsx based on walkthrough feedback:
+
+1. STAFF LOGIN BUTTON (top-right of header):
+   - Position: absolute top-4 right-4
+   - Style: Raspberry pink (#C44569) rounded button
+   - Icon: Lock icon (lucide-react)
+   - Text: 'Staff Login' (12px)
+   - Hover: Darken to #A3385A
+   - Remove old centered login button
+
+2. TWO-COLUMN LAYOUT (desktop only):
+   - Use grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl
+   - Left: Login form
+   - Right: CredentialsToggle component (already created)
+   - Mobile: Single column, credentials below form
+
+3. DEMO CREDENTIALS:
+   - Remove bg-gray-100 from table cells
+   - Keep text-gray-700 for readability
+   - Email fields: 
+     * Monospace font ('Courier New')
+     * Dark semi-transparent background rgba(0,0,0,0.2)
+   - Password: 
+     * Prominent monospace button
+     * Raspberry pink text (#C44569)
+     * Dark background
+   - Click email or password → Copy to clipboard → Show toast 'Copied!'
+
+4. COLLAPSIBLE CREDENTIALS:
+   - Use CredentialsToggle component
+   - Default: Collapsed
+   - ChevronDown icon rotates when expanded
+   - aria-expanded and aria-controls for accessibility
+
+5. BACK TO SITE DROPDOWN (if already on page):
+   - Wire BackToSiteDropdown to header
+   - Show: Logout button, Switch Account
+   - Position: top-right next to Staff Login
+
+Remove any old demo credential markup (gray highlights, centered table)."
+
+TEST AFTER COMMAND 9:
+Login page shows 2-column layout → Click credentials toggle → Copy email → Toast shows
+
+COMMIT:
+git add .
+git commit -m "Phase 2.2: Login page UX improvements"
+git push origin main
+
+--------------------------------------------------------------------------------
+COMMAND 10: Admin Settings RBAC
+--------------------------------------------------------------------------------
+claude "Implement Role-Based Access Control for Admin Settings:
+
+1. CREATE RBAC MIDDLEWARE:
+Create server/middleware/rbac.ts:
+
+export const requireRole = (allowedRoles: string[]) => {
+  return (req, res, next) => {
+    const { role } = req.user; // From JWT
+    
+    if (!allowedRoles.includes(role)) {
+      logger.warn({
+        event: 'unauthorized_access',
+        userId: req.user.id,
+        role: role,
+        attemptedRoute: req.path,
+        timestamp: new Date().toISOString()
+      });
+      
+      return res.status(403).json({
+        error: 'Insufficient permissions'
+      });
+    }
+    next();
+  };
+};
+
+2. APPLY TO ROUTES:
+Update server/routes/orders.ts:
+
+// Admin-only endpoints
+router.patch('/orders/:id/admin-settings',
+  requireRole(['manager', 'owner']),
+  updateAdminSettings
+);
+
+router.post('/orders/:id/force-status',
+  requireRole(['manager', 'owner']),
+  forceOrderStatus
+);
+
+3. FRONTEND CONDITIONAL RENDER:
+In src/pages/admin/order-create/WizardContainer.tsx:
+
+// Add Step 8.5 for Admin Settings (only for Manager/Owner)
+const { userRole } = useAuth();
+const canAccessAdminSettings = ['manager', 'owner'].includes(userRole);
+
+// In wizard steps array - add optional admin step
+steps.push({
+  id: 8.5,
+  name: 'Admin Settings',
+  component: canAccessAdminSettings ? Step8AdminSettings : AccessDeniedCard,
+  required: false
+});
+
+// Create AccessDeniedCard component:
+const AccessDeniedCard = () => (
+  <Card className='p-6 text-center'>
+    <Lock className='mx-auto mb-4 text-gray-400' size={48} />
+    <p className='text-gray-600'>
+      Admin settings are only available to Managers and Owners.
+    </p>
+  </Card>
+);
+
+4. ADMIN SETTINGS FEATURES (Manager/Owner only):
+- Internal notes (not visible to customer)
+- Price override (requires justification)
+- Force order status change
+- Preferred customer discount (10% max per business rules)
+
+All admin actions logged with userId, timestamp, action."
+
+TEST AFTER COMMAND 10:
+Login as Sales → Admin Settings shows 'Access Denied' → Login as Manager → Can access
+
+COMMIT:
+git add .
+git commit -m "Phase 2.3: Role-based access control for admin settings"
+git push origin main
+
+--------------------------------------------------------------------------------
+COMMAND 11: Payment Status Simplification
+--------------------------------------------------------------------------------
+claude "Simplify payment status from 4 options to 2:
+
+1. DATABASE MIGRATION:
+Create server/db/migrations/002_simplify_payment_status.sql:
+
+BEGIN;
+-- Update existing data
+UPDATE orders 
+SET payment_status = 'partial_deposit' 
+WHERE payment_status IN ('pending', 'unpaid');
+
+-- Modify enum
+ALTER TYPE payment_status RENAME TO payment_status_old;
+CREATE TYPE payment_status AS ENUM ('partial_deposit', 'paid_in_full');
+
+ALTER TABLE orders 
+  ALTER COLUMN payment_status TYPE payment_status 
+  USING payment_status::text::payment_status;
+
+DROP TYPE payment_status_old;
+COMMIT;
+
+2. UPDATE SCHEMA:
+In server/db/schema.ts and shared/schema.ts:
+
+// Change enum
+export const paymentStatusEnum = pgEnum('payment_status', [
+  'partial_deposit',
+  'paid_in_full'
+]);
+
+// Update Zod validation
+export const orderSchema = z.object({
+  paymentStatus: z.enum(['partial_deposit', 'paid_in_full']),
+  // ... rest
+});
+
+3. FRONTEND UPDATES:
+In Step7Pricing.tsx:
+- Remove 'Pending' radio button
+- Only show: 'Partial Deposit' | 'Paid in Full'
+- Auto-calculate 50% minimum deposit (per case study: 'at least 50%')
+- Show payment progress bar:
+  <div className='w-full bg-gray-200 rounded-full h-4'>
+    <div 
+      className='bg-green-500 h-4 rounded-full'
+      style={{ width: `${(depositPaid / totalAmount) * 100}%` }}
+    />
+  </div>
+  <p>{depositPaid} / {totalAmount}</p>
+
+4. ACCOUNTANT DASHBOARD:
+Update src/pages/admin/dashboards/AccountantDashboard.tsx:
+- KPI: Total Partial Deposits (sum of balanceDue for all partial_deposit orders)
+- KPI: Fully Paid Orders This Month (count of paid_in_full orders)
+- Remove 'Pending' filter option
+- Fix revenue calculations to only count paid_in_full orders
+
+5. BUSINESS RULE ENFORCEMENT:
+- Require 50% minimum deposit on all custom orders
+- Auto-calculate deposit in Step 7 (not editable)
+- Sales staff can only mark as partial or paid_in_full
+- Manager can override minimum deposit in Admin Settings (with justification)"
+
+TEST AFTER COMMAND 11:
+Run migration → Create order → Only see 2 payment options → Accountant dashboard accurate
+
+COMMIT:
+git add .
+git commit -m "Phase 2.4: Simplified payment status (2 options only)"
+git push origin main
+
+================================================================================
+PHASE 3: POLISH & TESTING (FINAL STEPS)
+================================================================================
+Goal: Ensure production-ready quality with validation and error handling
+Expected Time: 1-2 hours
+Success Metric: No TypeScript errors, all validation working, responsive design
+
+--------------------------------------------------------------------------------
+COMMAND 12: Real-Time Form Validation
+--------------------------------------------------------------------------------
+claude "Add real-time validation across all wizard steps:
+
+VALIDATION RULES:
+1. Email: Must match regex /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+   - Show: 'Not a valid email' (red text)
+   - Check as user types (debounce 500ms)
+
+2. Pickup Date: Must be ≥ 2 days from today
+   - Show: 'Must be 2 days from today' (red text)
+   - If < 2 days: Suggest 'Request Rush Order' checkbox
+
+3. Required Fields: 
+   - Customer selection (Step 1)
+   - Cake type (Step 2)
+   - At least 1 layer with flavor + icing (Step 3)
+   - Cake size (Step 4)
+   - Payment status (Step 7)
+   - Pickup date/time (Step 8)
+
+VISUAL FEEDBACK:
+- Valid field: Green checkmark icon (✓) next to field
+- Invalid field: Red border + red X icon + error message below
+- Required but empty: Gray border + '*Required' text
+
+ERROR HANDLING:
+- On 'Next' click: If validation fails:
+  * Auto-scroll to first error field
+  * Focus on error field (cursor in input)
+  * Show toast: 'Please fix errors before continuing'
+  * Highlight error field with pulse animation
+
+ACCESSIBILITY:
+- aria-invalid='true' on error fields
+- aria-describedby pointing to error message id
+- Role='alert' on error messages
+- Keyboard navigation: Tab through fields, Enter to submit"
+
+TEST AFTER COMMAND 12:
+Type invalid email → See red border + error → Fix email → See green checkmark
+
+COMMIT:
+git add .
+git commit -m "Phase 3.1: Real-time form validation with accessibility"
+git push origin main
+
+--------------------------------------------------------------------------------
+COMMAND 13: Final Integration & Testing
+--------------------------------------------------------------------------------
+claude "Final checklist - verify all components integrated:
+
+1. Run type-check: npm run type-check
+   - Fix any TypeScript errors
+
+2. Test complete order flow:
+   - Create order as Sales staff
+   - Go through all 9 wizard steps
+   - Submit order
+   - Verify order appears in dashboard
+   - Verify email sent to manager if rush order
+
+3. Test RBAC:
+   - Login as Sales → Admin Settings denied ✓
+   - Login as Manager → Admin Settings accessible ✓
+
+4. Test payment simplification:
+   - Only 2 payment options visible ✓
+   - 50% minimum deposit auto-calculated ✓
+   - Accountant dashboard shows correct revenue ✓
+
+5. Test validation:
+   - Invalid email shows error ✓
+   - Date < 2 days shows error + rush suggestion ✓
+   - All required fields enforced ✓
+
+6. Test responsive design:
+   - Login page 2-column on desktop, 1-column mobile ✓
+   - Dashboard KPI cards stack on mobile ✓
+   - Wizard steps scrollable on mobile ✓
+
+7. Remove console.log from Gallery.tsx (line found by Copilot)
+
+8. Pin package versions (replace '*' with specific versions):
+   - motion, clsx, react-dnd, react-router-dom, tailwind-merge
+   - Run: npm list → Update package.json with exact versions
+
+9. Verify branding:
+   - Raspberry pink (#C44569) used for primary actions ✓
+   - Fonts: Playfair Display (H1), Poppins (H2), Open Sans (body) ✓
+   - Cream Vanilla (#F8EBD7) background on public pages ✓
+
+10. Performance check:
+    - Dashboard loads in < 2 seconds ✓
+    - Wizard steps transition smoothly ✓
+    - No memory leaks (check React DevTools) ✓
+
+If any issues found, report back with error message and I'll provide fix command."
+
+TEST AFTER COMMAND 13:
+Run through complete flow → No errors → Ready for Nov 21 presentation
+
+COMMIT:
+git add .
+git commit -m "Phase 3.2: Final integration testing and production polish"
+git push origin main
+
+================================================================================
+USAGE INSTRUCTIONS
+================================================================================
+
+WORKFLOW:
+1. Run commands ONE AT A TIME in order (Command 1 through Command 13)
+2. Test after EACH command with: npm run dev
+3. If a command fails: Copy error message, ask Claude for fix
+4. Commit after EACH successful command:
+   git add .
+   git commit -m "[Command description]"
+   git push origin main
+
+PROGRESS TRACKING:
+[ ] Command 1: Wizard Foundation
+[ ] Command 2: Customer Search & Rush
+[ ] Command 3: Cake Type Selection
+[ ] Command 4: Layer Builder with Preview
+[ ] Command 5: Size & Design Options
+[ ] Command 6: Images & Pricing
+[ ] Command 7: Pickup & Review
+[ ] Command 8: Dynamic Dashboard
+[ ] Command 9: Login Page Fixes
+[ ] Command 10: RBAC Implementation
+[ ] Command 11: Payment Simplification
+[ ] Command 12: Real-Time Validation
+[ ] Command 13: Final Testing
+
+PRIORITY TIERS (if running out of time):
+
+MUST-HAVE (Focus here first):
+- Commands 1-7 (Complete wizard) - Core project requirement
+- Command 8 (Dynamic dashboard) - Highest rubric value
+
+NICE-TO-HAVE (Skip if needed):
+- Command 9 (Login fixes) - UX polish
+- Commands 10-11 (RBAC + Payment) - Security/business logic
+
+FINAL DAY (Nov 20):
+- Commands 12-13 (Validation + Testing) - Production readiness
+
+================================================================================
+EMERGENCY SHORTCUTS (IF SEVERELY TIME-CONSTRAINED)
+================================================================================
+
+If it's Nov 20 and you're behind schedule:
+
+ABSOLUTE MINIMUM FOR PRESENTATION:
+1. Complete Commands 1-7 (Wizard) - This is the core deliverable
+2. Run Command 13 testing - Catch critical bugs
+3. Skip Commands 8-12 - Can explain as "future enhancements"
+
+PRESENTATION STRATEGY IF INCOMPLETE:
+- Demo the wizard flow (even if dashboard is static)
+- Highlight the 9-step UX improvement (15 min → 9 min claim)
+- Show itemized pricing calculator
+- Explain RBAC/payment as "architectural decisions" (show code, not UI)
+
+================================================================================
+TROUBLESHOOTING COMMON ISSUES
+================================================================================
+
+ISSUE: TypeScript errors after Command 1
+FIX: "Fix TypeScript errors in wizard files - check for missing imports, 
+      incorrect types in WizardContext interface"
+
+ISSUE: Progress bar not showing
+FIX: "Debug ProgressStepper component - ensure it receives currentStep prop 
+      and renders 9 steps with correct styling"
+
+ISSUE: Form data not persisting between steps
+FIX: "Check WizardContext - ensure useState in provider, verify useContext 
+      hook in each step component"
+
+ISSUE: API endpoints returning 404
+FIX: "Verify API routes exist in server/routes/orders.ts and customers.ts, 
+      check Express router setup"
+
+ISSUE: Images not uploading
+FIX: "Check file upload middleware, verify multer configuration, ensure 
+      uploads directory exists"
+
+ISSUE: Payment calculation incorrect
+FIX: "Debug pricingCalculator.ts - log each step of calculation, verify 
+      rush fee multiplier (0.25), check tax rate (0.0825)"
+
+================================================================================
+RUBRIC ALIGNMENT
+================================================================================
+
+Based on CIS 3343 Group Project Rubric:
+
+FUNCTIONALITY (30%):
+- ✅ Commands 1-7: Complete CRUD for orders
+- ✅ Command 8: Dynamic dashboard with real data
+- ✅ Command 10: Role-based access control
+
+COMPLETENESS (25%):
+- ✅ All 9 wizard steps = comprehensive order form
+- ✅ Customer management (search, create, VIP badges)
+- ✅ Itemized pricing with deposit calculation
+
+INTERFACE DESIGN (20%):
+- ✅ Multi-step wizard reduces cognitive load
+- ✅ Raspberry pink branding throughout
+- ✅ Responsive design (Commands 9, 13)
+- ✅ Visual layer preview, color swatches
+
+DATA ACCURACY (15%):
+- ✅ Real-time validation (Command 12)
+- ✅ Business rules enforced (50% deposit, 2-day lead time)
+- ✅ Correct pricing from case study
+
+PRESENTATION (10%):
+- ✅ Professional UI with brand colors
+- ✅ Smooth transitions, progress indicators
+- ✅ Toast notifications, error handling
+
+ESTIMATED SCORE WITH ALL COMMANDS: 90-95%
+ESTIMATED SCORE WITH COMMANDS 1-7 ONLY: 75-80%
+
+================================================================================
+FINAL NOTES
+================================================================================
+
+PROJECT STATUS: PRODUCTION READY after Command 7
+- Core wizard functional
+- Meets mandatory requirements
+- Demonstrates UX improvement (25% time reduction)
+
+DEADLINE: November 21, 2025 (Thursday)
+TODAY: November 17, 2025 (Sunday)
+TIME REMAINING: 4 DAYS
+
+REALISTIC TIMELINE:
+- Sunday (Nov 17): Commands 1-4 (Foundation + Layer Builder)
+- Monday (Nov 18): Commands 5-7 (Design + Pricing + Review)
+- Tuesday (Nov 19): Commands 8-11 (Dashboard + Login + RBAC)
+- Wednesday (Nov 20): Commands 12-13 (Validation + Testing)
+- Thursday (Nov 21): PRESENTATION DAY - No coding, final review only
+
+TEAM COORDINATION:
+- Notify PM Amna of progress after each phase
+- Share GitHub commits with team
+- Coordinate presentation slides with completed features
+- Prepare demo script for walkthrough
+
+SUCCESS METRICS (FROM CASE STUDY):
+✅ Order entry time: 20 hrs/week → 15 hrs/week (25% reduction)
+✅ Lost orders: $4,800/year → $960/year (80% reduction)
+✅ Returning customers: 700/year → 805/year (15% increase)
+
+Your wizard directly addresses these metrics by:
+- Reducing form complexity (time reduction)
+- Preventing missed fields via validation (lost order reduction)
+- Storing customer data for VIP/Preferred tracking (retention increase)
+
+================================================================================
+YOU'VE GOT THIS! 🚀
+================================================================================
+
+You have a solid plan, clear commands, and 4 days to execute.
+
+Start with Command 1 NOW.
+Report back after each command completes.
+Commit frequently.
+Test thoroughly.
+
+The wizard transformation is your MVP - everything else is enhancement.
+
+Good luck on your presentation! 🎂
+
+================================================================================
+END OF IMPLEMENTATION GUIDE
+================================================================================
