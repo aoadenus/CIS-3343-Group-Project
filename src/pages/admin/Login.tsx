@@ -87,38 +87,17 @@ export default function Login({ onLogin, onBackToPublic, onLogout }: LoginProps)
       </div>
 
       {/* Back to Public Site Button */}
-      <motion.button
+      <button
         onClick={onBackToPublic}
-        className="absolute top-6 left-6 md:top-8 md:left-8 flex items-center gap-2"
+        className="absolute top-6 left-6 md:top-8 md:left-8 z-50 flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-rose-700 to-rose-600 text-white font-bold shadow-lg hover:shadow-xl hover:from-rose-800 hover:to-rose-700 transition-all"
         style={{
-          background: 'linear-gradient(135deg, #9A2D4F 0%, #C44569 100%)',
-          border: '3px solid rgba(255, 255, 255, 0.4)',
-          borderRadius: 12,
-          padding: '14px 24px',
-          color: '#FFFFFF',
           fontFamily: 'Poppins, sans-serif',
-          fontSize: 22,
-          fontWeight: 700,
-          cursor: 'pointer',
-          boxShadow: '0 6px 20px rgba(154, 45, 79, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.15) inset',
-          textShadow: '0 2px 4px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)',
-          transition: 'all 200ms ease',
-          zIndex: 100
+          fontSize: '22px'
         }}
-        whileHover={{ 
-          background: 'linear-gradient(135deg, #832448 0%, #A52F5A 100%)',
-          borderColor: 'rgba(255, 255, 255, 0.6)',
-          boxShadow: '0 8px 28px rgba(131, 36, 72, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.25) inset',
-          scale: 1.03
-        }}
-        whileTap={{ scale: 0.97 }}
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.2, duration: 0.4 }}
       >
-        <ArrowLeft size={22} strokeWidth={2.5} style={{ filter: 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))' }} />
+        <ArrowLeft size={20} />
         <span>Back to Site</span>
-      </motion.button>
+      </button>
 
       <motion.div
         className="relative z-10 w-full max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8"
