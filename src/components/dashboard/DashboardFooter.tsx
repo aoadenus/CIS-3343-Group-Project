@@ -9,6 +9,8 @@ interface DashboardFooterProps {
 export function DashboardFooter({ onRefresh }: DashboardFooterProps) {
   const [lastUpdated, setLastUpdated] = useState(new Date());
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isRefreshHovered, setIsRefreshHovered] = useState(false);
+  const [isHelpHovered, setIsHelpHovered] = useState(false);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -76,29 +78,21 @@ export function DashboardFooter({ onRefresh }: DashboardFooterProps) {
           gap: '8px',
           padding: '8px 16px',
           height: '36px',
-          border: '1px solid #E5E7EB',
+          border: `1px solid ${!isRefreshing && isRefreshHovered ? '#C44569' : '#E5E7EB'}`,
           borderRadius: '6px',
           background: 'white',
           fontFamily: 'Poppins, sans-serif',
           fontSize: '13px',
           fontWeight: 500,
-          color: '#4B5563',
+          color: !isRefreshing && isRefreshHovered ? '#C44569' : '#4B5563',
           cursor: isRefreshing ? 'wait' : 'pointer',
           transition: 'all 200ms ease-out',
           opacity: isRefreshing ? 0.6 : 1
         }}
-        onMouseEnter={(e) => {
-          if (!isRefreshing) {
-            e.currentTarget.style.borderColor = '#C44569';
-            e.currentTarget.style.color = '#C44569';
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (!isRefreshing) {
-            e.currentTarget.style.borderColor = '#E5E7EB';
-            e.currentTarget.style.color = '#4B5563';
-          }
-        }}
+        onMouseEnter={() => setIsRefreshHovered(true)}
+        onMouseLeave={() => setIsRefreshHovered(false)}
+        onFocus={() => setIsRefreshHovered(true)}
+        onBlur={() => setIsRefreshHovered(false)}
         aria-label="Refresh dashboard data"
       >
         <RefreshCw 
@@ -123,15 +117,13 @@ export function DashboardFooter({ onRefresh }: DashboardFooterProps) {
           fontSize: '13px',
           fontWeight: 500,
           color: '#C44569',
-          textDecoration: 'none',
+          textDecoration: isHelpHovered ? 'underline' : 'none',
           transition: 'text-decoration 150ms ease-out'
         }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.textDecoration = 'underline';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.textDecoration = 'none';
-        }}
+        onMouseEnter={() => setIsHelpHovered(true)}
+        onMouseLeave={() => setIsHelpHovered(false)}
+        onFocus={() => setIsHelpHovered(true)}
+        onBlur={() => setIsHelpHovered(false)}
         aria-label="Get help and support"
       >
         <HelpCircle size={16} strokeWidth={2} aria-hidden="true" />
