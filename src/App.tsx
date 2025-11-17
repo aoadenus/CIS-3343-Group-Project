@@ -127,8 +127,7 @@ export default function App() {
     localStorage.removeItem('token'); // Clear JWT token
     setIsAuthenticated(false);
     setUserRole('sales');
-    setAppMode('public');
-    setActivePage('home');
+    setAppMode('login');
   };
 
   // Handle back to public from login
