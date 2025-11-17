@@ -513,3 +513,359 @@ export async function getCustomerWithOrders(customerId: number) {
     orders: customerOrders,
   };
 }
+
+// ============ DASHBOARD METRICS ============
+
+// Helper: Get start and end of today
+function getTodayRange() {
+  const now = new Date();
+  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+  const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+  return { startOfToday, endOfToday };
+}
+
+// Helper: Get start and end of yesterday
+function getYesterdayRange() {
+  const now = new Date();
+  const startOfYesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 0, 0, 0);
+  const endOfYesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 23, 59, 59);
+  return { startOfYesterday, endOfYesterday };
+}
+
+// Helper: Get start and end of this week
+function getThisWeekRange() {
+  const now = new Date();
+  const dayOfWeek = now.getDay();
+  const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - dayOfWeek, 0, 0, 0);
+  const endOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() + (6 - dayOfWeek), 23, 59, 59);
+  return { startOfWeek, endOfWeek };
+}
+
+// Helper: Get start and end of last week
+function getLastWeekRange() {
+  const now = new Date();
+  const dayOfWeek = now.getDay();
+  const startOfLastWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - dayOfWeek - 7, 0, 0, 0);
+  const endOfLastWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - dayOfWeek - 1, 23, 59, 59);
+  return { startOfLastWeek, endOfLastWeek };
+}
+
+// Sales Dashboard Metrics
+export async function getSalesDashboardMetrics() {
+  const { startOfToday, endOfToday } = getTodayRange();
+  const { startOfYesterday, endOfYesterday } = getYesterdayRange();
+
+  // KPI 1: Today's Orders
+  const todayOrders = await db.select().from(orders)
+    .where(and(
+      sql`${orders.createdAt} >= ${startOfToday.toISOString()}`,
+      sql`${orders.createdAt} <= ${endOfToday.toISOString()}`,
+      isNull(orders.deletedAt)
+    ));
+
+  const yesterdayOrders = await db.select().from(orders)
+    .where(and(
+      sql`${orders.createdAt} >= ${startOfYesterday.toISOString()}`,
+      sql`${orders.createdAt} <= ${endOfYesterday.toISOString()}`,
+      isNull(orders.deletedAt)
+    ));
+
+  const todayCount = todayOrders.length;
+  const yesterdayCount = yesterdayOrders.length;
+  const ordersTrend = todayCount - yesterdayCount;
+
+  // KPI 2: Pending Deposits
+  const pendingDeposits = await db.select().from(orders)
+    .where(and(
+      eq(orders.paymentStatus, 'partial'),
+      isNull(orders.deletedAt),
+      sql`${orders.status} != 'cancelled'`
+    ));
+
+  const pendingDepositAmount = pendingDeposits.reduce((sum, order) => sum + (order.balanceDue || 0), 0);
+
+  // KPI 3: Pickups Today
+  const pickupsToday = await db.select().from(orders)
+    .where(and(
+      sql`DATE(${orders.eventDate}) = DATE(${startOfToday.toISOString()})`,
+      isNull(orders.deletedAt),
+      sql`${orders.status} != 'cancelled'`
+    ));
+
+  // KPI 4: Recent Inquiries (unread contact messages)
+  const unreadInquiries = await db.select().from(contactMessages)
+    .where(eq(contactMessages.status, 'unread'));
+
+  // Recent orders (last 7 days)
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  const recentOrders = await db
+    .select({
+      id: orders.id,
+      customerName: customers.name,
+      orderType: orders.orderType,
+      eventDate: orders.eventDate,
+      totalAmount: orders.totalAmount,
+      status: orders.status,
+      createdAt: orders.createdAt,
+    })
+    .from(orders)
+    .leftJoin(customers, eq(orders.customerId, customers.id))
+    .where(and(
+      sql`${orders.createdAt} >= ${sevenDaysAgo.toISOString()}`,
+      isNull(orders.deletedAt)
+    ))
+    .orderBy(desc(orders.createdAt))
+    .limit(10);
+
+  return {
+    todayOrdersCount: todayCount,
+    yesterdayOrdersCount: yesterdayCount,
+    ordersTrend,
+    pendingDepositAmount,
+    pendingDepositCount: pendingDeposits.length,
+    pickupsTodayCount: pickupsToday.length,
+    unreadInquiriesCount: unreadInquiries.length,
+    recentOrders,
+  };
+}
+
+// Baker Dashboard Metrics
+export async function getBakerDashboardMetrics(bakerId: number) {
+  const { startOfToday, endOfToday } = getTodayRange();
+  const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000);
+  const startOfTomorrow = new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(), 0, 0, 0);
+  const endOfTomorrow = new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(), 23, 59, 59);
+
+  // KPI 1: My Baking Queue (assigned to this baker, not completed)
+  const myQueue = await db.select().from(orders)
+    .where(and(
+      eq(orders.assignedBaker, bakerId),
+      sql`${orders.status} IN ('pending', 'in_baking')`,
+      isNull(orders.deletedAt)
+    ));
+
+  // KPI 2: Due Today (eventDate is today)
+  const dueToday = await db.select().from(orders)
+    .where(and(
+      eq(orders.assignedBaker, bakerId),
+      sql`DATE(${orders.eventDate}) = DATE(${startOfToday.toISOString()})`,
+      isNull(orders.deletedAt),
+      sql`${orders.status} != 'cancelled'`
+    ));
+
+  // KPI 3: Completion Rate (last 30 days)
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  const assignedOrders = await db.select().from(orders)
+    .where(and(
+      eq(orders.assignedBaker, bakerId),
+      sql`${orders.createdAt} >= ${thirtyDaysAgo.toISOString()}`,
+      isNull(orders.deletedAt)
+    ));
+
+  const completedOrders = assignedOrders.filter(o => o.status === 'completed' || o.status === 'ready');
+  const completionRate = assignedOrders.length > 0 
+    ? Math.round((completedOrders.length / assignedOrders.length) * 100) 
+    : 0;
+
+  // KPI 4: Tomorrow's Schedule
+  const tomorrowSchedule = await db.select().from(orders)
+    .where(and(
+      eq(orders.assignedBaker, bakerId),
+      sql`DATE(${orders.eventDate}) = DATE(${startOfTomorrow.toISOString()})`,
+      isNull(orders.deletedAt),
+      sql`${orders.status} != 'cancelled'`
+    ));
+
+  return {
+    queueCount: myQueue.length,
+    dueTodayCount: dueToday.length,
+    completionRate,
+    tomorrowCount: tomorrowSchedule.length,
+    queueOrders: myQueue,
+  };
+}
+
+// Decorator Dashboard Metrics
+export async function getDecoratorDashboardMetrics(decoratorId: number) {
+  const { startOfToday, endOfToday } = getTodayRange();
+
+  // KPI 1: My Decoration Queue (assigned to this decorator, status = 'in_decoration')
+  const myQueue = await db.select().from(orders)
+    .where(and(
+      eq(orders.assignedDecorator, decoratorId),
+      sql`${orders.status} IN ('in_decoration', 'awaiting_decoration')`,
+      isNull(orders.deletedAt)
+    ));
+
+  // KPI 2: Awaiting Photos (orders completed but no photos uploaded)
+  // Note: We don't have a photos field in schema, so we'll check for orders with status 'ready' or 'completed'
+  const awaitingPhotos = await db.select().from(orders)
+    .where(and(
+      eq(orders.assignedDecorator, decoratorId),
+      sql`${orders.status} IN ('ready', 'completed')`,
+      isNull(orders.deletedAt)
+    ));
+
+  // KPI 3: Completion Rate (last 30 days)
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  const assignedOrders = await db.select().from(orders)
+    .where(and(
+      eq(orders.assignedDecorator, decoratorId),
+      sql`${orders.createdAt} >= ${thirtyDaysAgo.toISOString()}`,
+      isNull(orders.deletedAt)
+    ));
+
+  const completedOrders = assignedOrders.filter(o => o.status === 'completed' || o.status === 'ready');
+  const completionRate = assignedOrders.length > 0 
+    ? Math.round((completedOrders.length / assignedOrders.length) * 100) 
+    : 0;
+
+  // KPI 4: Urgent Orders (due within 24 hours)
+  const urgentDeadline = new Date(Date.now() + 24 * 60 * 60 * 1000);
+  const urgentOrders = await db.select().from(orders)
+    .where(and(
+      eq(orders.assignedDecorator, decoratorId),
+      sql`${orders.eventDate} <= ${urgentDeadline.toISOString()}`,
+      sql`${orders.status} NOT IN ('completed', 'cancelled')`,
+      isNull(orders.deletedAt)
+    ));
+
+  return {
+    queueCount: myQueue.length,
+    awaitingPhotosCount: awaitingPhotos.length,
+    completionRate,
+    urgentOrdersCount: urgentOrders.length,
+    queueOrders: myQueue,
+  };
+}
+
+// Accountant Dashboard Metrics
+export async function getAccountantDashboardMetrics() {
+  const { startOfToday, endOfToday } = getTodayRange();
+  const { startOfYesterday, endOfYesterday } = getYesterdayRange();
+
+  // KPI 1: Today's Revenue (sum of deposits + full payments received today)
+  const todayPayments = await db.select().from(payments)
+    .where(and(
+      sql`DATE(${payments.paymentDate}) = DATE(${startOfToday.toISOString()})`,
+      eq(payments.paymentStatus, 'completed')
+    ));
+
+  const todayRevenue = todayPayments.reduce((sum, payment) => sum + (payment.amount || 0), 0);
+
+  const yesterdayPayments = await db.select().from(payments)
+    .where(and(
+      sql`DATE(${payments.paymentDate}) = DATE(${startOfYesterday.toISOString()})`,
+      eq(payments.paymentStatus, 'completed')
+    ));
+
+  const yesterdayRevenue = yesterdayPayments.reduce((sum, payment) => sum + (payment.amount || 0), 0);
+  const revenueTrend = todayRevenue - yesterdayRevenue;
+
+  // KPI 2: Outstanding Balances (all orders with balance due > 0)
+  const outstandingOrders = await db.select().from(orders)
+    .where(and(
+      sql`${orders.balanceDue} > 0`,
+      sql`${orders.status} != 'cancelled'`,
+      isNull(orders.deletedAt)
+    ));
+
+  const outstandingBalance = outstandingOrders.reduce((sum, order) => sum + (order.balanceDue || 0), 0);
+
+  // KPI 3: Paid in Full (orders with payment_status = 'paid')
+  const paidInFull = await db.select().from(orders)
+    .where(and(
+      eq(orders.paymentStatus, 'paid'),
+      isNull(orders.deletedAt)
+    ));
+
+  // KPI 4: Pending Deposits (orders with payment_status = 'partial' or 'pending')
+  const pendingDeposits = await db.select().from(orders)
+    .where(and(
+      sql`${orders.paymentStatus} IN ('partial', 'pending')`,
+      sql`${orders.status} != 'cancelled'`,
+      isNull(orders.deletedAt)
+    ));
+
+  return {
+    todayRevenue,
+    yesterdayRevenue,
+    revenueTrend,
+    outstandingBalance,
+    outstandingCount: outstandingOrders.length,
+    paidInFullCount: paidInFull.length,
+    pendingDepositsCount: pendingDeposits.length,
+  };
+}
+
+// Manager Dashboard Metrics
+export async function getManagerDashboardMetrics() {
+  const { startOfWeek, endOfWeek } = getThisWeekRange();
+  const { startOfLastWeek, endOfLastWeek } = getLastWeekRange();
+
+  // KPI 1: Total Orders (all time, non-cancelled)
+  const totalOrders = await db.select().from(orders)
+    .where(and(
+      sql`${orders.status} != 'cancelled'`,
+      isNull(orders.deletedAt)
+    ));
+
+  // KPI 2: Revenue This Week
+  const thisWeekOrders = await db.select().from(orders)
+    .where(and(
+      sql`${orders.createdAt} >= ${startOfWeek.toISOString()}`,
+      sql`${orders.createdAt} <= ${endOfWeek.toISOString()}`,
+      sql`${orders.status} != 'cancelled'`,
+      isNull(orders.deletedAt)
+    ));
+
+  const thisWeekRevenue = thisWeekOrders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
+
+  const lastWeekOrders = await db.select().from(orders)
+    .where(and(
+      sql`${orders.createdAt} >= ${startOfLastWeek.toISOString()}`,
+      sql`${orders.createdAt} <= ${endOfLastWeek.toISOString()}`,
+      sql`${orders.status} != 'cancelled'`,
+      isNull(orders.deletedAt)
+    ));
+
+  const lastWeekRevenue = lastWeekOrders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
+  const revenueTrend = thisWeekRevenue - lastWeekRevenue;
+
+  // KPI 3: Team Performance (% of orders completed on time in last 30 days)
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  const recentOrders = await db.select().from(orders)
+    .where(and(
+      sql`${orders.createdAt} >= ${thirtyDaysAgo.toISOString()}`,
+      isNull(orders.deletedAt)
+    ));
+
+  const completedOnTime = recentOrders.filter(o => 
+    (o.status === 'completed' || o.status === 'ready') && 
+    o.eventDate && 
+    new Date(o.eventDate) >= new Date()
+  ).length;
+
+  const teamPerformance = recentOrders.length > 0 
+    ? Math.round((completedOnTime / recentOrders.length) * 100) 
+    : 0;
+
+  // KPI 4: Customer Satisfaction (mock - could be based on feedback/ratings)
+  // For now, we'll calculate based on VIP customers and total customers
+  const allCustomers = await db.select().from(customers)
+    .where(isNull(customers.deletedAt));
+  
+  const vipCustomers = allCustomers.filter(c => c.isVip);
+  const satisfactionScore = allCustomers.length > 0 
+    ? Math.round((vipCustomers.length / allCustomers.length) * 100) 
+    : 0;
+
+  return {
+    totalOrdersCount: totalOrders.length,
+    thisWeekRevenue,
+    lastWeekRevenue,
+    revenueTrend,
+    teamPerformance,
+    satisfactionScore,
+  };
+}

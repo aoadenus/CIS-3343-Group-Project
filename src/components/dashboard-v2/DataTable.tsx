@@ -159,20 +159,6 @@ export function DataTable<T extends Record<string, any>>({
     return 'none';
   };
 
-  // Helper to extract text from React node for CSV export
-  const extractTextFromReactNode = (node: React.ReactNode): string => {
-    if (node === null || node === undefined) return '';
-    if (typeof node === 'string' || typeof node === 'number') return String(node);
-    if (Array.isArray(node)) return node.map(extractTextFromReactNode).join(' ');
-    if (typeof node === 'object' && 'props' in node) {
-      const element = node as any;
-      if (element.props && element.props.children) {
-        return extractTextFromReactNode(element.props.children);
-      }
-    }
-    return '';
-  };
-
   // Export to CSV
   const exportToCSV = () => {
     // Build CSV content
@@ -180,23 +166,20 @@ export function DataTable<T extends Record<string, any>>({
     
     const rows = sortedData.map(row => {
       return columns.map(col => {
-        let exportValue: string;
+        // Always export the raw formatted value, not React nodes
+        // Custom render functions are for UI display (badges, icons, etc.)
+        // CSV export needs clean data, not UI components
         
-        // If column has custom render function, use it and extract text
-        if (col.render) {
-          const renderedNode = col.render(row);
-          exportValue = extractTextFromReactNode(renderedNode);
+        // Get the raw value using accessor
+        const rawValue = getCellValue(row, col.accessor);
+        
+        // Apply formatting if specified (currency, date, number)
+        let exportValue: string;
+        if (col.format) {
+          exportValue = String(formatCellValue(rawValue, col.format));
         } else {
-          // Get the raw value
-          const rawValue = getCellValue(row, col.accessor);
-          
-          // Apply formatting (currency, date, number) for CSV export
-          if (col.format) {
-            exportValue = String(formatCellValue(rawValue, col.format));
-          } else {
-            // For non-formatted columns, convert to string
-            exportValue = String(rawValue ?? '');
-          }
+          // For non-formatted columns, convert raw value to string
+          exportValue = String(rawValue ?? '');
         }
         
         // Escape commas and quotes for CSV
