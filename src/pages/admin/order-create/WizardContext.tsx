@@ -13,6 +13,8 @@ interface Customer {
 export interface WizardFormData {
   // Step 1: Customer
   customer: Customer | null;
+  isRushOrder: boolean;
+  rushJustification: string;
 
   // Step 2: Cake Type
   cakeType: 'standard' | 'custom';
@@ -45,7 +47,6 @@ export interface WizardFormData {
   status: string;
   priority: string;
   adminNotes: string;
-  isRushOrder: boolean;
   managerApproval: boolean;
 }
 
@@ -62,6 +63,8 @@ interface WizardContextType {
 
 const INITIAL_FORM_DATA: WizardFormData = {
   customer: null,
+  isRushOrder: false,
+  rushJustification: '',
   cakeType: 'custom',
   standardCakeId: '',
   layers: [
@@ -81,7 +84,6 @@ const INITIAL_FORM_DATA: WizardFormData = {
   status: 'pending',
   priority: 'medium',
   adminNotes: '',
-  isRushOrder: false,
   managerApproval: false
 };
 

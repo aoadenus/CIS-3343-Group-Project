@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { WizardProvider, useWizard } from './WizardContext';
 import { ProgressStepper } from './components/ProgressStepper';
 import { WizardNavigation } from './components/WizardNavigation';
+import { RushBanner } from './components/RushBanner';
 import { useToast } from '../../../components/ToastContext';
 
 // Import steps
@@ -33,7 +34,7 @@ const WIZARD_STEPS = [
 ];
 
 function WizardContent({ onBack, onNavigate }: WizardContainerProps) {
-  const { formData, currentStep, setCurrentStep, saveDraft, resetForm, clearDraft } = useWizard();
+  const { formData, currentStep, setCurrentStep, saveDraft, resetForm, clearDraft, updateFormData } = useWizard();
   const { showToast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -137,6 +138,11 @@ function WizardContent({ onBack, onNavigate }: WizardContainerProps) {
     }
   };
 
+  const handleRemoveRushOrder = () => {
+    updateFormData({ isRushOrder: false, rushJustification: '' });
+    showToast('success', 'Rush order status removed');
+  };
+
   return (
     <div className="h-full overflow-auto p-6" style={{ background: '#F8EBD7' }}>
       <div className="max-w-5xl mx-auto">
@@ -163,6 +169,14 @@ function WizardContent({ onBack, onNavigate }: WizardContainerProps) {
             Follow the steps to create a custom or standard cake order
           </p>
         </div>
+
+        {/* Rush Order Banner - Sticky across all steps */}
+        {formData.isRushOrder && formData.rushJustification && (
+          <RushBanner
+            justification={formData.rushJustification}
+            onRemove={handleRemoveRushOrder}
+          />
+        )}
 
         {/* Progress Stepper */}
         <ProgressStepper currentStep={currentStep} steps={WIZARD_STEPS} />

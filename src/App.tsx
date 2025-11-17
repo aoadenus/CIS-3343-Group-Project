@@ -18,7 +18,7 @@ import { TrackOrder } from './pages/public/TrackOrder';
 import Login from './pages/admin/Login';
 import { OrderBoard } from './pages/admin/OrderBoard';
 import { OrderList } from './pages/admin/OrderList';
-import { OrderCreate } from './pages/admin/OrderCreate';
+import { WizardContainer } from './pages/admin/order-create/WizardContainer';
 import { Builder } from './pages/admin/Builder';
 import { AdminProducts } from './pages/admin/Products';
 import { Orders } from './pages/Orders';
@@ -195,7 +195,7 @@ export default function App() {
       case 'order-management':
         return <OrderList onNavigate={setActivePage} />;
       case 'order-create':
-        return <OrderCreate onBack={() => setActivePage('order-management')} onNavigate={setActivePage} />;
+        return <WizardContainer onBack={() => setActivePage('order-management')} onNavigate={setActivePage} />;
       case 'design-sandbox':
         return <Builder />;
       case 'inventory-management':
