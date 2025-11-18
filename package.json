@@ -110,6 +110,8 @@
             "test": "vitest",
             "test:ui": "vitest --ui",
             "test:run": "vitest run",
+            "e2e:install": "npx playwright install --with-deps",
+            "e2e:test": "npx playwright test --project=chromium",
             "type-check": "tsc --noEmit",
             "db:push": "drizzle-kit push",
             "db:studio": "drizzle-kit studio",

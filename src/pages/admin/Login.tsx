@@ -14,6 +14,7 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Card } from "../../components/ui/card";
 import { useToast } from "../../components/ToastContext";
+import DevOriginBanner from '../../components/DevOriginBanner';
 import { supabase } from "../../lib/supabaseClient";
 
 const demoAccounts = [
@@ -153,6 +154,8 @@ export default function Login({ onBackToPublic }: LoginProps) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
       >
+        {/* Dev helper: show origin + copy button for easy Supabase config */}
+        <DevOriginBanner />
         {/* Demo Credentials */}
         <Card
           style={{
