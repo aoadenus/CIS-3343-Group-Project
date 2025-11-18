@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Share2, Calendar, Layers, Tag } from 'lucide-react';
 import { ImageWithFallback } from '../../components/figma/ImageWithFallback';
 import Masonry from 'react-responsive-masonry';
@@ -466,7 +466,7 @@ export function Gallery() {
                       transition={{ duration: 0.3 }}
                     >
                       <ImageWithFallback
-                        src={image.image}
+                        src={image.image || "/placeholder.svg"}
                         alt={image.title}
                         style={{
                           width: '100%',
@@ -752,7 +752,7 @@ export function Gallery() {
                 }}
               >
                 <ImageWithFallback
-                  src={selectedImage.image}
+                  src={selectedImage.image || "/placeholder.svg"}
                   alt={selectedImage.title}
                   style={{
                     maxWidth: '100%',
