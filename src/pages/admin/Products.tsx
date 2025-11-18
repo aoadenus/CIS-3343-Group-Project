@@ -72,6 +72,26 @@ export function AdminProducts() {
     } catch (error) {
       console.error('Error fetching products:', error);
       showToast('error', 'Failed to fetch products');
+      // Fallback to built-in catalog so the UI remains usable
+      try {
+        // lazy import to avoid cycles
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const shop = require('../../data/shopData').default;
+        const fallback = shop.DEFAULT_PRODUCTS.map((p: any, i: number) => ({
+          id: i + 1,
+          name: p.name,
+          category: p.category,
+          price: p.priceCents,
+          description: p.description,
+          image: p.image,
+          inStock: true,
+          popularity: 50
+        }));
+        setProducts(fallback);
+        setFilteredProducts(fallback);
+      } catch (e) {
+        // ignore
+      }
     } finally {
       setIsLoading(false);
     }

@@ -1,5 +1,5 @@
 import { db } from './db.js';
-import { products, customers, orders, inquiries, contactMessages, payments, employees } from '../shared/schema.js';
+import { products, customers, orders, inquiries, contactMessages, payments, employees, orderStatusHistory } from '../shared/schema.js';
 import type { NewProduct, NewCustomer, NewOrder, NewInquiry, NewContactMessage, NewPayment, NewEmployee } from '../shared/schema.js';
 import { eq, desc, and, or, like, ilike, sql, isNull } from 'drizzle-orm';
 
@@ -361,8 +361,16 @@ export async function getOrderByTrackingToken(token: string) {
   return result[0] || null;
 }
 
-// ============ INQUIRIES ============
+// ============================================================================
+// DORMANT FUNCTIONS - OPTIONAL WEBSITE FEATURE (PRIORITY 4)
+// These functions query inquiries/contactMessages tables which are part of the
+// optional updated website (Priority 4 per case study).
+// They are NOT part of the mandatory staff application scope (Priorities 1-3).
+// Functions retained for future optional website implementation.
+// DO NOT use these functions in the staff application.
+// ============================================================================
 
+// DORMANT: Inquiry functions (Optional Website Feature - Priority 4)
 export async function createInquiry(data: NewInquiry) {
   const [inquiry] = await db.insert(inquiries).values(data).returning();
   return inquiry;
@@ -380,8 +388,7 @@ export async function updateInquiryStatus(id: number, status: string) {
   return updated;
 }
 
-// ============ CONTACT MESSAGES ============
-
+// DORMANT: Contact Message functions (Optional Website Feature - Priority 4)
 export async function createContactMessage(data: NewContactMessage) {
   const [message] = await db.insert(contactMessages).values(data).returning();
   return message;
@@ -398,6 +405,10 @@ export async function updateContactMessageStatus(id: number, status: string) {
     .returning();
   return updated;
 }
+
+// ============================================================================
+// END DORMANT FUNCTIONS
+// ============================================================================
 
 // ============ PAYMENTS (Admin Tracking) ============
 
@@ -550,12 +561,38 @@ function getLastWeekRange() {
   return { startOfLastWeek, endOfLastWeek };
 }
 
-// Sales Dashboard Metrics
+// Sales Dashboard Metrics - CASE STUDY ALIGNED
+// Measurable Objectives (Page 3):
+// 1. Reduce order creation time: 20hrs/week → 15hrs/week (25% reduction)
+// 2. Increase returning customers: 700/year → 805/year (15% increase)
+// 3. Deposit compliance: 50% minimum per business rules
 export async function getSalesDashboardMetrics() {
   const { startOfToday, endOfToday } = getTodayRange();
-  const { startOfYesterday, endOfYesterday } = getYesterdayRange();
+  const { startOfWeek, endOfWeek } = getThisWeekRange();
 
-  // KPI 1: Today's Orders
+  // KPI 1: DEPOSIT COMPLIANCE (Business Rule: 50% minimum deposit required)
+  // Critical for cash flow - ensures all custom orders meet 50% deposit requirement
+  const weekOrders = await db.select().from(orders)
+    .where(and(
+      sql`${orders.createdAt} >= ${startOfWeek.toISOString()}`,
+      sql`${orders.createdAt} <= ${endOfWeek.toISOString()}`,
+      isNull(orders.deletedAt),
+      sql`${orders.status} != 'cancelled'`,
+      eq(orders.orderType, 'custom')
+    ));
+
+  const depositCompliantOrders = weekOrders.filter(o => {
+    if (!o.totalAmount || !o.depositAmount) return false;
+    const requiredDeposit = o.totalAmount * 0.5;
+    return o.depositAmount >= requiredDeposit;
+  }).length;
+  
+  const depositComplianceRate = weekOrders.length > 0 
+    ? Math.round((depositCompliantOrders / weekOrders.length) * 100)
+    : 100;
+
+  // KPI 2: ORDERS CREATED TODAY
+  // Tracks order creation speed (targeting time reduction)
   const todayOrders = await db.select().from(orders)
     .where(and(
       sql`${orders.createdAt} >= ${startOfToday.toISOString()}`,
@@ -563,28 +600,29 @@ export async function getSalesDashboardMetrics() {
       isNull(orders.deletedAt)
     ));
 
-  const yesterdayOrders = await db.select().from(orders)
+  // KPI 3: RETURNING CUSTOMERS (This Week)
+  // Measures customer retention (targeting 15% increase)
+  const returningCustomers = await db
+    .select({ customerId: orders.customerId })
+    .from(orders)
     .where(and(
-      sql`${orders.createdAt} >= ${startOfYesterday.toISOString()}`,
-      sql`${orders.createdAt} <= ${endOfYesterday.toISOString()}`,
+      sql`${orders.createdAt} >= ${startOfWeek.toISOString()}`,
+      sql`${orders.createdAt} <= ${endOfWeek.toISOString()}`,
       isNull(orders.deletedAt)
-    ));
+    ))
+    .groupBy(orders.customerId);
 
-  const todayCount = todayOrders.length;
-  const yesterdayCount = yesterdayOrders.length;
-  const ordersTrend = todayCount - yesterdayCount;
-
-  // KPI 2: Pending Deposits
-  const pendingDeposits = await db.select().from(orders)
+  const returningCustomerIds = returningCustomers.map(r => r.customerId);
+  const returningCount = await db
+    .select({ id: customers.id })
+    .from(customers)
     .where(and(
-      eq(orders.paymentStatus, 'partial'),
-      isNull(orders.deletedAt),
-      sql`${orders.status} != 'cancelled'`
+      sql`${customers.id} IN (${returningCustomerIds.length > 0 ? sql.raw(returningCustomerIds.join(',')) : sql`NULL`})`,
+      sql`${customers.totalOrders} > 1`
     ));
 
-  const pendingDepositAmount = pendingDeposits.reduce((sum, order) => sum + (order.balanceDue || 0), 0);
-
-  // KPI 3: Pickups Today
+  // KPI 4: UPCOMING PICKUPS (Today)
+  // Operational coordination - orders due for pickup today
   const pickupsToday = await db.select().from(orders)
     .where(and(
       sql`DATE(${orders.eventDate}) = DATE(${startOfToday.toISOString()})`,
@@ -592,177 +630,260 @@ export async function getSalesDashboardMetrics() {
       sql`${orders.status} != 'cancelled'`
     ));
 
-  // KPI 4: Recent Inquiries (unread contact messages)
-  const unreadInquiries = await db.select().from(contactMessages)
-    .where(eq(contactMessages.status, 'unread'));
-
-  // Recent orders (last 7 days)
-  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-  const recentOrders = await db
-    .select({
-      id: orders.id,
-      customerName: customers.name,
-      orderType: orders.orderType,
-      eventDate: orders.eventDate,
-      totalAmount: orders.totalAmount,
-      status: orders.status,
-      createdAt: orders.createdAt,
-    })
-    .from(orders)
-    .leftJoin(customers, eq(orders.customerId, customers.id))
-    .where(and(
-      sql`${orders.createdAt} >= ${sevenDaysAgo.toISOString()}`,
-      isNull(orders.deletedAt)
-    ))
-    .orderBy(desc(orders.createdAt))
-    .limit(10);
-
   return {
-    todayOrdersCount: todayCount,
-    yesterdayOrdersCount: yesterdayCount,
-    ordersTrend,
-    pendingDepositAmount,
-    pendingDepositCount: pendingDeposits.length,
+    depositComplianceRate,
+    depositCompliantCount: depositCompliantOrders,
+    totalCustomOrders: weekOrders.length,
+    todayOrdersCount: todayOrders.length,
+    returningCustomersCount: returningCount.length,
     pickupsTodayCount: pickupsToday.length,
-    unreadInquiriesCount: unreadInquiries.length,
-    recentOrders,
   };
 }
 
-// Baker Dashboard Metrics
+// Baker Dashboard Metrics - CASE STUDY ALIGNED
+// Required KPIs:
+// 1. Prep time per order (average minutes)
+// 2. On-time handoff percentage (orders ready on schedule)
+// 3. Current workload by assignment (number of assigned orders)
+// 4. Orders in production today
+// 5. Overdue orders count
 export async function getBakerDashboardMetrics(bakerId: number) {
   const { startOfToday, endOfToday } = getTodayRange();
-  const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000);
-  const startOfTomorrow = new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(), 0, 0, 0);
-  const endOfTomorrow = new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(), 23, 59, 59);
+  const { startOfWeek, endOfWeek } = getThisWeekRange();
+  const now = new Date();
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
-  // KPI 1: My Baking Queue (assigned to this baker, not completed)
-  const myQueue = await db.select().from(orders)
+  // KPI 1: PREP TIME PER ORDER (Average Minutes)
+  // TODO: Requires prepStartTime and prepEndTime fields in schema (Phase 8)
+  // For now, use approximate calculation based on order creation to status change
+  const completedOrders = await db.select().from(orders)
     .where(and(
       eq(orders.assignedBaker, bakerId),
-      sql`${orders.status} IN ('pending', 'in_baking')`,
+      sql`${orders.status} IN ('completed', 'ready', 'in_decoration', 'awaiting_decoration')`,
+      sql`${orders.updatedAt} >= ${thirtyDaysAgo.toISOString()}`,
       isNull(orders.deletedAt)
     ));
 
-  // KPI 2: Due Today (eventDate is today)
-  const dueToday = await db.select().from(orders)
+  let avgPrepTimeMinutes = 0;
+  if (completedOrders.length > 0) {
+    const totalPrepTimeMs = completedOrders.reduce((sum, order) => {
+      const createdTime = new Date(order.createdAt).getTime();
+      const completedTime = new Date(order.updatedAt).getTime();
+      return sum + (completedTime - createdTime);
+    }, 0);
+    const avgPrepTimeMs = totalPrepTimeMs / completedOrders.length;
+    avgPrepTimeMinutes = Math.round(avgPrepTimeMs / (1000 * 60)); // Convert to minutes
+  }
+
+  // KPI 2: ON-TIME HANDOFF PERCENTAGE (Orders ready on schedule)
+  // Calculate based on orders completed before eventDate
+  const weekCompletedOrders = await db.select().from(orders)
     .where(and(
       eq(orders.assignedBaker, bakerId),
-      sql`DATE(${orders.eventDate}) = DATE(${startOfToday.toISOString()})`,
-      isNull(orders.deletedAt),
-      sql`${orders.status} != 'cancelled'`
+      sql`${orders.status} IN ('completed', 'ready', 'in_decoration', 'awaiting_decoration')`,
+      sql`${orders.updatedAt} >= ${startOfWeek.toISOString()}`,
+      sql`${orders.updatedAt} <= ${endOfWeek.toISOString()}`,
+      isNull(orders.deletedAt)
     ));
 
-  // KPI 3: Completion Rate (last 30 days)
-  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  let onTimeCount = 0;
+  weekCompletedOrders.forEach(order => {
+    if (order.eventDate && order.updatedAt) {
+      const eventDate = new Date(order.eventDate);
+      const completedDate = new Date(order.updatedAt);
+      if (completedDate <= eventDate) {
+        onTimeCount++;
+      }
+    }
+  });
+
+  const onTimePercentage = weekCompletedOrders.length > 0
+    ? Math.round((onTimeCount / weekCompletedOrders.length) * 100)
+    : 100;
+
+  // KPI 3: CURRENT WORKLOAD BY ASSIGNMENT (Number of assigned orders)
   const assignedOrders = await db.select().from(orders)
     .where(and(
       eq(orders.assignedBaker, bakerId),
-      sql`${orders.createdAt} >= ${thirtyDaysAgo.toISOString()}`,
-      isNull(orders.deletedAt)
-    ));
-
-  const completedOrders = assignedOrders.filter(o => o.status === 'completed' || o.status === 'ready');
-  const completionRate = assignedOrders.length > 0 
-    ? Math.round((completedOrders.length / assignedOrders.length) * 100) 
-    : 0;
-
-  // KPI 4: Tomorrow's Schedule
-  const tomorrowSchedule = await db.select().from(orders)
-    .where(and(
-      eq(orders.assignedBaker, bakerId),
-      sql`DATE(${orders.eventDate}) = DATE(${startOfTomorrow.toISOString()})`,
-      isNull(orders.deletedAt),
-      sql`${orders.status} != 'cancelled'`
-    ));
-
-  return {
-    queueCount: myQueue.length,
-    dueTodayCount: dueToday.length,
-    completionRate,
-    tomorrowCount: tomorrowSchedule.length,
-    queueOrders: myQueue,
-  };
-}
-
-// Decorator Dashboard Metrics
-export async function getDecoratorDashboardMetrics(decoratorId: number) {
-  const { startOfToday, endOfToday } = getTodayRange();
-
-  // KPI 1: My Decoration Queue (assigned to this decorator, status = 'in_decoration')
-  const myQueue = await db.select().from(orders)
-    .where(and(
-      eq(orders.assignedDecorator, decoratorId),
-      sql`${orders.status} IN ('in_decoration', 'awaiting_decoration')`,
-      isNull(orders.deletedAt)
-    ));
-
-  // KPI 2: Awaiting Photos (orders completed but no photos uploaded)
-  // Note: We don't have a photos field in schema, so we'll check for orders with status 'ready' or 'completed'
-  const awaitingPhotos = await db.select().from(orders)
-    .where(and(
-      eq(orders.assignedDecorator, decoratorId),
-      sql`${orders.status} IN ('ready', 'completed')`,
-      isNull(orders.deletedAt)
-    ));
-
-  // KPI 3: Completion Rate (last 30 days)
-  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
-  const assignedOrders = await db.select().from(orders)
-    .where(and(
-      eq(orders.assignedDecorator, decoratorId),
-      sql`${orders.createdAt} >= ${thirtyDaysAgo.toISOString()}`,
-      isNull(orders.deletedAt)
-    ));
-
-  const completedOrders = assignedOrders.filter(o => o.status === 'completed' || o.status === 'ready');
-  const completionRate = assignedOrders.length > 0 
-    ? Math.round((completedOrders.length / assignedOrders.length) * 100) 
-    : 0;
-
-  // KPI 4: Urgent Orders (due within 24 hours)
-  const urgentDeadline = new Date(Date.now() + 24 * 60 * 60 * 1000);
-  const urgentOrders = await db.select().from(orders)
-    .where(and(
-      eq(orders.assignedDecorator, decoratorId),
-      sql`${orders.eventDate} <= ${urgentDeadline.toISOString()}`,
       sql`${orders.status} NOT IN ('completed', 'cancelled')`,
       isNull(orders.deletedAt)
     ));
 
+  // KPI 4: ORDERS IN PRODUCTION TODAY
+  const ordersInProduction = await db.select().from(orders)
+    .where(and(
+      eq(orders.assignedBaker, bakerId),
+      sql`${orders.status} IN ('in_baking', 'pending', 'cooling')`,
+      isNull(orders.deletedAt)
+    ));
+
+  // KPI 5: OVERDUE ORDERS COUNT
+  // Orders past their eventDate but not completed
+  const overdueOrders = await db.select().from(orders)
+    .where(and(
+      eq(orders.assignedBaker, bakerId),
+      sql`${orders.eventDate} < ${now.toISOString()}`,
+      sql`${orders.status} NOT IN ('completed', 'ready', 'cancelled')`,
+      isNull(orders.deletedAt)
+    ));
+
   return {
-    queueCount: myQueue.length,
-    awaitingPhotosCount: awaitingPhotos.length,
-    completionRate,
-    urgentOrdersCount: urgentOrders.length,
-    queueOrders: myQueue,
+    // KPI 1: Prep Time Per Order
+    avgPrepTimeMinutes,
+    completedOrdersCount: completedOrders.length,
+    
+    // KPI 2: On-Time Handoff Percentage
+    onTimePercentage,
+    onTimeCount,
+    totalHandoffs: weekCompletedOrders.length,
+    
+    // KPI 3: Current Workload
+    currentWorkload: assignedOrders.length,
+    
+    // KPI 4: Orders in Production Today
+    ordersInProductionCount: ordersInProduction.length,
+    
+    // KPI 5: Overdue Orders
+    overdueOrdersCount: overdueOrders.length,
   };
 }
 
-// Accountant Dashboard Metrics
+// Decorator Dashboard Metrics - CASE STUDY ALIGNED
+// Required KPIs:
+// 1. Design queue age (average days waiting)
+// 2. Rush orders ready (count of rush orders in queue)
+// 3. Current workload by assignment
+// 4. Decoration completion rate (this week)
+// 5. Overdue decorations count
+export async function getDecoratorDashboardMetrics(decoratorId: number) {
+  const { startOfToday, endOfToday } = getTodayRange();
+  const { startOfWeek, endOfWeek } = getThisWeekRange();
+  const now = new Date();
+  const twentyFourHoursFromNow = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
+  // KPI 1: DESIGN QUEUE AGE (Average Days Waiting)
+  // Calculate average age of orders waiting for decoration
+  const queuedOrders = await db.select().from(orders)
+    .where(and(
+      eq(orders.assignedDecorator, decoratorId),
+      sql`${orders.status} IN ('awaiting_decoration', 'in_decoration')`,
+      isNull(orders.deletedAt)
+    ));
+
+  let totalQueueDays = 0;
+  queuedOrders.forEach(order => {
+    const createdTime = new Date(order.createdAt).getTime();
+    const nowTime = now.getTime();
+    const daysWaiting = Math.floor((nowTime - createdTime) / (1000 * 60 * 60 * 24));
+    totalQueueDays += daysWaiting;
+  });
+
+  const avgQueueAgeDays = queuedOrders.length > 0
+    ? Math.round(totalQueueDays / queuedOrders.length)
+    : 0;
+
+  // KPI 2: RUSH ORDERS READY (Count of rush orders in queue)
+  // Orders with eventDate within 48 hours that need decoration
+  const fortyEightHoursFromNow = new Date(Date.now() + 48 * 60 * 60 * 1000);
+  const rushOrders = await db.select().from(orders)
+    .where(and(
+      eq(orders.assignedDecorator, decoratorId),
+      sql`${orders.eventDate} >= ${now.toISOString()}`,
+      sql`${orders.eventDate} <= ${fortyEightHoursFromNow.toISOString()}`,
+      sql`${orders.status} IN ('awaiting_decoration', 'in_decoration')`,
+      isNull(orders.deletedAt)
+    ));
+
+  // KPI 3: CURRENT WORKLOAD BY ASSIGNMENT
+  // All orders assigned to decorator that are not completed/cancelled
+  const assignedOrders = await db.select().from(orders)
+    .where(and(
+      eq(orders.assignedDecorator, decoratorId),
+      sql`${orders.status} NOT IN ('completed', 'cancelled')`,
+      isNull(orders.deletedAt)
+    ));
+
+  // KPI 4: DECORATION COMPLETION RATE (This Week)
+  // Percentage of orders completed this week vs total assigned
+  const weekOrders = await db.select().from(orders)
+    .where(and(
+      eq(orders.assignedDecorator, decoratorId),
+      sql`${orders.createdAt} >= ${startOfWeek.toISOString()}`,
+      sql`${orders.createdAt} <= ${endOfWeek.toISOString()}`,
+      isNull(orders.deletedAt)
+    ));
+
+  const weekCompletedOrders = weekOrders.filter(o => 
+    o.status === 'completed' || o.status === 'ready'
+  ).length;
+
+  const completionRate = weekOrders.length > 0
+    ? Math.round((weekCompletedOrders / weekOrders.length) * 100)
+    : 0;
+
+  // KPI 5: OVERDUE DECORATIONS COUNT
+  // Orders past their eventDate but not completed
+  const overdueOrders = await db.select().from(orders)
+    .where(and(
+      eq(orders.assignedDecorator, decoratorId),
+      sql`${orders.eventDate} < ${now.toISOString()}`,
+      sql`${orders.status} NOT IN ('completed', 'ready', 'cancelled')`,
+      isNull(orders.deletedAt)
+    ));
+
+  return {
+    // KPI 1: Design Queue Age
+    avgQueueAgeDays,
+    queuedOrdersCount: queuedOrders.length,
+    
+    // KPI 2: Rush Orders Ready
+    rushOrdersCount: rushOrders.length,
+    
+    // KPI 3: Current Workload
+    currentWorkload: assignedOrders.length,
+    
+    // KPI 4: Decoration Completion Rate
+    completionRate,
+    weekCompletedCount: weekCompletedOrders,
+    weekTotalCount: weekOrders.length,
+    
+    // KPI 5: Overdue Decorations
+    overdueOrdersCount: overdueOrders.length,
+  };
+}
+
+// Accountant Dashboard Metrics - CASE STUDY ALIGNED
+// Required KPIs:
+// 1. Deposit shortfalls (orders missing 50% deposit)
+// 2. Outstanding balances aging (total due, aging buckets)
+// 3. Payment reconciliation accuracy
+// 4. Deposit compliance rate (matching Sales dashboard)
+// 5. Revenue collected this week
 export async function getAccountantDashboardMetrics() {
   const { startOfToday, endOfToday } = getTodayRange();
-  const { startOfYesterday, endOfYesterday } = getYesterdayRange();
+  const { startOfWeek, endOfWeek } = getThisWeekRange();
+  const now = new Date();
 
-  // KPI 1: Today's Revenue (sum of deposits + full payments received today)
-  const todayPayments = await db.select().from(payments)
+  // KPI 1: DEPOSIT SHORTFALLS (Orders missing 50% deposit)
+  // Orders that don't meet the 50% deposit requirement (Case Study Objective 3)
+  const ordersWithShortfalls = await db.select().from(orders)
     .where(and(
-      sql`DATE(${payments.paymentDate}) = DATE(${startOfToday.toISOString()})`,
-      eq(payments.paymentStatus, 'completed')
+      sql`${orders.status} != 'cancelled'`,
+      or(
+        sql`${orders.depositAmount} < (${orders.totalAmount} * 0.5)`,
+        isNull(orders.depositAmount),
+        sql`${orders.depositAmount} = 0`
+      ),
+      isNull(orders.deletedAt)
     ));
 
-  const todayRevenue = todayPayments.reduce((sum, payment) => sum + (payment.amount || 0), 0);
+  const totalShortfallAmount = ordersWithShortfalls.reduce((sum, order) => {
+    const required = (order.totalAmount || 0) * 0.5;
+    const received = order.depositAmount || 0;
+    return sum + (required - received);
+  }, 0);
 
-  const yesterdayPayments = await db.select().from(payments)
-    .where(and(
-      sql`DATE(${payments.paymentDate}) = DATE(${startOfYesterday.toISOString()})`,
-      eq(payments.paymentStatus, 'completed')
-    ));
-
-  const yesterdayRevenue = yesterdayPayments.reduce((sum, payment) => sum + (payment.amount || 0), 0);
-  const revenueTrend = todayRevenue - yesterdayRevenue;
-
-  // KPI 2: Outstanding Balances (all orders with balance due > 0)
+  // KPI 2: OUTSTANDING BALANCES AGING (Total due, aging buckets)
   const outstandingOrders = await db.select().from(orders)
     .where(and(
       sql`${orders.balanceDue} > 0`,
@@ -770,102 +891,855 @@ export async function getAccountantDashboardMetrics() {
       isNull(orders.deletedAt)
     ));
 
-  const outstandingBalance = outstandingOrders.reduce((sum, order) => sum + (order.balanceDue || 0), 0);
+  let aging30Days = 0;
+  let aging60Days = 0;
+  let aging90PlusDays = 0;
+  let aging30Count = 0;
+  let aging60Count = 0;
+  let aging90PlusCount = 0;
 
-  // KPI 3: Paid in Full (orders with payment_status = 'paid')
-  const paidInFull = await db.select().from(orders)
-    .where(and(
-      eq(orders.paymentStatus, 'paid'),
-      isNull(orders.deletedAt)
-    ));
+  outstandingOrders.forEach(order => {
+    const orderDate = new Date(order.createdAt);
+    const daysOutstanding = Math.floor((now.getTime() - orderDate.getTime()) / (1000 * 60 * 60 * 24));
+    const balance = order.balanceDue || 0;
 
-  // KPI 4: Pending Deposits (orders with payment_status = 'partial' or 'pending')
-  const pendingDeposits = await db.select().from(orders)
+    if (daysOutstanding >= 90) {
+      aging90PlusDays += balance;
+      aging90PlusCount++;
+    } else if (daysOutstanding >= 60) {
+      aging60Days += balance;
+      aging60Count++;
+    } else if (daysOutstanding >= 30) {
+      aging30Days += balance;
+      aging30Count++;
+    }
+  });
+
+  const totalOutstanding = aging30Days + aging60Days + aging90PlusDays;
+
+  // KPI 3: PAYMENT RECONCILIATION ACCURACY
+  // TODO: Requires paymentReconciled field in schema (Phase 8)
+  // For now, calculate based on payment status matching order status
+  const allActiveOrders = await db.select().from(orders)
     .where(and(
-      sql`${orders.paymentStatus} IN ('partial', 'pending')`,
       sql`${orders.status} != 'cancelled'`,
       isNull(orders.deletedAt)
     ));
 
+  let reconciledCount = 0;
+  allActiveOrders.forEach(order => {
+    // Consider reconciled if payment status matches order status appropriately
+    if (order.paymentStatus === 'paid' && order.balanceDue === 0) {
+      reconciledCount++;
+    } else if (order.paymentStatus === 'partial' && order.depositAmount && order.depositAmount > 0) {
+      reconciledCount++;
+    }
+  });
+
+  const reconciliationAccuracy = allActiveOrders.length > 0
+    ? Math.round((reconciledCount / allActiveOrders.length) * 100)
+    : 100;
+
+  // KPI 4: DEPOSIT COMPLIANCE RATE (Matching Sales dashboard)
+  // Percentage of orders meeting 50% deposit requirement
+  const allOrders = await db.select().from(orders)
+    .where(and(
+      sql`${orders.status} != 'cancelled'`,
+      isNull(orders.deletedAt)
+    ));
+
+  const compliantOrders = allOrders.filter(order => {
+    const depositAmount = order.depositAmount || 0;
+    const totalAmount = order.totalAmount || 0;
+    return depositAmount >= (totalAmount * 0.5);
+  }).length;
+
+  const depositComplianceRate = allOrders.length > 0
+    ? Math.round((compliantOrders / allOrders.length) * 100)
+    : 100;
+
+  // KPI 5: REVENUE COLLECTED THIS WEEK
+  const weekPayments = await db.select().from(payments)
+    .where(and(
+      sql`${payments.paymentDate} >= ${startOfWeek.toISOString()}`,
+      sql`${payments.paymentDate} <= ${endOfWeek.toISOString()}`,
+      eq(payments.paymentStatus, 'completed')
+    ));
+
+  const weekRevenue = weekPayments.reduce((sum, payment) => sum + (payment.amount || 0), 0);
+
   return {
-    todayRevenue,
-    yesterdayRevenue,
-    revenueTrend,
-    outstandingBalance,
-    outstandingCount: outstandingOrders.length,
-    paidInFullCount: paidInFull.length,
-    pendingDepositsCount: pendingDeposits.length,
+    // KPI 1: Deposit Shortfalls
+    depositShortfallCount: ordersWithShortfalls.length,
+    totalShortfallAmount,
+    
+    // KPI 2: Outstanding Balances Aging
+    totalOutstanding,
+    aging30Days,
+    aging60Days,
+    aging90PlusDays,
+    aging30Count,
+    aging60Count,
+    aging90PlusCount,
+    totalOutstandingCount: outstandingOrders.length,
+    
+    // KPI 3: Payment Reconciliation Accuracy
+    reconciliationAccuracy,
+    reconciledCount,
+    totalOrdersCount: allActiveOrders.length,
+    
+    // KPI 4: Deposit Compliance Rate
+    depositComplianceRate,
+    compliantOrdersCount: compliantOrders,
+    totalOrdersForCompliance: allOrders.length,
+    
+    // KPI 5: Revenue Collected This Week
+    weekRevenue,
+    weekPaymentsCount: weekPayments.length,
   };
 }
 
-// Manager Dashboard Metrics
+// Manager Dashboard Metrics - CASE STUDY ALIGNED
+// Required KPIs:
+// 1. Lost-order risk tracking (orders with missing data/overdue tasks)
+// 2. Cross-role staff utilization (Baker/Decorator workload distribution)
+// 3. SLA adherence (on-time completion percentage)
+// 4. Critical action items count
+// 5. Team performance overview
 export async function getManagerDashboardMetrics() {
   const { startOfWeek, endOfWeek } = getThisWeekRange();
-  const { startOfLastWeek, endOfLastWeek } = getLastWeekRange();
+  const now = new Date();
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 
-  // KPI 1: Total Orders (all time, non-cancelled)
-  const totalOrders = await db.select().from(orders)
+  // KPI 1: LOST-ORDER RISK TRACKING (Orders with missing data/overdue tasks)
+  // Tracks orders at risk of being lost due to incomplete data or delays
+  const atRiskOrders = await db.select().from(orders)
     .where(and(
-      sql`${orders.status} != 'cancelled'`,
+      sql`${orders.status} NOT IN ('completed', 'cancelled')`,
+      or(
+        // Missing critical data
+        isNull(orders.flavor),
+        isNull(orders.servings),
+        isNull(orders.eventDate),
+        // Missing assignments
+        isNull(orders.assignedBaker),
+        isNull(orders.assignedDecorator),
+        // Overdue (past eventDate but not completed)
+        sql`${orders.eventDate} < ${now.toISOString()}`
+      ),
       isNull(orders.deletedAt)
     ));
 
-  // KPI 2: Revenue This Week
+  // Calculate estimated cost of at-risk orders (contributes to $4,800→$960 objective)
+  const atRiskValue = atRiskOrders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
+
+  // KPI 2: CROSS-ROLE STAFF UTILIZATION (Baker/Decorator workload distribution)
+  // Get all active staff
+  const activeStaff = await db.select().from(employees)
+    .where(and(
+      eq(employees.isActive, true),
+      sql`${employees.role} IN ('baker', 'decorator')`
+    ));
+
+  const bakers = activeStaff.filter(s => s.role === 'baker');
+  const decorators = activeStaff.filter(s => s.role === 'decorator');
+
+  // Calculate workload per baker
+  const bakerWorkloads = await Promise.all(bakers.map(async (baker) => {
+    const workload = await db.select().from(orders)
+      .where(and(
+        eq(orders.assignedBaker, baker.id),
+        sql`${orders.status} NOT IN ('completed', 'cancelled')`,
+        isNull(orders.deletedAt)
+      ));
+    return { bakerId: baker.id, bakerName: baker.name, workload: workload.length };
+  }));
+
+  // Calculate workload per decorator
+  const decoratorWorkloads = await Promise.all(decorators.map(async (decorator) => {
+    const workload = await db.select().from(orders)
+      .where(and(
+        eq(orders.assignedDecorator, decorator.id),
+        sql`${orders.status} NOT IN ('completed', 'cancelled')`,
+        isNull(orders.deletedAt)
+      ));
+    return { decoratorId: decorator.id, decoratorName: decorator.name, workload: workload.length };
+  }));
+
+  const avgBakerWorkload = bakers.length > 0
+    ? Math.round(bakerWorkloads.reduce((sum, b) => sum + b.workload, 0) / bakers.length)
+    : 0;
+
+  const avgDecoratorWorkload = decorators.length > 0
+    ? Math.round(decoratorWorkloads.reduce((sum, d) => sum + d.workload, 0) / decorators.length)
+    : 0;
+
+  // KPI 3: SLA ADHERENCE (On-time completion percentage)
+  const completedOrders = await db.select().from(orders)
+    .where(and(
+      sql`${orders.status} IN ('completed', 'ready')`,
+      sql`${orders.updatedAt} >= ${sevenDaysAgo.toISOString()}`,
+      isNull(orders.deletedAt)
+    ));
+
+  let onTimeCount = 0;
+  let lateCount = 0;
+
+  completedOrders.forEach(order => {
+    if (order.eventDate && order.updatedAt) {
+      const eventDate = new Date(order.eventDate);
+      const completedDate = new Date(order.updatedAt);
+      
+      if (completedDate <= eventDate) {
+        onTimeCount++;
+      } else {
+        lateCount++;
+      }
+    }
+  });
+
+  const totalDelivered = onTimeCount + lateCount;
+  const slaAdherenceRate = totalDelivered > 0 
+    ? Math.round((onTimeCount / totalDelivered) * 100)
+    : 100;
+
+  // KPI 4: CRITICAL ACTION ITEMS COUNT
+  // Orders requiring immediate manager attention
+  const criticalActionItems = await db.select().from(orders)
+    .where(and(
+      sql`${orders.status} NOT IN ('completed', 'cancelled')`,
+      or(
+        // High priority orders
+        eq(orders.priority, 'high'),
+        // Overdue orders
+        sql`${orders.eventDate} < ${now.toISOString()}`,
+        // Missing deposits (critical for cash flow)
+        sql`${orders.depositAmount} < (${orders.totalAmount} * 0.5)`
+      ),
+      isNull(orders.deletedAt)
+    ));
+
+  // KPI 5: TEAM PERFORMANCE OVERVIEW
+  // Overall team efficiency metrics
+  const weekOrders = await db.select().from(orders)
+    .where(and(
+      sql`${orders.createdAt} >= ${startOfWeek.toISOString()}`,
+      sql`${orders.createdAt} <= ${endOfWeek.toISOString()}`,
+      isNull(orders.deletedAt)
+    ));
+
+  const weekCompletedOrders = weekOrders.filter(o => 
+    o.status === 'completed' || o.status === 'ready'
+  ).length;
+
+  const teamPerformanceRate = weekOrders.length > 0
+    ? Math.round((weekCompletedOrders / weekOrders.length) * 100)
+    : 0;
+
+  return {
+    // KPI 1: Lost-Order Risk Tracking
+    atRiskOrdersCount: atRiskOrders.length,
+    atRiskValue,
+    
+    // KPI 2: Cross-Role Staff Utilization
+    avgBakerWorkload,
+    avgDecoratorWorkload,
+    totalBakers: bakers.length,
+    totalDecorators: decorators.length,
+    bakerWorkloads,
+    decoratorWorkloads,
+    
+    // KPI 3: SLA Adherence
+    slaAdherenceRate,
+    onTimeCount,
+    lateCount,
+    totalDelivered,
+    
+    // KPI 4: Critical Action Items
+    criticalActionItemsCount: criticalActionItems.length,
+    
+    // KPI 5: Team Performance Overview
+    teamPerformanceRate,
+    weekOrdersCount: weekOrders.length,
+    weekCompletedCount: weekCompletedOrders,
+  };
+}
+
+// Owner Dashboard Metrics - CASE STUDY ALIGNED
+// Required KPIs:
+// 1. Time saved trendline (targeting 20→15hrs/week)
+// 2. Cost of lost orders (targeting $4,800→$960/year reduction)
+// 3. Retention growth (targeting 700→805 returning customers/year)
+// 4. Overall deposit compliance
+// 5. Business health scorecard
+export async function getOwnerDashboardMetrics() {
+  const { startOfWeek, endOfWeek } = getThisWeekRange();
+  const { startOfLastWeek, endOfLastWeek } = getLastWeekRange();
+  const now = new Date();
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  const oneYearAgo = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000);
+
+  // KPI 1: TIME SAVED TRENDLINE (Targeting 20→15hrs/week)
+  // TODO: Requires orderCreationTime field in schema (Phase 8)
+  // For now, calculate based on number of orders created per week
+  // Assumption: Each order takes average time to create
   const thisWeekOrders = await db.select().from(orders)
     .where(and(
       sql`${orders.createdAt} >= ${startOfWeek.toISOString()}`,
       sql`${orders.createdAt} <= ${endOfWeek.toISOString()}`,
-      sql`${orders.status} != 'cancelled'`,
       isNull(orders.deletedAt)
     ));
-
-  const thisWeekRevenue = thisWeekOrders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
 
   const lastWeekOrders = await db.select().from(orders)
     .where(and(
       sql`${orders.createdAt} >= ${startOfLastWeek.toISOString()}`,
       sql`${orders.createdAt} <= ${endOfLastWeek.toISOString()}`,
+      isNull(orders.deletedAt)
+    ));
+
+  // Approximate: Assume baseline 20hrs/week for 10 orders, target 15hrs/week
+  const BASELINE_HOURS = 20;
+  const TARGET_HOURS = 15;
+  const BASELINE_ORDERS = 10;
+  
+  const avgOrdersPerWeek = (thisWeekOrders.length + lastWeekOrders.length) / 2;
+  const estimatedHoursPerWeek = avgOrdersPerWeek > 0
+    ? Math.round((avgOrdersPerWeek / BASELINE_ORDERS) * BASELINE_HOURS)
+    : BASELINE_HOURS;
+  
+  const timeSavedPercentage = BASELINE_HOURS > 0
+    ? Math.round(((BASELINE_HOURS - estimatedHoursPerWeek) / BASELINE_HOURS) * 100)
+    : 0;
+
+  // KPI 2: COST OF LOST ORDERS (Targeting $4,800→$960/year reduction)
+  // Calculate value of cancelled/lost orders
+  const yearCancelledOrders = await db.select().from(orders)
+    .where(and(
+      eq(orders.status, 'cancelled'),
+      sql`${orders.createdAt} >= ${oneYearAgo.toISOString()}`,
+      isNull(orders.deletedAt)
+    ));
+
+  const lostOrdersCost = yearCancelledOrders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
+  
+  // Also include at-risk orders (overdue, missing data)
+  const atRiskOrders = await db.select().from(orders)
+    .where(and(
+      sql`${orders.status} NOT IN ('completed', 'cancelled')`,
+      or(
+        isNull(orders.flavor),
+        isNull(orders.servings),
+        sql`${orders.eventDate} < ${now.toISOString()}`
+      ),
+      isNull(orders.deletedAt)
+    ));
+
+  const atRiskValue = atRiskOrders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
+  const totalLostOrdersCost = lostOrdersCost + atRiskValue;
+  
+  const BASELINE_LOST_COST = 480000; // $4,800 in cents
+  const TARGET_LOST_COST = 96000; // $960 in cents
+  const lostOrdersReductionPercentage = BASELINE_LOST_COST > 0
+    ? Math.round(((BASELINE_LOST_COST - totalLostOrdersCost) / BASELINE_LOST_COST) * 100)
+    : 0;
+
+  // KPI 3: RETENTION GROWTH (Targeting 700→805 returning customers/year)
+  // Calculate returning customers (customers with 2+ orders)
+  const allCustomers = await db.select({
+    id: customers.id,
+    orderCount: sql<number>`COUNT(${orders.id})::int`
+  })
+  .from(customers)
+  .leftJoin(orders, eq(orders.customerId, customers.id))
+  .where(isNull(customers.deletedAt))
+  .groupBy(customers.id);
+
+  const returningCustomersCount = allCustomers.filter(c => c.orderCount >= 2).length;
+  
+  const BASELINE_RETURNING = 700;
+  const TARGET_RETURNING = 805;
+  const retentionGrowthPercentage = BASELINE_RETURNING > 0
+    ? Math.round(((returningCustomersCount - BASELINE_RETURNING) / BASELINE_RETURNING) * 100)
+    : 0;
+
+  // KPI 4: OVERALL DEPOSIT COMPLIANCE
+  // Percentage of orders meeting 50% deposit requirement
+  const allActiveOrders = await db.select().from(orders)
+    .where(and(
       sql`${orders.status} != 'cancelled'`,
       isNull(orders.deletedAt)
     ));
 
-  const lastWeekRevenue = lastWeekOrders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
-  const revenueTrend = thisWeekRevenue - lastWeekRevenue;
+  const compliantOrders = allActiveOrders.filter(order => {
+    const depositAmount = order.depositAmount || 0;
+    const totalAmount = order.totalAmount || 0;
+    return depositAmount >= (totalAmount * 0.5);
+  }).length;
 
-  // KPI 3: Team Performance (% of orders completed on time in last 30 days)
-  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
-  const recentOrders = await db.select().from(orders)
-    .where(and(
-      sql`${orders.createdAt} >= ${thirtyDaysAgo.toISOString()}`,
-      isNull(orders.deletedAt)
-    ));
+  const depositComplianceRate = allActiveOrders.length > 0
+    ? Math.round((compliantOrders / allActiveOrders.length) * 100)
+    : 100;
 
-  const completedOnTime = recentOrders.filter(o => 
-    (o.status === 'completed' || o.status === 'ready') && 
-    o.eventDate && 
-    new Date(o.eventDate) >= new Date()
-  ).length;
-
-  const teamPerformance = recentOrders.length > 0 
-    ? Math.round((completedOnTime / recentOrders.length) * 100) 
-    : 0;
-
-  // KPI 4: Customer Satisfaction (mock - could be based on feedback/ratings)
-  // For now, we'll calculate based on VIP customers and total customers
-  const allCustomers = await db.select().from(customers)
-    .where(isNull(customers.deletedAt));
+  // KPI 5: BUSINESS HEALTH SCORECARD
+  // Composite score based on all case study objectives
+  const TARGET_DEPOSIT_COMPLIANCE = 100; // 100% compliance
   
-  const vipCustomers = allCustomers.filter(c => c.isVip);
-  const satisfactionScore = allCustomers.length > 0 
-    ? Math.round((vipCustomers.length / allCustomers.length) * 100) 
-    : 0;
+  // Calculate overall health score (average of all KPIs meeting targets)
+  const timeTargetMet = estimatedHoursPerWeek <= TARGET_HOURS ? 100 : Math.max(0, 100 - ((estimatedHoursPerWeek - TARGET_HOURS) / TARGET_HOURS * 100));
+  const lostOrdersTargetMet = totalLostOrdersCost <= TARGET_LOST_COST ? 100 : Math.max(0, 100 - ((totalLostOrdersCost - TARGET_LOST_COST) / BASELINE_LOST_COST * 100));
+  const retentionTargetMet = returningCustomersCount >= TARGET_RETURNING ? 100 : Math.round((returningCustomersCount / TARGET_RETURNING) * 100);
+  const depositTargetMet = depositComplianceRate;
+  
+  const businessHealthScore = Math.round((timeTargetMet + lostOrdersTargetMet + retentionTargetMet + depositTargetMet) / 4);
 
   return {
-    totalOrdersCount: totalOrders.length,
-    thisWeekRevenue,
-    lastWeekRevenue,
-    revenueTrend,
-    teamPerformance,
-    satisfactionScore,
+    // KPI 1: Time Saved Trendline
+    estimatedHoursPerWeek,
+    baselineHours: BASELINE_HOURS,
+    targetHours: TARGET_HOURS,
+    timeSavedPercentage,
+    thisWeekOrdersCount: thisWeekOrders.length,
+    
+    // KPI 2: Cost of Lost Orders
+    totalLostOrdersCost,
+    lostOrdersCost,
+    atRiskValue,
+    baselineLostCost: BASELINE_LOST_COST,
+    targetLostCost: TARGET_LOST_COST,
+    lostOrdersReductionPercentage,
+    cancelledOrdersCount: yearCancelledOrders.length,
+    atRiskOrdersCount: atRiskOrders.length,
+    
+    // KPI 3: Retention Growth
+    returningCustomersCount,
+    baselineReturning: BASELINE_RETURNING,
+    targetReturning: TARGET_RETURNING,
+    retentionGrowthPercentage,
+    totalCustomersCount: allCustomers.length,
+    
+    // KPI 4: Overall Deposit Compliance
+    depositComplianceRate,
+    compliantOrdersCount: compliantOrders,
+    totalOrdersCount: allActiveOrders.length,
+    
+    // KPI 5: Business Health Scorecard
+    businessHealthScore,
+    timeTargetMet: Math.round(timeTargetMet),
+    lostOrdersTargetMet: Math.round(lostOrdersTargetMet),
+    retentionTargetMet: Math.round(retentionTargetMet),
+    depositTargetMet,
   };
+}
+
+// ============ DASHBOARD DETAIL ENDPOINTS (Phase 2.2) ============
+
+// SALES DASHBOARD DETAIL QUERIES
+
+export async function getTodaysOrders() {
+  const { startOfToday, endOfToday } = getTodayRange();
+  
+  return await db
+    .select({
+      id: orders.id,
+      customerId: orders.customerId,
+      customerName: customers.name,
+      customerEmail: customers.email,
+      customerPhone: customers.phone,
+      orderType: orders.orderType,
+      eventDate: orders.eventDate,
+      totalAmount: orders.totalAmount,
+      depositAmount: orders.depositAmount,
+      balanceDue: orders.balanceDue,
+      paymentStatus: orders.paymentStatus,
+      status: orders.status,
+      priority: orders.priority,
+      createdAt: orders.createdAt,
+    })
+    .from(orders)
+    .leftJoin(customers, eq(orders.customerId, customers.id))
+    .where(and(
+      sql`${orders.createdAt} >= ${startOfToday.toISOString()}`,
+      sql`${orders.createdAt} <= ${endOfToday.toISOString()}`,
+      isNull(orders.deletedAt)
+    ))
+    .orderBy(desc(orders.createdAt));
+}
+
+export async function getPendingDeposits() {
+  return await db
+    .select({
+      id: orders.id,
+      customerId: orders.customerId,
+      customerName: customers.name,
+      customerEmail: customers.email,
+      customerPhone: customers.phone,
+      orderType: orders.orderType,
+      eventDate: orders.eventDate,
+      totalAmount: orders.totalAmount,
+      depositAmount: orders.depositAmount,
+      balanceDue: orders.balanceDue,
+      depositRequired: orders.depositRequired,
+      depositMet: orders.depositMet,
+      paymentStatus: orders.paymentStatus,
+      status: orders.status,
+      priority: orders.priority,
+      createdAt: orders.createdAt,
+    })
+    .from(orders)
+    .leftJoin(customers, eq(orders.customerId, customers.id))
+    .where(and(
+      eq(orders.paymentStatus, 'partial'),
+      sql`${orders.status} != 'cancelled'`,
+      isNull(orders.deletedAt)
+    ))
+    .orderBy(desc(orders.eventDate));
+}
+
+export async function getPickupsToday() {
+  const { startOfToday } = getTodayRange();
+  
+  return await db
+    .select({
+      id: orders.id,
+      customerId: orders.customerId,
+      customerName: customers.name,
+      customerEmail: customers.email,
+      customerPhone: customers.phone,
+      orderType: orders.orderType,
+      eventDate: orders.eventDate,
+      totalAmount: orders.totalAmount,
+      depositAmount: orders.depositAmount,
+      balanceDue: orders.balanceDue,
+      paymentStatus: orders.paymentStatus,
+      status: orders.status,
+      priority: orders.priority,
+      createdAt: orders.createdAt,
+    })
+    .from(orders)
+    .leftJoin(customers, eq(orders.customerId, customers.id))
+    .where(and(
+      sql`DATE(${orders.eventDate}) = DATE(${startOfToday.toISOString()})`,
+      sql`${orders.status} != 'cancelled'`,
+      isNull(orders.deletedAt)
+    ))
+    .orderBy(orders.eventDate);
+}
+
+export async function getRecentInquiries() {
+  return await db
+    .select({
+      id: contactMessages.id,
+      name: contactMessages.name,
+      email: contactMessages.email,
+      phone: contactMessages.phone,
+      subject: contactMessages.subject,
+      message: contactMessages.message,
+      status: contactMessages.status,
+      createdAt: contactMessages.createdAt,
+    })
+    .from(contactMessages)
+    .where(eq(contactMessages.status, 'unread'))
+    .orderBy(desc(contactMessages.createdAt));
+}
+
+// BAKER DASHBOARD DETAIL QUERIES
+
+export async function getBakerQueue(bakerId: number) {
+  return await db
+    .select({
+      id: orders.id,
+      customerId: orders.customerId,
+      customerName: customers.name,
+      customerEmail: customers.email,
+      customerPhone: customers.phone,
+      orderType: orders.orderType,
+      flavor: orders.flavor,
+      layers: orders.layers,
+      servings: orders.servings,
+      eventDate: orders.eventDate,
+      totalAmount: orders.totalAmount,
+      status: orders.status,
+      priority: orders.priority,
+      additionalNotes: orders.additionalNotes,
+      adminNotes: orders.adminNotes,
+      createdAt: orders.createdAt,
+    })
+    .from(orders)
+    .leftJoin(customers, eq(orders.customerId, customers.id))
+    .where(and(
+      eq(orders.assignedBaker, bakerId),
+      sql`${orders.status} IN ('pending', 'in_baking')`,
+      isNull(orders.deletedAt)
+    ))
+    .orderBy(orders.eventDate, orders.priority);
+}
+
+export async function getBakerOrdersDueToday(bakerId: number) {
+  const { startOfToday } = getTodayRange();
+  
+  return await db
+    .select({
+      id: orders.id,
+      customerId: orders.customerId,
+      customerName: customers.name,
+      customerEmail: customers.email,
+      customerPhone: customers.phone,
+      orderType: orders.orderType,
+      flavor: orders.flavor,
+      layers: orders.layers,
+      servings: orders.servings,
+      eventDate: orders.eventDate,
+      totalAmount: orders.totalAmount,
+      status: orders.status,
+      priority: orders.priority,
+      additionalNotes: orders.additionalNotes,
+      adminNotes: orders.adminNotes,
+      createdAt: orders.createdAt,
+    })
+    .from(orders)
+    .leftJoin(customers, eq(orders.customerId, customers.id))
+    .where(and(
+      eq(orders.assignedBaker, bakerId),
+      sql`DATE(${orders.eventDate}) = DATE(${startOfToday.toISOString()})`,
+      sql`${orders.status} != 'cancelled'`,
+      isNull(orders.deletedAt)
+    ))
+    .orderBy(orders.eventDate);
+}
+
+export async function getBakerTomorrowSchedule(bakerId: number) {
+  const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000);
+  const startOfTomorrow = new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(), 0, 0, 0);
+  
+  return await db
+    .select({
+      id: orders.id,
+      customerId: orders.customerId,
+      customerName: customers.name,
+      customerEmail: customers.email,
+      customerPhone: customers.phone,
+      orderType: orders.orderType,
+      flavor: orders.flavor,
+      layers: orders.layers,
+      servings: orders.servings,
+      eventDate: orders.eventDate,
+      totalAmount: orders.totalAmount,
+      status: orders.status,
+      priority: orders.priority,
+      additionalNotes: orders.additionalNotes,
+      adminNotes: orders.adminNotes,
+      createdAt: orders.createdAt,
+    })
+    .from(orders)
+    .leftJoin(customers, eq(orders.customerId, customers.id))
+    .where(and(
+      eq(orders.assignedBaker, bakerId),
+      sql`DATE(${orders.eventDate}) = DATE(${startOfTomorrow.toISOString()})`,
+      sql`${orders.status} != 'cancelled'`,
+      isNull(orders.deletedAt)
+    ))
+    .orderBy(orders.eventDate);
+}
+
+// DECORATOR DASHBOARD DETAIL QUERIES
+
+export async function getDecoratorQueue(decoratorId: number) {
+  return await db
+    .select({
+      id: orders.id,
+      customerId: orders.customerId,
+      customerName: customers.name,
+      customerEmail: customers.email,
+      customerPhone: customers.phone,
+      orderType: orders.orderType,
+      flavor: orders.flavor,
+      layers: orders.layers,
+      servings: orders.servings,
+      eventDate: orders.eventDate,
+      totalAmount: orders.totalAmount,
+      status: orders.status,
+      priority: orders.priority,
+      inspirationImages: orders.inspirationImages,
+      additionalNotes: orders.additionalNotes,
+      adminNotes: orders.adminNotes,
+      createdAt: orders.createdAt,
+    })
+    .from(orders)
+    .leftJoin(customers, eq(orders.customerId, customers.id))
+    .where(and(
+      eq(orders.assignedDecorator, decoratorId),
+      sql`${orders.status} IN ('in_decoration', 'awaiting_decoration')`,
+      isNull(orders.deletedAt)
+    ))
+    .orderBy(orders.eventDate, orders.priority);
+}
+
+export async function getOrdersAwaitingPhotos(decoratorId: number) {
+  return await db
+    .select({
+      id: orders.id,
+      customerId: orders.customerId,
+      customerName: customers.name,
+      customerEmail: customers.email,
+      customerPhone: customers.phone,
+      orderType: orders.orderType,
+      eventDate: orders.eventDate,
+      totalAmount: orders.totalAmount,
+      status: orders.status,
+      priority: orders.priority,
+      inspirationImages: orders.inspirationImages,
+      createdAt: orders.createdAt,
+    })
+    .from(orders)
+    .leftJoin(customers, eq(orders.customerId, customers.id))
+    .where(and(
+      eq(orders.assignedDecorator, decoratorId),
+      sql`${orders.status} IN ('ready', 'completed')`,
+      isNull(orders.deletedAt)
+    ))
+    .orderBy(desc(orders.createdAt));
+}
+
+export async function getUrgentOrders(decoratorId: number) {
+  const urgentDeadline = new Date(Date.now() + 24 * 60 * 60 * 1000);
+  
+  return await db
+    .select({
+      id: orders.id,
+      customerId: orders.customerId,
+      customerName: customers.name,
+      customerEmail: customers.email,
+      customerPhone: customers.phone,
+      orderType: orders.orderType,
+      flavor: orders.flavor,
+      layers: orders.layers,
+      eventDate: orders.eventDate,
+      totalAmount: orders.totalAmount,
+      status: orders.status,
+      priority: orders.priority,
+      additionalNotes: orders.additionalNotes,
+      adminNotes: orders.adminNotes,
+      createdAt: orders.createdAt,
+    })
+    .from(orders)
+    .leftJoin(customers, eq(orders.customerId, customers.id))
+    .where(and(
+      eq(orders.assignedDecorator, decoratorId),
+      sql`${orders.eventDate} <= ${urgentDeadline.toISOString()}`,
+      sql`${orders.status} NOT IN ('completed', 'cancelled')`,
+      isNull(orders.deletedAt)
+    ))
+    .orderBy(orders.eventDate);
+}
+
+// ACCOUNTANT DASHBOARD DETAIL QUERIES
+
+export async function getOutstandingBalances() {
+  return await db
+    .select({
+      id: orders.id,
+      customerId: orders.customerId,
+      customerName: customers.name,
+      customerEmail: customers.email,
+      customerPhone: customers.phone,
+      orderType: orders.orderType,
+      eventDate: orders.eventDate,
+      totalAmount: orders.totalAmount,
+      depositAmount: orders.depositAmount,
+      balanceDue: orders.balanceDue,
+      paymentStatus: orders.paymentStatus,
+      status: orders.status,
+      createdAt: orders.createdAt,
+    })
+    .from(orders)
+    .leftJoin(customers, eq(orders.customerId, customers.id))
+    .where(and(
+      sql`${orders.balanceDue} > 0`,
+      sql`${orders.status} != 'cancelled'`,
+      isNull(orders.deletedAt)
+    ))
+    .orderBy(desc(orders.balanceDue));
+}
+
+export async function getPaidInFullOrders() {
+  return await db
+    .select({
+      id: orders.id,
+      customerId: orders.customerId,
+      customerName: customers.name,
+      customerEmail: customers.email,
+      customerPhone: customers.phone,
+      orderType: orders.orderType,
+      eventDate: orders.eventDate,
+      totalAmount: orders.totalAmount,
+      depositAmount: orders.depositAmount,
+      balanceDue: orders.balanceDue,
+      paymentStatus: orders.paymentStatus,
+      paymentDate: orders.paymentDate,
+      status: orders.status,
+      createdAt: orders.createdAt,
+    })
+    .from(orders)
+    .leftJoin(customers, eq(orders.customerId, customers.id))
+    .where(and(
+      eq(orders.paymentStatus, 'paid'),
+      isNull(orders.deletedAt)
+    ))
+    .orderBy(desc(orders.paymentDate));
+}
+
+export async function getRevenueBreakdown(period: 'daily' | 'weekly' = 'daily') {
+  const now = new Date();
+  let startDate: Date;
+  
+  if (period === 'daily') {
+    // Last 7 days
+    startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7, 0, 0, 0);
+  } else {
+    // Last 4 weeks
+    startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 28, 0, 0, 0);
+  }
+  
+  return await db
+    .select({
+      id: orders.id,
+      customerId: orders.customerId,
+      customerName: customers.name,
+      orderType: orders.orderType,
+      totalAmount: orders.totalAmount,
+      depositAmount: orders.depositAmount,
+      balanceDue: orders.balanceDue,
+      paymentStatus: orders.paymentStatus,
+      status: orders.status,
+      createdAt: orders.createdAt,
+    })
+    .from(orders)
+    .leftJoin(customers, eq(orders.customerId, customers.id))
+    .where(and(
+      sql`${orders.createdAt} >= ${startDate.toISOString()}`,
+      sql`${orders.status} != 'cancelled'`,
+      isNull(orders.deletedAt)
+    ))
+    .orderBy(desc(orders.createdAt));
+}
+
+// ============ ACTIVITY FEED (Phase 2.3) ============
+
+export async function getActivityFeed(limit: number = 20, offset: number = 0) {
+  return await db
+    .select({
+      id: orderStatusHistory.id,
+      orderId: orderStatusHistory.orderId,
+      oldStatus: orderStatusHistory.oldStatus,
+      newStatus: orderStatusHistory.newStatus,
+      employeeName: employees.name,
+      employeeRole: employees.role,
+      notes: orderStatusHistory.notes,
+      createdAt: orderStatusHistory.createdAt,
+    })
+    .from(orderStatusHistory)
+    .leftJoin(employees, eq(orderStatusHistory.updatedBy, employees.id))
+    .orderBy(desc(orderStatusHistory.createdAt))
+    .limit(limit)
+    .offset(offset);
 }

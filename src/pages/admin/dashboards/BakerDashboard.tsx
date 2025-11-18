@@ -1,201 +1,409 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
-import { Cake, Plus, Users, Package, Flame } from 'lucide-react';
-import { KPICard } from '../../../components/dashboard/KPICard';
-import { OrderQueueCard } from '../../../components/dashboard/OrderQueueCard';
-import { QuickActionCard } from '../../../components/dashboard/QuickActionCard';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../components/ui/tabs';
+import { Gauge, CheckCircle, AlertTriangle, Clock, Package, Plus, Users, ClipboardList } from 'lucide-react';
+import { toast } from 'sonner';
+import {
+  KPICardV2,
+  DashboardModal,
+  DataTable,
+  ActivityFeed,
+  Button,
+  Badge,
+} from '../../../components/dashboard-v2';
 
 interface BakerDashboardProps {
   onNavigate?: (page: string) => void;
 }
 
+interface DashboardMetrics {
+  prepTimePerOrder: {
+    minutes: number;
+    completedCount: number;
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
+  onTimeHandoff: {
+    percentage: number;
+    onTimeCount: number;
+    totalHandoffs: number;
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
+  currentWorkload: {
+    count: number;
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
+  ordersInProduction: {
+    count: number;
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
+  overdueOrders: {
+    count: number;
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
+}
+
+interface Order {
+  id: number;
+  customerName: string;
+  customerEmail?: string;
+  customerPhone?: string;
+  orderType: string;
+  flavor?: string;
+  servings?: number;
+  eventDate: string;
+  status: string;
+  priority: string;
+  additionalNotes?: string;
+  adminNotes?: string;
+  createdAt: string;
+  layers?: any;
+}
+
+interface ActivityItem {
+  id: string;
+  type: string;
+  title: string;
+  description: string;
+  timestamp: Date;
+  metadata?: Record<string, any>;
+}
+
 export function BakerDashboard({ onNavigate }: BakerDashboardProps) {
-  const [orders, setOrders] = useState<any[]>([]);
+  const [metrics, setMetrics] = useState<DashboardMetrics | null>(null);
   const [loading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState<string | null>(null);
+  const [modalData, setModalData] = useState<any[]>([]);
+  const [modalLoading, setModalLoading] = useState(false);
 
   useEffect(() => {
-    fetchOrders();
+    fetchMetrics();
   }, []);
 
-  const fetchOrders = async () => {
+  const fetchMetrics = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/orders', {
+      const response = await fetch('/api/dashboards/baker', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
+
       if (response.ok) {
         const data = await response.json();
-        setOrders(data);
+        setMetrics(data);
+      } else {
+        toast.error('Failed to load dashboard metrics');
       }
     } catch (error) {
-      console.error('Failed to fetch orders:', error);
+      console.error('Failed to fetch baker dashboard:', error);
+      toast.error('Failed to load dashboard');
     } finally {
       setLoading(false);
     }
   };
 
-  // Baker-specific: orders in baking stages
-  const bakingQueue = orders
-    .filter(o => ['pending', 'baking', 'cooling'].includes(o.status?.toLowerCase() || ''))
-    .sort((a, b) => {
-      // Priority: high > medium > low
-      const priorityOrder = { high: 3, medium: 2, low: 1 };
-      return (priorityOrder[b.priority] || 0) - (priorityOrder[a.priority] || 0);
-    })
-    .slice(0, 10)
-    .map(o => ({
-      id: o.id,
-      customerName: o.customerName || 'Unknown',
-      occasion: o.occasion || 'Custom Order',
-      eventDate: o.eventDate,
-      status: o.status || 'pending',
-      priority: o.priority || 'medium'
-    }));
+  const handleKPIClick = async (kpiType: string) => {
+    setModalOpen(true);
+    setModalContent(kpiType);
+    setModalLoading(true);
 
-  // Sales view: recent orders
-  const recentOrders = orders
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 5)
-    .map(o => ({
-      id: o.id,
-      customerName: o.customerName || 'Unknown',
-      occasion: o.occasion || 'Custom Order',
-      eventDate: o.eventDate,
-      status: o.status,
-      priority: o.priority || 'medium'
-    }));
+    try {
+      const token = localStorage.getItem('token');
+      let endpoint = '';
 
-  const bakingActions = [
-    {
-      label: 'View All Orders',
-      icon: Package,
-      color: '#5A3825',
-      onClick: () => onNavigate?.('order-management')
-    },
-    {
-      label: 'Fulfillment Board',
-      icon: Cake,
-      color: '#C44569',
-      onClick: () => onNavigate?.('fulfillment-board')
+      switch (kpiType) {
+        case 'My Queue':
+          endpoint = '/api/dashboards/baker/my-queue';
+          break;
+        case 'Due Today':
+          endpoint = '/api/dashboards/baker/due-today';
+          break;
+        case "Tomorrow's Schedule":
+          endpoint = '/api/dashboards/baker/tomorrows-schedule';
+          break;
+        default:
+          setModalLoading(false);
+          return;
+      }
+
+      const response = await fetch(endpoint, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setModalData(data);
+      } else {
+        toast.error('Failed to load details');
+      }
+    } catch (error) {
+      console.error('Failed to fetch modal data:', error);
+      toast.error('Failed to load data');
+    } finally {
+      setModalLoading(false);
     }
-  ];
-
-  const salesActions = [
-    {
-      label: 'Create New Order',
-      icon: Plus,
-      color: '#C44569',
-      onClick: () => onNavigate?.('order-create')
-    },
-    {
-      label: 'Manage Customers',
-      icon: Users,
-      color: '#5A3825',
-      onClick: () => onNavigate?.('customer-accounts')
-    }
-  ];
+  };
 
   if (loading) {
     return (
-      <div className="h-full flex items-center justify-center" style={{ background: '#F8EBD7' }}>
-        <p style={{ fontFamily: 'Open Sans, sans-serif', color: '#5A3825' }}>Loading dashboard...</p>
+      <div className="sales-dashboard-container">
+        <KPICardV2
+          title="Prep Time Per Order"
+          value={0}
+          trend={{ value: 'Loading...', period: '', direction: 'neutral' }}
+          icon={Clock}
+          iconColor="#C44569"
+          loading={true}
+        />
       </div>
     );
   }
 
-  return (
-    <div className="h-full overflow-auto" style={{ background: '#F8EBD7', padding: 'clamp(20px, 4vw, 40px)' }}>
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-6"
-      >
-        <h1 style={{
-          fontFamily: 'Playfair Display, serif',
-          fontSize: 'clamp(24px, 5vw, 36px)',
-          fontWeight: 700,
-          color: '#2B2B2B',
-          marginBottom: '8px'
-        }}>
-          Baker Dashboard
-        </h1>
-        <p style={{ fontFamily: 'Open Sans, sans-serif', fontSize: '14px', color: '#5A3825' }}>
-          Your baking queue + sales support when available
-        </p>
-      </motion.div>
+  if (!metrics) {
+    return (
+      <div className="sales-dashboard-container">
+        <p>Failed to load dashboard</p>
+      </div>
+    );
+  }
 
-      {/* KPIs */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <KPICard
-          title="In Baking Queue"
-          value={bakingQueue.length}
-          icon={Flame}
-          color="#C44569"
-          index={0}
-        />
-        <KPICard
-          title="High Priority"
-          value={bakingQueue.filter(o => o.priority === 'high').length}
-          icon={Cake}
-          color="#DC3545"
-          index={1}
-        />
-        <KPICard
-          title="Total Orders"
-          value={orders.length}
-          icon={Package}
-          color="#5A3825"
-          index={2}
-        />
+  const getStatusVariant = (status: string): 'success' | 'warning' | 'error' | 'info' | 'neutral' => {
+    const statusMap: Record<string, 'success' | 'warning' | 'error' | 'info' | 'neutral'> = {
+      completed: 'success',
+      ready: 'success',
+      in_baking: 'info',
+      cooling: 'info',
+      pending: 'warning',
+      cancelled: 'error',
+    };
+    return statusMap[status.toLowerCase()] || 'neutral';
+  };
+
+  const getPriorityVariant = (priority: string): 'success' | 'warning' | 'error' | 'info' | 'neutral' => {
+    const priorityMap: Record<string, 'success' | 'warning' | 'error' | 'info' | 'neutral'> = {
+      high: 'error',
+      medium: 'warning',
+      low: 'success',
+    };
+    return priorityMap[priority.toLowerCase()] || 'neutral';
+  };
+
+  const orderColumns = [
+    { 
+      accessor: 'customerName' as const,
+      header: 'Customer',
+      render: (row: Order) => (
+        <div>
+          <div className="font-medium">{row.customerName || 'Unknown'}</div>
+          {row.customerEmail && (
+            <div className="text-sm text-gray-500">{row.customerEmail}</div>
+          )}
+        </div>
+      )
+    },
+    { 
+      accessor: 'orderType' as const,
+      header: 'Cake Type',
+      render: (row: Order) => row.orderType || row.flavor || 'Custom'
+    },
+    { 
+      accessor: 'servings' as const,
+      header: 'Servings',
+      render: (row: Order) => row.servings ? `${row.servings} servings` : 'N/A'
+    },
+    { 
+      accessor: 'eventDate' as const,
+      header: 'Event Date',
+      format: 'date' as const,
+      sortable: true
+    },
+    { 
+      accessor: 'status' as const,
+      header: 'Status',
+      render: (row: Order) => (
+        <Badge variant={getStatusVariant(row.status)}>
+          {row.status}
+        </Badge>
+      )
+    },
+    { 
+      accessor: 'priority' as const,
+      header: 'Priority',
+      render: (row: Order) => (
+        <Badge variant={getPriorityVariant(row.priority)}>
+          {row.priority}
+        </Badge>
+      )
+    },
+  ];
+
+  return (
+    <>
+      <div className="sales-dashboard-container">
+        <div className="sales-dashboard-header">
+          <h1>Baker Dashboard</h1>
+          <p>Production capacity, prep readiness, and efficiency metrics</p>
+        </div>
+
+        <div className="kpi-grid">
+          <KPICardV2
+            title="Prep Time Per Order"
+            value={`${metrics.prepTimePerOrder.minutes} min`}
+            trend={metrics.prepTimePerOrder.trend}
+            icon={Clock}
+            iconColor={metrics.prepTimePerOrder.minutes <= 120 ? '#4CAF50' : metrics.prepTimePerOrder.minutes <= 180 ? '#FFB84D' : '#FF6B6B'}
+            onClick={() => {}}
+          />
+          <KPICardV2
+            title="On-Time Handoff"
+            value={`${metrics.onTimeHandoff.percentage}%`}
+            trend={metrics.onTimeHandoff.trend}
+            icon={CheckCircle}
+            iconColor={metrics.onTimeHandoff.percentage >= 90 ? '#4CAF50' : metrics.onTimeHandoff.percentage >= 75 ? '#FFB84D' : '#FF6B6B'}
+            onClick={() => {}}
+          />
+          <KPICardV2
+            title="Current Workload"
+            value={metrics.currentWorkload.count}
+            trend={metrics.currentWorkload.trend}
+            icon={Package}
+            iconColor={metrics.currentWorkload.count <= 5 ? '#4CAF50' : metrics.currentWorkload.count <= 10 ? '#FFB84D' : '#FF6B6B'}
+            onClick={() => {}}
+          />
+          <KPICardV2
+            title="Orders In Production"
+            value={metrics.ordersInProduction.count}
+            trend={metrics.ordersInProduction.trend}
+            icon={Gauge}
+            iconColor="#6A89CC"
+            onClick={() => {}}
+          />
+          <KPICardV2
+            title="Overdue Orders"
+            value={metrics.overdueOrders.count}
+            trend={metrics.overdueOrders.trend}
+            icon={AlertTriangle}
+            iconColor={metrics.overdueOrders.count === 0 ? '#4CAF50' : '#FF6B6B'}
+            onClick={() => {}}
+          />
+        </div>
+
+        <div className="quick-actions">
+          <Button
+            variant="primary"
+            leftIcon={<Package size={18} />}
+            onClick={() => onNavigate?.('order-management')}
+          >
+            View All Orders
+          </Button>
+          <Button
+            variant="secondary"
+            leftIcon={<ClipboardList size={18} />}
+            onClick={() => onNavigate?.('fulfillment-board')}
+          >
+            Fulfillment Board
+          </Button>
+          <Button
+            variant="secondary"
+            leftIcon={<Plus size={18} />}
+            onClick={() => onNavigate?.('order-create')}
+          >
+            Create Order (Sales)
+          </Button>
+          <Button
+            variant="secondary"
+            leftIcon={<Users size={18} />}
+            onClick={() => onNavigate?.('customer-accounts')}
+          >
+            Manage Customers (Sales)
+          </Button>
+        </div>
+
+        <div className="data-section">
+          <div className="recent-orders-card">
+            <h3>My Baking Queue</h3>
+            <DataTable
+              columns={orderColumns}
+              data={modalData.length > 0 ? modalData.slice(0, 10) : []}
+              onRowClick={(row) => onNavigate?.(`order-details/${row.id}`)}
+              exportFilename="baking-queue"
+              emptyMessage="No orders in your baking queue"
+            />
+          </div>
+
+          <ActivityFeed
+            events={[
+              {
+                id: '1',
+                type: 'staff_action',
+                user: { name: 'Manager', role: 'manager' },
+                action: 'assigned new wedding cake order for Johnson - 3 tiers',
+                timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
+              },
+              {
+                id: '2',
+                type: 'staff_action',
+                user: { name: 'You', role: 'baker' },
+                action: 'completed birthday cake for Smith family',
+                timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000),
+              },
+              {
+                id: '3',
+                type: 'status_update',
+                user: { name: 'You', role: 'baker' },
+                action: 'moved anniversary cake to cooling',
+                timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+              },
+            ]}
+            loading={false}
+            maxHeight="calc(100vh - 400px)"
+          />
+        </div>
       </div>
 
-      {/* Tabbed Interface: Baking + Sales */}
-      <Tabs defaultValue="baking" className="w-full">
-        <TabsList className="mb-4">
-          <TabsTrigger value="baking" style={{ fontFamily: 'Open Sans, sans-serif' }}>
-            🔥 Baking Queue
-          </TabsTrigger>
-          <TabsTrigger value="sales" style={{ fontFamily: 'Open Sans, sans-serif' }}>
-            💼 Sales Support
-          </TabsTrigger>
-        </TabsList>
-
-        {/* Baking Queue Tab */}
-        <TabsContent value="baking">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-1">
-              <QuickActionCard title="Baking Actions" actions={bakingActions} />
-            </div>
-            <div className="lg:col-span-2">
-              <OrderQueueCard
-                title="My Baking Queue"
-                orders={bakingQueue}
-                emptyMessage="No orders in baking queue"
-                onOrderClick={() => onNavigate?.('fulfillment-board')}
-              />
-            </div>
+      <DashboardModal
+        isOpen={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+          setModalContent(null);
+          setModalData([]);
+        }}
+        title={modalContent || ''}
+      >
+        {modalLoading ? (
+          <div style={{ padding: '40px', textAlign: 'center', color: '#5A3825' }}>
+            Loading...
           </div>
-        </TabsContent>
-
-        {/* Sales Support Tab */}
-        <TabsContent value="sales">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-1">
-              <QuickActionCard title="Sales Actions" actions={salesActions} />
-            </div>
-            <div className="lg:col-span-2">
-              <OrderQueueCard
-                title="Recent Orders"
-                orders={recentOrders}
-                emptyMessage="No recent orders"
-                onOrderClick={() => onNavigate?.('order-management')}
-              />
-            </div>
-          </div>
-        </TabsContent>
-      </Tabs>
-    </div>
+        ) : (
+          <DataTable
+            columns={orderColumns}
+            data={modalData}
+            onRowClick={(row) => {
+              setModalOpen(false);
+              onNavigate?.(`order-details/${row.id}`);
+            }}
+            exportFilename={modalContent || 'data'}
+            emptyMessage="No data available"
+          />
+        )}
+      </DashboardModal>
+    </>
   );
 }

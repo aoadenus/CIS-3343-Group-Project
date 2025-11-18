@@ -22,6 +22,21 @@ export function Step5Design() {
     updateFormData({ decorations: newDecorations });
   };
 
+  const CATEGORY_LABELS: Record<string, string> = {
+    primary: 'Primary',
+    pastel: 'Pastel',
+    neon: 'Neon',
+    fall: 'Fall',
+    extra: 'Extra'
+  };
+
+  // Walkthrough removals
+  const bannedByCategory: Record<string, Set<string>> = {
+    primary: new Set(['pink']),
+    pastel: new Set(['peach']),
+    neon: new Set(['lime'])
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -98,7 +113,7 @@ export function Step5Design() {
 
         <div className="space-y-4">
           {['primary', 'pastel', 'neon', 'fall', 'extra'].map((category) => {
-            const categoryColors = icingColors.filter((c) => c.category === category);
+            const categoryColors = icingColors.filter((c) => c.category === category && !bannedByCategory[category]?.has(c.id));
             return (
               <div key={category}>
                 <h4
@@ -110,7 +125,7 @@ export function Step5Design() {
                     color: '#2B2B2B'
                   }}
                 >
-                  {category} Colors
+                  {CATEGORY_LABELS[category] ?? category} Colors
                 </h4>
                 <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
                   {categoryColors.map((color) => {

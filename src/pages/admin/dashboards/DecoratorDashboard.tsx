@@ -1,200 +1,392 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
-import { Sparkles, Plus, Users, Package, Palette } from 'lucide-react';
-import { KPICard } from '../../../components/dashboard/KPICard';
-import { OrderQueueCard } from '../../../components/dashboard/OrderQueueCard';
-import { QuickActionCard } from '../../../components/dashboard/QuickActionCard';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../components/ui/tabs';
+import { Sparkles, Camera, Clock, AlertCircle, Plus, Users, Package, ClipboardList } from 'lucide-react';
+import { toast } from 'sonner';
+import {
+  KPICardV2,
+  DashboardModal,
+  DataTable,
+  ActivityFeed,
+  Button,
+  Badge,
+} from '../../../components/dashboard-v2';
 
 interface DecoratorDashboardProps {
   onNavigate?: (page: string) => void;
 }
 
+interface DashboardMetrics {
+  designQueueAge: {
+    avgDays: number;
+    oldestDays: number;
+    queueCount: number;
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
+  rushOrdersReady: {
+    count: number;
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
+  currentWorkload: {
+    count: number;
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
+  weekCompletionRate: {
+    percentage: number;
+    completedCount: number;
+    totalCount: number;
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
+  overdueDecorations: {
+    count: number;
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
+}
+
+interface Order {
+  id: number;
+  customerName: string;
+  customerEmail?: string;
+  customerPhone?: string;
+  orderType: string;
+  designDetails?: string;
+  eventDate: string;
+  status: string;
+  priority: string;
+  createdAt: string;
+}
+
 export function DecoratorDashboard({ onNavigate }: DecoratorDashboardProps) {
-  const [orders, setOrders] = useState<any[]>([]);
+  const [metrics, setMetrics] = useState<DashboardMetrics | null>(null);
   const [loading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState<string | null>(null);
+  const [modalData, setModalData] = useState<any[]>([]);
+  const [modalLoading, setModalLoading] = useState(false);
 
   useEffect(() => {
-    fetchOrders();
+    fetchMetrics();
   }, []);
 
-  const fetchOrders = async () => {
+  const fetchMetrics = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/orders', {
+      const response = await fetch('/api/dashboards/decorator', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
+
       if (response.ok) {
         const data = await response.json();
-        setOrders(data);
+        setMetrics(data);
+      } else {
+        toast.error('Failed to load dashboard metrics');
       }
     } catch (error) {
-      console.error('Failed to fetch orders:', error);
+      console.error('Failed to fetch decorator dashboard:', error);
+      toast.error('Failed to load dashboard');
     } finally {
       setLoading(false);
     }
   };
 
-  // Decorator-specific: orders ready for decorating
-  const decoratingQueue = orders
-    .filter(o => ['ready', 'decorating'].includes(o.status?.toLowerCase() || ''))
-    .sort((a, b) => {
-      const priorityOrder = { high: 3, medium: 2, low: 1 };
-      return (priorityOrder[b.priority] || 0) - (priorityOrder[a.priority] || 0);
-    })
-    .slice(0, 10)
-    .map(o => ({
-      id: o.id,
-      customerName: o.customerName || 'Unknown',
-      occasion: o.occasion || 'Custom Order',
-      eventDate: o.eventDate,
-      status: o.status || 'ready',
-      priority: o.priority || 'medium'
-    }));
+  const handleKPIClick = async (kpiType: string) => {
+    setModalOpen(true);
+    setModalContent(kpiType);
+    setModalLoading(true);
 
-  // Sales view: recent orders
-  const recentOrders = orders
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 5)
-    .map(o => ({
-      id: o.id,
-      customerName: o.customerName || 'Unknown',
-      occasion: o.occasion || 'Custom Order',
-      eventDate: o.eventDate,
-      status: o.status,
-      priority: o.priority || 'medium'
-    }));
+    try {
+      const token = localStorage.getItem('token');
+      let endpoint = '';
 
-  const decoratingActions = [
-    {
-      label: 'View All Orders',
-      icon: Package,
-      color: '#5A3825',
-      onClick: () => onNavigate?.('order-management')
-    },
-    {
-      label: 'Fulfillment Board',
-      icon: Sparkles,
-      color: '#C44569',
-      onClick: () => onNavigate?.('fulfillment-board')
+      switch (kpiType) {
+        case 'Awaiting Photos':
+          endpoint = '/api/dashboards/decorator/awaiting-photos';
+          break;
+        case 'Rush Orders':
+          endpoint = '/api/dashboards/decorator/urgent-orders';
+          break;
+        case 'QC Issues':
+          endpoint = '/api/dashboards/decorator/qc-issues';
+          break;
+        default:
+          setModalLoading(false);
+          return;
+      }
+
+      const response = await fetch(endpoint, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setModalData(data);
+      } else {
+        toast.error('Failed to load details');
+      }
+    } catch (error) {
+      console.error('Failed to fetch modal data:', error);
+      toast.error('Failed to load data');
+    } finally {
+      setModalLoading(false);
     }
-  ];
+  };
 
-  const salesActions = [
-    {
-      label: 'Create New Order',
-      icon: Plus,
-      color: '#C44569',
-      onClick: () => onNavigate?.('order-create')
+  const getStatusVariant = (status: string): 'success' | 'warning' | 'error' | 'info' | 'neutral' => {
+    const statusMap: Record<string, 'success' | 'warning' | 'error' | 'info' | 'neutral'> = {
+      completed: 'success',
+      ready: 'success',
+      in_decoration: 'info',
+      awaiting_decoration: 'warning',
+      pending: 'warning',
+      cancelled: 'error',
+    };
+    return statusMap[status.toLowerCase()] || 'neutral';
+  };
+
+  const getPriorityVariant = (priority: string): 'success' | 'warning' | 'error' | 'info' | 'neutral' => {
+    const priorityMap: Record<string, 'success' | 'warning' | 'error' | 'info' | 'neutral'> = {
+      high: 'error',
+      medium: 'warning',
+      low: 'success',
+    };
+    return priorityMap[priority.toLowerCase()] || 'neutral';
+  };
+
+  const orderColumns = [
+    { 
+      accessor: 'customerName' as const,
+      header: 'Customer',
+      render: (row: Order) => (
+        <div>
+          <div className="font-medium">{row.customerName || 'Unknown'}</div>
+          {row.customerEmail && (
+            <div className="text-sm text-gray-500">{row.customerEmail}</div>
+          )}
+        </div>
+      )
     },
-    {
-      label: 'Manage Customers',
-      icon: Users,
-      color: '#5A3825',
-      onClick: () => onNavigate?.('customer-accounts')
-    }
+    { 
+      accessor: 'orderType' as const,
+      header: 'Design',
+      render: (row: Order) => row.orderType || row.designDetails || 'Custom'
+    },
+    { 
+      accessor: 'eventDate' as const,
+      header: 'Event Date',
+      format: 'date' as const,
+      sortable: true
+    },
+    { 
+      accessor: 'status' as const,
+      header: 'Status',
+      render: (row: Order) => (
+        <Badge variant={getStatusVariant(row.status)}>
+          {row.status}
+        </Badge>
+      )
+    },
+    { 
+      accessor: 'priority' as const,
+      header: 'Priority',
+      render: (row: Order) => (
+        <Badge variant={getPriorityVariant(row.priority)}>
+          {row.priority}
+        </Badge>
+      )
+    },
   ];
 
   if (loading) {
     return (
-      <div className="h-full flex items-center justify-center" style={{ background: '#F8EBD7' }}>
-        <p style={{ fontFamily: 'Open Sans, sans-serif', color: '#5A3825' }}>Loading dashboard...</p>
+      <div className="sales-dashboard-container">
+        <KPICardV2
+          title="Design Queue Age"
+          value={0}
+          trend={{ value: 'Loading...', period: '', direction: 'neutral' }}
+          icon={Clock}
+          iconColor="#8B5CF6"
+          loading={true}
+        />
+      </div>
+    );
+  }
+
+  if (!metrics) {
+    return (
+      <div className="sales-dashboard-container">
+        <p>Failed to load dashboard</p>
       </div>
     );
   }
 
   return (
-    <div className="h-full overflow-auto" style={{ background: '#F8EBD7', padding: 'clamp(20px, 4vw, 40px)' }}>
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-6"
-      >
-        <h1 style={{
-          fontFamily: 'Playfair Display, serif',
-          fontSize: 'clamp(24px, 5vw, 36px)',
-          fontWeight: 700,
-          color: '#2B2B2B',
-          marginBottom: '8px'
-        }}>
-          Decorator Dashboard
-        </h1>
-        <p style={{ fontFamily: 'Open Sans, sans-serif', fontSize: '14px', color: '#5A3825' }}>
-          Your decoration queue + sales support when available
-        </p>
-      </motion.div>
+    <>
+      <div className="sales-dashboard-container">
+        <div className="sales-dashboard-header">
+          <h1>Decorator Dashboard</h1>
+          <p>Design readiness bottlenecks and quality control</p>
+        </div>
 
-      {/* KPIs */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <KPICard
-          title="In Decoration Queue"
-          value={decoratingQueue.length}
-          icon={Palette}
-          color="#C44569"
-          index={0}
-        />
-        <KPICard
-          title="High Priority"
-          value={decoratingQueue.filter(o => o.priority === 'high').length}
-          icon={Sparkles}
-          color="#DC3545"
-          index={1}
-        />
-        <KPICard
-          title="Total Orders"
-          value={orders.length}
-          icon={Package}
-          color="#5A3825"
-          index={2}
-        />
+        <div className="kpi-grid">
+          <KPICardV2
+            title="Design Queue Age"
+            value={`${metrics.designQueueAge.avgDays} days`}
+            trend={metrics.designQueueAge.trend}
+            icon={Clock}
+            iconColor={metrics.designQueueAge.avgDays <= 2 ? '#4CAF50' : metrics.designQueueAge.avgDays <= 5 ? '#FFB84D' : '#FF6B6B'}
+            onClick={() => {}}
+          />
+          <KPICardV2
+            title="Rush Orders Ready"
+            value={metrics.rushOrdersReady.count}
+            trend={metrics.rushOrdersReady.trend}
+            icon={AlertCircle}
+            iconColor={metrics.rushOrdersReady.count === 0 ? '#4CAF50' : '#FF6B6B'}
+            onClick={() => {}}
+          />
+          <KPICardV2
+            title="Current Workload"
+            value={metrics.currentWorkload.count}
+            trend={metrics.currentWorkload.trend}
+            icon={Package}
+            iconColor={metrics.currentWorkload.count <= 5 ? '#4CAF50' : metrics.currentWorkload.count <= 10 ? '#FFB84D' : '#FF6B6B'}
+            onClick={() => {}}
+          />
+          <KPICardV2
+            title="Week Completion Rate"
+            value={`${metrics.weekCompletionRate.percentage}%`}
+            trend={metrics.weekCompletionRate.trend}
+            icon={Sparkles}
+            iconColor={metrics.weekCompletionRate.percentage >= 80 ? '#4CAF50' : metrics.weekCompletionRate.percentage >= 60 ? '#FFB84D' : '#FF6B6B'}
+            onClick={() => {}}
+          />
+          <KPICardV2
+            title="Overdue Decorations"
+            value={metrics.overdueDecorations.count}
+            trend={metrics.overdueDecorations.trend}
+            icon={AlertCircle}
+            iconColor={metrics.overdueDecorations.count === 0 ? '#4CAF50' : '#FF6B6B'}
+            onClick={() => {}}
+          />
+        </div>
+
+        <div className="quick-actions">
+          <Button
+            variant="primary"
+            leftIcon={<Package size={18} />}
+            onClick={() => onNavigate?.('order-management')}
+          >
+            View All Orders
+          </Button>
+          <Button
+            variant="secondary"
+            leftIcon={<ClipboardList size={18} />}
+            onClick={() => onNavigate?.('fulfillment-board')}
+          >
+            Fulfillment Board
+          </Button>
+          <Button
+            variant="secondary"
+            leftIcon={<Plus size={18} />}
+            onClick={() => onNavigate?.('order-create')}
+          >
+            Create Order (Sales)
+          </Button>
+          <Button
+            variant="secondary"
+            leftIcon={<Users size={18} />}
+            onClick={() => onNavigate?.('customer-accounts')}
+          >
+            Manage Customers (Sales)
+          </Button>
+        </div>
+
+        <div className="data-section">
+          <div className="recent-orders-card">
+            <h3>Design Readiness Queue</h3>
+            <DataTable
+              columns={orderColumns}
+              data={modalData.length > 0 ? modalData.slice(0, 10) : []}
+              onRowClick={(row) => onNavigate?.(`order-details/${row.id}`)}
+              exportFilename="design-readiness-queue"
+              emptyMessage="No orders requiring attention"
+            />
+          </div>
+
+          <ActivityFeed
+            events={[
+              {
+                id: '1',
+                type: 'staff_action',
+                user: { name: 'Baker', role: 'baker' },
+                action: 'completed baking for wedding cake - ready for decoration',
+                timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000),
+              },
+              {
+                id: '2',
+                type: 'staff_action',
+                user: { name: 'You', role: 'decorator' },
+                action: 'finished decorating birthday cake for Johnson',
+                timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000),
+              },
+              {
+                id: '3',
+                type: 'status_update',
+                user: { name: 'You', role: 'decorator' },
+                action: 'uploaded photos for anniversary cake',
+                timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000),
+              },
+            ]}
+            loading={false}
+            maxHeight="calc(100vh - 400px)"
+          />
+        </div>
       </div>
 
-      {/* Tabbed Interface: Decorating + Sales */}
-      <Tabs defaultValue="decorating" className="w-full">
-        <TabsList className="mb-4">
-          <TabsTrigger value="decorating" style={{ fontFamily: 'Open Sans, sans-serif' }}>
-            ✨ Decoration Queue
-          </TabsTrigger>
-          <TabsTrigger value="sales" style={{ fontFamily: 'Open Sans, sans-serif' }}>
-            💼 Sales Support
-          </TabsTrigger>
-        </TabsList>
-
-        {/* Decoration Queue Tab */}
-        <TabsContent value="decorating">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-1">
-              <QuickActionCard title="Decorating Actions" actions={decoratingActions} />
-            </div>
-            <div className="lg:col-span-2">
-              <OrderQueueCard
-                title="My Decoration Queue"
-                orders={decoratingQueue}
-                emptyMessage="No orders ready for decoration"
-                onOrderClick={() => onNavigate?.('fulfillment-board')}
-              />
-            </div>
+      <DashboardModal
+        isOpen={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+          setModalContent(null);
+          setModalData([]);
+        }}
+        title={modalContent || ''}
+      >
+        {modalLoading ? (
+          <div style={{ padding: '40px', textAlign: 'center', color: '#5A3825' }}>
+            Loading...
           </div>
-        </TabsContent>
-
-        {/* Sales Support Tab */}
-        <TabsContent value="sales">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-1">
-              <QuickActionCard title="Sales Actions" actions={salesActions} />
-            </div>
-            <div className="lg:col-span-2">
-              <OrderQueueCard
-                title="Recent Orders"
-                orders={recentOrders}
-                emptyMessage="No recent orders"
-                onOrderClick={() => onNavigate?.('order-management')}
-              />
-            </div>
-          </div>
-        </TabsContent>
-      </Tabs>
-    </div>
+        ) : (
+          <DataTable
+            columns={orderColumns}
+            data={modalData}
+            onRowClick={(row) => {
+              setModalOpen(false);
+              onNavigate?.(`order-details/${row.id}`);
+            }}
+            exportFilename={modalContent || 'data'}
+            emptyMessage="No data available"
+          />
+        )}
+      </DashboardModal>
+    </>
   );
 }

@@ -1,268 +1,351 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
-import { DollarSign, TrendingUp, CreditCard, FileText, Package, AlertCircle } from 'lucide-react';
-import { KPICard } from '../../../components/dashboard/KPICard';
-import { QuickActionCard } from '../../../components/dashboard/QuickActionCard';
-import { Card } from '../../../components/ui/card';
+import { DollarSign, AlertTriangle, TrendingUp, FileText, Package, PieChart, Clock } from 'lucide-react';
+import { toast } from 'sonner';
+import {
+  KPICardV2,
+  DashboardModal,
+  DataTable,
+  ActivityFeed,
+  Button,
+  Badge,
+} from '../../../components/dashboard-v2';
 
 interface AccountantDashboardProps {
   onNavigate?: (page: string) => void;
 }
 
+interface DashboardMetrics {
+  depositShortfalls: {
+    count: number;
+    totalAmount: number;
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
+  outstandingBalances: {
+    total: number;
+    buckets: {
+      aging30: number;
+      aging60: number;
+      aging90Plus: number;
+    };
+    counts: {
+      aging30: number;
+      aging60: number;
+      aging90Plus: number;
+    };
+    color: string;
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
+  reconciliationAccuracy: {
+    percentage: number;
+    reconciledCount: number;
+    totalCount: number;
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
+  depositCompliance: {
+    rate: number;
+    compliantCount: number;
+    totalCount: number;
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
+  weekRevenue: {
+    amount: number;
+    paymentsCount: number;
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
+}
+
+interface Order {
+  id: number;
+  customerName: string;
+  customerEmail?: string;
+  totalAmount: number;
+  depositAmount?: number;
+  balanceDue?: number;
+  paymentStatus: string;
+  eventDate: string;
+  createdAt: string;
+}
+
 export function AccountantDashboard({ onNavigate }: AccountantDashboardProps) {
-  const [orders, setOrders] = useState<any[]>([]);
+  const [metrics, setMetrics] = useState<DashboardMetrics | null>(null);
   const [loading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState<string | null>(null);
+  const [modalData, setModalData] = useState<any[]>([]);
+  const [modalLoading, setModalLoading] = useState(false);
 
   useEffect(() => {
-    fetchOrders();
+    fetchMetrics();
   }, []);
 
-  const fetchOrders = async () => {
+  const fetchMetrics = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/orders', {
+      const response = await fetch('/api/dashboards/accountant', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
+
       if (response.ok) {
         const data = await response.json();
-        setOrders(data);
+        setMetrics(data);
+      } else {
+        toast.error('Failed to load dashboard metrics');
       }
     } catch (error) {
-      console.error('Failed to fetch orders:', error);
+      console.error('Failed to fetch accountant dashboard:', error);
+      toast.error('Failed to load dashboard');
     } finally {
       setLoading(false);
     }
   };
 
-  // Financial calculations
-  const totalRevenue = orders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
-  const depositsCollected = orders.reduce((sum, o) => sum + (o.depositAmount || 0), 0);
-  const balanceDue = orders.reduce((sum, o) => sum + (o.balanceDue || 0), 0);
-  const unpaidOrders = orders.filter(o => o.paymentStatus === 'unpaid' || o.paymentStatus === 'partial');
+  const handleKPIClick = async (kpiType: string) => {
+    // Placeholder for future detail view implementation
+    // For now, just show a toast message
+    toast.info(`${kpiType} details - Feature coming soon`);
+  };
 
-  const quickActions = [
-    {
-      label: 'Revenue Report',
-      icon: DollarSign,
-      color: '#10B981',
-      onClick: () => onNavigate?.('business-intelligence')
+  const formatCurrency = (amount: number) => {
+    return `$${(amount / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  };
+
+  const getPaymentStatusVariant = (status: string): 'success' | 'warning' | 'error' | 'info' | 'neutral' => {
+    const statusMap: Record<string, 'success' | 'warning' | 'error' | 'info' | 'neutral'> = {
+      paid: 'success',
+      partial: 'warning',
+      pending: 'error',
+      refunded: 'neutral',
+    };
+    return statusMap[status.toLowerCase()] || 'neutral';
+  };
+
+  const orderColumns = [
+    { 
+      accessor: 'customerName' as const,
+      header: 'Customer',
+      sortable: true
     },
-    {
-      label: 'View All Orders',
-      icon: Package,
-      color: '#5A3825',
-      onClick: () => onNavigate?.('order-management')
+    { 
+      accessor: 'totalAmount' as const,
+      header: 'Total',
+      format: 'currency' as const,
+      sortable: true
     },
-    {
-      label: 'Business Intelligence',
-      icon: FileText,
-      color: '#C44569',
-      onClick: () => onNavigate?.('business-intelligence')
-    }
+    { 
+      accessor: 'depositAmount' as const,
+      header: 'Deposit',
+      format: 'currency' as const,
+      sortable: true
+    },
+    { 
+      accessor: 'balanceDue' as const,
+      header: 'Balance Due',
+      format: 'currency' as const,
+      sortable: true
+    },
+    { 
+      accessor: 'paymentStatus' as const,
+      header: 'Payment Status',
+      render: (row: Order) => (
+        <Badge variant={getPaymentStatusVariant(row.paymentStatus)}>
+          {row.paymentStatus}
+        </Badge>
+      )
+    },
+    { 
+      accessor: 'eventDate' as const,
+      header: 'Event Date',
+      format: 'date' as const,
+      sortable: true
+    },
   ];
 
   if (loading) {
     return (
-      <div className="h-full flex items-center justify-center" style={{ background: '#F8EBD7' }}>
-        <p style={{ fontFamily: 'Open Sans, sans-serif', color: '#5A3825' }}>Loading dashboard...</p>
+      <div className="sales-dashboard-container">
+        <KPICardV2
+          title="Daily Cash-In"
+          value="$0.00"
+          trend={{ value: 'Loading...', period: '', direction: 'neutral' }}
+          icon={DollarSign}
+          iconColor="#10B981"
+          loading={true}
+        />
+      </div>
+    );
+  }
+
+  if (!metrics) {
+    return (
+      <div className="sales-dashboard-container">
+        <p>Failed to load dashboard</p>
       </div>
     );
   }
 
   return (
-    <div className="h-full overflow-auto" style={{ background: '#F8EBD7', padding: 'clamp(20px, 4vw, 40px)' }}>
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-6"
-      >
-        <h1 style={{
-          fontFamily: 'Playfair Display, serif',
-          fontSize: 'clamp(24px, 5vw, 36px)',
-          fontWeight: 700,
-          color: '#2B2B2B',
-          marginBottom: '8px'
-        }}>
-          Accountant Dashboard
-        </h1>
-        <p style={{ fontFamily: 'Open Sans, sans-serif', fontSize: '14px', color: '#5A3825' }}>
-          Financial overview and payment tracking
-        </p>
-      </motion.div>
-
-      {/* Financial KPIs */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <KPICard
-          title="Total Revenue"
-          value={`$${(totalRevenue / 100).toFixed(0)}`}
-          change="+15.3%"
-          icon={DollarSign}
-          color="#10B981"
-          index={0}
-        />
-        <KPICard
-          title="Deposits Collected"
-          value={`$${(depositsCollected / 100).toFixed(0)}`}
-          icon={CreditCard}
-          color="#3B82F6"
-          index={1}
-        />
-        <KPICard
-          title="Balance Due"
-          value={`$${(balanceDue / 100).toFixed(0)}`}
-          icon={TrendingUp}
-          color="#F59E0B"
-          index={2}
-        />
-        <KPICard
-          title="Unpaid Orders"
-          value={unpaidOrders.length}
-          icon={AlertCircle}
-          color="#DC3545"
-          index={3}
-        />
-      </div>
-
-      {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Quick Actions */}
-        <div className="lg:col-span-1">
-          <QuickActionCard title="Financial Tools" actions={quickActions} />
+    <>
+      <div className="sales-dashboard-container">
+        <div className="sales-dashboard-header">
+          <h1>Accountant Dashboard</h1>
+          <p>Cash flow metrics and collection tracking</p>
         </div>
 
-        {/* Payment Status Summary */}
-        <div className="lg:col-span-2">
-          <Card style={{ background: 'white', border: 'none', boxShadow: '0 2px 8px rgba(90, 56, 37, 0.1)' }}>
-            <div className="p-6">
-              <h3 style={{
-                fontFamily: 'Poppins, sans-serif',
-                fontSize: '18px',
-                fontWeight: 600,
-                color: '#2B2B2B',
-                marginBottom: '16px'
-              }}>
-                Payment Status Overview
-              </h3>
-
-              <div className="space-y-4">
-                {['paid', 'partial', 'unpaid'].map((status) => {
-                  const count = orders.filter(o => o.paymentStatus === status).length;
-                  const percentage = orders.length > 0 ? (count / orders.length) * 100 : 0;
-                  const colors = {
-                    paid: '#10B981',
-                    partial: '#F59E0B',
-                    unpaid: '#DC3545'
-                  };
-
-                  return (
-                    <div key={status}>
-                      <div className="flex justify-between items-center mb-2">
-                        <span style={{
-                          fontFamily: 'Open Sans, sans-serif',
-                          fontSize: '14px',
-                          fontWeight: 500,
-                          color: '#2B2B2B',
-                          textTransform: 'capitalize'
-                        }}>
-                          {status}
-                        </span>
-                        <span style={{
-                          fontFamily: 'Open Sans, sans-serif',
-                          fontSize: '14px',
-                          fontWeight: 600,
-                          color: colors[status as keyof typeof colors]
-                        }}>
-                          {count} orders
-                        </span>
-                      </div>
-                      <div style={{
-                        width: '100%',
-                        height: '8px',
-                        background: '#F0F0F0',
-                        borderRadius: '4px',
-                        overflow: 'hidden'
-                      }}>
-                        <div style={{
-                          width: `${percentage}%`,
-                          height: '100%',
-                          background: colors[status as keyof typeof colors],
-                          transition: 'width 0.3s ease'
-                        }} />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </Card>
+        <div className="kpi-grid">
+          <KPICardV2
+            title="Deposit Shortfalls"
+            value={metrics.depositShortfalls.count}
+            trend={metrics.depositShortfalls.trend}
+            icon={AlertTriangle}
+            iconColor={metrics.depositShortfalls.count === 0 ? '#10B981' : '#EF4444'}
+            onClick={() => {}}
+          />
+          <KPICardV2
+            title="Outstanding Balances"
+            value={formatCurrency(metrics.outstandingBalances.total)}
+            trend={metrics.outstandingBalances.trend}
+            icon={DollarSign}
+            iconColor={metrics.outstandingBalances.color}
+            onClick={() => {}}
+          />
+          <KPICardV2
+            title="Reconciliation Accuracy"
+            value={`${metrics.reconciliationAccuracy.percentage}%`}
+            trend={metrics.reconciliationAccuracy.trend}
+            icon={FileText}
+            iconColor={metrics.reconciliationAccuracy.percentage >= 95 ? '#10B981' : metrics.reconciliationAccuracy.percentage >= 85 ? '#FFB84D' : '#EF4444'}
+            onClick={() => {}}
+          />
+          <KPICardV2
+            title="Deposit Compliance"
+            value={`${metrics.depositCompliance.rate}%`}
+            trend={metrics.depositCompliance.trend}
+            icon={PieChart}
+            iconColor={metrics.depositCompliance.rate >= 90 ? '#10B981' : metrics.depositCompliance.rate >= 75 ? '#FFB84D' : '#EF4444'}
+            onClick={() => {}}
+          />
+          <KPICardV2
+            title="Revenue This Week"
+            value={formatCurrency(metrics.weekRevenue.amount)}
+            trend={metrics.weekRevenue.trend}
+            icon={TrendingUp}
+            iconColor="#10B981"
+            onClick={() => {}}
+          />
         </div>
-      </div>
 
-      {/* Recent High-Value Orders */}
-      <div className="mt-6">
-        <Card style={{ background: 'white', border: 'none', boxShadow: '0 2px 8px rgba(90, 56, 37, 0.1)' }}>
-          <div className="p-6">
-            <h3 style={{
-              fontFamily: 'Poppins, sans-serif',
-              fontSize: '18px',
-              fontWeight: 600,
-              color: '#2B2B2B',
-              marginBottom: '16px'
-            }}>
-              High-Value Orders ($500+)
-            </h3>
+        <div className="quick-actions">
+          <Button
+            variant="primary"
+            leftIcon={<TrendingUp size={18} />}
+            onClick={() => onNavigate?.('business-intelligence')}
+          >
+            Revenue Report
+          </Button>
+          <Button
+            variant="secondary"
+            leftIcon={<Package size={18} />}
+            onClick={() => onNavigate?.('order-management')}
+          >
+            View All Orders
+          </Button>
+          <Button
+            variant="secondary"
+            leftIcon={<FileText size={18} />}
+            onClick={() => onNavigate?.('business-intelligence')}
+          >
+            Business Intelligence
+          </Button>
+        </div>
 
-            {orders.filter(o => (o.totalAmount || 0) > 50000).length === 0 ? (
-              <p style={{
-                fontFamily: 'Open Sans, sans-serif',
-                fontSize: '14px',
-                color: '#999',
-                textAlign: 'center',
-                padding: '32px'
-              }}>
-                No high-value orders
-              </p>
-            ) : (
-              <div className="space-y-2">
-                {orders
-                  .filter(o => (o.totalAmount || 0) > 50000)
-                  .slice(0, 5)
-                  .map(order => (
-                    <div
-                      key={order.id}
-                      className="flex justify-between items-center p-3 rounded-lg hover:bg-gray-50 cursor-pointer"
-                      style={{ border: '1px solid #E5E7EB' }}
-                      onClick={() => onNavigate?.('order-management')}
-                    >
-                      <div>
-                        <p style={{ fontFamily: 'Open Sans, sans-serif', fontSize: '14px', fontWeight: 600, color: '#2B2B2B' }}>
-                          {order.occasion || 'Custom Order'} - {order.customerName || 'Unknown'}
-                        </p>
-                        <p style={{ fontFamily: 'Open Sans, sans-serif', fontSize: '12px', color: '#666' }}>
-                          #{order.id}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <p style={{ fontFamily: 'Poppins, sans-serif', fontSize: '16px', fontWeight: 600, color: '#10B981' }}>
-                          ${((order.totalAmount || 0) / 100).toFixed(2)}
-                        </p>
-                        <p style={{
-                          fontFamily: 'Open Sans, sans-serif',
-                          fontSize: '12px',
-                          color: order.paymentStatus === 'paid' ? '#10B981' : '#F59E0B',
-                          textTransform: 'capitalize'
-                        }}>
-                          {order.paymentStatus}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            )}
+        <div className="data-section">
+          <div className="recent-orders-card">
+            <h3>Recent Financial Activity</h3>
+            <DataTable
+              columns={orderColumns}
+              data={modalData.length > 0 ? modalData.slice(0, 10) : []}
+              onRowClick={(row) => onNavigate?.(`order-details/${row.id}`)}
+              exportFilename="financial-activity"
+              emptyMessage="No recent financial activity"
+            />
           </div>
-        </Card>
+
+          <ActivityFeed
+            events={[
+              {
+                id: '1',
+                type: 'payment',
+                user: { name: 'Sales', role: 'sales' },
+                action: 'received deposit payment of $250.00 for order #1234',
+                timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000),
+              },
+              {
+                id: '2',
+                type: 'payment',
+                user: { name: 'Sales', role: 'sales' },
+                action: 'received final payment of $500.00 for order #1235',
+                timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000),
+              },
+              {
+                id: '3',
+                type: 'staff_action',
+                user: { name: 'You', role: 'accountant' },
+                action: 'updated payment status for order #1236',
+                timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000),
+              },
+            ]}
+            loading={false}
+            maxHeight="calc(100vh - 400px)"
+          />
+        </div>
       </div>
-    </div>
+
+      <DashboardModal
+        isOpen={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+          setModalContent(null);
+          setModalData([]);
+        }}
+        title={modalContent || ''}
+      >
+        {modalLoading ? (
+          <div style={{ padding: '40px', textAlign: 'center', color: '#5A3825' }}>
+            Loading...
+          </div>
+        ) : (
+          <DataTable
+            columns={orderColumns}
+            data={modalData}
+            onRowClick={(row) => {
+              setModalOpen(false);
+              onNavigate?.(`order-details/${row.id}`);
+            }}
+            exportFilename={modalContent || 'data'}
+            emptyMessage="No data available"
+          />
+        )}
+      </DashboardModal>
+    </>
   );
 }

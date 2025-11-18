@@ -257,7 +257,7 @@ export function Settings() {
                   background: 'linear-gradient(135deg, #C44569 0%, #5A3825 100%)',
                   borderColor: '#C44569'
                 }}
-                onClick={() => toast.info('Vanilla Raspberry theme (current)')}
+                onClick={() => showToast('info', 'Vanilla Raspberry theme (current)')}
               />
               <div 
                 className="w-16 h-16 rounded-lg cursor-pointer border-2 transition-all hover:border-[#C44569]"
@@ -265,7 +265,7 @@ export function Settings() {
                   background: 'linear-gradient(135deg, #8B4789 0%, #4A4A4A 100%)',
                   borderColor: 'rgba(90, 56, 37, 0.2)'
                 }}
-                onClick={() => toast.info('Theme locked in current version')}
+                onClick={() => showToast('info', 'Theme locked in current version')}
               />
               <div 
                 className="w-16 h-16 rounded-lg cursor-pointer border-2 transition-all hover:border-[#C44569]"
@@ -273,7 +273,7 @@ export function Settings() {
                   background: 'linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%)',
                   borderColor: 'rgba(90, 56, 37, 0.2)'
                 }}
-                onClick={() => toast.info('Theme locked in current version')}
+                onClick={() => showToast('info', 'Theme locked in current version')}
               />
             </div>
             <p style={{ fontFamily: 'Open Sans', fontSize: '13px', color: '#5A3825', opacity: 0.7, marginTop: '12px' }}>

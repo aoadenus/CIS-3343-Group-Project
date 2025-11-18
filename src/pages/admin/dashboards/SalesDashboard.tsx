@@ -1,220 +1,447 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
-import { Plus, Users, Clock, Package, DollarSign, Zap, ListOrdered, Target } from 'lucide-react';
-import { KPICard } from '../../../components/dashboard/KPICard';
-import { OrderQueueCard } from '../../../components/dashboard/OrderQueueCard';
-import { QuickActionCard } from '../../../components/dashboard/QuickActionCard';
-import { PickupSearchSection } from '../../../components/dashboard/PickupSearchSection';
-import { SectionHeader } from '../../../components/dashboard/SectionHeader';
-import { BakeryPattern } from '../../../components/dashboard/BakeryPattern';
+import { ShoppingCart, DollarSign, Package, MessageCircle, Plus, Users, FileText } from 'lucide-react';
+import { toast } from 'sonner';
+import {
+  KPICardV2,
+  DashboardModal,
+  DataTable,
+  ActivityFeed,
+  Button,
+  Badge,
+} from '../../../components/dashboard-v2';
 
 interface SalesDashboardProps {
   onNavigate?: (page: string) => void;
 }
 
+interface DashboardMetrics {
+  depositCompliance: {
+    rate: number;
+    count: number;
+    total: number;
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
+  todaysOrders: {
+    count: number;
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
+  returningCustomers: {
+    count: number;
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
+  pickupsToday: {
+    count: number;
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
+}
+
+interface Order {
+  id: number;
+  customerName: string;
+  cakeType: string;
+  pickupDate: string;
+  totalAmount: number;
+  status: string;
+  paidAmount?: number;
+  balanceDue?: number;
+  orderDate?: string;
+  pickupTime?: string;
+}
+
+interface Inquiry {
+  id: number;
+  name: string;
+  email: string;
+  subject: string;
+  createdAt: string;
+  isRead: boolean;
+}
+
+interface ActivityEvent {
+  id: string;
+  type: 'order_created' | 'status_update' | 'payment' | 'inquiry' | 'staff_action';
+  user: {
+    name: string;
+    role: string;
+    avatar?: string;
+  };
+  action: string;
+  timestamp: Date | string;
+  metadata?: {
+    orderId?: number;
+    status?: string;
+    amount?: number;
+  };
+}
+
+type ModalContentType = 'todays-orders' | 'pending-deposits' | 'pickups-today' | 'recent-inquiries' | null;
+
 export function SalesDashboard({ onNavigate }: SalesDashboardProps) {
-  const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [metrics, setMetrics] = useState<DashboardMetrics | null>(null);
+  const [recentOrders, setRecentOrders] = useState<Order[]>([]);
+  const [activities, setActivities] = useState<ActivityEvent[]>([]);
+  const [activityLoading, setActivityLoading] = useState(false);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState<ModalContentType>(null);
+  const [modalData, setModalData] = useState<any[]>([]);
+  const [modalLoading, setModalLoading] = useState(false);
+
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('token');
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    };
+  };
 
   useEffect(() => {
-    fetchOrders();
+    const fetchDashboardData = async () => {
+      try {
+        setLoading(true);
+        const headers = getAuthHeaders();
+
+        const [metricsRes, ordersRes, activitiesRes] = await Promise.all([
+          fetch('/api/dashboards/sales', { headers }),
+          fetch('/api/orders?limit=10', { headers }),
+          fetch('/api/dashboards/activity-feed?limit=20', { headers }),
+        ]);
+
+        if (!metricsRes.ok) throw new Error('Failed to fetch dashboard metrics');
+        
+        const metricsData = await metricsRes.json();
+        setMetrics(metricsData);
+
+        if (ordersRes.ok) {
+          const ordersData = await ordersRes.json();
+          setRecentOrders(Array.isArray(ordersData) ? ordersData.slice(0, 7) : []);
+        }
+
+        if (activitiesRes.ok) {
+          const activitiesData = await activitiesRes.json();
+          setActivities(Array.isArray(activitiesData) ? activitiesData : []);
+        }
+      } catch (error) {
+        console.error('Dashboard fetch error:', error);
+        toast.error('Failed to load dashboard');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
   }, []);
 
-  const fetchOrders = async () => {
+  const openModal = async (type: ModalContentType) => {
+    if (!type) return;
+
+    setModalContent(type);
+    setModalOpen(true);
+    setModalLoading(true);
+
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('/api/orders', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setOrders(data);
-      }
+      const headers = getAuthHeaders();
+      const response = await fetch(`/api/dashboards/sales/${type}`, { headers });
+      
+      if (!response.ok) throw new Error(`Failed to fetch ${type} data`);
+      
+      const data = await response.json();
+      setModalData(Array.isArray(data) ? data : []);
     } catch (error) {
-      console.error('Failed to fetch orders:', error);
+      console.error(`Error fetching ${type}:`, error);
+      toast.error(`Failed to load ${type} details`);
+      setModalData([]);
     } finally {
-      setLoading(false);
+      setModalLoading(false);
     }
   };
 
-  // Calculate KPIs
-  const today = new Date().toDateString();
-  const todayPickups = orders.filter(o => 
-    o.eventDate && new Date(o.eventDate).toDateString() === today && o.status === 'ready'
-  );
-  const pendingOrders = orders.filter(o => o.status === 'pending');
-  const thisWeekOrders = orders.filter(o => {
-    const created = new Date(o.createdAt);
-    const weekAgo = new Date();
-    weekAgo.setDate(weekAgo.getDate() - 7);
-    return created >= weekAgo;
-  });
+  const closeModal = () => {
+    setModalOpen(false);
+    setModalContent(null);
+    setModalData([]);
+  };
 
-  // Recent orders (last 5)
-  const recentOrders = orders
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 5)
-    .map(o => ({
-      id: o.id,
-      customerName: o.customerName || 'Unknown',
-      occasion: o.occasion || 'Custom Order',
-      eventDate: o.eventDate,
-      status: o.status,
-      priority: o.priority || 'medium'
-    }));
-
-  const quickActions = [
-    {
-      label: 'Create New Order',
-      icon: Plus,
-      color: '#C44569',
-      onClick: () => onNavigate?.('order-create')
-    },
-    {
-      label: 'View All Orders',
-      icon: Package,
-      color: '#5A3825',
-      onClick: () => onNavigate?.('order-management')
-    },
-    {
-      label: 'Manage Customers',
-      icon: Users,
-      color: '#C44569',
-      onClick: () => onNavigate?.('customer-accounts')
+  const handleNavigation = (page: string) => {
+    if (onNavigate) {
+      onNavigate(page);
+    } else {
+      window.location.href = `/admin/${page}`;
     }
+  };
+
+  const getStatusVariant = (status: string): 'success' | 'warning' | 'error' | 'info' | 'neutral' => {
+    const statusMap: Record<string, 'success' | 'warning' | 'error' | 'info' | 'neutral'> = {
+      completed: 'success',
+      ready: 'success',
+      'in-progress': 'info',
+      pending: 'warning',
+      cancelled: 'error',
+      overdue: 'error',
+    };
+    return statusMap[status.toLowerCase()] || 'neutral';
+  };
+
+  const formatCurrency = (amount: number) => {
+    return `$${(amount / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  };
+
+  const recentOrdersColumns = [
+    { header: 'Order ID', accessor: 'id' as const, width: '80px', sortable: true },
+    { header: 'Customer', accessor: 'customerName' as const, sortable: true },
+    { header: 'Cake Type', accessor: 'cakeType' as const, sortable: true },
+    { header: 'Pickup Date', accessor: 'pickupDate' as const, format: 'date' as const, sortable: true },
+    { header: 'Total', accessor: 'totalAmount' as const, format: 'currency' as const, sortable: true },
+    {
+      header: 'Status',
+      accessor: 'status' as const,
+      render: (row: Order) => (
+        <Badge variant={getStatusVariant(row.status)}>
+          {row.status}
+        </Badge>
+      ),
+    },
   ];
 
-  if (loading) {
+  const getTodaysOrdersColumns = () => [
+    { header: 'Order ID', accessor: 'id' as const, width: '80px', sortable: true },
+    { header: 'Customer', accessor: 'customerName' as const, sortable: true },
+    { header: 'Cake Type', accessor: 'cakeType' as const, sortable: true },
+    { header: 'Total', accessor: 'totalAmount' as const, format: 'currency' as const, sortable: true },
+    {
+      header: 'Status',
+      accessor: 'status' as const,
+      render: (row: Order) => (
+        <Badge variant={getStatusVariant(row.status)}>
+          {row.status}
+        </Badge>
+      ),
+    },
+  ];
+
+  const getPendingDepositsColumns = () => [
+    { header: 'Customer', accessor: 'customerName' as const, sortable: true },
+    { header: 'Order Date', accessor: 'orderDate' as const, format: 'date' as const, sortable: true },
+    { header: 'Total', accessor: 'totalAmount' as const, format: 'currency' as const, sortable: true },
+    { header: 'Paid', accessor: 'paidAmount' as const, format: 'currency' as const, sortable: true },
+    { header: 'Balance Due', accessor: 'balanceDue' as const, format: 'currency' as const, sortable: true },
+  ];
+
+  const getPickupsTodayColumns = () => [
+    { header: 'Order ID', accessor: 'id' as const, width: '80px', sortable: true },
+    { header: 'Customer', accessor: 'customerName' as const, sortable: true },
+    { header: 'Cake Type', accessor: 'cakeType' as const, sortable: true },
+    { header: 'Pickup Time', accessor: 'pickupTime' as const, format: 'date' as const, sortable: true },
+    {
+      header: 'Status',
+      accessor: 'status' as const,
+      render: (row: Order) => (
+        <Badge variant={getStatusVariant(row.status)}>
+          {row.status}
+        </Badge>
+      ),
+    },
+  ];
+
+  const getInquiriesColumns = () => [
+    { header: 'Name', accessor: 'name' as const, sortable: true },
+    { header: 'Email', accessor: 'email' as const, sortable: true },
+    { header: 'Subject', accessor: 'subject' as const, sortable: true },
+    { header: 'Date', accessor: 'createdAt' as const, format: 'date' as const, sortable: true },
+  ];
+
+  const getModalTitle = (): string => {
+    const titles: Record<string, string> = {
+      'todays-orders': "Today's Orders",
+      'pending-deposits': 'Pending Deposits',
+      'pickups-today': "Today's Pickups",
+      'recent-inquiries': 'Recent Inquiries',
+    };
+    return modalContent ? titles[modalContent] : '';
+  };
+
+  const getModalColumns = () => {
+    switch (modalContent) {
+      case 'todays-orders':
+        return getTodaysOrdersColumns();
+      case 'pending-deposits':
+        return getPendingDepositsColumns();
+      case 'pickups-today':
+        return getPickupsTodayColumns();
+      case 'recent-inquiries':
+        return getInquiriesColumns();
+      default:
+        return [];
+    }
+  };
+
+  if (loading || !metrics) {
     return (
-      <div className="h-full flex items-center justify-center" style={{ background: '#F8EBD7' }}>
-        <p style={{ fontFamily: 'Open Sans, sans-serif', color: '#5A3825' }}>Loading dashboard...</p>
+      <div className="sales-dashboard-container">
+        <div className="sales-dashboard-header">
+          <h1>Sales Dashboard</h1>
+          <p>Manage orders and customer relationships</p>
+        </div>
+
+        <div className="kpi-grid">
+          <KPICardV2
+            title="Deposit Compliance"
+            value="..."
+            icon={DollarSign}
+            iconColor="#10B981"
+            loading={true}
+          />
+          <KPICardV2
+            title="Today's Orders"
+            value="..."
+            icon={ShoppingCart}
+            iconColor="#C44569"
+            loading={true}
+          />
+          <KPICardV2
+            title="Returning Customers"
+            value="..."
+            icon={Users}
+            iconColor="#10B981"
+            loading={true}
+          />
+          <KPICardV2
+            title="Pickups Today"
+            value="..."
+            icon={Package}
+            iconColor="#3B82F6"
+            loading={true}
+          />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="h-full overflow-auto" style={{ background: '#F8EBD7', padding: 'clamp(20px, 4vw, 40px)', position: 'relative' }}>
-      {/* Bakery Pattern Overlay */}
-      <BakeryPattern />
+    <>
+      <div className="sales-dashboard-container">
+        <div className="sales-dashboard-header">
+          <h1>Sales Dashboard</h1>
+          <p>Order creation efficiency and deposit compliance tracking</p>
+        </div>
 
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-6"
-        style={{ position: 'relative', zIndex: 2 }}
+        <div className="kpi-grid">
+          <KPICardV2
+            title="Deposit Compliance"
+            value={`${metrics.depositCompliance.rate}%`}
+            icon={DollarSign}
+            iconColor={metrics.depositCompliance.rate >= 90 ? "#10B981" : metrics.depositCompliance.rate >= 75 ? "#F59E0B" : "#C44569"}
+            trend={metrics.depositCompliance.trend}
+            onClick={() => {}}
+          />
+          <KPICardV2
+            title="Today's Orders"
+            value={metrics.todaysOrders.count.toString()}
+            icon={ShoppingCart}
+            iconColor="#C44569"
+            trend={metrics.todaysOrders.trend}
+            onClick={() => {}}
+          />
+          <KPICardV2
+            title="Returning Customers"
+            value={metrics.returningCustomers.count.toString()}
+            icon={Users}
+            iconColor="#10B981"
+            trend={metrics.returningCustomers.trend}
+            onClick={() => {}}
+          />
+          <KPICardV2
+            title="Pickups Today"
+            value={metrics.pickupsToday.count.toString()}
+            icon={Package}
+            iconColor="#3B82F6"
+            trend={metrics.pickupsToday.trend}
+            onClick={() => {}}
+          />
+        </div>
+
+        <div className="quick-actions">
+          <Button
+            variant="primary"
+            leftIcon={<Plus size={18} />}
+            onClick={() => handleNavigation('order-create')}
+          >
+            Create New Order
+          </Button>
+          <Button
+            variant="secondary"
+            leftIcon={<Users size={18} />}
+            onClick={() => handleNavigation('customer-accounts')}
+          >
+            Manage Customers
+          </Button>
+          <Button
+            variant="secondary"
+            leftIcon={<FileText size={18} />}
+            onClick={() => handleNavigation('order-management')}
+          >
+            View All Orders
+          </Button>
+        </div>
+
+        <div className="data-section">
+          <div className="recent-orders-card">
+            <h3>Recent Orders (Last 7 Days)</h3>
+            <DataTable
+              columns={recentOrdersColumns}
+              data={recentOrders}
+              onRowClick={(order: Order) => handleNavigation(`order-management?id=${order.id}`)}
+              exportable={true}
+              exportFilename="recent-orders"
+              emptyMessage="No recent orders"
+            />
+          </div>
+
+          <ActivityFeed
+            events={activities}
+            loading={activityLoading}
+            maxHeight="calc(100vh - 400px)"
+          />
+        </div>
+      </div>
+
+      <DashboardModal
+        isOpen={modalOpen}
+        onClose={closeModal}
+        title={getModalTitle()}
+        size="lg"
       >
-        <h1 style={{
-          fontFamily: 'Playfair Display, serif',
-          fontSize: 'clamp(24px, 5vw, 36px)',
-          fontWeight: 700,
-          color: '#2B2B2B',
-          marginBottom: '8px'
-        }}>
-          Sales Dashboard
-        </h1>
-        <p style={{ fontFamily: 'Open Sans, sans-serif', fontSize: '14px', color: '#5A3825' }}>
-          Manage orders and customer relationships
-        </p>
-      </motion.div>
-
-      {/* KPIs */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <KPICard
-          title="Today's Pickups"
-          value={todayPickups.length}
-          icon={Clock}
-          color="#C44569"
-          index={0}
-          onClick={() => {
-            const pickupsSection = document.getElementById('todays-pickups');
-            pickupsSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }}
-        />
-        <KPICard
-          title="Pending Orders"
-          value={pendingOrders.length}
-          icon={Package}
-          color="#F59E0B"
-          index={1}
-          onClick={() => onNavigate?.('order-management')}
-        />
-        <KPICard
-          title="This Week"
-          value={thisWeekOrders.length}
-          change="+12%"
-          icon={DollarSign}
-          color="#10B981"
-          index={2}
-          onClick={() => onNavigate?.('order-management')}
-        />
-        <KPICard
-          title="Total Orders"
-          value={orders.length}
-          icon={Package}
-          color="#5A3825"
-          index={3}
-          onClick={() => onNavigate?.('order-management')}
-        />
-      </div>
-
-      {/* Order Pickup Search */}
-      <PickupSearchSection 
-        orders={orders}
-        onOrderClick={() => onNavigate?.('order-management')}
-      />
-
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Quick Actions */}
-        <div className="lg:col-span-1">
-          <SectionHeader 
-            icon={Zap} 
-            title="Quick Actions" 
-            count={quickActions.length}
+        {modalLoading ? (
+          <div style={{ padding: '40px', textAlign: 'center' }}>
+            <p>Loading data...</p>
+          </div>
+        ) : (
+          <DataTable
+            columns={getModalColumns()}
+            data={modalData}
+            exportable={true}
+            exportFilename={modalContent || 'data'}
+            emptyMessage="No data available"
           />
-          <QuickActionCard title="Quick Actions" actions={quickActions} />
-        </div>
-
-        {/* Recent Orders */}
-        <div className="lg:col-span-2">
-          <SectionHeader 
-            icon={ListOrdered} 
-            title="Recent Orders" 
-            count={recentOrders.length}
-          />
-          <OrderQueueCard
-            title="Recent Orders"
-            orders={recentOrders}
-            emptyMessage="No recent orders"
-            onOrderClick={() => onNavigate?.('order-management')}
-          />
-        </div>
-      </div>
-
-      {/* Today's Pickups */}
-      {todayPickups.length > 0 && (
-        <div className="mt-6" id="todays-pickups">
-          <SectionHeader 
-            icon={Target} 
-            title="Today's Pickups - Priority" 
-            count={todayPickups.length}
-          />
-          <OrderQueueCard
-            title="🎯 Today's Pickups - Priority"
-            orders={todayPickups.slice(0, 5).map(o => ({
-              id: o.id,
-              customerName: o.customerName || 'Unknown',
-              occasion: o.occasion || 'Custom Order',
-              eventDate: o.eventDate,
-              status: o.status,
-              priority: 'high'
-            }))}
-            emptyMessage="No pickups today"
-            onOrderClick={() => onNavigate?.('order-management')}
-          />
-        </div>
-      )}
-    </div>
+        )}
+      </DashboardModal>
+    </>
   );
 }

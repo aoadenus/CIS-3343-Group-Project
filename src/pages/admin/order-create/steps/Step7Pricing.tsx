@@ -21,8 +21,11 @@ export function Step7Pricing() {
   };
 
   const totalAmount = calculateTotal(); // In cents
-  const depositRequired = Math.ceil(totalAmount * 0.5); // 50% deposit
+  const depositRequired = Math.ceil(totalAmount * 0.5); // 50% deposit (in cents)
   const balanceDue = totalAmount - depositRequired;
+
+  // Payment statuses simplified: 'partial_deposit' | 'paid_in_full'
+  const paymentStatus = formData.paymentStatus || 'partial';
 
   return (
     <div className="space-y-6">
@@ -135,62 +138,50 @@ export function Step7Pricing() {
         </div>
       </Card>
 
-      {/* Payment Details */}
+      {/* Payment Details: simplified to 2 options with auto-calculated 50% deposit */}
       <Card className="p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-4">
           <div>
-            <label
-              style={{
-                fontFamily: 'Poppins, sans-serif',
-                fontSize: '14px',
-                fontWeight: 600,
-                display: 'block',
-                marginBottom: '8px',
-                color: '#2B2B2B'
-              }}
-            >
-              Custom Deposit Amount ($)
-            </label>
-            <Input
-              type="number"
-              value={formData.depositAmount}
-              onChange={(e) => updateFormData({ depositAmount: e.target.value })}
-              placeholder={(depositRequired / 100).toFixed(2)}
-              min="0"
-              step="0.01"
-            />
-            <p style={{ fontSize: '12px', color: '#999', marginTop: '4px' }}>
-              Leave blank to use default 50% deposit (${(depositRequired / 100).toFixed(2)})
+            <p style={{ fontSize: '13px', color: '#666', marginBottom: '6px' }}>
+              Minimum deposit is auto-calculated at 50% of total and applied below.
+            </p>
+
+            <div className="w-full bg-gray-200 rounded-full h-4 my-2">
+              <div
+                className="bg-green-500 h-4 rounded-full"
+                style={{ width: `${((depositRequired) / (totalAmount || 1)) * 100}%` }}
+              />
+            </div>
+            <p style={{ fontSize: '13px', color: '#333' }}>
+              ${ (depositRequired / 100).toFixed(2) } paid / ${ (totalAmount / 100).toFixed(2) } total
             </p>
           </div>
 
           <div>
-            <label
-              style={{
-                fontFamily: 'Poppins, sans-serif',
-                fontSize: '14px',
-                fontWeight: 600,
-                display: 'block',
-                marginBottom: '8px',
-                color: '#2B2B2B'
-              }}
-            >
-              Payment Status
-            </label>
-            <select
-              value={formData.paymentStatus}
-              onChange={(e) =>
-                updateFormData({
-                  paymentStatus: e.target.value as 'pending' | 'partial' | 'paid'
-                })
-              }
-              className="w-full px-3 py-2 border rounded-lg"
-              style={{ borderColor: '#E0E0E0', fontSize: '14px' }}
-            >
-              <option value="pending">Pending</option>
-              <option value="partial">Partial (Deposit Paid)</option>
-              <option value="paid">Paid in Full</option>
-            </select>
+            <label style={{ fontWeight: 600, display: 'block', marginBottom: 8 }}>Payment Selection</label>
+            <div className="flex flex-col gap-2" role="radiogroup" aria-invalid={!formData.paymentStatus} aria-describedby={!formData.paymentStatus ? 'payment-status-error' : undefined}>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="paymentStatus"
+                  checked={paymentStatus === 'partial'}
+                  onChange={() => updateFormData({ paymentStatus: 'partial' })}
+                />
+                <span style={{ marginLeft: 8 }}>Partial Deposit (${(depositRequired / 100).toFixed(2)})</span>
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="paymentStatus"
+                  checked={paymentStatus === 'paid'}
+                  onChange={() => updateFormData({ paymentStatus: 'paid' })}
+                />
+                <span style={{ marginLeft: 8 }}>Paid in Full (${(totalAmount / 100).toFixed(2)})</span>
+              </label>
+              {!formData.paymentStatus && (
+                <p id="payment-status-error" role="alert" style={{ fontSize: '12px', color: '#999', marginTop: '8px' }}>*Required</p>
+              )}
+            </div>
           </div>
         </div>
       </Card>
@@ -231,6 +222,8 @@ export function Step7Pricing() {
 
 // Validation function
 export function validateStep7(formData: any): boolean {
-  // All fields have defaults, so always valid
+  // Require payment status to be selected
+  if (!formData.paymentStatus) return false;
+  // deposit amount should be present (calculated elsewhere)
   return true;
 }

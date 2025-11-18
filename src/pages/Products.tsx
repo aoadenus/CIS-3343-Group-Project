@@ -4,43 +4,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs'
 import { Plus, Edit } from 'lucide-react';
 import { useToast } from '../components/ToastContext';
 import { motion } from 'motion/react';
+import shopData, { ICING_COLORS, DEFAULT_PRODUCTS, FLAVOR_IMAGES } from '../data/shopData';
 
-const products = [
-  { name: 'Birthday Celebration', priceRange: '$45 - $85', description: 'Classic birthday cake with custom decorations' },
-  { name: 'Almond Delight', priceRange: '$50 - $90', description: 'Rich almond flavor with buttercream' },
-  { name: 'Lemon & Cream Cheese', priceRange: '$48 - $88', description: 'Tangy lemon with smooth cream cheese frosting' },
-  { name: 'Black Forest', priceRange: '$55 - $95', description: 'Chocolate cake with cherries and whipped cream' },
-  { name: 'German Chocolate', priceRange: '$52 - $92', description: 'Traditional German chocolate with coconut pecan' },
-  { name: 'Italian Cream', priceRange: '$50 - $90', description: 'Light cream cake with pecans and coconut' },
-  { name: 'Lemon Doberge', priceRange: '$58 - $98', description: 'New Orleans style layered lemon cake' },
-  { name: 'Chocolate Doberge', priceRange: '$58 - $98', description: 'New Orleans style layered chocolate cake' },
-];
-
-const flavors = [
-  { name: 'Vanilla', price: 'Base Price', description: 'Classic vanilla bean' },
-  { name: 'Chocolate', price: 'Base Price', description: 'Rich chocolate' },
-  { name: 'Strawberry', price: '+$5', description: 'Fresh strawberry' },
-  { name: 'Almond', price: '+$8', description: 'Premium almond' },
-  { name: 'Lemon', price: '+$5', description: 'Zesty lemon' },
-  { name: 'Red Velvet', price: '+$10', description: 'Southern red velvet' },
-];
-
-const fillings = [
-  { name: 'Vanilla Buttercream', price: 'Base Price' },
-  { name: 'Chocolate Buttercream', price: 'Base Price' },
-  { name: 'Strawberry Mousse', price: '+$8' },
-  { name: 'Lemon Mousse', price: '+$8' },
-  { name: 'Cream Cheese', price: '+$6' },
-  { name: 'Bavarian Cream', price: '+$10' },
-];
-
-const icings = [
-  { name: 'Buttercream', price: 'Base Price' },
-  { name: 'Ganache', price: '+$12' },
-  { name: 'Cream Cheese', price: '+$8' },
-  { name: 'Whipped Cream', price: '+$5' },
-  { name: 'Fondant', price: '+$15' },
-];
+const flavors = Object.keys(FLAVOR_IMAGES).map((k) => ({ name: k, price: 'Base Price', description: `${k} flavor` }));
+const fillings = Object.keys(FLAVOR_IMAGES).map((k) => ({ name: `${k} Filling`, price: 'Base Price' }));
 
 export function Products() {
   const { showToast } = useToast();
@@ -52,11 +19,19 @@ export function Products() {
         <p className="tagline" style={{ marginTop: '8px' }}>
           Handcrafted with premium ingredients
         </p>
+        <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
+          <Button variant="outline" size="sm" onClick={() => window.location.assign('/admin/products?gui=james')}>
+            Open James GUI
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => window.location.assign('/admin/products?gui=emily')}>
+            Open Emily GUI
+          </Button>
+        </div>
       </div>
 
       {/* Featured Products Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
-        {products.map((product, index) => (
+        {DEFAULT_PRODUCTS.map((product, index) => (
           <motion.div
             key={index}
             initial={{ opacity: 0, y: 20 }}
@@ -106,9 +81,9 @@ export function Products() {
 
                 {/* Price */}
                 <div className="pt-4" style={{ borderTop: '1px solid #E0E0E0' }}>
-                  <p style={{ fontSize: '14px', color: 'rgba(43, 43, 43, 0.65)', marginBottom: '4px' }}>Price Range</p>
+                  <p style={{ fontSize: '14px', color: 'rgba(43, 43, 43, 0.65)', marginBottom: '4px' }}>Price</p>
                   <p style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: '20px', color: '#C44569', lineHeight: 1.3 }}>
-                    {product.priceRange}
+                    ${(product.priceCents / 100).toFixed(2)}
                   </p>
                 </div>
 
@@ -219,27 +194,15 @@ export function Products() {
           </TabsContent>
 
           <TabsContent value="icings">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {icings.map((icing, index) => (
-                <Card
-                  key={index}
-                  className="cursor-pointer transition-all hover:shadow-hover"
-                  style={{ 
-                    padding: '16px',
-                    background: 'white',
-                    borderRadius: '12px',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
-                    border: '1px solid #E0E0E0'
-                  }}
-                  onClick={() => showToast('info', `${icing.name} icing selected for customization.`, 'Icing Selected')}
-                >
-                  <div className="flex items-start justify-between">
-                    <h5 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: '16px', color: '#2B2B2B' }}>
-                      {icing.name}
-                    </h5>
-                    <span style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: '14px', color: '#C44569' }}>
-                      {icing.price}
-                    </span>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              {ICING_COLORS.map((c, idx) => (
+                <Card key={idx} className="cursor-pointer transition-all hover:shadow-hover" style={{ padding: '12px', textAlign: 'center' }} onClick={() => showToast('info', `${c.name} selected`, 'Icing Selected')}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}>
+                    <img src={c.image} alt={c.name} style={{ width: 96, height: 64, objectFit: 'contain', borderRadius: 8, border: '1px solid #EEE' }} />
+                  </div>
+                  <div>
+                    <div style={{ fontWeight: 600, color: '#2B2B2B' }}>{c.name}</div>
+                    <div style={{ color: '#666', fontSize: 12 }}>{c.hex}</div>
                   </div>
                 </Card>
               ))}

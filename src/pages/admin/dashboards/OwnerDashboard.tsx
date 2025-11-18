@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Users, AlertTriangle, Clock, UserCheck, FileText, Package, ClipboardList } from 'lucide-react';
+import { BarChart3, DollarSign, Users, Award, FileText, Package, ClipboardList, Settings } from 'lucide-react';
 import { toast } from 'sonner';
 import {
   KPICardV2,
@@ -10,53 +10,50 @@ import {
   Badge,
 } from '../../../components/dashboard-v2';
 
-interface ManagerDashboardProps {
+interface OwnerDashboardProps {
   onNavigate?: (page: string) => void;
 }
 
 interface DashboardMetrics {
-  lostOrderRisk: {
-    count: number;
-    value: number;
+  timeSaved: {
+    currentHours: number;
+    baselineHours: number;
+    targetHours: number;
+    savedPercentage: number;
     trend: {
       value: string;
       period: string;
       direction: 'up' | 'down' | 'neutral';
     };
   };
-  staffUtilization: {
-    avgBakerWorkload: number;
-    avgDecoratorWorkload: number;
-    totalBakers: number;
-    totalDecorators: number;
+  lostOrdersCost: {
+    currentCost: number;
+    baselineCost: number;
+    targetCost: number;
+    reductionPercentage: number;
+    cancelledCount: number;
+    atRiskCount: number;
     trend: {
       value: string;
       period: string;
       direction: 'up' | 'down' | 'neutral';
     };
   };
-  slaAdherence: {
+  retentionGrowth: {
+    currentReturning: number;
+    baselineReturning: number;
+    targetReturning: number;
+    growthPercentage: number;
+    totalCustomers: number;
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
+  depositCompliance: {
     rate: number;
-    onTimeCount: number;
-    lateCount: number;
-    trend: {
-      value: string;
-      period: string;
-      direction: 'up' | 'down' | 'neutral';
-    };
-    health: 'green' | 'yellow' | 'red';
-  };
-  criticalActionItems: {
-    count: number;
-    trend: {
-      value: string;
-      period: string;
-      direction: 'up' | 'down' | 'neutral';
-    };
-  };
-  teamPerformance: {
-    rate: number;
-    completedCount: number;
+    compliantCount: number;
     totalCount: number;
     trend: {
       value: string;
@@ -64,9 +61,23 @@ interface DashboardMetrics {
       direction: 'up' | 'down' | 'neutral';
     };
   };
+  businessHealth: {
+    score: number;
+    breakdown: {
+      timeTarget: boolean;
+      lostOrdersTarget: boolean;
+      retentionTarget: boolean;
+      depositTarget: boolean;
+    };
+    trend: {
+      value: string;
+      period: string;
+      direction: 'up' | 'down' | 'neutral';
+    };
+  };
 }
 
-export function ManagerDashboard({ onNavigate }: ManagerDashboardProps) {
+export function OwnerDashboard({ onNavigate }: OwnerDashboardProps) {
   const [metrics, setMetrics] = useState<DashboardMetrics | null>(null);
   const [activityEvents, setActivityEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -81,7 +92,7 @@ export function ManagerDashboard({ onNavigate }: ManagerDashboardProps) {
       const headers = { 'Authorization': `Bearer ${token}` };
       
       const [metricsRes, activityRes] = await Promise.all([
-        fetch('/api/dashboards/manager', { headers }),
+        fetch('/api/dashboards/owner', { headers }),
         fetch('/api/dashboards/activity-feed?limit=20', { headers }),
       ]);
 
@@ -97,26 +108,26 @@ export function ManagerDashboard({ onNavigate }: ManagerDashboardProps) {
         setActivityEvents(activityData);
       }
     } catch (error) {
-      console.error('Failed to fetch manager dashboard:', error);
+      console.error('Failed to fetch owner dashboard:', error);
       toast.error('Failed to load dashboard');
     } finally {
       setLoading(false);
     }
   };
 
-  const getHealthColor = (health: 'green' | 'yellow' | 'red') => {
-    return health === 'green' ? '#10B981' : health === 'yellow' ? '#F59E0B' : '#EF4444';
+  const formatCurrency = (amount: number) => {
+    return `$${(amount / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   };
 
   if (loading) {
     return (
       <div className="sales-dashboard-container">
         <KPICardV2
-          title="Team Utilization"
+          title="Total Orders"
           value={0}
           trend={{ value: 'Loading...', period: '', direction: 'neutral' }}
-          icon={Users}
-          iconColor="#3B82F6"
+          icon={BarChart3}
+          iconColor="#C44569"
           loading={true}
         />
       </div>
@@ -134,53 +145,53 @@ export function ManagerDashboard({ onNavigate }: ManagerDashboardProps) {
   return (
     <div className="sales-dashboard-container">
       <div className="sales-dashboard-header">
-        <h1>Manager Dashboard</h1>
-        <p>Operational control and team efficiency metrics</p>
+        <h1>Owner Dashboard</h1>
+        <p>Business intelligence and strategic overview</p>
       </div>
 
       <div className="kpi-grid">
         <KPICardV2
-          title="Lost Order Risk"
-          value={metrics.lostOrderRisk.count}
-          subtitle={`$${(metrics.lostOrderRisk.value / 100).toFixed(2)} at risk`}
-          trend={metrics.lostOrderRisk.trend}
-          icon={AlertTriangle}
-          iconColor={metrics.lostOrderRisk.count === 0 ? '#10B981' : '#EF4444'}
-          onClick={() => {}}
-        />
-        <KPICardV2
-          title="Staff Utilization"
-          subtitle={`${metrics.staffUtilization.avgBakerWorkload} baker / ${metrics.staffUtilization.avgDecoratorWorkload} decorator avg`}
-          value={`${metrics.staffUtilization.totalBakers}B + ${metrics.staffUtilization.totalDecorators}D`}
-          trend={metrics.staffUtilization.trend}
-          icon={Users}
-          iconColor="#3B82F6"
-          onClick={() => {}}
-        />
-        <KPICardV2
-          title="SLA Adherence"
-          value={`${metrics.slaAdherence.rate}%`}
-          subtitle={`${metrics.slaAdherence.onTimeCount} on-time, ${metrics.slaAdherence.lateCount} late`}
-          trend={metrics.slaAdherence.trend}
+          title="Time Saved"
+          value={`${metrics.timeSaved.currentHours}hrs/wk`}
+          subtitle={`Target: ${metrics.timeSaved.targetHours}hrs (${metrics.timeSaved.savedPercentage}% saved)`}
+          trend={metrics.timeSaved.trend}
           icon={Clock}
-          iconColor={getHealthColor(metrics.slaAdherence.health)}
+          iconColor={metrics.timeSaved.currentHours <= metrics.timeSaved.targetHours ? '#10B981' : '#F59E0B'}
           onClick={() => {}}
         />
         <KPICardV2
-          title="Critical Action Items"
-          value={metrics.criticalActionItems.count}
-          trend={metrics.criticalActionItems.trend}
+          title="Lost Orders Cost"
+          value={formatCurrency(metrics.lostOrdersCost.currentCost)}
+          subtitle={`Target: ${formatCurrency(metrics.lostOrdersCost.targetCost)} (${metrics.lostOrdersCost.reductionPercentage}% reduced)`}
+          trend={metrics.lostOrdersCost.trend}
           icon={AlertTriangle}
-          iconColor={metrics.criticalActionItems.count === 0 ? '#10B981' : '#EF4444'}
+          iconColor={metrics.lostOrdersCost.currentCost <= metrics.lostOrdersCost.targetCost ? '#10B981' : '#F59E0B'}
           onClick={() => {}}
         />
         <KPICardV2
-          title="Team Performance"
-          value={`${metrics.teamPerformance.rate}%`}
-          subtitle={`${metrics.teamPerformance.completedCount}/${metrics.teamPerformance.totalCount} completed this week`}
-          trend={metrics.teamPerformance.trend}
-          icon={UserCheck}
-          iconColor={metrics.teamPerformance.rate >= 80 ? '#10B981' : metrics.teamPerformance.rate >= 60 ? '#F59E0B' : '#EF4444'}
+          title="Retention Growth"
+          value={metrics.retentionGrowth.currentReturning}
+          subtitle={`Target: ${metrics.retentionGrowth.targetReturning} (${metrics.retentionGrowth.growthPercentage}% growth)`}
+          trend={metrics.retentionGrowth.trend}
+          icon={Users}
+          iconColor={metrics.retentionGrowth.currentReturning >= metrics.retentionGrowth.targetReturning ? '#10B981' : '#F59E0B'}
+          onClick={() => {}}
+        />
+        <KPICardV2
+          title="Deposit Compliance"
+          value={`${metrics.depositCompliance.rate}%`}
+          subtitle={`${metrics.depositCompliance.compliantCount}/${metrics.depositCompliance.totalCount} compliant`}
+          trend={metrics.depositCompliance.trend}
+          icon={DollarSign}
+          iconColor={metrics.depositCompliance.rate >= 90 ? '#10B981' : metrics.depositCompliance.rate >= 75 ? '#F59E0B' : '#EF4444'}
+          onClick={() => {}}
+        />
+        <KPICardV2
+          title="Business Health"
+          value={`${metrics.businessHealth.score}/100`}
+          trend={metrics.businessHealth.trend}
+          icon={Award}
+          iconColor={metrics.businessHealth.score >= 85 ? '#10B981' : metrics.businessHealth.score >= 70 ? '#F59E0B' : '#EF4444'}
           onClick={() => {}}
         />
       </div>
@@ -214,13 +225,20 @@ export function ManagerDashboard({ onNavigate }: ManagerDashboardProps) {
         >
           Staff Management
         </Button>
+        <Button
+          variant="secondary"
+          leftIcon={<Settings size={18} />}
+          onClick={() => onNavigate?.('system-configuration')}
+        >
+          System Configuration
+        </Button>
       </div>
 
       <div className="data-section">
         <div className="recent-orders-card">
-          <h3>Team Overview</h3>
+          <h3>Strategic Overview</h3>
           <p style={{ padding: '20px', color: '#5A3825' }}>
-            Manage your team's performance and track operational metrics across all departments.
+            Complete access to all business operations, team management, and strategic planning tools.
           </p>
         </div>
 

@@ -11,7 +11,7 @@
 
 **CRITICAL ARCHITECTURE DECISION (Nov 13, 2025):** Pure staff-only system - customers CANNOT order online. All orders are entered manually by staff through the admin portal. Customers call, email, or visit in person to place orders. Public pages serve marketing/awareness purposes only.
 
-**LATEST SESSION (Nov 14, 2025):** All P phases completed - Staff Management, Email Notifications, Six Reports, Contact Page Enhancement, Comprehensive Testing, RBAC fixes.
+**LATEST SESSION (Nov 18, 2025):** Case Study Compliance Realignment - All 6 dashboards aligned to mandatory scope (Priorities 1-3), removed out-of-scope features (inquiries/contact from optional website Priority 4), database schema enhanced with order lifecycle timestamps, all KPIs focused on measurable objectives (time reduction 20→15hrs/week, cost reduction $4800→$960/year, retention growth 700→805/year).
 
 ## User Preferences
 - **HOMEPAGE LOCKED**: The homepage design is finalized and stable. No major changes should be made without explicit user clarification and acceptance.
@@ -72,7 +72,7 @@ The application is built with React 18.3.1, TypeScript, Vite 6.3.5, and Tailwind
 - **Order Creation:** `POST /api/orders/custom`
 - **Customer Management:** `GET /api/customers`, `GET /api/customers/search`, `POST /api/customers`, `GET /api/customers/:id`
 - **Order Management:** `GET /api/orders`, `PATCH /api/orders/:id/status`, `POST /api/orders/:id/cancel`
-- **Inquiries & Contact:** `GET /api/inquiries`, `POST /api/inquiries`, `PATCH /api/inquiries/:id/status`, `GET /api/contact`, `POST /api/contact`
+- **Inquiries & Contact (REMOVED Nov 18, 2025):** Optional website features (Priority 4) - removed from staff application scope
 - **Product Management:** `GET /api/products`, `GET /api/products/search`, `GET /api/products/:id`, `POST /api/products`, `PATCH /api/products/:id`, `DELETE /api/products/:id`
 - **Employee Management (Nov 14, 2025):** `GET /api/employees`, `GET /api/employees/search`, `POST /api/employees`, `PATCH /api/employees/:id`, `PATCH /api/employees/:id/status` (All protected with Manager/Owner RBAC)
 - **Reports Dashboard (Nov 14, 2025):** `GET /api/reports/dashboard` (Accountant/Manager/Owner only - returns pre-validated metrics)
@@ -111,7 +111,17 @@ The application is built with React 18.3.1, TypeScript, Vite 6.3.5, and Tailwind
 - **Phone**: (713) 555-CAKE (713-555-2253)
 - **Email**: info@emilybakescakes.com
 
-## Recent Major Changes (Nov 14, 2025)
+## Recent Major Changes
+
+### November 18, 2025 - Case Study Compliance Realignment
+1. **Dashboard KPI Realignment**: All 6 dashboards (Sales, Baker, Decorator, Accountant, Manager, Owner) realigned to case study measurable objectives
+2. **Out-of-Scope Feature Removal**: Removed "Hot Leads" KPI and inquiry/contact API endpoints (Priority 4 - optional website features)
+3. **Database Schema Enhancement**: Added order lifecycle timestamps (prepStartedAt, prepCompletedAt, decorationCompletedAt, depositCollectedAt)
+4. **Dormant Tables Documentation**: Marked `inquiries` and `contactMessages` as dormant with clear documentation for future optional website
+5. **API Contract Fix**: Fixed Decorator Dashboard API response naming mismatch (rushOrders→rushOrdersReady, completionRate→weekCompletionRate, overdueOrders→overdueDecorations)
+6. **Case Study KPI Focus**: All metrics now track time reduction (20→15hrs/week), cost reduction ($4800→$960/year), retention growth (700→805/year)
+
+### November 14, 2025 - Staff Features & Testing
 1. **Staff Management Page**: Full employee CRUD with Manager/Owner-only access, bcrypt password hashing, JWT authentication on all endpoints
 2. **Email Notifications**: Resend integration with professional HTML templates for order confirmations and status updates
 3. **Six Client Reports**: All completed with Recharts analytics, filters, CSV/PDF exports, real data from backend APIs

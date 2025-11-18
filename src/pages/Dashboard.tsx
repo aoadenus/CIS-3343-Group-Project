@@ -271,7 +271,7 @@ export function Dashboard() {
       return newOrders;
     });
 
-    showToast('success', `${order.id} moved to ${toColumn.replace(/([A-Z])/g, ' $1').trim()}`, 2000);
+    showToast('success', `${order.id} moved to ${toColumn.replace(/([A-Z])/g, ' $1').trim()}`);
   };
 
   return (

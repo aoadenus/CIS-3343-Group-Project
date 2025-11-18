@@ -215,7 +215,7 @@ export function Orders() {
             variant="outline" 
             className="px-6 sm:px-8 w-full sm:w-auto" 
             style={{ borderRadius: '8px', borderColor: 'rgba(90, 56, 37, 0.3)', color: '#5A3825', height: '44px' }}
-            onClick={() => toast.info('Order cancelled')}
+            onClick={() => showToast('info', 'Order cancelled')}
           >
             Cancel
           </Button>
@@ -223,7 +223,7 @@ export function Orders() {
             variant="outline" 
             className="px-6 sm:px-8 w-full sm:w-auto" 
             style={{ borderRadius: '8px', borderColor: 'rgba(196, 69, 105, 0.3)', color: '#C44569', height: '44px' }}
-            onClick={() => toast.info('Preview feature coming soon!')}
+            onClick={() => showToast('info', 'Preview feature coming soon!')}
           >
             Preview Order
           </Button>
@@ -247,7 +247,7 @@ export function Orders() {
           </TableHeader>
           <TableBody>
             {orders.map((order) => (
-              <TableRow key={order.id} className="transition-colors" style={{ '&:hover': { backgroundColor: 'rgba(248, 235, 215, 0.3)' } }}>
+              <TableRow key={order.id} className="transition-colors hover:bg-[rgba(248,235,215,0.3)]">
                 <TableCell style={{ color: '#5A3825', fontFamily: 'Open Sans' }}>{order.id}</TableCell>
                 <TableCell style={{ color: '#2B2B2B', fontFamily: 'Open Sans' }}>{order.customer}</TableCell>
                 <TableCell style={{ color: '#2B2B2B', fontFamily: 'Open Sans' }}>{order.cake}</TableCell>
@@ -262,17 +262,15 @@ export function Orders() {
                     <Button 
                       variant="ghost" 
                       size="sm" 
-                      className="p-2 rounded-lg transition-colors"
-                      style={{ '&:hover': { backgroundColor: 'rgba(196, 69, 105, 0.1)' } }}
-                      onClick={() => toast.info('Edit feature coming soon!')}
+                      className="p-2 rounded-lg transition-colors hover:bg-[rgba(196,69,105,0.1)]"
+                      onClick={() => showToast('info', 'Edit feature coming soon!')}
                     >
                       <Edit size={16} color="#C44569" />
                     </Button>
                     <Button 
                       variant="ghost" 
                       size="sm" 
-                      className="p-2 rounded-lg transition-colors"
-                      style={{ '&:hover': { backgroundColor: 'rgba(90, 56, 37, 0.1)' } }}
+                      className="p-2 rounded-lg transition-colors hover:bg-[rgba(90,56,37,0.1)]"
                       onClick={() => handleCompleteOrder(order.id)}
                     >
                       <Check size={16} color="#5A3825" />
@@ -280,8 +278,7 @@ export function Orders() {
                     <Button 
                       variant="ghost" 
                       size="sm" 
-                      className="p-2 rounded-lg transition-colors"
-                      style={{ '&:hover': { backgroundColor: 'rgba(196, 69, 105, 0.1)' } }}
+                      className="p-2 rounded-lg transition-colors hover:bg-[rgba(196,69,105,0.1)]"
                       onClick={() => setDeleteOrderId(order.id)}
                     >
                       <Trash2 size={16} color="#C44569" />

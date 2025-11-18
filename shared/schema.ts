@@ -126,9 +126,24 @@ export const orders = pgTable('orders', {
   isRushOrder: boolean('is_rush_order').default(false).notNull(),
   rushOrderApprovedBy: varchar('rush_order_approved_by', { length: 255 }),
   
+  // CASE STUDY KPI TRACKING: Order lifecycle timestamps
+  // These support measurable objectives: time reduction, lost order prevention
+  prepStartedAt: timestamp('prep_started_at'), // Baker starts preparation
+  prepCompletedAt: timestamp('prep_completed_at'), // Baker finishes prep, ready for decorator
+  decorationCompletedAt: timestamp('decoration_completed_at'), // Decorator finishes, ready for pickup
+  depositCollectedAt: timestamp('deposit_collected_at'), // When 50% deposit was received
+  
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
+
+// ============================================================================
+// DORMANT TABLES - OPTIONAL WEBSITE FEATURE (PRIORITY 4)
+// These tables are part of the optional updated website (Priority 4 per case study).
+// They are NOT part of the mandatory staff application scope (Priorities 1-3).
+// Schema retained for future optional website implementation.
+// DO NOT query these tables in the staff application.
+// ============================================================================
 
 export const inquiries = pgTable('inquiries', {
   id: serial('id').primaryKey(),
@@ -160,6 +175,10 @@ export const contactMessages = pgTable('contact_messages', {
   status: varchar('status', { length: 50 }).default('unread').notNull(), // unread, read, responded
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
+
+// ============================================================================
+// END DORMANT TABLES
+// ============================================================================
 
 // Admin Payment Tracking (record-keeping only, no processing)
 export const payments = pgTable('payments', {

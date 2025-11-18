@@ -1,3 +1,4 @@
+import React, { useEffect, useRef, useState } from 'react';
 import { Info } from 'lucide-react';
 import { Card } from '../../../../components/ui/card';
 import { useWizard } from '../WizardContext';
@@ -5,6 +6,24 @@ import { LayerBuilder } from '../../../../components/LayerBuilder';
 
 export function Step3Layers() {
   const { formData, updateFormData } = useWizard();
+
+  const [animNewId, setAnimNewId] = useState<string | null>(null);
+  const prevLen = useRef(formData.layers.length);
+
+  useEffect(() => {
+    const len = formData.layers.length;
+    if (len > prevLen.current) {
+      // new layer added - animate the newest layer
+      const newest = formData.layers[formData.layers.length - 1];
+      if (newest?.id) {
+        setAnimNewId(newest.id);
+        // clear after animation duration
+        const t = setTimeout(() => setAnimNewId(null), 500);
+        return () => clearTimeout(t);
+      }
+    }
+    prevLen.current = len;
+  }, [formData.layers]);
 
   const isStandardCake = formData.cakeType === 'standard';
 
@@ -76,7 +95,11 @@ export function Step3Layers() {
                   className="relative"
                   style={{
                     width: `${140 + (layerNumber * 20)}px`,
-                    height: '40px'
+                    height: '40px',
+                    // animate newly added layer
+                    transform: animNewId === layer.id ? 'scale(0.85) translateY(0)' : undefined,
+                    opacity: animNewId === layer.id ? 0 : undefined,
+                    transition: 'transform 400ms cubic-bezier(.2,.9,.2,1), opacity 300ms ease-out'
                   }}
                 >
                   {/* Layer Tier */}

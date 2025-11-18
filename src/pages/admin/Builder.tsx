@@ -26,8 +26,8 @@ export function Builder() {
   const [openStep, setOpenStep] = useState<number>(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [layers, setLayers] = useState<LayerData[]>([
-    { id: 'layer-1', flavor: '', fillings: [], notes: '' },
-    { id: 'layer-2', flavor: '', fillings: [], notes: '' }
+    { id: 'layer-1', flavor: '', fillings: [], notes: '', icing: '' },
+    { id: 'layer-2', flavor: '', fillings: [], notes: '', icing: '' }
   ]);
   const [formData, setFormData] = useState({
     name: '',

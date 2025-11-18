@@ -317,7 +317,7 @@ export function Gallery() {
           url: window.location.href
         });
       } catch (error) {
-        console.log('Share cancelled or failed');
+        // share cancelled or failed - silently ignore
       }
     }
   };

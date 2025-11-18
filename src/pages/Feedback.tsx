@@ -238,10 +238,10 @@ export function Feedback() {
               borderColor: 'rgba(90, 56, 37, 0.2)',
               fontFamily: 'Open Sans'
             }}
-            onClick={() => toast.info('Opening documentation...')}
+            onClick={() => showToast('info', 'Opening documentation...')}
           >
             <div className="text-left">
-              <p style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: '15px', color: '#2B2B2B' }}>
+              <p style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: '15px', color: '#2B2B2B' }}>Documentation
                 Documentation
               </p>
               <p style={{ fontSize: '13px', color: '#5A3825', opacity: 0.7 }}>
@@ -257,10 +257,10 @@ export function Feedback() {
               borderColor: 'rgba(90, 56, 37, 0.2)',
               fontFamily: 'Open Sans'
             }}
-            onClick={() => toast.info('support@emilybakescakes.com')}
+            onClick={() => showToast('info', 'support@emilybakescakes.com')}
           >
             <div className="text-left">
-              <p style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: '15px', color: '#2B2B2B' }}>
+              <p style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: '15px', color: '#2B2B2B' }}>Email Support
                 Email Support
               </p>
               <p style={{ fontSize: '13px', color: '#5A3825', opacity: 0.7 }}>
@@ -276,10 +276,10 @@ export function Feedback() {
               borderColor: 'rgba(90, 56, 37, 0.2)',
               fontFamily: 'Open Sans'
             }}
-            onClick={() => toast.info('Opening video tutorials...')}
+            onClick={() => showToast('info', 'Opening video tutorials...')}
           >
             <div className="text-left">
-              <p style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: '15px', color: '#2B2B2B' }}>
+              <p style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: '15px', color: '#2B2B2B' }}>Video Tutorials
                 Video Tutorials
               </p>
               <p style={{ fontSize: '13px', color: '#5A3825', opacity: 0.7 }}>

@@ -84,7 +84,7 @@ export function RushBanner({ justification, onRemove }: RushBannerProps) {
             variant="ghost"
             size="sm"
             className="flex-shrink-0"
-            style={{ color: '#FFFFFF', hover: 'rgba(255, 255, 255, 0.1)' }}
+            style={{ color: '#FFFFFF' }}
             title="Remove rush order status"
           >
             <X size={18} />
