@@ -22,13 +22,15 @@ export function Layout({ children, activePage, onNavigate }: LayoutProps) {
         mobileOpen={mobileMenuOpen}
         onMobileClose={() => setMobileMenuOpen(false)}
       />
-      <main 
-        className="p-4 sm:p-6 lg:p-8 pt-4 sm:pt-5 lg:pt-6 transition-all duration-300" 
-        style={{ 
+      <main
+        id="main-content"
+        className="p-4 sm:p-6 lg:p-8 pt-4 sm:pt-5 lg:pt-6 transition-all duration-300"
+        style={{
           minHeight: 'calc(100vh - 88px)',
           marginTop: '88px',
           marginLeft: window.innerWidth >= 1024 ? (isSidebarCollapsed ? '80px' : '240px') : '0',
         }}
+        tabIndex={-1}
       >
         {children}
       </main>

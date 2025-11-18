@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { HamburgerIcon } from './HamburgerIcon';
 import { MobileNav } from './MobileNav';
 import { StaffLoginCTA } from './StaffLoginCTA';
+import { SkipLink } from './SkipLink';
 
 interface PublicLayoutProps {
   children: React.ReactNode;
@@ -35,17 +36,22 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
 
   return (
     <div className="min-h-screen flex flex-col" style={{ background: '#F8EBD7' }}>
+      {/* Skip to Main Content Link */}
+      <SkipLink />
+
       {/* Navigation Bar */}
-      <nav
-        className="fixed top-0 left-0 right-0 transition-all duration-300"
-        style={{
-          background: scrolled ? 'rgba(196, 69, 105, 0.98)' : '#C44569',
-          boxShadow: scrolled ? '0 4px 16px rgba(90, 56, 37, 0.2)' : 'none',
-          backdropFilter: scrolled ? 'blur(10px)' : 'none',
-          zIndex: 9999,
-          height: '60px'
-        }}
-      >
+      <header>
+        <nav
+          className="fixed top-0 left-0 right-0 transition-all duration-300"
+          style={{
+            background: scrolled ? 'rgba(196, 69, 105, 0.98)' : '#C44569',
+            boxShadow: scrolled ? '0 4px 16px rgba(90, 56, 37, 0.2)' : 'none',
+            backdropFilter: scrolled ? 'blur(10px)' : 'none',
+            zIndex: 9999,
+            height: '60px'
+          }}
+          aria-label="Main navigation"
+        >
         <div className="container mx-auto px-3 sm:px-4 lg:px-6 h-full">
           <div className="flex items-center justify-between h-full">
             {/* Logo - Always navigates to top of home page */}
@@ -105,11 +111,12 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
                       className="absolute bottom-0 left-0 right-0 h-0.5 bg-white"
                       initial={false}
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      aria-hidden="true"
                     />
                   )}
                 </button>
               ))}
-              
+
               {/* Staff Login Button - Desktop Navigation */}
               <div style={{ marginLeft: '16px' }}>
                 <StaffLoginCTA onClick={onAdminAccess} variant="desktop" />
@@ -120,8 +127,8 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
             <div className="flex items-center gap-2 flex-shrink-0">
               {/* Mobile Menu Button - Only show when menu is closed */}
               {!mobileMenuOpen && (
-                <HamburgerIcon 
-                  isOpen={false} 
+                <HamburgerIcon
+                  isOpen={false}
                   onClick={() => setMobileMenuOpen(true)}
                   color="white"
                 />
@@ -129,7 +136,8 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
             </div>
           </div>
         </div>
-      </nav>
+        </nav>
+      </header>
 
       {/* Mobile Navigation */}
       <MobileNav
@@ -141,7 +149,7 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
       />
 
       {/* Main Content */}
-      <main className="flex-1" style={{ paddingTop: '60px' }}>
+      <main id="main-content" className="flex-1" style={{ paddingTop: '60px' }} tabIndex={-1}>
         {children}
       </main>
 
