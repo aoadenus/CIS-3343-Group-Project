@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { 
   Users, 
   Plus, 
@@ -12,13 +12,21 @@ import {
   AlertCircle,
   Palette,
   Sparkles,
-  Cake
+  Cake,
+  CheckCircle2,
+  History,
+  Copy,
+  Calculator,
+  Info
 } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Card } from '../../components/ui/card';
 import { Input } from '../../components/ui/input';
 import { Textarea } from '../../components/ui/textarea';
 import { Checkbox } from '../../components/ui/checkbox';
+import { Badge } from '../../components/ui/badge';
+import { Separator } from '../../components/ui/separator';
+import { Alert, AlertDescription } from '../../components/ui/alert';
 import { useToast } from '../../components/ToastContext';
 import { LayerBuilder } from '../../components/LayerBuilder';
 import { AdminBreadcrumbs } from '../../components/AdminBreadcrumbs';
@@ -31,6 +39,7 @@ import {
   calculateSizeBasedPrice,
   type LayerData
 } from '../../data/cakeOptions';
+import { saveFormData, loadFormData, clearFormData } from '../../utils/formPersistence';
 
 interface Customer {
   id: number;
@@ -54,6 +63,8 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
   const [showCustomerSearch, setShowCustomerSearch] = useState(false);
   const [showNewCustomerForm, setShowNewCustomerForm] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
+  const [customerOrders, setCustomerOrders] = useState<any[]>([]);
+  const [loadingOrders, setLoadingOrders] = useState(false);
   
   // Cake type selection
   const [cakeType, setCakeType] = useState<'standard' | 'custom'>('custom');
@@ -66,7 +77,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
   const [isRush, setIsRush] = useState(false);
   const [managerApproval, setManagerApproval] = useState(false);
   
-  // Collapsible sections
+  // Collapsible sections - Payment now open by default for visibility
   const [openSections, setOpenSections] = useState({
     customer: true,
     cakeType: true,
@@ -76,7 +87,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
     decorations: false,
     eventInfo: true,
     adminSettings: true,
-    payment: false
+    payment: true // Changed to true for better visibility of deposit requirements
   });
 
   // New customer form
@@ -105,6 +116,42 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
     { id: 'layer-2', flavor: '', fillings: [], icing: '', notes: '' }
   ]);
   
+  // Auto-save form data to prevent data loss
+  useEffect(() => {
+    // Load saved draft on mount
+    const savedDraft = loadFormData('order-create');
+    if (savedDraft && !selectedCustomer) {
+      // Only load draft if we haven't selected a customer yet
+      if (savedDraft.formData) setFormData(savedDraft.formData);
+      if (savedDraft.cakeType) setCakeType(savedDraft.cakeType);
+      if (savedDraft.selectedCakeSize) setSelectedCakeSize(savedDraft.selectedCakeSize);
+      if (savedDraft.selectedStandardCake) setSelectedStandardCake(savedDraft.selectedStandardCake);
+      if (savedDraft.selectedIcingColors) setSelectedIcingColors(savedDraft.selectedIcingColors);
+      if (savedDraft.selectedDecorations) setSelectedDecorations(savedDraft.selectedDecorations);
+      if (savedDraft.layers && savedDraft.layers.length >= 2) setLayers(savedDraft.layers);
+      showToast('info', 'Draft order loaded');
+    }
+  }, []);
+
+  // Auto-save every 3 seconds when form data changes
+  useEffect(() => {
+    if (!selectedCustomer) return; // Don't save until customer is selected
+    
+    const timeoutId = setTimeout(() => {
+      saveFormData('order-create', {
+        formData,
+        cakeType,
+        selectedCakeSize,
+        selectedStandardCake,
+        selectedIcingColors,
+        selectedDecorations,
+        layers
+      });
+    }, 3000);
+
+    return () => clearTimeout(timeoutId);
+  }, [formData, cakeType, selectedCakeSize, selectedStandardCake, selectedIcingColors, selectedDecorations, layers, selectedCustomer]);
+  
   // Rush order detection effect - recomputes on EVERY eventDate change
   useEffect(() => {
     if (formData.eventDate) {
@@ -119,6 +166,137 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
       setManagerApproval(false);
     }
   }, [formData.eventDate]);
+
+  // Fetch customer's previous orders when customer is selected
+  useEffect(() => {
+    const fetchCustomerOrders = async () => {
+      if (!selectedCustomer || selectedCustomer.totalOrders === 0) {
+        setCustomerOrders([]);
+        return;
+      }
+
+      setLoadingOrders(true);
+      try {
+        const response = await fetch(`/api/customers/${selectedCustomer.id}/orders?limit=3`);
+        if (response.ok) {
+          const data = await response.json();
+          setCustomerOrders(data);
+        }
+      } catch (error) {
+        console.error('Error fetching customer orders:', error);
+      } finally {
+        setLoadingOrders(false);
+      }
+    };
+
+    fetchCustomerOrders();
+  }, [selectedCustomer]);
+
+  // Keyboard shortcuts for power users
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      // Cmd/Ctrl + S to manually save draft
+      if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+        e.preventDefault();
+        if (selectedCustomer) {
+          saveFormData('order-create', {
+            formData,
+            cakeType,
+            selectedCakeSize,
+            selectedStandardCake,
+            selectedIcingColors,
+            selectedDecorations,
+            layers
+          });
+          showToast('info', '💾 Draft saved manually');
+        }
+      }
+
+      // Cmd/Ctrl + Enter to submit (if valid)
+      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+        e.preventDefault();
+        if (selectedCustomer && selectedCakeSize) {
+          handleSubmit();
+        } else {
+          showToast('error', 'Please complete required fields before submitting');
+        }
+      }
+
+      // Alt + 1-7 to jump to sections
+      if (e.altKey && e.key >= '1' && e.key <= '7') {
+        e.preventDefault();
+        const sectionKeys: (keyof typeof openSections)[] = [
+          'customer',
+          'cakeType',
+          'size',
+          'layers',
+          'icingColors',
+          'decorations',
+          'eventInfo'
+        ];
+        const sectionIndex = parseInt(e.key) - 1;
+        if (sectionIndex < sectionKeys.length) {
+          const section = sectionKeys[sectionIndex];
+          setOpenSections(prev => ({ ...prev, [section]: true }));
+          // Scroll to section
+          setTimeout(() => {
+            const sectionElement = document.querySelector(`[data-section="${section}"]`);
+            if (sectionElement) {
+              sectionElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 100);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [selectedCustomer, selectedCakeSize, formData, cakeType, selectedStandardCake, selectedIcingColors, selectedDecorations, layers, openSections]);
+
+  // Copy order details from previous order
+  const copyOrderDetails = (order: any) => {
+    try {
+      setCakeType(order.orderType || 'custom');
+      setSelectedCakeSize(order.cakeSize || '');
+      
+      if (order.orderType === 'standard' && order.standardCakeId) {
+        setSelectedStandardCake(order.standardCakeId);
+      } else if (order.layers) {
+        try {
+          const parsedLayers = typeof order.layers === 'string' 
+            ? JSON.parse(order.layers) 
+            : order.layers;
+          setLayers(parsedLayers);
+        } catch (e) {
+          console.error('Error parsing layers:', e);
+        }
+      }
+      
+      if (order.icingColors) {
+        const colors = typeof order.icingColors === 'string' 
+          ? JSON.parse(order.icingColors) 
+          : order.icingColors;
+        setSelectedIcingColors(colors || []);
+      }
+      
+      if (order.decorations) {
+        const decors = typeof order.decorations === 'string' 
+          ? JSON.parse(order.decorations) 
+          : order.decorations;
+        setSelectedDecorations(decors || []);
+      }
+      
+      showToast('success', `Copied details from order #${order.id}`);
+      
+      // Scroll to first incomplete section
+      setTimeout(() => {
+        window.scrollTo({ top: 400, behavior: 'smooth' });
+      }, 100);
+    } catch (error) {
+      console.error('Error copying order:', error);
+      showToast('error', 'Failed to copy order details');
+    }
+  };
 
   // Search customers
   const handleSearchCustomers = async () => {
@@ -169,6 +347,55 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
     }
   };
 
+  // Helper function to get size icons
+  const getSizeIcon = (sizeId: string) => {
+    if (sizeId.includes('6-round')) return '🧁';
+    if (sizeId.includes('8-round')) return '🍰';
+    if (sizeId.includes('10-round') || sizeId.includes('12-round')) return '🎂';
+    if (sizeId.includes('14-round') || sizeId.includes('16-round')) return '🎂';
+    if (sizeId.includes('quarter')) return '📦';
+    if (sizeId.includes('half')) return '📦📦';
+    if (sizeId.includes('full')) return '📦📦📦';
+    return '🎂';
+  };
+
+  // Helper function to get decoration icons
+  const getDecorationIcon = (decorationId: string) => {
+    if (decorationId.includes('flower')) return '🌸';
+    if (decorationId.includes('fondant')) return '🌷';
+    if (decorationId.includes('butterfly')) return '🦋';
+    if (decorationId.includes('tree')) return '🌲';
+    if (decorationId.includes('palm')) return '🌴';
+    if (decorationId.includes('rainbow')) return '🌈';
+    if (decorationId.includes('dinosaur')) return '🦕';
+    if (decorationId.includes('doll')) return '👗';
+    if (decorationId.includes('train')) return '🚂';
+    if (decorationId.includes('construction')) return '🏗️';
+    if (decorationId.includes('deer') || decorationId.includes('animal')) return '🦌';
+    if (decorationId.includes('graduation')) return '🎓';
+    if (decorationId.includes('balloon')) return '🎈';
+    if (decorationId.includes('firework')) return '🎆';
+    if (decorationId.includes('sport')) return '🏆';
+    if (decorationId.includes('ribbon')) return '🎀';
+    if (decorationId.includes('flag')) return '🇺🇸';
+    if (decorationId.includes('photo')) return '📸';
+    if (decorationId.includes('fleur')) return '⚜️';
+    if (decorationId.includes('candy')) return '🍬';
+    if (decorationId.includes('parasol')) return '☂️';
+    return '✨';
+  };
+
+  // Helper function to get cake category emoji
+  const getCakeEmoji = (category: string) => {
+    const emojiMap: { [key: string]: string } = {
+      'Classic': '🎂',
+      'Premium': '🍰',
+      'Fruity': '🍓',
+      'Chocolate': '🍫'
+    };
+    return emojiMap[category] || '🎂';
+  };
+
   // Calculate totals based on cake size (returns cents)
   const calculateTotal = () => {
     if (cakeType === 'standard') {
@@ -186,6 +413,38 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
   
   const totalAmount = calculateTotal(); // In cents
   const depositRequired = Math.ceil(totalAmount * 0.5); // 50% deposit in cents
+
+  // Price breakdown for sidebar calculator
+  const priceBreakdown = useMemo(() => {
+    const items = [];
+    let subtotal = 0;
+
+    if (selectedCakeSize) {
+      const size = cakeSizes.find(s => s.id === selectedCakeSize);
+      if (size) {
+        items.push({ label: size.name, amount: size.price });
+        subtotal += size.price;
+      }
+    }
+
+    if (cakeType === 'standard' && selectedStandardCake) {
+      const cake = standardCakes.find(c => c.id === selectedStandardCake);
+      if (cake) {
+        items.push({ label: cake.name, amount: cake.basePrice * 100 });
+        subtotal += cake.basePrice * 100;
+      }
+    }
+
+    if (cakeType === 'custom' && layers.length > 2) {
+      const extraLayers = layers.length - 2;
+      const layerCost = extraLayers * 1500; // $15 per extra layer
+      items.push({ label: `+${extraLayers} extra layer${extraLayers > 1 ? 's' : ''}`, amount: layerCost });
+      subtotal += layerCost;
+    }
+
+    const deposit = Math.ceil(subtotal * 0.5);
+    return { items, subtotal, deposit, balance: subtotal - deposit };
+  }, [selectedCakeSize, cakeType, selectedStandardCake, layers]);
 
   // Toggle icing color selection
   const toggleIcingColor = (colorId: string) => {
@@ -257,6 +516,13 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
       return;
     }
     
+    // Validate deposit amount (must be at least 50%)
+    const depositEntered = formData.depositAmount ? parseFloat(formData.depositAmount) * 100 : depositRequired;
+    if (depositEntered < depositRequired) {
+      showToast('error', `Deposit must be at least 50% of total ($${(depositRequired / 100).toFixed(2)})`);
+      return;
+    }
+    
     // Check rush order manager approval
     if (isRush && !managerApproval) {
       showToast('error', 'Rush orders require manager approval');
@@ -310,6 +576,9 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
       const order = result.order || result;
       showToast('success', `Order #${order.id} created successfully!`);
       
+      // Clear the saved draft
+      clearFormData('order-create');
+      
       // Reset form
       setSelectedCustomer(null);
       setCakeType('custom');
@@ -350,6 +619,22 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
     setOpenSections(prev => ({ ...prev, [section]: !prev[section] }));
   };
 
+  // Check completion status for each section
+  const isCustomerComplete = () => selectedCustomer !== null;
+  const isCakeTypeComplete = () => cakeType === 'standard' ? !!selectedStandardCake : true;
+  const isSizeComplete = () => !!selectedCakeSize;
+  const areLayersComplete = () => {
+    if (cakeType !== 'custom') return true;
+    return layers.length >= 2 && 
+           layers.every(layer => layer.flavor && layer.icing) &&
+           !layers.some(layer => layer.fillings.length > 2);
+  };
+  const isEventInfoComplete = () => !!formData.eventDate;
+  const isPaymentComplete = () => {
+    const depositEntered = formData.depositAmount ? parseFloat(formData.depositAmount) * 100 : depositRequired;
+    return depositEntered >= depositRequired;
+  };
+
   // Handle cake type change with state reset to prevent pollution
   const handleCakeTypeChange = (type: 'standard' | 'custom') => {
     setCakeType(type);
@@ -374,7 +659,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
 
   return (
     <div className="h-full overflow-auto p-6">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* Breadcrumbs */}
         <AdminBreadcrumbs 
           items={[
@@ -420,10 +705,91 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
           >
             Manually create a custom cake order for a customer
           </p>
+          
+          {/* Keyboard Shortcuts Helper */}
+          <div 
+            className="mt-3 p-3 rounded-lg"
+            style={{ background: '#F3F4F6', fontSize: '12px', color: '#6B7280' }}
+          >
+            <div className="flex items-center gap-4 flex-wrap">
+              <span className="font-medium" style={{ color: '#374151' }}>⌨️ Shortcuts:</span>
+              <span>
+                <kbd className="px-2 py-1 rounded" style={{ background: 'white', border: '1px solid #D1D5DB', fontSize: '11px' }}>
+                  ⌘/Ctrl + S
+                </kbd>
+                {' '}Save Draft
+              </span>
+              <span>
+                <kbd className="px-2 py-1 rounded" style={{ background: 'white', border: '1px solid #D1D5DB', fontSize: '11px' }}>
+                  ⌘/Ctrl + Enter
+                </kbd>
+                {' '}Submit
+              </span>
+              <span>
+                <kbd className="px-2 py-1 rounded" style={{ background: 'white', border: '1px solid #D1D5DB', fontSize: '11px' }}>
+                  Alt + 1-7
+                </kbd>
+                {' '}Jump to Section
+              </span>
+            </div>
+          </div>
+          
+          {/* Progress Summary */}
+          {selectedCustomer && (
+            <div 
+              className="mt-4 p-4 rounded-lg"
+              style={{ background: 'rgba(196, 69, 105, 0.05)', border: '1px solid rgba(196, 69, 105, 0.2)' }}
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <p style={{ fontSize: '13px', fontWeight: 600, color: '#2B2B2B', marginBottom: '4px' }}>
+                    Order Progress
+                  </p>
+                  <div className="flex items-center gap-3 text-xs">
+                    <span style={{ color: isCustomerComplete() ? '#10B981' : '#999' }}>
+                      ✓ Customer
+                    </span>
+                    <span style={{ color: isCakeTypeComplete() ? '#10B981' : '#999' }}>
+                      {isCakeTypeComplete() ? '✓' : '○'} Cake Type
+                    </span>
+                    <span style={{ color: isSizeComplete() ? '#10B981' : '#999' }}>
+                      {isSizeComplete() ? '✓' : '○'} Size
+                    </span>
+                    {cakeType === 'custom' && (
+                      <span style={{ color: areLayersComplete() ? '#10B981' : '#999' }}>
+                        {areLayersComplete() ? '✓' : '○'} Layers
+                      </span>
+                    )}
+                    <span style={{ color: isEventInfoComplete() ? '#10B981' : '#999' }}>
+                      {isEventInfoComplete() ? '✓' : '○'} Event Date
+                    </span>
+                    <span style={{ color: isPaymentComplete() ? '#10B981' : '#999' }}>
+                      {isPaymentComplete() ? '✓' : '○'} Payment
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  {isRush && (
+                    <span 
+                      className="px-3 py-1 rounded-full text-xs"
+                      style={{ background: '#DC2626', color: 'white', fontWeight: 600 }}
+                    >
+                      RUSH ORDER
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
+        {/* Grid Layout: Form on left, Price Calculator on right (desktop only) */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left side: Form sections */}
+          <div className="lg:col-span-2 space-y-6">
+
         {/* Customer Selection Section */}
-        <Card className="mb-6 p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
+        <Card className="p-6" data-section="customer" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
           <button
             onClick={() => toggleSection('customer')}
             className="w-full flex items-center justify-between mb-4"
@@ -441,16 +807,19 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
                 1. Customer Selection
               </h2>
               {selectedCustomer && (
-                <span 
-                  className="px-3 py-1 rounded-full text-xs"
-                  style={{ 
-                    background: 'rgba(196, 69, 105, 0.1)',
-                    color: '#C44569',
-                    fontWeight: 600
-                  }}
-                >
-                  {selectedCustomer.name}
-                </span>
+                <>
+                  <CheckCircle2 size={18} color="#10B981" />
+                  <span 
+                    className="px-3 py-1 rounded-full text-xs"
+                    style={{ 
+                      background: 'rgba(196, 69, 105, 0.1)',
+                      color: '#C44569',
+                      fontWeight: 600
+                    }}
+                  >
+                    {selectedCustomer.name}
+                  </span>
+                </>
               )}
             </div>
             {openSections.customer ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
@@ -638,13 +1007,62 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
                     </Button>
                   </div>
                 </div>
-              )}
-            </div>
-          )}
-        </Card>
 
-        {/* Cake Type Selection */}
-        <Card className="mb-6 p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
+                {/* Copy Previous Order Feature */}
+                {selectedCustomer.totalOrders > 0 && (
+                  <Card className="mt-4" style={{ background: '#EFF6FF', border: '1px solid #BFDBFE' }}>
+                    <div className="p-3">
+                      <div className="flex items-center gap-2 mb-2">
+                        <History size={16} color="#3B82F6" />
+                        <h3 style={{ fontSize: '13px', fontWeight: 600, color: '#1E40AF' }}>
+                          Quick Copy from Previous Order
+                        </h3>
+                      </div>
+                      {loadingOrders ? (
+                        <p style={{ fontSize: '12px', color: '#666' }}>Loading previous orders...</p>
+                      ) : customerOrders.length > 0 ? (
+                        <div className="space-y-2">
+                          {customerOrders.map((order: any) => (
+                            <Button
+                              key={order.id}
+                              onClick={() => copyOrderDetails(order)}
+                              variant="outline"
+                              size="sm"
+                              className="w-full justify-start h-auto py-2"
+                              style={{ borderColor: '#BFDBFE' }}
+                            >
+                              <div className="flex items-center gap-2 w-full">
+                                <Cake size={14} style={{ color: '#C44569' }} />
+                                <div className="text-left flex-1">
+                                  <div style={{ fontSize: '13px', fontWeight: 500 }}>
+                                    {order.orderType === 'standard' && order.standardCakeName
+                                      ? order.standardCakeName
+                                      : 'Custom Cake'}
+                                  </div>
+                                  <div style={{ fontSize: '11px', color: '#666' }}>
+                                    {order.sizeDescription || 'Various sizes'} • {order.layerCount || 2} layers • $
+                                    {((order.totalAmount || 0) / 100).toFixed(2)}
+                                  </div>
+                                </div>
+                                <Copy size={14} color="#3B82F6" />
+                              </div>
+                            </Button>
+                          ))}
+                        </div>
+                      ) : (
+                        <p style={{ fontSize: '12px', color: '#666' }}>No previous orders found</p>
+                      )}
+                    </div>
+                  </Card>
+                )}
+              </>
+            )}
+          </div>
+        )}
+      </Card>
+
+      {/* Cake Type Selection */}
+      <Card className="p-6" data-section="cakeType" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
           <button
             onClick={() => toggleSection('cakeType')}
             className="w-full flex items-center justify-between mb-4"
@@ -654,6 +1072,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
               <h2 style={{ fontFamily: 'Poppins, sans-serif', fontSize: '18px', fontWeight: 600, color: '#2B2B2B' }}>
                 2. Cake Type
               </h2>
+              {isCakeTypeComplete() && <CheckCircle2 size={18} color="#10B981" />}
             </div>
             {openSections.cakeType ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </button>
@@ -690,19 +1109,54 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
                   <label style={{ display: 'block', fontWeight: 500, fontSize: '14px', marginBottom: '8px' }}>
                     Select Standard Cake <span style={{ color: '#C44569' }}>*</span>
                   </label>
-                  <select
-                    value={selectedStandardCake}
-                    onChange={(e) => setSelectedStandardCake(e.target.value)}
-                    className="w-full p-3 border-2 rounded-lg"
-                    style={{ borderColor: '#E0E0E0', fontSize: '14px' }}
-                  >
-                    <option value="">Choose a cake...</option>
-                    {standardCakes.map(cake => (
-                      <option key={cake.id} value={cake.id}>
-                        {cake.name} (Base: ${cake.basePrice})
-                      </option>
-                    ))}
-                  </select>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {standardCakes.map(cake => {
+                      const isSelected = selectedStandardCake === cake.id;
+                      const cakeEmoji = getCakeEmoji(cake.category || 'Classic');
+                      
+                      return (
+                        <button
+                          key={cake.id}
+                          onClick={() => setSelectedStandardCake(cake.id)}
+                          className="p-4 rounded-lg border-2 transition-all text-left hover:shadow-md"
+                          style={{
+                            borderColor: isSelected ? '#C44569' : '#E0E0E0',
+                            background: isSelected ? 'rgba(196, 69, 105, 0.1)' : 'white'
+                          }}
+                        >
+                          <div className="flex items-start gap-3">
+                            <span style={{ fontSize: '28px' }}>{cakeEmoji}</span>
+                            <div className="flex-1">
+                              <div className="flex items-center justify-between mb-1">
+                                <h4 style={{ fontSize: '14px', fontWeight: 600 }}>{cake.name}</h4>
+                                {isSelected && <CheckCircle2 size={16} style={{ color: '#10B981' }} />}
+                              </div>
+                              {cake.description && (
+                                <p style={{ fontSize: '12px', color: '#666', marginBottom: '8px' }}>
+                                  {cake.description}
+                                </p>
+                              )}
+                              <div className="flex items-center justify-between">
+                                {cake.category && (
+                                  <Badge variant="secondary" style={{ fontSize: '10px' }}>
+                                    {cake.category}
+                                  </Badge>
+                                )}
+                                <span style={{ fontSize: '13px', fontWeight: 600, color: '#C44569' }}>
+                                  +${cake.basePrice}
+                                </span>
+                              </div>
+                              {cake.layers && cake.layers[0] && (
+                                <div style={{ fontSize: '11px', color: '#999', marginTop: '4px' }}>
+                                  {cake.layers[0].flavor} cake • {cake.layers[0].icing} icing
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
             </div>
@@ -710,7 +1164,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
         </Card>
 
         {/* Cake Size Selection */}
-        <Card className="mb-6 p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
+        <Card className="p-6" data-section="size" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
           <button
             onClick={() => toggleSection('size')}
             className="w-full flex items-center justify-between mb-4"
@@ -721,9 +1175,12 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
                 3. Cake Size <span style={{ color: '#C44569' }}>*</span>
               </h2>
               {selectedCakeSize && (
-                <span className="px-3 py-1 rounded-full text-xs" style={{ background: 'rgba(196, 69, 105, 0.1)', color: '#C44569', fontWeight: 600 }}>
-                  {cakeSizes.find(s => s.id === selectedCakeSize)?.name}
-                </span>
+                <>
+                  <CheckCircle2 size={18} color="#10B981" />
+                  <span className="px-3 py-1 rounded-full text-xs" style={{ background: 'rgba(196, 69, 105, 0.1)', color: '#C44569', fontWeight: 600 }}>
+                    {cakeSizes.find(s => s.id === selectedCakeSize)?.name}
+                  </span>
+                </>
               )}
             </div>
             {openSections.size ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
@@ -733,21 +1190,37 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {cakeSizes.map(size => {
                 const isSelected = selectedCakeSize === size.id;
+                const sizeIcon = getSizeIcon(size.id);
+                const servingCount = parseInt(size.servings.split('-')[0]);
+                const userIcons = Math.min(5, Math.ceil(servingCount / 10));
+                
                 return (
                   <button
                     key={size.id}
                     onClick={() => setSelectedCakeSize(size.id)}
-                    className="p-4 rounded-lg border-2 transition-all text-left"
+                    className="p-4 rounded-lg border-2 transition-all text-left hover:shadow-md"
                     style={{
                       borderColor: isSelected ? '#C44569' : '#E0E0E0',
                       background: isSelected ? 'rgba(196, 69, 105, 0.1)' : 'white'
                     }}
                   >
-                    <h4 style={{ fontWeight: 600, fontSize: '14px', marginBottom: '4px' }}>{size.name}</h4>
-                    <p style={{ fontSize: '12px', color: '#666' }}>Serves {size.servings}</p>
-                    <p style={{ fontSize: '14px', fontWeight: 600, color: '#C44569', marginTop: '4px' }}>
-                      ${(size.price / 100).toFixed(2)}
-                    </p>
+                    <div className="flex items-start gap-3">
+                      <span style={{ fontSize: '32px' }}>{sizeIcon}</span>
+                      <div className="flex-1">
+                        <h4 style={{ fontWeight: 600, fontSize: '14px', marginBottom: '4px' }}>{size.name}</h4>
+                        <div className="flex items-center gap-1 mb-2">
+                          {Array.from({ length: userIcons }).map((_, i) => (
+                            <Users key={i} size={12} style={{ color: '#C44569' }} />
+                          ))}
+                          <span style={{ fontSize: '11px', color: '#666', marginLeft: '4px' }}>
+                            Serves {size.servings}
+                          </span>
+                        </div>
+                        <p style={{ fontSize: '14px', fontWeight: 600, color: '#C44569' }}>
+                          ${(size.price / 100).toFixed(2)}
+                        </p>
+                      </div>
+                    </div>
                   </button>
                 );
               })}
@@ -757,7 +1230,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
 
         {/* Layers Section (Custom Only) */}
         {cakeType === 'custom' && (
-          <Card className="mb-6 p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
+          <Card className="p-6" data-section="layers" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
             <button
               onClick={() => toggleSection('layers')}
               className="w-full flex items-center justify-between mb-4"
@@ -767,6 +1240,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
                 <h2 style={{ fontFamily: 'Poppins, sans-serif', fontSize: '18px', fontWeight: 600, color: '#2B2B2B' }}>
                   4. Build Cake Layers
                 </h2>
+                {areLayersComplete() && <CheckCircle2 size={18} color="#10B981" />}
               <span 
                 className="px-2 py-1 rounded text-xs"
                 style={{ background: '#F0F0F0', color: '#666' }}
@@ -784,7 +1258,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
           )}
 
         {/* Icing Colors Section */}
-        <Card className="mb-6 p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
+        <Card className="p-6" data-section="icingColors" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
           <button
             onClick={() => toggleSection('icingColors')}
             className="w-full flex items-center justify-between mb-4"
@@ -850,7 +1324,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
         </Card>
 
         {/* Decorations Section */}
-        <Card className="mb-6 p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
+        <Card className="p-6" data-section="decorations" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
           <button
             onClick={() => toggleSection('decorations')}
             className="w-full flex items-center justify-between mb-4"
@@ -873,20 +1347,31 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
               {decorations.map(decoration => {
                 const isSelected = selectedDecorations.includes(decoration.id);
+                const decorIcon = getDecorationIcon(decoration.id);
                 return (
                   <label
                     key={decoration.id}
-                    className="flex items-center gap-2 p-3 rounded-lg border cursor-pointer transition-all"
+                    className="flex items-center gap-2 p-3 rounded-lg border cursor-pointer transition-all hover:shadow-sm"
                     style={{
                       borderColor: isSelected ? '#C44569' : '#E0E0E0',
                       background: isSelected ? 'rgba(196, 69, 105, 0.05)' : 'white'
                     }}
                   >
-                    <Checkbox
-                      checked={isSelected}
-                      onCheckedChange={() => toggleDecoration(decoration.id)}
-                    />
-                    <span style={{ fontSize: '13px' }}>{decoration.name}</span>
+                    <span style={{ fontSize: '20px' }}>{decorIcon}</span>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-1">
+                        <Checkbox
+                          checked={isSelected}
+                          onCheckedChange={() => toggleDecoration(decoration.id)}
+                        />
+                        <span style={{ fontSize: '13px' }}>{decoration.name}</span>
+                      </div>
+                      {decoration.price > 0 && (
+                        <span style={{ fontSize: '11px', color: '#C44569', fontWeight: 600 }}>
+                          +${(decoration.price / 100).toFixed(2)}
+                        </span>
+                      )}
+                    </div>
                   </label>
                 );
               })}
@@ -922,7 +1407,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
         )}
 
         {/* Event Info Section */}
-        <Card className="mb-6 p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
+        <Card className="p-6" data-section="eventInfo" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
           <button
             onClick={() => toggleSection('eventInfo')}
             className="w-full flex items-center justify-between mb-4"
@@ -939,6 +1424,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
               >
                 7. Event Information
               </h2>
+              {isEventInfoComplete() && <CheckCircle2 size={18} color="#10B981" />}
             </div>
             {openSections.eventInfo ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </button>
@@ -1024,7 +1510,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
         </Card>
 
         {/* Admin Settings Section */}
-        <Card className="mb-6 p-6" style={{ background: '#FFF9F5', border: '2px solid #C44569' }}>
+        <Card className="p-6" style={{ background: '#FFF9F5', border: '2px solid #C44569' }}>
           <button
             onClick={() => toggleSection('adminSettings')}
             className="w-full flex items-center justify-between mb-4"
@@ -1125,7 +1611,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
         </Card>
 
         {/* Payment Section */}
-        <Card className="mb-6 p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
+        <Card className="p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
           <button
             onClick={() => toggleSection('payment')}
             className="w-full flex items-center justify-between mb-4"
@@ -1142,6 +1628,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
               >
                 5. Payment Information
               </h2>
+              {isPaymentComplete() && <CheckCircle2 size={18} color="#10B981" />}
             </div>
             {openSections.payment ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </button>
@@ -1168,6 +1655,26 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
                   </p>
                 </div>
               </div>
+              
+              {/* Deposit validation warning */}
+              {formData.depositAmount && parseFloat(formData.depositAmount) * 100 < depositRequired && (
+                <div 
+                  className="p-3 rounded-lg flex items-start gap-2"
+                  style={{ background: '#FEE2E2', border: '1px solid #DC2626' }}
+                >
+                  <AlertCircle size={20} color="#DC2626" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <p style={{ fontSize: '14px', fontWeight: 600, color: '#DC2626', marginBottom: '4px' }}>
+                      Insufficient Deposit
+                    </p>
+                    <p style={{ fontSize: '13px', color: '#991B1B' }}>
+                      Minimum deposit of ${(depositRequired / 100).toFixed(2)} (50%) is required. 
+                      Current amount: ${parseFloat(formData.depositAmount).toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+              )}
+              
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label 
@@ -1185,11 +1692,11 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
                     value={formData.depositAmount}
                     onChange={(e) => setFormData({ ...formData, depositAmount: e.target.value })}
                     placeholder={(depositRequired / 100).toFixed(2)}
-                    min="0"
+                    min={(depositRequired / 100).toFixed(2)}
                     step="0.01"
                   />
                   <p style={{ fontSize: '12px', color: '#999', marginTop: '4px' }}>
-                    Leave blank to use default 50% deposit
+                    Leave blank to use default 50% deposit (${(depositRequired / 100).toFixed(2)})
                   </p>
                 </div>
                 <div>
@@ -1246,6 +1753,63 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
             Please select or create a customer to continue
           </p>
         )}
+        </div>
+        {/* End of form sections column */}
+
+        {/* Right side: Price Calculator Sidebar (desktop only) */}
+        <div className="hidden lg:block">
+          {priceBreakdown.subtotal > 0 && (
+            <div className="sticky top-4">
+              <Card style={{ background: '#FFFFFF', border: '2px solid #C44569' }}>
+                <div className="p-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Calculator size={18} style={{ color: '#C44569' }} />
+                    <h3 style={{ fontFamily: 'Poppins, sans-serif', fontSize: '16px', fontWeight: 600 }}>
+                      Price Estimate
+                    </h3>
+                  </div>
+
+                  <div className="space-y-2" style={{ fontSize: '14px' }}>
+                    {priceBreakdown.items.map((item, i) => (
+                      <div key={i} className="flex justify-between">
+                        <span style={{ color: '#666' }}>{item.label}</span>
+                        <span style={{ fontWeight: 500 }}>${(item.amount / 100).toFixed(2)}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Separator className="my-3" />
+
+                  <div className="space-y-2">
+                    <div className="flex justify-between" style={{ fontSize: '18px', fontWeight: 700 }}>
+                      <span>Total</span>
+                      <span style={{ color: '#C44569' }}>${(priceBreakdown.subtotal / 100).toFixed(2)}</span>
+                    </div>
+                    <div 
+                      className="flex justify-between p-2 rounded"
+                      style={{ fontSize: '14px', background: '#FEF3C7' }}
+                    >
+                      <span style={{ fontWeight: 500 }}>Deposit Due (50%)</span>
+                      <span style={{ fontWeight: 600, color: '#92400E' }}>
+                        ${(priceBreakdown.deposit / 100).toFixed(2)}
+                      </span>
+                    </div>
+                  </div>
+
+                  <Alert className="mt-3" style={{ padding: '8px' }}>
+                    <Info size={14} />
+                    <AlertDescription style={{ fontSize: '12px' }}>
+                      Final price may adjust based on decorations
+                    </AlertDescription>
+                  </Alert>
+                </div>
+              </Card>
+            </div>
+          )}
+        </div>
+        {/* End of price calculator column */}
+        </div>
+        {/* End of grid layout */}
       </div>
     </div>
   );
