@@ -126,6 +126,18 @@ export function MobileNav({ isOpen, onClose, activePage, onNavigate, onAdminAcce
                 </h3>
               </div>
 
+              {/* Staff Login Button - First item in mobile menu */}
+              {onAdminAccess && (
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0 }}
+                  className="mb-4"
+                >
+                  <StaffLoginCTA onClick={() => { onAdminAccess(); onClose(); }} variant="mobile" />
+                </motion.div>
+              )}
+
               {/* Navigation Links */}
               <nav className="space-y-1 mb-6 flex-shrink-0">
                 {navItems.map((item, index) => (
@@ -133,7 +145,7 @@ export function MobileNav({ isOpen, onClose, activePage, onNavigate, onAdminAcce
                     key={item.id}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
+                    transition={{ delay: (index + 1) * 0.05 }}
                     onClick={() => {
                       onNavigate(item.id);
                       onClose();

@@ -42,10 +42,19 @@ export default function CredentialsToggle() {
           border: '1px solid rgba(196, 69, 105, 0.15)',
           padding: '12px 16px',
           borderRadius: 10,
-          cursor: 'pointer'
+          cursor: 'pointer',
+          transition: 'all 150ms ease'
         }}
         aria-expanded={isOpen}
         aria-controls="demo-credentials-panel"
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = 'rgba(196, 69, 105, 0.08)';
+          e.currentTarget.style.borderColor = 'rgba(196, 69, 105, 0.25)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'rgba(196, 69, 105, 0.05)';
+          e.currentTarget.style.borderColor = 'rgba(196, 69, 105, 0.15)';
+        }}
       >
         <div className="flex items-center gap-3">
           <KeyRound size={16} color="#C44569" />
@@ -54,7 +63,14 @@ export default function CredentialsToggle() {
           </span>
         </div>
 
-        <ChevronDown size={16} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown 
+          size={16} 
+          color="#5A3825"
+          style={{ 
+            transition: 'transform 300ms ease',
+            transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)'
+          }} 
+        />
       </button>
 
       {isOpen && (
@@ -62,40 +78,53 @@ export default function CredentialsToggle() {
           id="demo-credentials-panel"
           className="mt-3"
           style={{
-            background: 'rgba(196, 69, 105, 0.15)',
-            border: '2px solid rgba(196, 69, 105, 0.3)',
+            background: 'rgba(196, 69, 105, 0.08)',
+            border: '2px solid rgba(196, 69, 105, 0.2)',
             borderRadius: 12,
             padding: 20,
-            backdropFilter: 'blur(8px)'
+            backdropFilter: 'blur(10px)',
+            animation: 'expandIn 300ms ease-out'
           }}
         >
           <div className="space-y-3">
             {demoAccounts.map((acct) => (
               <div key={acct.email} className="flex items-center gap-2">
                 <div style={{ width: 110, textAlign: 'right', flexShrink: 0 }}>
-                  <span style={{ fontFamily: 'Poppins', fontSize: 15, fontWeight: 700, color: '#FFFFFF' }}>
+                  <span style={{ fontFamily: 'Poppins', fontSize: 15, fontWeight: 700, color: '#2B2B2B' }}>
                     {acct.role}
                   </span>
                 </div>
 
-                <input
-                  type="text"
-                  readOnly
-                  value={acct.email}
-                  onClick={(e) => e.currentTarget.select()}
+                <div
+                  onClick={(e) => {
+                    const range = document.createRange();
+                    range.selectNodeContents(e.currentTarget);
+                    const sel = window.getSelection();
+                    sel?.removeAllRanges();
+                    sel?.addRange(range);
+                  }}
                   style={{
                     flex: 1,
                     background: 'rgba(0,0,0,0.2)',
-                    padding: '8px 10px',
+                    padding: '6px 10px',
                     borderRadius: 6,
                     fontFamily: 'Courier New, monospace',
-                    fontSize: 14,
+                    fontSize: 15,
                     color: '#E9E9E9',
-                    border: '1px solid rgba(255,255,255,0.1)',
+                    border: 'none',
                     cursor: 'text',
-                    userSelect: 'all'
+                    userSelect: 'all',
+                    transition: 'background 150ms ease'
                   }}
-                />
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(0,0,0,0.3)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'rgba(0,0,0,0.2)';
+                  }}
+                >
+                  {acct.email}
+                </div>
 
                 <button
                   onClick={() => copyToClipboard(acct.email, 'email', acct.email)}
@@ -123,33 +152,40 @@ export default function CredentialsToggle() {
             ))}
 
             <div style={{ borderTop: '1px solid rgba(196,69,105,0.3)', marginTop: 16, paddingTop: 16 }}>
-              <div style={{ marginBottom: 12 }}>
-                <span style={{ fontFamily: 'Poppins', fontSize: 15, fontWeight: 600, color: '#FFFFFF' }}>
+              <div style={{ marginBottom: 8 }}>
+                <span style={{ fontFamily: 'Poppins', fontSize: 15, fontWeight: 600, color: '#2B2B2B' }}>
                   All Passwords
                 </span>
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <input
-                  type="text"
-                  readOnly
-                  value={demoAccounts[0].password}
-                  onClick={(e) => e.currentTarget.select()}
+                <div
+                  onClick={(e) => {
+                    const range = document.createRange();
+                    range.selectNodeContents(e.currentTarget);
+                    const sel = window.getSelection();
+                    sel?.removeAllRanges();
+                    sel?.addRange(range);
+                  }}
                   style={{
                     flex: 1,
                     background: 'rgba(0,0,0,0.3)',
-                    color: '#22c55e',
+                    color: '#C44569',
                     fontFamily: 'Courier New, monospace',
-                    fontSize: 16,
+                    fontSize: 17,
                     fontWeight: 700,
-                    padding: '12px 16px',
+                    padding: '10px 18px',
                     borderRadius: 8,
-                    border: '1px solid rgba(255,255,255,0.15)',
+                    border: 'none',
                     cursor: 'text',
                     userSelect: 'all',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    letterSpacing: '1px',
+                    display: 'inline-block'
                   }}
-                />
+                >
+                  {demoAccounts[0].password}
+                </div>
 
                 <button
                   onClick={() => copyToClipboard(demoAccounts[0].password, 'password')}
@@ -175,8 +211,8 @@ export default function CredentialsToggle() {
                 </button>
               </div>
 
-              <p style={{ marginTop: 12, textAlign: 'center', fontFamily: 'Open Sans', fontSize: 12, fontStyle: 'italic', color: 'rgba(255,255,255,0.6)' }}>
-                Click text to select, or use copy buttons
+              <p style={{ marginTop: 12, textAlign: 'center', fontFamily: 'Open Sans', fontSize: 12, fontStyle: 'italic', color: 'rgba(43,43,43,0.5)' }}>
+                Click credentials to select and copy
               </p>
             </div>
           </div>

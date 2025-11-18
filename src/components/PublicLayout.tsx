@@ -109,6 +109,11 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
                   )}
                 </button>
               ))}
+              
+              {/* Staff Login Button - Desktop Navigation */}
+              <div style={{ marginLeft: '16px' }}>
+                <StaffLoginCTA onClick={onAdminAccess} variant="desktop" />
+              </div>
             </div>
 
             {/* Right Section - Icons */}

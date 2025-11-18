@@ -69,7 +69,7 @@ export default function Login({ onLogin, onBackToPublic, onLogout }: LoginProps)
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden" style={{ padding: '24px' }}>
       <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A] via-[#1A1A1A] to-[#0A0A0A]">
         <motion.div
           className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full opacity-20 blur-3xl"
@@ -89,8 +89,10 @@ export default function Login({ onLogin, onBackToPublic, onLogout }: LoginProps)
       {/* Back to Public Site Button */}
       <motion.button
         onClick={onBackToPublic}
-        className="absolute top-8 left-8 flex items-center gap-2"
+        className="absolute flex items-center gap-2"
         style={{
+          top: '32px',
+          left: '32px',
           background: 'rgba(196, 69, 105, 0.15)',
           border: '2px solid rgba(196, 69, 105, 0.4)',
           borderRadius: 10,
@@ -121,15 +123,15 @@ export default function Login({ onLogin, onBackToPublic, onLogout }: LoginProps)
       </motion.button>
 
       <motion.div
-        className="relative z-10 w-full max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8"
+        className="relative z-10 w-full mx-auto"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-        style={{ maxHeight: '90vh', overflowY: 'auto' }}
+        style={{ maxWidth: '500px', maxHeight: '90vh', overflowY: 'auto' }}
       >
         {/* Left: Login Card */}
-        <Card className="glass-card p-8 md:p-10">
-          <div className="text-center mb-8">
+        <Card className="glass-card" style={{ padding: '32px 40px' }}>
+          <div className="text-center" style={{ marginBottom: '24px' }}>
             <motion.div
               className="w-16 h-16 mx-auto rounded-2xl flex items-center justify-center"
               style={{ marginBottom: '20px', background: 'rgba(196, 69, 105, 0.1)' }}
@@ -141,11 +143,11 @@ export default function Login({ onLogin, onBackToPublic, onLogout }: LoginProps)
             </motion.div>
 
             <h2
-              className="mb-2"
               style={{
                 fontFamily: 'Playfair Display',
                 fontSize: 'clamp(28px, 5vw, 36px)',
-                color: 'var(--text-primary)'
+                color: 'var(--text-primary)',
+                marginBottom: '6px'
               }}
             >
               Staff Portal
@@ -228,7 +230,7 @@ export default function Login({ onLogin, onBackToPublic, onLogout }: LoginProps)
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-sm">
+            <div className="flex items-center justify-between text-sm" style={{ marginTop: '12px' }}>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
@@ -249,7 +251,7 @@ export default function Login({ onLogin, onBackToPublic, onLogout }: LoginProps)
               type="submit"
               disabled={isLoading}
               className="btn-primary w-full"
-              style={{ height: '56px', fontSize: '16px' }}
+              style={{ height: '56px', fontSize: '16px', marginTop: '20px' }}
             >
               {isLoading ? (
                 <motion.div
@@ -263,12 +265,12 @@ export default function Login({ onLogin, onBackToPublic, onLogout }: LoginProps)
               )}
             </Button>
           </form>
+          
+          {/* Demo Credentials Toggle - Below form */}
+          <div style={{ marginTop: '20px' }}>
+            <CredentialsToggle />
+          </div>
         </Card>
-
-        {/* Right: Demo Credentials Toggle (collapsed by default) */}
-        <div className="flex items-start">
-          <CredentialsToggle />
-        </div>
 
       </motion.div>
     </div>
