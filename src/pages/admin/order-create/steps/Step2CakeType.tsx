@@ -205,26 +205,54 @@ export function Step2CakeType() {
           >
             Select Standard Cake <span style={{ color: '#C44569' }}>*</span>
           </label>
-          <select
-            value={formData.standardCakeId}
-            onChange={(e) => handleStandardCakeSelection(e.target.value)}
-            className="w-full p-3 border-2 rounded-lg transition-colors"
-            style={{
-              borderColor: !formData.standardCakeId ? '#C44569' : '#E0E0E0',
-              fontSize: '15px',
-              fontFamily: 'Open Sans, sans-serif'
-            }}
-          >
-            <option value="">Choose a cake...</option>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {standardCakes.map((cake) => (
-              <option key={cake.id} value={cake.id}>
-                {cake.name} (Base: ${cake.basePrice}) - {cake.category}
-              </option>
+              <button
+                key={cake.id}
+                onClick={() => handleStandardCakeSelection(cake.id)}
+                className="text-left transition-all"
+                style={{
+                  border: formData.standardCakeId === cake.id ? '3px solid #C44569' : '2px solid #E0E0E0',
+                  borderRadius: '12px',
+                  padding: '12px',
+                  background: formData.standardCakeId === cake.id ? 'rgba(196, 69, 105, 0.05)' : 'white',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
+              >
+                <img
+                  src={cake.image_path || '/images/products/placeholder.svg'}
+                  alt={cake.name}
+                  onError={(e) => { (e.target as HTMLImageElement).src = '/images/products/placeholder.svg'; }}
+                  style={{
+                    width: '100%',
+                    height: '150px',
+                    objectFit: 'cover',
+                    borderRadius: '8px',
+                    marginBottom: '12px'
+                  }}
+                />
+                <h4 style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: '16px', color: '#2B2B2B', marginBottom: '4px' }}>
+                  {cake.name}
+                </h4>
+                <p style={{ fontSize: '13px', color: '#666', marginBottom: '8px', lineHeight: '1.4' }}>
+                  {cake.description}
+                </p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '14px', fontWeight: 600, color: '#C44569' }}>
+                    ${cake.basePrice}
+                  </span>
+                  <span style={{ fontSize: '12px', color: '#999', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    {cake.category}
+                  </span>
+                </div>
+              </button>
             ))}
-          </select>
+          </div>
 
           {!formData.standardCakeId && (
-            <p style={{ fontSize: '12px', color: '#C44569', marginTop: '8px' }}>
+            <p style={{ fontSize: '12px', color: '#C44569', marginTop: '12px' }}>
               Please select a standard cake to continue
             </p>
           )}
@@ -242,7 +270,16 @@ export function Step2CakeType() {
                       style={{ background: 'rgba(196, 69, 105, 0.05)' }}
                     >
                       <div className="flex items-start gap-3 mb-3">
-                        <Cake size={24} style={{ color: '#C44569', flexShrink: 0 }} />
+                        {cake.image_path ? (
+                          <img
+                            src={cake.image_path}
+                            alt={cake.name}
+                            onError={(e) => { (e.target as HTMLImageElement).src = '/images/products/placeholder.svg'; }}
+                            style={{ width: '80px', height: '80px', borderRadius: '8px', objectFit: 'cover', flexShrink: 0 }}
+                          />
+                        ) : (
+                          <Cake size={24} style={{ color: '#C44569', flexShrink: 0 }} />
+                        )}
                         <div className="flex-1">
                           <h4
                             style={{

@@ -1,4 +1,5 @@
-node_modules
-build
-dist
-*.log
+# Build artifacts and outputs
+   dist/
+   build/
+   .vite/
+   *.log

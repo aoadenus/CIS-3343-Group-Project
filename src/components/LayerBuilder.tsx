@@ -146,6 +146,19 @@ export function LayerBuilder({ layers, onLayersChange }: LayerBuilderProps) {
                     }}>
                       Flavor <span style={{ color: '#C44569' }}>*</span>
                     </label>
+                    {layer.flavor && cakeFlavors.find(f => f.id === layer.flavor) && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', padding: '8px', background: 'rgba(196, 69, 105, 0.05)', borderRadius: '8px' }}>
+                        <img
+                          src={cakeFlavors.find(f => f.id === layer.flavor)?.image_path || '/images/products/placeholder.svg'}
+                          alt={cakeFlavors.find(f => f.id === layer.flavor)?.name}
+                          onError={(e) => { (e.target as HTMLImageElement).src = '/images/products/placeholder.svg'; }}
+                          style={{ width: '40px', height: '40px', borderRadius: '6px', objectFit: 'cover' }}
+                        />
+                        <span style={{ fontSize: '14px', fontWeight: 600, color: '#C44569' }}>
+                          {cakeFlavors.find(f => f.id === layer.flavor)?.name}
+                        </span>
+                      </div>
+                    )}
                     <div style={{ position: 'relative' }}>
                       <select
                         value={layer.flavor}
@@ -211,10 +224,19 @@ export function LayerBuilder({ layers, onLayersChange }: LayerBuilderProps) {
                               fontWeight: isSelected ? 600 : 400,
                               opacity: isDisabled ? 0.5 : 1,
                               textAlign: 'left',
-                              transition: 'all 0.2s'
+                              transition: 'all 0.2s',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px'
                             }}
                           >
-                            {filling.name}
+                            <img
+                              src={filling.image_path || '/images/products/placeholder.svg'}
+                              alt={filling.name}
+                              onError={(e) => { (e.target as HTMLImageElement).src = '/images/products/placeholder.svg'; }}
+                              style={{ width: '32px', height: '32px', borderRadius: '4px', objectFit: 'cover', flexShrink: 0 }}
+                            />
+                            <span>{filling.name}</span>
                           </button>
                         );
                       })}
@@ -235,6 +257,19 @@ export function LayerBuilder({ layers, onLayersChange }: LayerBuilderProps) {
                     }}>
                       Icing Flavor <span style={{ color: '#C44569' }}>*</span>
                     </label>
+                    {layer.icing && icingFlavors.find(i => i.id === layer.icing) && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', padding: '8px', background: 'rgba(196, 69, 105, 0.05)', borderRadius: '8px' }}>
+                        <img
+                          src={icingFlavors.find(i => i.id === layer.icing)?.image_path || '/images/products/placeholder.svg'}
+                          alt={icingFlavors.find(i => i.id === layer.icing)?.name}
+                          onError={(e) => { (e.target as HTMLImageElement).src = '/images/products/placeholder.svg'; }}
+                          style={{ width: '40px', height: '40px', borderRadius: '6px', objectFit: 'cover' }}
+                        />
+                        <span style={{ fontSize: '14px', fontWeight: 600, color: '#C44569' }}>
+                          {icingFlavors.find(i => i.id === layer.icing)?.name}
+                        </span>
+                      </div>
+                    )}
                     <div style={{ position: 'relative' }}>
                       <select
                         value={layer.icing || ''}

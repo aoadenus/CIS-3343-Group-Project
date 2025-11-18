@@ -21,6 +21,7 @@ export interface StandardCakeRecipe {
   basePrice: number;
   description?: string;
   category?: string;
+  image_path?: string;
   layers: Array<{
     flavor: string;
     fillings: string[];
@@ -36,6 +37,7 @@ export const standardCakes: StandardCakeRecipe[] = [
     basePrice: 30,
     description: 'Classic yellow cake with white buttercream - perfect for any celebration',
     category: 'Classic',
+    image_path: '/images/products/cakes/birthday-celebration.jpg',
     layers: [
       { flavor: 'yellow', fillings: ['white-buttercream'], icing: 'white-buttercream' },
       { flavor: 'yellow', fillings: ['white-buttercream'], icing: 'white-buttercream' }
@@ -47,6 +49,7 @@ export const standardCakes: StandardCakeRecipe[] = [
     basePrice: 35,
     description: 'Rich almond cake with almond buttercream filling',
     category: 'Premium',
+    image_path: '/images/products/cakes/almond-delight.jpg',
     layers: [
       { flavor: 'almond', fillings: ['almond-buttercream'], icing: 'almond-buttercream' },
       { flavor: 'almond', fillings: ['almond-buttercream'], icing: 'almond-buttercream' }
@@ -58,6 +61,7 @@ export const standardCakes: StandardCakeRecipe[] = [
     basePrice: 35,
     description: 'Tangy lemon cake with smooth cream cheese icing',
     category: 'Fruity',
+    image_path: '/images/products/cakes/lemon-cream-cheese.jpg',
     layers: [
       { flavor: 'yellow', fillings: ['lemon-curd'], icing: 'cream-cheese' },
       { flavor: 'yellow', fillings: ['lemon-curd'], icing: 'cream-cheese' }
@@ -69,6 +73,7 @@ export const standardCakes: StandardCakeRecipe[] = [
     basePrice: 40,
     description: 'Chocolate cake with cherry filling and chocolate ganache',
     category: 'Premium',
+    image_path: '/images/products/cakes/black-forest.jpg',
     layers: [
       { flavor: 'chocolate', fillings: ['chocolate-mousse'], icing: 'chocolate-ganache' },
       { flavor: 'chocolate', fillings: ['chocolate-mousse'], icing: 'chocolate-ganache' }
@@ -80,6 +85,7 @@ export const standardCakes: StandardCakeRecipe[] = [
     basePrice: 38,
     description: 'Rich chocolate cake with pecan praline filling',
     category: 'Premium',
+    image_path: '/images/products/cakes/german-chocolate.jpg',
     layers: [
       { flavor: 'chocolate', fillings: ['pecan-praline'], icing: 'chocolate-buttercream' },
       { flavor: 'chocolate', fillings: ['pecan-praline'], icing: 'chocolate-buttercream' }
@@ -91,6 +97,7 @@ export const standardCakes: StandardCakeRecipe[] = [
     basePrice: 38,
     description: 'Decadent chocolate cake with cream cheese frosting',
     category: 'Premium',
+    image_path: '/images/products/cakes/cream-cheese-chocolate.jpg',
     layers: [
       { flavor: 'devils-food-chocolate', fillings: ['chocolate-buttercream'], icing: 'cream-cheese' },
       { flavor: 'devils-food-chocolate', fillings: ['chocolate-buttercream'], icing: 'cream-cheese' }
@@ -102,6 +109,7 @@ export const standardCakes: StandardCakeRecipe[] = [
     basePrice: 40,
     description: 'Light vanilla cake with cream cheese and pecans',
     category: 'Premium',
+    image_path: '/images/products/cakes/italian-cream.jpg',
     layers: [
       { flavor: 'vanilla', fillings: ['cream-cheese', 'pecan-praline'], icing: 'cream-cheese' },
       { flavor: 'vanilla', fillings: ['cream-cheese', 'pecan-praline'], icing: 'cream-cheese' }
@@ -113,6 +121,7 @@ export const standardCakes: StandardCakeRecipe[] = [
     basePrice: 45,
     description: 'Multi-layered lemon cake with lemon mousse',
     category: 'Signature',
+    image_path: '/images/products/cakes/lemon-doberge.jpg',
     layers: [
       { flavor: 'yellow', fillings: ['lemon-curd'], icing: 'white-buttercream' },
       { flavor: 'yellow', fillings: ['lemon-mousse'], icing: 'white-buttercream' }
@@ -124,6 +133,7 @@ export const standardCakes: StandardCakeRecipe[] = [
     basePrice: 45,
     description: 'Multi-layered chocolate cake with chocolate mousse',
     category: 'Signature',
+    image_path: '/images/products/cakes/chocolate-doberge.jpg',
     layers: [
       { flavor: 'chocolate', fillings: ['chocolate-mousse'], icing: 'chocolate-buttercream' },
       { flavor: 'chocolate', fillings: ['chocolate-mousse'], icing: 'chocolate-buttercream' }
@@ -135,6 +145,7 @@ export const standardCakes: StandardCakeRecipe[] = [
     basePrice: 48,
     description: 'Half lemon, half chocolate - best of both worlds',
     category: 'Signature',
+    image_path: '/images/products/cakes/half-half-doberge.jpg',
     layers: [
       { flavor: 'yellow', fillings: ['lemon-mousse'], icing: 'white-buttercream', notes: 'Lemon half' },
       { flavor: 'chocolate', fillings: ['chocolate-mousse'], icing: 'chocolate-buttercream', notes: 'Chocolate half' }
@@ -146,6 +157,7 @@ export const standardCakes: StandardCakeRecipe[] = [
     basePrice: 42,
     description: 'Yellow cake with pecan praline and cream cheese',
     category: 'Premium',
+    image_path: '/images/products/cakes/pecan-praline.jpg',
     layers: [
       { flavor: 'yellow', fillings: ['pecan-praline'], icing: 'cream-cheese' },
       { flavor: 'yellow', fillings: ['pecan-praline'], icing: 'cream-cheese' }
@@ -157,6 +169,7 @@ export const standardCakes: StandardCakeRecipe[] = [
     basePrice: 36,
     description: 'Chocolate cake with banana cream filling',
     category: 'Classic',
+    image_path: '/images/products/cakes/chocolate-banana.jpg',
     layers: [
       { flavor: 'chocolate', fillings: ['white-buttercream'], icing: 'chocolate-buttercream', notes: 'Banana flavor' },
       { flavor: 'chocolate', fillings: ['white-buttercream'], icing: 'chocolate-buttercream', notes: 'Banana flavor' }
@@ -168,6 +181,7 @@ export const standardCakes: StandardCakeRecipe[] = [
     basePrice: 36,
     description: 'Strawberry cake with strawberry mousse filling',
     category: 'Fruity',
+    image_path: '/images/products/cakes/strawberry-delight.jpg',
     layers: [
       { flavor: 'strawberry', fillings: ['strawberry-mousse'], icing: 'white-buttercream' },
       { flavor: 'strawberry', fillings: ['strawberry-mousse'], icing: 'white-buttercream' }
@@ -179,6 +193,7 @@ export const standardCakes: StandardCakeRecipe[] = [
     basePrice: 35,
     description: 'Vanilla cake with cookies and cream filling',
     category: 'Classic',
+    image_path: '/images/products/cakes/cookies-cream.jpg',
     layers: [
       { flavor: 'vanilla', fillings: ['white-buttercream'], icing: 'white-buttercream', notes: 'Crushed Oreos' },
       { flavor: 'vanilla', fillings: ['white-buttercream'], icing: 'white-buttercream', notes: 'Crushed Oreos' }
@@ -190,45 +205,45 @@ export const standardCakes: StandardCakeRecipe[] = [
 // CAKE FLAVORS (6 Options from Case Study)
 // ============================================================================
 export const cakeFlavors = [
-  { id: 'vanilla', name: 'Vanilla', price: 0 },
-  { id: 'almond', name: 'Almond', price: 0 },
-  { id: 'yellow', name: 'Yellow', price: 0 },
-  { id: 'devils-food-chocolate', name: "Devil's Food Chocolate", price: 0 },
-  { id: 'chocolate', name: 'Chocolate', price: 0 },
-  { id: 'strawberry', name: 'Strawberry', price: 0 }
+  { id: 'vanilla', name: 'Vanilla', price: 0, image_path: '/images/products/cake-flavors/vanilla.jpg' },
+  { id: 'almond', name: 'Almond', price: 0, image_path: '/images/products/cake-flavors/almond.jpg' },
+  { id: 'yellow', name: 'Yellow', price: 0, image_path: '/images/products/cake-flavors/yellow.jpg' },
+  { id: 'devils-food-chocolate', name: "Devil's Food Chocolate", price: 0, image_path: '/images/products/cake-flavors/devils-food-chocolate.jpg' },
+  { id: 'chocolate', name: 'Chocolate', price: 0, image_path: '/images/products/cake-flavors/chocolate.jpg' },
+  { id: 'strawberry', name: 'Strawberry', price: 0, image_path: '/images/products/cake-flavors/strawberry.jpg' }
 ];
 
 // ============================================================================
 // FILLING FLAVORS (15 Options from Case Study)
 // ============================================================================
 export const fillingFlavors = [
-  { id: 'white-buttercream', name: 'White Buttercream', price: 0 },
-  { id: 'chocolate-buttercream', name: 'Chocolate Buttercream', price: 0 },
-  { id: 'almond-buttercream', name: 'Almond Buttercream', price: 0 },
-  { id: 'cream-cheese', name: 'Cream Cheese', price: 0 },
-  { id: 'lemon-curd', name: 'Lemon Curd', price: 0 },
-  { id: 'strawberry', name: 'Strawberry', price: 0 },
-  { id: 'raspberry', name: 'Raspberry', price: 0 },
-  { id: 'rum-strawberry', name: 'Rum-Strawberry', price: 0 },
-  { id: 'pecan-praline', name: 'Pecan Praline', price: 0 },
-  { id: 'chocolate-mousse', name: 'Chocolate Mousse', price: 0 },
-  { id: 'lemon-mousse', name: 'Lemon Mousse', price: 0 },
-  { id: 'strawberry-mousse', name: 'Strawberry Mousse', price: 0 },
-  { id: 'raspberry-mousse', name: 'Raspberry Mousse', price: 0 },
-  { id: 'white-chocolate-mousse', name: 'White Chocolate Mousse', price: 0 },
-  { id: 'mango-mousse', name: 'Mango Mousse', price: 0 }
+  { id: 'white-buttercream', name: 'White Buttercream', price: 0, image_path: '/images/products/fillings/white-buttercream.jpg' },
+  { id: 'chocolate-buttercream', name: 'Chocolate Buttercream', price: 0, image_path: '/images/products/fillings/chocolate-buttercream.jpg' },
+  { id: 'almond-buttercream', name: 'Almond Buttercream', price: 0, image_path: '/images/products/fillings/almond-buttercream.jpg' },
+  { id: 'cream-cheese', name: 'Cream Cheese', price: 0, image_path: '/images/products/fillings/cream-cheese.jpg' },
+  { id: 'lemon-curd', name: 'Lemon Curd', price: 0, image_path: '/images/products/fillings/lemon-curd.jpg' },
+  { id: 'strawberry', name: 'Strawberry', price: 0, image_path: '/images/products/fillings/strawberry.jpg' },
+  { id: 'raspberry', name: 'Raspberry', price: 0, image_path: '/images/products/fillings/raspberry.jpg' },
+  { id: 'rum-strawberry', name: 'Rum-Strawberry', price: 0, image_path: '/images/products/fillings/rum-strawberry.jpg' },
+  { id: 'pecan-praline', name: 'Pecan Praline', price: 0, image_path: '/images/products/fillings/pecan-praline.jpg' },
+  { id: 'chocolate-mousse', name: 'Chocolate Mousse', price: 0, image_path: '/images/products/fillings/chocolate-mousse.jpg' },
+  { id: 'lemon-mousse', name: 'Lemon Mousse', price: 0, image_path: '/images/products/fillings/lemon-mousse.jpg' },
+  { id: 'strawberry-mousse', name: 'Strawberry Mousse', price: 0, image_path: '/images/products/fillings/strawberry-mousse.jpg' },
+  { id: 'raspberry-mousse', name: 'Raspberry Mousse', price: 0, image_path: '/images/products/fillings/raspberry-mousse.jpg' },
+  { id: 'white-chocolate-mousse', name: 'White Chocolate Mousse', price: 0, image_path: '/images/products/fillings/white-chocolate-mousse.jpg' },
+  { id: 'mango-mousse', name: 'Mango Mousse', price: 0, image_path: '/images/products/fillings/mango-mousse.jpg' }
 ];
 
 // ============================================================================
 // ICING FLAVORS (6 Options from Case Study)
 // ============================================================================
 export const icingFlavors = [
-  { id: 'white-buttercream', name: 'White Buttercream', price: 0 },
-  { id: 'chocolate-buttercream', name: 'Chocolate Buttercream', price: 0 },
-  { id: 'almond-buttercream', name: 'Almond Buttercream', price: 0 },
-  { id: 'white-chocolate-buttercream', name: 'White Chocolate Buttercream', price: 0 },
-  { id: 'cream-cheese', name: 'Cream Cheese', price: 0 },
-  { id: 'chocolate-ganache', name: 'Chocolate Ganache', price: 0 }
+  { id: 'white-buttercream', name: 'White Buttercream', price: 0, image_path: '/images/products/icings/white-buttercream.jpg' },
+  { id: 'chocolate-buttercream', name: 'Chocolate Buttercream', price: 0, image_path: '/images/products/icings/chocolate-buttercream.jpg' },
+  { id: 'almond-buttercream', name: 'Almond Buttercream', price: 0, image_path: '/images/products/icings/almond-buttercream.jpg' },
+  { id: 'white-chocolate-buttercream', name: 'White Chocolate Buttercream', price: 0, image_path: '/images/products/icings/white-chocolate-buttercream.jpg' },
+  { id: 'cream-cheese', name: 'Cream Cheese', price: 0, image_path: '/images/products/icings/cream-cheese.jpg' },
+  { id: 'chocolate-ganache', name: 'Chocolate Ganache', price: 0, image_path: '/images/products/icings/chocolate-ganache.jpg' }
 ];
 
 // ============================================================================
@@ -254,6 +269,7 @@ export interface ColorOption {
   name: string;
   hex: string;
   category: 'primary' | 'pastel' | 'neon' | 'fall' | 'extra';
+  image_path?: string;
 }
 
 export const icingColors: ColorOption[] = [
