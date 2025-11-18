@@ -32,6 +32,7 @@ import {
   calculateSizeBasedPrice,
   type LayerData
 } from '../../data/cakeOptions';
+import { saveFormData, loadFormData, clearFormData } from '../../utils/formPersistence';
 
 interface Customer {
   id: number;
@@ -105,6 +106,42 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
     { id: 'layer-1', flavor: '', fillings: [], icing: '', notes: '' },
     { id: 'layer-2', flavor: '', fillings: [], icing: '', notes: '' }
   ]);
+  
+  // Auto-save form data to prevent data loss
+  useEffect(() => {
+    // Load saved draft on mount
+    const savedDraft = loadFormData('order-create');
+    if (savedDraft && !selectedCustomer) {
+      // Only load draft if we haven't selected a customer yet
+      if (savedDraft.formData) setFormData(savedDraft.formData);
+      if (savedDraft.cakeType) setCakeType(savedDraft.cakeType);
+      if (savedDraft.selectedCakeSize) setSelectedCakeSize(savedDraft.selectedCakeSize);
+      if (savedDraft.selectedStandardCake) setSelectedStandardCake(savedDraft.selectedStandardCake);
+      if (savedDraft.selectedIcingColors) setSelectedIcingColors(savedDraft.selectedIcingColors);
+      if (savedDraft.selectedDecorations) setSelectedDecorations(savedDraft.selectedDecorations);
+      if (savedDraft.layers && savedDraft.layers.length >= 2) setLayers(savedDraft.layers);
+      showToast('info', 'Draft order loaded');
+    }
+  }, []);
+
+  // Auto-save every 3 seconds when form data changes
+  useEffect(() => {
+    if (!selectedCustomer) return; // Don't save until customer is selected
+    
+    const timeoutId = setTimeout(() => {
+      saveFormData('order-create', {
+        formData,
+        cakeType,
+        selectedCakeSize,
+        selectedStandardCake,
+        selectedIcingColors,
+        selectedDecorations,
+        layers
+      });
+    }, 3000);
+
+    return () => clearTimeout(timeoutId);
+  }, [formData, cakeType, selectedCakeSize, selectedStandardCake, selectedIcingColors, selectedDecorations, layers, selectedCustomer]);
   
   // Rush order detection effect - recomputes on EVERY eventDate change
   useEffect(() => {
@@ -317,6 +354,9 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
       const result = await response.json();
       const order = result.order || result;
       showToast('success', `Order #${order.id} created successfully!`);
+      
+      // Clear the saved draft
+      clearFormData('order-create');
       
       // Reset form
       setSelectedCustomer(null);
