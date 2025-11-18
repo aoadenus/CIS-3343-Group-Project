@@ -19,7 +19,7 @@ DECLARE
     year_part TEXT := to_char(CURRENT_DATE, 'YYYY');
 BEGIN
     SELECT nextval('order_number_seq') INTO next_seq;
-    RETURN format('ORD-%s-%04s', year_part, next_seq);
+    RETURN format('ORD-%s-%04d', year_part, next_seq);
 END;
 $$;
 

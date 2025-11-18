@@ -45,7 +45,7 @@ export function LostOrderAnalysisReport() {
   const [loading, setLoading] = useState(true);
   const [lostOrderData, setLostOrderData] = useState<LostOrderData | null>(null);
 
-  useEffect() => {
+  useEffect(() => {
     fetchLostOrderData();
   }, []);
 

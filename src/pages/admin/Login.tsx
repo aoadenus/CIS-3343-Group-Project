@@ -1,79 +1,93 @@
-import { useState } from 'react';
-import { motion } from 'motion/react';
-import { Lock, User as UserIcon, ArrowLeft } from 'lucide-react';
-import CredentialsToggle from '../../components/CredentialsToggle';
-import { Button } from '../../components/ui/button';
-import { Input } from '../../components/ui/input';
-import { Card } from '../../components/ui/card';
-import { useToast } from '../../components/ToastContext';
+import { useState } from "react";
+import { motion } from "motion/react";
+import {
+  Lock,
+  User as UserIcon,
+  ArrowLeft,
+  ChevronDown,
+  ChevronUp,
+  Eye,
+  EyeOff,
+  Info,
+} from "lucide-react";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Card } from "../../components/ui/card";
+import { useToast } from "../../components/ToastContext";
+import { supabase } from "../../lib/supabaseClient";
+
+const demoAccounts = [
+  { role: "Owner", email: "emily@emilybakescakes.com", password: "test" },
+  { role: "Manager", email: "james@emilybakescakes.com", password: "test" },
+  { role: "Accountant", email: "dan@emilybakescakes.com", password: "test" },
+  { role: "Sales", email: "sarah@emilybakescakes.com", password: "test" },
+  { role: "Baker", email: "mike@emilybakescakes.com", password: "test" },
+  { role: "Decorator", email: "lisa@emilybakescakes.com", password: "test" },
+] as const;
 
 interface LoginProps {
-  onLogin: () => void;
   onBackToPublic: () => void;
-  onLogout?: () => void;
 }
 
-export default function Login({ onLogin, onBackToPublic, onLogout }: LoginProps) {
+export default function Login({ onBackToPublic }: LoginProps) {
   const { showToast } = useToast();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showDemoCard, setShowDemoCard] = useState(true);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!username || !password) {
-      showToast('error', 'Please enter both username and password', 'Validation Error');
+      showToast(
+        "error",
+        "Please enter both username and password",
+        "Validation Error",
+      );
       return;
     }
 
     setIsLoading(true);
 
     try {
-      localStorage.removeItem('token');
-
-      const response = await fetch('/api/auth/staff-login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: username.trim().toLowerCase(),
-          password: password,
-        }),
+      const { error } = await supabase.auth.signInWithPassword({
+        email: username.trim().toLowerCase(),
+        password,
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        showToast('error', data.error || 'Invalid email or password', 'Login Failed');
-        setIsLoading(false);
-        return;
+      if (error) {
+        throw new Error(error.message);
       }
-
-      if (!data.token || !data.user || !data.user.role) {
-        showToast('error', 'Invalid response from server', 'Login Failed');
-        setIsLoading(false);
-        return;
-      }
-
-      localStorage.setItem('token', data.token);
-      showToast('success', `Welcome back, ${data.user.name}!`, 'Login Successful');
-      onLogin();
+      showToast("success", "Welcome back!", "Login Successful");
     } catch (error) {
-      console.error('Login error:', error);
-      showToast('error', 'Network error. Please check your connection and try again.', 'Connection Error');
+      console.error("Login error:", error);
+      const message =
+        error instanceof Error ? error.message : "Network error. Please try again.";
+      showToast("error", message, "Login Failed");
     } finally {
       setIsLoading(false);
     }
   };
 
+  const handleSelectDemo = (email: string, pass: string) => {
+    setUsername(email);
+    setPassword(pass);
+    showToast("info", `Filled credentials for ${email}`, "Demo Account Selected");
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden" style={{ padding: '24px' }}>
+    <div
+      className="relative flex min-h-screen items-center justify-center overflow-hidden p-6"
+      style={{ padding: "24px" }}
+    >
       <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A] via-[#1A1A1A] to-[#0A0A0A]">
         <motion.div
-          className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full opacity-20 blur-3xl"
-          style={{ background: 'radial-gradient(circle, #C44569 0%, transparent 70%)' }}
+          className="absolute top-1/4 right-1/4 h-96 w-96 rounded-full opacity-20 blur-3xl"
+          style={{
+            background: "radial-gradient(circle, #C44569 0%, transparent 70%)",
+          }}
           animate={{
             scale: [1, 1.2, 1],
             opacity: [0.2, 0.3, 0.2]
@@ -86,7 +100,6 @@ export default function Login({ onLogin, onBackToPublic, onLogout }: LoginProps)
         />
       </div>
 
-      {/* Back to Public Site Button */}
       <motion.button
         onClick={onBackToPublic}
         className="absolute flex items-center gap-2"
@@ -123,14 +136,77 @@ export default function Login({ onLogin, onBackToPublic, onLogout }: LoginProps)
       </motion.button>
 
       <motion.div
-        className="relative z-10 w-full mx-auto"
+        className="relative z-10 w-full max-w-2xl space-y-4 overflow-y-auto"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-        style={{ maxWidth: '500px', maxHeight: '90vh', overflowY: 'auto' }}
       >
-        {/* Left: Login Card */}
-        <Card className="glass-card" style={{ padding: '32px 40px' }}>
+        {/* Demo Credentials */}
+        <Card
+          style={{
+            background: "#F8EBD7",
+            border: "2px solid rgba(196, 69, 105, 0.3)",
+            padding: "20px 24px",
+            boxShadow: "0px 10px 30px rgba(0,0,0,0.08)",
+          }}
+        >
+          <button
+            type="button"
+            className="flex w-full items-center justify-between text-left"
+            onClick={() => setShowDemoCard((prev) => !prev)}
+          >
+            <div className="flex items-center gap-3">
+              <div
+                className="flex h-10 w-10 items-center justify-center rounded-full"
+                style={{ background: "rgba(196, 69, 105, 0.15)" }}
+              >
+                <Info size={20} color="#C44569" />
+              </div>
+              <div>
+                <p className="font-semibold" style={{ color: "#2B2B2B" }}>
+                  Demo Accounts
+                </p>
+                <p className="text-sm" style={{ color: "#6B4F4F" }}>
+                  Click any role to autofill the login form
+                </p>
+              </div>
+            </div>
+            {showDemoCard ? (
+              <ChevronUp color="#C44569" />
+            ) : (
+              <ChevronDown color="#C44569" />
+            )}
+          </button>
+
+          {showDemoCard && (
+            <div className="mt-4 grid gap-2 md:grid-cols-2">
+              {demoAccounts.map((account) => (
+                <button
+                  key={account.email}
+                  type="button"
+                  onClick={() => handleSelectDemo(account.email, account.password)}
+                  className="rounded-xl border-2 px-4 py-3 text-left transition-all"
+                  style={{
+                    borderColor: "rgba(196, 69, 105, 0.4)",
+                    background: "rgba(255, 255, 255, 0.6)",
+                  }}
+                >
+                  <p className="text-xs font-semibold uppercase tracking-wide text-[#C44569]">
+                    {account.role}
+                  </p>
+                  <p className="text-sm font-medium text-[#2B2B2B]">{account.email}</p>
+                  <p className="text-xs text-[#6B4F4F]">Password: {account.password}</p>
+                </button>
+              ))}
+            </div>
+          )}
+        </Card>
+
+        {/* Login Card */}
+        <Card
+          className="glass-card"
+          style={{ padding: "32px 40px", borderColor: "rgba(196, 69, 105, 0.2)" }}
+        >
           <div className="text-center" style={{ marginBottom: '24px' }}>
             <motion.div
               className="w-16 h-16 mx-auto rounded-2xl flex items-center justify-center"
@@ -157,7 +233,10 @@ export default function Login({ onLogin, onBackToPublic, onLogout }: LoginProps)
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <form
+            onSubmit={handleSubmit}
+            style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+          >
             <div>
               <label
                 htmlFor="username"
@@ -213,20 +292,30 @@ export default function Login({ onLogin, onBackToPublic, onLogout }: LoginProps)
                   size={18}
                   color="var(--text-tertiary)"
                 />
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="pl-12 h-14 rounded-xl"
-                  style={{
-                    background: 'var(--surface-elevated)',
-                    border: '1px solid var(--border-medium)',
-                    color: 'var(--text-primary)',
-                    fontFamily: 'Open Sans'
-                  }}
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={isPasswordVisible ? "text" : "password"}
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="pl-12 pr-12 h-14 rounded-xl"
+                    style={{
+                      background: "var(--surface-elevated)",
+                      border: "1px solid var(--border-medium)",
+                      color: "var(--text-primary)",
+                      fontFamily: "Open Sans",
+                    }}
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-[#C44569]"
+                    onClick={() => setIsPasswordVisible((prev) => !prev)}
+                    aria-label={isPasswordVisible ? "Hide password" : "Show password"}
+                  >
+                    {isPasswordVisible ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -265,11 +354,6 @@ export default function Login({ onLogin, onBackToPublic, onLogout }: LoginProps)
               )}
             </Button>
           </form>
-          
-          {/* Demo Credentials Toggle - Below form */}
-          <div style={{ marginTop: '20px' }}>
-            <CredentialsToggle />
-          </div>
         </Card>
 
       </motion.div>

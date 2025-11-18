@@ -1007,59 +1007,57 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
                     </Button>
                   </div>
                 </div>
+              )}
 
-                {/* Copy Previous Order Feature */}
-                {selectedCustomer.totalOrders > 0 && (
-                  <Card className="mt-4" style={{ background: '#EFF6FF', border: '1px solid #BFDBFE' }}>
-                    <div className="p-3">
-                      <div className="flex items-center gap-2 mb-2">
-                        <History size={16} color="#3B82F6" />
-                        <h3 style={{ fontSize: '13px', fontWeight: 600, color: '#1E40AF' }}>
-                          Quick Copy from Previous Order
-                        </h3>
-                      </div>
-                      {loadingOrders ? (
-                        <p style={{ fontSize: '12px', color: '#666' }}>Loading previous orders...</p>
-                      ) : customerOrders.length > 0 ? (
-                        <div className="space-y-2">
-                          {customerOrders.map((order: any) => (
-                            <Button
-                              key={order.id}
-                              onClick={() => copyOrderDetails(order)}
-                              variant="outline"
-                              size="sm"
-                              className="w-full justify-start h-auto py-2"
-                              style={{ borderColor: '#BFDBFE' }}
-                            >
-                              <div className="flex items-center gap-2 w-full">
-                                <Cake size={14} style={{ color: '#C44569' }} />
-                                <div className="text-left flex-1">
-                                  <div style={{ fontSize: '13px', fontWeight: 500 }}>
-                                    {order.orderType === 'standard' && order.standardCakeName
-                                      ? order.standardCakeName
-                                      : 'Custom Cake'}
-                                  </div>
-                                  <div style={{ fontSize: '11px', color: '#666' }}>
-                                    {order.sizeDescription || 'Various sizes'} • {order.layerCount || 2} layers • $
-                                    {((order.totalAmount || 0) / 100).toFixed(2)}
-                                  </div>
-                                </div>
-                                <Copy size={14} color="#3B82F6" />
-                              </div>
-                            </Button>
-                          ))}
-                        </div>
-                      ) : (
-                        <p style={{ fontSize: '12px', color: '#666' }}>No previous orders found</p>
-                      )}
+              {selectedCustomer && selectedCustomer.totalOrders > 0 && (
+                <Card className="mt-4" style={{ background: '#EFF6FF', border: '1px solid #BFDBFE' }}>
+                  <div className="p-3">
+                    <div className="flex items-center gap-2 mb-2">
+                      <History size={16} color="#3B82F6" />
+                      <h3 style={{ fontSize: '13px', fontWeight: 600, color: '#1E40AF' }}>
+                        Quick Copy from Previous Order
+                      </h3>
                     </div>
-                  </Card>
-                )}
-              </>
-            )}
-          </div>
-        )}
-      </Card>
+                    {loadingOrders ? (
+                      <p style={{ fontSize: '12px', color: '#666' }}>Loading previous orders...</p>
+                    ) : customerOrders.length > 0 ? (
+                      <div className="space-y-2">
+                        {customerOrders.map((order: any) => (
+                          <Button
+                            key={order.id}
+                            onClick={() => copyOrderDetails(order)}
+                            variant="outline"
+                            size="sm"
+                            className="w-full justify-start h-auto py-2"
+                            style={{ borderColor: '#BFDBFE' }}
+                          >
+                            <div className="flex items-center gap-2 w-full">
+                              <Cake size={14} style={{ color: '#C44569' }} />
+                              <div className="text-left flex-1">
+                                <div style={{ fontSize: '13px', fontWeight: 500 }}>
+                                  {order.orderType === 'standard' && order.standardCakeName
+                                    ? order.standardCakeName
+                                    : 'Custom Cake'}
+                                </div>
+                                <div style={{ fontSize: '11px', color: '#666' }}>
+                                  {order.sizeDescription || 'Various sizes'} • {order.layerCount || 2} layers • $
+                                  {((order.totalAmount || 0) / 100).toFixed(2)}
+                                </div>
+                              </div>
+                              <Copy size={14} color="#3B82F6" />
+                            </div>
+                          </Button>
+                        ))}
+                      </div>
+                    ) : (
+                      <p style={{ fontSize: '12px', color: '#666' }}>No previous orders found</p>
+                    )}
+                  </div>
+                </Card>
+              )}
+            </div>
+          )}
+        </Card>
 
       {/* Cake Type Selection */}
       <Card className="p-6" data-section="cakeType" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
