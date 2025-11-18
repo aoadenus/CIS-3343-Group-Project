@@ -192,6 +192,67 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
     fetchCustomerOrders();
   }, [selectedCustomer]);
 
+  // Keyboard shortcuts for power users
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      // Cmd/Ctrl + S to manually save draft
+      if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+        e.preventDefault();
+        if (selectedCustomer) {
+          saveFormData('order-create', {
+            formData,
+            cakeType,
+            selectedCakeSize,
+            selectedStandardCake,
+            selectedIcingColors,
+            selectedDecorations,
+            layers
+          });
+          showToast('info', '💾 Draft saved manually');
+        }
+      }
+
+      // Cmd/Ctrl + Enter to submit (if valid)
+      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+        e.preventDefault();
+        if (selectedCustomer && selectedCakeSize) {
+          handleSubmit();
+        } else {
+          showToast('error', 'Please complete required fields before submitting');
+        }
+      }
+
+      // Alt + 1-7 to jump to sections
+      if (e.altKey && e.key >= '1' && e.key <= '7') {
+        e.preventDefault();
+        const sectionKeys: (keyof typeof openSections)[] = [
+          'customer',
+          'cakeType',
+          'size',
+          'layers',
+          'icingColors',
+          'decorations',
+          'eventInfo'
+        ];
+        const sectionIndex = parseInt(e.key) - 1;
+        if (sectionIndex < sectionKeys.length) {
+          const section = sectionKeys[sectionIndex];
+          setOpenSections(prev => ({ ...prev, [section]: true }));
+          // Scroll to section
+          setTimeout(() => {
+            const sectionElement = document.querySelector(`[data-section="${section}"]`);
+            if (sectionElement) {
+              sectionElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 100);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [selectedCustomer, selectedCakeSize, formData, cakeType, selectedStandardCake, selectedIcingColors, selectedDecorations, layers, openSections]);
+
   // Copy order details from previous order
   const copyOrderDetails = (order: any) => {
     try {
@@ -645,6 +706,34 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
             Manually create a custom cake order for a customer
           </p>
           
+          {/* Keyboard Shortcuts Helper */}
+          <div 
+            className="mt-3 p-3 rounded-lg"
+            style={{ background: '#F3F4F6', fontSize: '12px', color: '#6B7280' }}
+          >
+            <div className="flex items-center gap-4 flex-wrap">
+              <span className="font-medium" style={{ color: '#374151' }}>⌨️ Shortcuts:</span>
+              <span>
+                <kbd className="px-2 py-1 rounded" style={{ background: 'white', border: '1px solid #D1D5DB', fontSize: '11px' }}>
+                  ⌘/Ctrl + S
+                </kbd>
+                {' '}Save Draft
+              </span>
+              <span>
+                <kbd className="px-2 py-1 rounded" style={{ background: 'white', border: '1px solid #D1D5DB', fontSize: '11px' }}>
+                  ⌘/Ctrl + Enter
+                </kbd>
+                {' '}Submit
+              </span>
+              <span>
+                <kbd className="px-2 py-1 rounded" style={{ background: 'white', border: '1px solid #D1D5DB', fontSize: '11px' }}>
+                  Alt + 1-7
+                </kbd>
+                {' '}Jump to Section
+              </span>
+            </div>
+          </div>
+          
           {/* Progress Summary */}
           {selectedCustomer && (
             <div 
@@ -700,7 +789,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
           <div className="lg:col-span-2 space-y-6">
 
         {/* Customer Selection Section */}
-        <Card className="p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
+        <Card className="p-6" data-section="customer" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
           <button
             onClick={() => toggleSection('customer')}
             className="w-full flex items-center justify-between mb-4"
@@ -973,7 +1062,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
       </Card>
 
       {/* Cake Type Selection */}
-      <Card className="p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
+      <Card className="p-6" data-section="cakeType" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
           <button
             onClick={() => toggleSection('cakeType')}
             className="w-full flex items-center justify-between mb-4"
@@ -1075,7 +1164,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
         </Card>
 
         {/* Cake Size Selection */}
-        <Card className="p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
+        <Card className="p-6" data-section="size" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
           <button
             onClick={() => toggleSection('size')}
             className="w-full flex items-center justify-between mb-4"
@@ -1141,7 +1230,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
 
         {/* Layers Section (Custom Only) */}
         {cakeType === 'custom' && (
-          <Card className="p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
+          <Card className="p-6" data-section="layers" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
             <button
               onClick={() => toggleSection('layers')}
               className="w-full flex items-center justify-between mb-4"
@@ -1169,7 +1258,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
           )}
 
         {/* Icing Colors Section */}
-        <Card className="p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
+        <Card className="p-6" data-section="icingColors" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
           <button
             onClick={() => toggleSection('icingColors')}
             className="w-full flex items-center justify-between mb-4"
@@ -1235,7 +1324,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
         </Card>
 
         {/* Decorations Section */}
-        <Card className="p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
+        <Card className="p-6" data-section="decorations" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
           <button
             onClick={() => toggleSection('decorations')}
             className="w-full flex items-center justify-between mb-4"
@@ -1318,7 +1407,7 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
         )}
 
         {/* Event Info Section */}
-        <Card className="p-6" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
+        <Card className="p-6" data-section="eventInfo" style={{ background: '#FFFFFF', border: '1px solid #E0E0E0' }}>
           <button
             onClick={() => toggleSection('eventInfo')}
             className="w-full flex items-center justify-between mb-4"
