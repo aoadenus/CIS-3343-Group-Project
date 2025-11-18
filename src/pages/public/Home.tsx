@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence, PanInfo } from 'motion/react';
+import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { ArrowRight, Heart, Award, Clock, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Card, CardContent } from '../../components/ui/card';
 import { LazyImage } from '../../components/Loading/LazyImage';
@@ -132,7 +132,7 @@ export function PublicHome({ onNavigate }: PublicHomeProps = {}) {
           zIndex: 1
         }}>
           <img
-            src={heroImage}
+            src={heroImage || "/placeholder.svg"}
             alt="Emily Bakes Cakes hero"
             style={{
               width: '100%',
