@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 import { Card } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
@@ -35,6 +36,7 @@ interface CustomerWithOrders extends Customer {
 }
 
 export function Customers() {
+  const location = useLocation();
   const { showToast } = useToast();
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -71,6 +73,16 @@ export function Customers() {
   useEffect(() => {
     fetchAllCustomers();
   }, []);
+
+  // Check for customer from navigation state (when coming from staff page)
+  useEffect(() => {
+    const selectedCustomer = location.state?.selectedCustomer as Customer | undefined;
+    if (selectedCustomer) {
+      handleViewCustomer(selectedCustomer);
+      // Clear the state to prevent re-triggering
+      window.history.replaceState({}, '');
+    }
+  }, [location.state]);
 
   const fetchAllCustomers = async () => {
     try {

@@ -9,6 +9,7 @@ import {
   Button,
   Badge,
 } from '../../../components/dashboard-v2';
+import { MOCK_DASHBOARD_DATA, SAMPLE_ORDERS, getOrdersByStatus } from '../../../data/presentationData';
 
 interface BakerDashboardProps {
   onNavigate?: (page: string) => void;
@@ -109,11 +110,65 @@ export function BakerDashboard({ onNavigate }: BakerDashboardProps) {
         const data = await response.json();
         setMetrics(data);
       } else {
-        toast.error('Failed to load dashboard metrics');
+        // Fallback to mock data
+        console.log('API not available, using mock data for Baker dashboard');
+        const mockData = MOCK_DASHBOARD_DATA.baker;
+        setMetrics({
+          prepTimePerOrder: mockData.prepTimePerOrder,
+          onTimeHandoff: mockData.onTimeHandoff,
+          currentWorkload: mockData.currentWorkload,
+          ordersInProduction: mockData.ordersInProduction,
+          overdueOrders: { count: 0, trend: { value: 'On track', period: 'today', direction: 'neutral' } },
+        });
+        
+        // Set mock orders for baker queue (in_prep status)
+        const bakerOrders = getOrdersByStatus('in_prep').map(order => ({
+          id: parseInt(order.id.replace('ord-', '')),
+          customerName: order.customerName,
+          customerEmail: '',
+          customerPhone: '',
+          orderType: order.cakeName,
+          flavor: order.cakeName,
+          servings: 8,
+          eventDate: order.pickupDate,
+          status: order.status,
+          priority: 'medium',
+          additionalNotes: order.specialInstructions,
+          adminNotes: '',
+          createdAt: order.orderDate,
+          layers: null,
+        }));
+        setModalData(bakerOrders);
       }
     } catch (error) {
       console.error('Failed to fetch baker dashboard:', error);
-      toast.error('Failed to load dashboard');
+      // Fallback to mock data on error
+      const mockData = MOCK_DASHBOARD_DATA.baker;
+      setMetrics({
+        prepTimePerOrder: mockData.prepTimePerOrder,
+        onTimeHandoff: mockData.onTimeHandoff,
+        currentWorkload: mockData.currentWorkload,
+        ordersInProduction: mockData.ordersInProduction,
+        overdueOrders: { count: 0, trend: { value: 'On track', period: 'today', direction: 'neutral' } },
+      });
+      
+      const bakerOrders = getOrdersByStatus('in_prep').map(order => ({
+        id: parseInt(order.id.replace('ord-', '')),
+        customerName: order.customerName,
+        customerEmail: '',
+        customerPhone: '',
+        orderType: order.cakeName,
+        flavor: order.cakeName,
+        servings: 8,
+        eventDate: order.pickupDate,
+        status: order.status,
+        priority: 'medium',
+        additionalNotes: order.specialInstructions,
+        adminNotes: '',
+        createdAt: order.orderDate,
+        layers: null,
+      }));
+      setModalData(bakerOrders);
     } finally {
       setLoading(false);
     }

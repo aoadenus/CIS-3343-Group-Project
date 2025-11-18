@@ -33,6 +33,7 @@ import { BakerDashboard } from "./pages/admin/dashboards/BakerDashboard";
 import { DecoratorDashboard } from "./pages/admin/dashboards/DecoratorDashboard";
 import { AccountantDashboard } from "./pages/admin/dashboards/AccountantDashboard";
 import { ManagerDashboard } from "./pages/admin/dashboards/ManagerDashboard";
+import { OwnerDashboard } from "./pages/admin/dashboards/OwnerDashboard";
 
 // Staff Reports
 import { OrderSummaryReport } from "./pages/staff/OrderSummaryReport";
@@ -144,6 +145,8 @@ export default function App() {
     // Role-based dashboard routing
     const getRoleDashboard = () => {
       switch (userRole) {
+        case 'owner':
+          return <OwnerDashboard onNavigate={setActivePage} />;
         case 'sales':
           return <SalesDashboard onNavigate={setActivePage} />;
         case 'baker':
@@ -153,7 +156,6 @@ export default function App() {
         case 'accountant':
           return <AccountantDashboard onNavigate={setActivePage} />;
         case 'manager':
-        case 'owner':
           return <ManagerDashboard onNavigate={setActivePage} />;
         default:
           return <SalesDashboard onNavigate={setActivePage} />;

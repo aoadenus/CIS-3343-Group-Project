@@ -5,7 +5,7 @@ import { Download, FileDown } from 'lucide-react';
 
 interface ReportLayoutProps {
   title: string;
-  description: string;
+  description?: string;
   children: ReactNode;
   onExportCSV?: () => void;
   onExportPDF?: () => void;
@@ -16,7 +16,7 @@ interface ReportLayoutProps {
 
 export function ReportLayout({
   title,
-  description,
+  description = '',
   children,
   onExportCSV,
   onExportPDF,

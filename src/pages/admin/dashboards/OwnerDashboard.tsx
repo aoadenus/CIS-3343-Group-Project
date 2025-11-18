@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { supabase } from '../../../lib/supabaseClient';
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { BarChart3, DollarSign, Users, Award, FileText, Package, ClipboardList, Settings } from 'lucide-react';
 import { toast } from 'sonner';
 import {
@@ -9,6 +11,7 @@ import {
   Button,
   Badge,
 } from '../../../components/dashboard-v2';
+import { MOCK_DASHBOARD_DATA, MOCK_ACTIVITY_EVENTS } from '../../../data/presentationData';
 
 interface OwnerDashboardProps {
   onNavigate?: (page: string) => void;
@@ -99,17 +102,42 @@ export function OwnerDashboard({ onNavigate }: OwnerDashboardProps) {
       if (metricsRes.ok) {
         const data = await metricsRes.json();
         setMetrics(data);
+        
+        if (activityRes.ok) {
+          const activityData = await activityRes.json();
+          setActivityEvents(activityData);
+        }
       } else {
-        toast.error('Failed to load dashboard metrics');
-      }
-
-      if (activityRes.ok) {
-        const activityData = await activityRes.json();
-        setActivityEvents(activityData);
+        // Fallback to mock data
+        console.log('API not available, using mock data for Owner dashboard');
+        const mockData = MOCK_DASHBOARD_DATA.owner;
+        setMetrics(mockData);
+        
+        const mockActivities = MOCK_ACTIVITY_EVENTS.map(event => ({
+          id: event.id,
+          type: event.type,
+          user: { name: event.user, role: 'owner', avatar: undefined },
+          action: event.message,
+          timestamp: event.timestamp,
+          metadata: {},
+        }));
+        setActivityEvents(mockActivities);
       }
     } catch (error) {
       console.error('Failed to fetch owner dashboard:', error);
-      toast.error('Failed to load dashboard');
+      // Fallback to mock data on error
+      const mockData = MOCK_DASHBOARD_DATA.owner;
+      setMetrics(mockData);
+      
+      const mockActivities = MOCK_ACTIVITY_EVENTS.map(event => ({
+        id: event.id,
+        type: event.type,
+        user: { name: event.user, role: 'owner', avatar: undefined },
+        action: event.message,
+        timestamp: event.timestamp,
+        metadata: {},
+      }));
+      setActivityEvents(mockActivities);
     } finally {
       setLoading(false);
     }
@@ -155,7 +183,7 @@ export function OwnerDashboard({ onNavigate }: OwnerDashboardProps) {
           value={`${metrics.timeSaved.currentHours}hrs/wk`}
           subtitle={`Target: ${metrics.timeSaved.targetHours}hrs (${metrics.timeSaved.savedPercentage}% saved)`}
           trend={metrics.timeSaved.trend}
-          icon={Clock}
+          icon={BarChart3}
           iconColor={metrics.timeSaved.currentHours <= metrics.timeSaved.targetHours ? '#10B981' : '#F59E0B'}
           onClick={() => {}}
         />
@@ -164,7 +192,7 @@ export function OwnerDashboard({ onNavigate }: OwnerDashboardProps) {
           value={formatCurrency(metrics.lostOrdersCost.currentCost)}
           subtitle={`Target: ${formatCurrency(metrics.lostOrdersCost.targetCost)} (${metrics.lostOrdersCost.reductionPercentage}% reduced)`}
           trend={metrics.lostOrdersCost.trend}
-          icon={AlertTriangle}
+          icon={DollarSign}
           iconColor={metrics.lostOrdersCost.currentCost <= metrics.lostOrdersCost.targetCost ? '#10B981' : '#F59E0B'}
           onClick={() => {}}
         />

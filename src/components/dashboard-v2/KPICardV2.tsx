@@ -5,6 +5,7 @@ interface KPICardV2Props {
   value: string | number;
   icon: LucideIcon;
   iconColor: string;
+  subtitle?: string;
   trend?: {
     value: string;
     period: string;
@@ -19,6 +20,7 @@ export function KPICardV2({
   value,
   icon: Icon,
   iconColor,
+  subtitle,
   trend,
   onClick,
   loading = false
@@ -91,9 +93,12 @@ export function KPICardV2({
     >
       <div className="kpi-header">
         <Icon size={24} color={iconColor} />
-        <h3 className="kpi-title">{title}</h3>
+        <div>
+          <h3 className="kpi-title">{title}</h3>
+          {subtitle && <div className="kpi-subtitle text-xs text-gray-500">{subtitle}</div>}
+        </div>
       </div>
-      
+
       <div className="kpi-value">{value}</div>
       
       {trend && (

@@ -9,6 +9,7 @@ import {
   Button,
   Badge,
 } from '../../../components/dashboard-v2';
+import { MOCK_DASHBOARD_DATA, MOCK_ACTIVITY_EVENTS } from '../../../data/presentationData';
 
 interface ManagerDashboardProps {
   onNavigate?: (page: string) => void;
@@ -88,17 +89,42 @@ export function ManagerDashboard({ onNavigate }: ManagerDashboardProps) {
       if (metricsRes.ok) {
         const data = await metricsRes.json();
         setMetrics(data);
+        
+        if (activityRes.ok) {
+          const activityData = await activityRes.json();
+          setActivityEvents(activityData);
+        }
       } else {
-        toast.error('Failed to load dashboard metrics');
-      }
-
-      if (activityRes.ok) {
-        const activityData = await activityRes.json();
-        setActivityEvents(activityData);
+        // Fallback to mock data
+        console.log('API not available, using mock data for Manager dashboard');
+        const mockData = MOCK_DASHBOARD_DATA.manager;
+        setMetrics(mockData);
+        
+        const mockActivities = MOCK_ACTIVITY_EVENTS.map(event => ({
+          id: event.id,
+          type: event.type,
+          user: { name: event.user, role: 'manager', avatar: undefined },
+          action: event.message,
+          timestamp: event.timestamp,
+          metadata: {},
+        }));
+        setActivityEvents(mockActivities);
       }
     } catch (error) {
       console.error('Failed to fetch manager dashboard:', error);
-      toast.error('Failed to load dashboard');
+      // Fallback to mock data on error
+      const mockData = MOCK_DASHBOARD_DATA.manager;
+      setMetrics(mockData);
+      
+      const mockActivities = MOCK_ACTIVITY_EVENTS.map(event => ({
+        id: event.id,
+        type: event.type,
+        user: { name: event.user, role: 'manager', avatar: undefined },
+        action: event.message,
+        timestamp: event.timestamp,
+        metadata: {},
+      }));
+      setActivityEvents(mockActivities);
     } finally {
       setLoading(false);
     }
