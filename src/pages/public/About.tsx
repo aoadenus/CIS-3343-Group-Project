@@ -281,7 +281,7 @@ export function About() {
       <section style={{ background: '#2B2B2B', padding: 'clamp(64px, 10vh, 120px) clamp(24px, 5vw, 48px)' }}>
         <div className="container mx-auto max-w-7xl">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Image with European Border Pattern */}
+            {/* Emily's Artisan Image - Replace Heart Icon Box */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -310,15 +310,41 @@ export function About() {
                 />
               </div>
 
+              {/* Emily's Portrait Image */}
               <div
                 className="aspect-square rounded-2xl overflow-hidden relative z-10"
                 style={{
                   background: 'linear-gradient(135deg, rgba(196, 69, 105, 0.15) 0%, rgba(90, 56, 37, 0.1) 100%)'
                 }}
               >
-                <div className="w-full h-full flex items-center justify-center">
-                  <Heart size={120} color="rgba(196, 69, 105, 0.4)" />
-                </div>
+                <img
+                  src="/emily-artisan.jpg"
+                  alt="Emily, Master Pâtissier and Artisan Baker"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block'
+                  }}
+                  onError={(e) => {
+                    // Fallback if image doesn't load - show heart icon as requested
+                    e.currentTarget.style.display = 'none';
+                    const parent = e.currentTarget.parentElement!;
+                    const fallback = document.createElement('div');
+                    fallback.innerHTML = `<div style="
+                      width: 100%;
+                      height: 100%;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    ">
+                      <svg width="120" height="120" viewBox="0 0 24 24" fill="rgba(196, 69, 105, 0.4)" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                      </svg>
+                    </div>`;
+                    parent.appendChild(fallback.firstElementChild!);
+                  }}
+                />
               </div>
 
               {/* Floating Accent Icon */}
@@ -359,6 +385,77 @@ export function About() {
                 The Artisan Behind the Art
               </h2>
 
+              {/* 4 Icons Under Header */}
+              <div style={{ display: 'flex', gap: '16px', marginBottom: '32px' }}>
+                <motion.div
+                  whileHover={{ scale: 1.1, y: -5 }}
+                  style={{
+                    width: '60px',
+                    height: '60px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, rgba(196, 69, 105, 0.2) 0%, rgba(196, 69, 105, 0.1) 100%)',
+                    border: '2px solid rgba(196, 69, 105, 0.3)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 4px 12px rgba(196, 69, 105, 0.2)'
+                  }}
+                >
+                  <Award size={24} color="#C44569" />
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.1, y: -5 }}
+                  transition={{ delay: 0.1 }}
+                  style={{
+                    width: '60px',
+                    height: '60px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, rgba(248, 235, 215, 0.15) 0%, rgba(248, 235, 215, 0.05) 100%)',
+                    border: '2px solid rgba(248, 235, 215, 0.2)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 4px 12px rgba(248, 235, 215, 0.15)'
+                  }}
+                >
+                  <Heart size={24} color="#F8EBD7" />
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.1, y: -5 }}
+                  transition={{ delay: 0.2 }}
+                  style={{
+                    width: '60px',
+                    height: '60px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, rgba(43, 43, 43, 0.15) 0%, rgba(43, 43, 43, 0.05) 100%)',
+                    border: '2px solid rgba(43, 43, 43, 0.2)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 4px 12px rgba(43, 43, 43, 0.2)'
+                  }}
+                >
+                  <Coffee size={24} color="#2B2B2B" />
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.1, y: -5 }}
+                  transition={{ delay: 0.3 }}
+                  style={{
+                    width: '60px',
+                    height: '60px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, rgba(90, 56, 37, 0.15) 0%, rgba(90, 56, 37, 0.05) 100%)',
+                    border: '2px solid rgba(90, 56, 37, 0.2)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 4px 12px rgba(90, 56, 37, 0.2)'
+                  }}
+                >
+                  <Croissant size={24} color="#5A3825" />
+                </motion.div>
+              </div>
+
               <div style={{ marginBottom: '32px' }}>
                 <div
                   style={{
@@ -370,7 +467,7 @@ export function About() {
                   }}
                 />
 
-                <div style={{ color: 'rgba(248, 235, 215, 0.85)', lineHeight: 1.8, fontSize: '17px', fontFamily: 'Open Sans' }}>
+                <div style={{ color: 'white', lineHeight: 1.8, fontSize: '17px', fontFamily: 'Open Sans' }}>
                   <p style={{ marginBottom: '20px' }}>
                     Emily's journey began in the cobblestone streets of Paris, where she apprenticed under
                     Master Pâtissier Jean-Claude Dubois at La Maison du Chocolat. There, among the aroma of
@@ -692,7 +789,7 @@ export function About() {
                   >
                     {milestone.title}
                   </h5>
-                  <p style={{ color: 'rgba(248, 235, 215, 0.7)', fontSize: '15px', lineHeight: 1.6 }}>
+                  <p style={{ color: '#F8EBD7', fontSize: '15px', lineHeight: 1.6 }}>
                     {milestone.description}
                   </p>
                 </div>

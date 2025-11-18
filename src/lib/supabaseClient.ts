@@ -20,3 +20,12 @@ export const supabase = createClient(
   },
 );
 
+// Small helper to summarize client configuration at runtime
+export function getSupabaseConfigSummary() {
+  return {
+    url: SUPABASE_URL ?? null,
+    anonKeySet: Boolean(SUPABASE_ANON_KEY),
+    origin: typeof window !== 'undefined' ? window.location.origin : null,
+  };
+}
+

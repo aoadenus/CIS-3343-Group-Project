@@ -17,7 +17,7 @@ import { TrackOrder } from "./pages/public/TrackOrder";
 // Admin pages - direct imports
 import Login from "./pages/admin/Login";
 import { OrderList } from "./pages/admin/OrderList";
-import { WizardContainer } from "./pages/admin/order-create/WizardContainer";
+import WizardContainer from "./pages/admin/order-create/WizardContainer";
 import { Builder } from "./pages/admin/Builder";
 import { AdminProducts } from "./pages/admin/Products";
 import { Orders } from "./pages/Orders";

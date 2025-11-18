@@ -83,7 +83,10 @@ interface DashboardMetrics {
 export function OwnerDashboard({ onNavigate }: OwnerDashboardProps) {
   const [metrics, setMetrics] = useState<DashboardMetrics | null>(null);
   const [activityEvents, setActivityEvents] = useState<any[]>([]);
+  const [approvalQueue, setApprovalQueue] = useState<any[]>([]);
+  const [approvingId, setApprovingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const { user } = (window as any).__APP_AUTH__ ?? { user: null };
 
   useEffect(() => {
     fetchMetrics();
@@ -140,8 +143,72 @@ export function OwnerDashboard({ onNavigate }: OwnerDashboardProps) {
       setActivityEvents(mockActivities);
     } finally {
       setLoading(false);
+      // load approval queue after metrics
+      await loadApprovalQueue();
     }
   };
+
+  async function loadApprovalQueue() {
+    try {
+      const { data } = await supabase
+        .from('orders')
+        .select('id, order_number, pickup_date, status, total_amount, customer_id, customers(full_name, phone)')
+        .in('status', ['pending_approval', 'awaiting_approval', 'completed'])
+        .order('pickup_date', { ascending: true })
+        .limit(100);
+
+      setApprovalQueue(data || []);
+    } catch (err) {
+      console.error('Failed to load approval queue', err);
+      setApprovalQueue([]);
+    }
+  }
+
+  async function approveOrder(orderId: string) {
+    // role check - only owner or manager can do final approval (owner preferred)
+    try {
+      const storedUser = getCurrentUser();
+      if (!storedUser || !['owner', 'manager'].includes(storedUser.role)) {
+        toast.error('Permission denied: only Manager or Owner can approve orders');
+        return;
+      }
+
+      setApprovingId(orderId);
+
+      const payload: any = { status: 'ready', approved: true, approved_at: new Date().toISOString() };
+      if (storedUser?.id) payload.approved_by = storedUser.id;
+
+      const { error } = await supabase.from('orders').update(payload).eq('id', orderId);
+      if (error) {
+        throw error;
+      }
+
+      // optimistic UI update
+      setApprovalQueue(prev => prev.filter(o => o.id !== orderId));
+      toast.success('Order approved');
+    } catch (err) {
+      console.error('Approve failed', err);
+      toast.error('Failed to approve order');
+    } finally {
+      setApprovingId(null);
+    }
+  }
+
+  function getCurrentUser() {
+    // Prefer useAuth if available; fall back to window-scoped user
+    try {
+      // try to import useAuth dynamically to avoid circular deps
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const auth = require('../../../context/AuthContext');
+      if (auth && typeof auth.useAuth === 'function') {
+        const a = auth.useAuth();
+        return a.user ?? (window as any).__APP_AUTH__?.user ?? null;
+      }
+    } catch (e) {
+      // ignore
+    }
+    return (window as any).__APP_AUTH__?.user ?? null;
+  }
 
   const formatCurrency = (amount: number) => {
     return `$${(amount / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;

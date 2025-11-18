@@ -10,6 +10,7 @@ export interface Customer {
   address?: string
   customer_type: 'retail' | 'corporate'
   is_preferred: boolean
+  last_order_date?: Date
   created_at: string
 }
 
@@ -53,6 +54,7 @@ export interface ScheduleData {
 
 export interface OrderWizardData {
   customerId?: string
+  inlineCustomer?: any // For newly created customers
   productId?: string
   customization: Partial<CustomizationData>
   pricing?: PriceCalculation

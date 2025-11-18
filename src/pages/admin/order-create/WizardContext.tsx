@@ -40,6 +40,7 @@ export interface WizardFormData {
 
   // Step 8: Pickup
   eventDate: string;
+  pickupTime: string; // NEW: Added pickup time field
   servings: string;
   customerNotes: string;
 
@@ -79,6 +80,7 @@ const INITIAL_FORM_DATA: WizardFormData = {
   depositAmount: '',
   paymentStatus: 'pending',
   eventDate: '',
+  pickupTime: '', // NEW: Initialize pickup time
   servings: '',
   customerNotes: '',
   status: 'pending',

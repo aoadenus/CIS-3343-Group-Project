@@ -1,25 +1,29 @@
 import { useState } from 'react';
-import { Card } from '../components/ui/card';
-import { Input } from '../components/ui/input';
+import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
-import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
-import { Label } from '../components/ui/label';
-import { Textarea } from '../components/ui/textarea';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../components/ui/table';
-import { Edit, Check, Trash2, Loader2 } from 'lucide-react';
+import { Plus, Edit2, Edit, CheckCircle, Check, Trash2, MoreHorizontal, Eye } from 'lucide-react';
 import { useToast } from '../components/ToastContext';
-import { 
-  AlertDialog, 
-  AlertDialogAction, 
-  AlertDialogCancel, 
-  AlertDialogContent, 
-  AlertDialogDescription, 
-  AlertDialogFooter, 
-  AlertDialogHeader, 
-  AlertDialogTitle 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle
 } from '../components/ui/alert-dialog';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../components/ui/dropdown-menu';
+
+import { OrderWizardDialog } from '../components/orderWizard/OrderWizard';
 
 const existingOrders = [
   { id: '#258', customer: 'Sarah Johnson', cake: 'Birthday Celebration', pickup: 'Nov 5, 2025', status: 'New Order', statusColor: '#C44569' },
@@ -34,22 +38,25 @@ const existingOrders = [
 
 export function Orders() {
   const { showToast } = useToast();
-  const [size, setSize] = useState('8-inch');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [deleteOrderId, setDeleteOrderId] = useState<string | null>(null);
   const [orders, setOrders] = useState(existingOrders);
 
-  const handleSaveOrder = async () => {
-    setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    showToast('success', 'Order created successfully! Order #259 has been added to the system.');
-    
-    setIsSubmitting(false);
+  const handleOrderComplete = (orderId: string) => {
+    showToast('success', `Order ${orderId} created successfully!`);
+    // In a real app, you'd refresh the orders list here
   };
 
   const handleCompleteOrder = (orderId: string) => {
     showToast('success', `Order ${orderId} marked as complete and ready for pickup!`);
+    // Update order status in the list
+    setOrders(prevOrders =>
+      prevOrders.map(order =>
+        order.id === orderId
+          ? { ...order, status: 'Ready', statusColor: '#5A3825' }
+          : order
+      )
+    );
   };
 
   const handleDeleteOrder = (orderId: string) => {
@@ -59,238 +66,149 @@ export function Orders() {
   };
 
   return (
-    <div className="space-y-6 lg:space-y-8">
-      <div>
-        <h1 style={{ fontFamily: 'Playfair Display', fontWeight: 600, color: '#C44569' }}>Create New Order</h1>
+    <div className="space-y-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-primary">
+            Order Management
+          </h1>
+          <p className="text-muted-foreground text-lg mt-2">
+            Create and manage customer orders with our guided wizard
+          </p>
+        </div>
+        <Button
+          onClick={() => setIsWizardOpen(true)}
+          size="lg"
+          className="bg-primary hover:bg-primary/90 shadow-sm"
+        >
+          <Plus className="mr-2 h-5 w-5" />
+          New Order
+        </Button>
       </div>
 
-      {/* Order Form */}
-      <Card className="p-6 lg:p-8 rounded-xl bg-white" style={{ boxShadow: '0px 2px 8px rgba(90, 56, 37, 0.12)' }}>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-          {/* Left Column */}
-          <div className="space-y-5">
-            <div>
-              <Label className="text-[#383A3F] mb-2 block">Customer Selection</Label>
-              <Select>
-                <SelectTrigger className="rounded-lg" style={{ borderRadius: '8px' }}>
-                  <SelectValue placeholder="Select customer" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="sarah">Sarah Johnson</SelectItem>
-                  <SelectItem value="michael">Michael Chen</SelectItem>
-                  <SelectItem value="emily">Emily Rodriguez</SelectItem>
-                  <SelectItem value="david">David Kim</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <Label className="text-[#383A3F] mb-2 block">Cake Type</Label>
-              <Select>
-                <SelectTrigger className="rounded-lg" style={{ borderRadius: '8px' }}>
-                  <SelectValue placeholder="Select cake type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="birthday">Birthday Celebration</SelectItem>
-                  <SelectItem value="lemon">Lemon & Cream Cheese</SelectItem>
-                  <SelectItem value="black-forest">Black Forest</SelectItem>
-                  <SelectItem value="german">German Chocolate</SelectItem>
-                  <SelectItem value="almond">Almond Delight</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <Label className="text-[#383A3F] mb-3 block">Size Selection</Label>
-              <RadioGroup value={size} onValueChange={setSize} className="space-y-2">
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="6-inch" id="6-inch" />
-                  <Label htmlFor="6-inch" className="cursor-pointer">6 inch</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="8-inch" id="8-inch" />
-                  <Label htmlFor="8-inch" className="cursor-pointer">8 inch</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="10-inch" id="10-inch" />
-                  <Label htmlFor="10-inch" className="cursor-pointer">10 inch</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="custom" id="custom" />
-                  <Label htmlFor="custom" className="cursor-pointer">Custom</Label>
-                </div>
-              </RadioGroup>
-            </div>
-
-            <div>
-              <Label className="text-[#383A3F] mb-2 block">Cake Flavor</Label>
-              <Select>
-                <SelectTrigger className="rounded-lg" style={{ borderRadius: '8px' }}>
-                  <SelectValue placeholder="Select flavor" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="vanilla">Vanilla</SelectItem>
-                  <SelectItem value="chocolate">Chocolate</SelectItem>
-                  <SelectItem value="strawberry">Strawberry</SelectItem>
-                  <SelectItem value="almond">Almond</SelectItem>
-                  <SelectItem value="lemon">Lemon</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {/* Right Column */}
-          <div className="space-y-5">
-            <div>
-              <Label className="text-[#383A3F] mb-2 block">Filling Selection</Label>
-              <Select>
-                <SelectTrigger className="rounded-lg" style={{ borderRadius: '8px' }}>
-                  <SelectValue placeholder="Select filling" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="vanilla-buttercream">Vanilla Buttercream</SelectItem>
-                  <SelectItem value="chocolate-buttercream">Chocolate Buttercream</SelectItem>
-                  <SelectItem value="strawberry-mousse">Strawberry Mousse</SelectItem>
-                  <SelectItem value="lemon-mousse">Lemon Mousse</SelectItem>
-                  <SelectItem value="cream-cheese">Cream Cheese</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <Label className="text-[#383A3F] mb-2 block">Icing Type</Label>
-              <Select>
-                <SelectTrigger className="rounded-lg" style={{ borderRadius: '8px' }}>
-                  <SelectValue placeholder="Select icing" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="buttercream">Buttercream</SelectItem>
-                  <SelectItem value="ganache">Ganache</SelectItem>
-                  <SelectItem value="cream-cheese">Cream Cheese</SelectItem>
-                  <SelectItem value="whipped">Whipped Cream</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <Label className="text-[#383A3F] mb-2 block">Pickup Date</Label>
-              <Input type="date" className="rounded-lg" style={{ borderRadius: '8px' }} />
-            </div>
-
-            <div>
-              <Label className="text-[#383A3F] mb-2 block">Deposit Amount</Label>
-              <Input type="number" placeholder="Minimum $50" min="50" className="rounded-lg" style={{ borderRadius: '8px' }} />
-            </div>
-
-            <div>
-              <Label className="text-[#383A3F] mb-2 block">Special Instructions</Label>
-              <Textarea 
-                placeholder="Any special requests or notes..." 
-                rows={4} 
-                className="rounded-lg" 
-                style={{ borderRadius: '8px' }} 
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6 lg:mt-8 pt-6" style={{ borderTop: '1px solid rgba(90, 56, 37, 0.15)' }}>
-          <Button 
-            onClick={handleSaveOrder}
-            disabled={isSubmitting}
-            className="text-white px-6 sm:px-8 disabled:opacity-50 w-full sm:w-auto hover:shadow-bakery-hover transition-all" 
-            style={{ borderRadius: '8px', fontFamily: 'Poppins', fontWeight: 600, backgroundColor: '#C44569', height: '44px' }}
-          >
-            {isSubmitting ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Saving...
-              </>
-            ) : (
-              'Save Order'
-            )}
-          </Button>
-          <Button 
-            variant="outline" 
-            className="px-6 sm:px-8 w-full sm:w-auto" 
-            style={{ borderRadius: '8px', borderColor: 'rgba(90, 56, 37, 0.3)', color: '#5A3825', height: '44px' }}
-            onClick={() => showToast('info', 'Order cancelled')}
-          >
-            Cancel
-          </Button>
-          <Button 
-            variant="outline" 
-            className="px-6 sm:px-8 w-full sm:w-auto" 
-            style={{ borderRadius: '8px', borderColor: 'rgba(196, 69, 105, 0.3)', color: '#C44569', height: '44px' }}
-            onClick={() => showToast('info', 'Preview feature coming soon!')}
-          >
-            Preview Order
-          </Button>
-        </div>
-      </Card>
-
       {/* Order List */}
-      <Card className="p-6 lg:p-8 rounded-xl overflow-x-auto bg-white" style={{ boxShadow: '0px 2px 8px rgba(90, 56, 37, 0.12)' }}>
-        <h2 className="mb-6" style={{ fontFamily: 'Poppins', fontWeight: 500, fontSize: 'clamp(18px, 4vw, 24px)', color: '#2B2B2B' }}>Order List</h2>
-        <div className="overflow-x-auto -mx-6 lg:-mx-8 px-6 lg:px-8">
-        <Table className="min-w-[600px]">
-          <TableHeader>
-            <TableRow>
-              <TableHead>Order #</TableHead>
-              <TableHead>Customer</TableHead>
-              <TableHead>Cake Type</TableHead>
-              <TableHead>Pickup Date</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {orders.map((order) => (
-              <TableRow key={order.id} className="transition-colors hover:bg-[rgba(248,235,215,0.3)]">
-                <TableCell style={{ color: '#5A3825', fontFamily: 'Open Sans' }}>{order.id}</TableCell>
-                <TableCell style={{ color: '#2B2B2B', fontFamily: 'Open Sans' }}>{order.customer}</TableCell>
-                <TableCell style={{ color: '#2B2B2B', fontFamily: 'Open Sans' }}>{order.cake}</TableCell>
-                <TableCell style={{ color: '#5A3825', fontFamily: 'Open Sans' }}>{order.pickup}</TableCell>
-                <TableCell>
-                  <Badge className="rounded-lg" style={{ backgroundColor: order.statusColor, color: '#FFFFFF' }}>
-                    {order.status}
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-right">
-                  <div className="flex justify-end gap-2">
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="p-2 rounded-lg transition-colors hover:bg-[rgba(196,69,105,0.1)]"
-                      onClick={() => showToast('info', 'Edit feature coming soon!')}
-                    >
-                      <Edit size={16} color="#C44569" />
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="p-2 rounded-lg transition-colors hover:bg-[rgba(90,56,37,0.1)]"
-                      onClick={() => handleCompleteOrder(order.id)}
-                    >
-                      <Check size={16} color="#5A3825" />
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="p-2 rounded-lg transition-colors hover:bg-[rgba(196,69,105,0.1)]"
-                      onClick={() => setDeleteOrderId(order.id)}
-                    >
-                      <Trash2 size={16} color="#C44569" />
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        </div>
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-xl">
+            Active Orders ({orders.length})
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-0">
+          {orders.length === 0 ? (
+            <div className="text-center py-16 px-6">
+              <div className="mb-4">
+                <Plus className="mx-auto h-16 w-16 text-muted-foreground/50" />
+              </div>
+              <h3 className="text-lg font-semibold text-muted-foreground mb-2">
+                No orders yet
+              </h3>
+              <p className="text-sm text-muted-foreground mb-6 max-w-sm mx-auto">
+                Get started by creating your first order with our guided wizard.
+              </p>
+              <Button onClick={() => setIsWizardOpen(true)} size="lg">
+                <Plus className="mr-2 h-4 w-4" />
+                Create Your First Order
+              </Button>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Order #</TableHead>
+                    <TableHead>Customer</TableHead>
+                    <TableHead>Cake Type</TableHead>
+                    <TableHead>Pickup Date</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead className="w-[70px]">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {orders.map((order) => (
+                    <TableRow key={order.id} className="group">
+                      <TableCell>
+                        <span className="font-medium text-primary">
+                          {order.id}
+                        </span>
+                      </TableCell>
+                      <TableCell className="font-medium">
+                        {order.customer}
+                      </TableCell>
+                      <TableCell>
+                        {order.cake}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground">
+                        {order.pickup}
+                      </TableCell>
+                      <TableCell>
+                        <Badge
+                          variant={
+                            order.status === 'Ready'
+                              ? 'default'
+                              : order.status === 'New Order'
+                              ? 'destructive'
+                              : 'secondary'
+                          }
+                          className="font-medium"
+                        >
+                          {order.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-8 w-8 p-0 opacity-60 group-hover:opacity-100 transition-opacity"
+                            >
+                              <MoreHorizontal className="h-4 w-4" />
+                              <span className="sr-only">Open menu</span>
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="w-48">
+                            <DropdownMenuItem onClick={() => showToast('info', 'View feature coming soon!')}>
+                              <Eye className="mr-2 h-4 w-4" />
+                              View Details
+                            </DropdownMenuItem>
+                            <DropdownMenuItem disabled>
+                              <Edit2 className="mr-2 h-4 w-4" />
+                              Edit Order
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              onClick={() => handleCompleteOrder(order.id)}
+                              className="text-green-600 focus:text-green-600"
+                            >
+                              <CheckCircle className="mr-2 h-4 w-4" />
+                              Mark Complete
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              onClick={() => setDeleteOrderId(order.id)}
+                              className="text-destructive focus:text-destructive"
+                            >
+                              <Trash2 className="mr-2 h-4 w-4" />
+                              Delete Order
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          )}
+        </CardContent>
       </Card>
+
+      {/* Order Wizard */}
+      <OrderWizardDialog
+        isOpen={isWizardOpen}
+        onClose={() => setIsWizardOpen(false)}
+        onComplete={handleOrderComplete}
+      />
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={!!deleteOrderId} onOpenChange={() => setDeleteOrderId(null)}>
@@ -303,7 +221,7 @@ export function Orders() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction 
+            <AlertDialogAction
               onClick={() => deleteOrderId && handleDeleteOrder(deleteOrderId)}
               className="bg-red-500 hover:bg-red-600"
             >

@@ -129,6 +129,18 @@ export function AdminLayout({ children, activePage, onNavigate, onLogout, userNa
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <button
+              onClick={() => onNavigate('order-create')}
+              className="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-md"
+              style={{
+                background: '#C44569',
+                color: '#FFFFFF',
+                fontWeight: 600,
+                border: '1px solid rgba(255,255,255,0.12)'
+              }}
+            >
+              New Order
+            </button>
             <BackToSiteDropdown onLogout={onLogout} />
           </div>
         </div>
