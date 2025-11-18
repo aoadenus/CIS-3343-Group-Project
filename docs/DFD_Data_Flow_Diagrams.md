@@ -5,7 +5,7 @@
 
 ## DFD LEVEL 0: CONTEXT DIAGRAM
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────────────────┐
 │                    Emily Bakes Cakes System Context                  │
 └─────────────────────────────────────────────────────────────────────┘
@@ -61,7 +61,7 @@
 │              │─────────────────────────────────────>│              │
 │              │                                       │              │
 └──────────────┘                                       └──────────────┘
-```
+\`\`\`
 
 ### Context Diagram Summary
 
@@ -81,7 +81,7 @@
 
 ## DFD LEVEL 1: SYSTEM DECOMPOSITION
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────────────────┐
 │              Emily Bakes Cakes - Level 1 Decomposition              │
 └─────────────────────────────────────────────────────────────────────┘
@@ -181,7 +181,7 @@
 │Customer│ │ Order   │ │Product │ │ Payment │
 │Records │ │  Log    │ │Catalog │ │ Records │
 └────────┘ └─────────┘ └────────┘ └─────────┘
-```
+\`\`\`
 
 ---
 
@@ -464,102 +464,102 @@
 ## DATA FLOW DETAILS
 
 ### **DF-A: Custom Cake Request** (Customer → P1.0)
-```
+\`\`\`
 Contents: { name, email, phone, occasion, design, layers[], eventDate, 
             inspirationImages[], message, notes }
 Frequency: ~5-10 requests/day
 Volume: Medium (with image uploads can be 1-5MB)
-```
+\`\`\`
 
 ### **DF-B: New Customer Data** (P1.0 → D1)
-```
+\`\`\`
 Contents: { name, email, phone, isGuest, createdAt }
 Frequency: ~2-3 new customers/day
 Validation: Email uniqueness check, required fields
-```
+\`\`\`
 
 ### **DF-C: Available Product Options** (D3 → P2.0)
-```
+\`\`\`
 Contents: { flavors[], fillings[], icings[], sizes[], decorations[] }
 Frequency: On order creation (read-only reference)
 Used for: Builder UI population, price calculation
-```
+\`\`\`
 
 ### **DF-D: New Order Creation** (P2.0 → D2)
-```
+\`\`\`
 Contents: Complete order object with customer link, layers, pricing, status
 Frequency: ~5-8 orders/day
 Triggers: Customer record update (increment totalOrders)
-```
+\`\`\`
 
 ### **DF-E: Order Details** (D2 → P2.0)
-```
+\`\`\`
 Contents: Full order with customer info, payment status, current status
 Frequency: Continuous (admin order list view)
 Used for: Order management center, status tracking
-```
+\`\`\`
 
 ### **DF-F: Employee Assignment** (P2.0 → D4)
-```
+\`\`\`
 Contents: { orderId, employeeId, assignedAt, role }
 Frequency: On status change or manual assignment
 Purpose: Track who is working on which order
-```
+\`\`\`
 
 ### **DF-G: Status Update** (Staff → P2.0)
-```
+\`\`\`
 Contents: { orderId, newStatus, lastModifiedBy, timestamp }
 Frequency: Multiple times per order lifecycle
 Triggers: Workflow progression, customer notifications
-```
+\`\`\`
 
 ### **DF-H: Order Confirmation** (P2.0 → Customer)
-```
+\`\`\`
 Contents: Order summary, total, deposit due, pickup date
 Frequency: On order creation and major status changes
 Format: Email notification (future enhancement)
-```
+\`\`\`
 
 ### **DF-I: Product Entry** (Staff → P4.0)
-```
+\`\`\`
 Contents: { name, category, price, description, image, inStock }
 Frequency: Weekly (new products/seasonal items)
 Validation: Required fields, price > 0
-```
+\`\`\`
 
 ### **DF-J: Catalog Save** (P4.0 → D3)
-```
+\`\`\`
 Contents: Product record with timestamps
 Frequency: Weekly
 Effect: Immediate visibility on Shop page
-```
+\`\`\`
 
 ### **DF-K: Report Request** (Manager → P5.0)
-```
+\`\`\`
 Contents: { reportType, dateRange, filters[] }
 Frequency: Daily (dashboard), Weekly/Monthly (detailed reports)
 Examples: "All customers who ordered wedding cakes in Q4"
-```
+\`\`\`
 
 ### **DF-L: Analytics Data** (D1, D2, D3, D5 → P5.0)
-```
+\`\`\`
 Contents: Aggregated data from all stores
 Processing: JOIN queries, grouping, calculations
 Volume: Entire database (optimized with indexes)
-```
+\`\`\`
 
 ### **DF-M: Generated Report** (P5.0 → Manager)
-```
+\`\`\`
 Contents: Charts, tables, KPIs, downloadable CSV
 Frequency: Real-time dashboard + scheduled reports
 Format: Visual dashboard + exportable data
-```
+\`\`\`
 
 ---
 
 ## PROCESS FLOW EXAMPLE: CUSTOM CAKE ORDER
 
-```
+\`\`\`
 1. Customer completes Custom Builder form → P1.0
 2. P1.0 validates email, finds or creates customer → D1
 3. P1.0 passes validated data to P2.0
@@ -576,7 +576,7 @@ Format: Visual dashboard + exportable data
 14. Manager approves, sets status to "ready" → D2
 15. Customer picks up, staff marks "completed" → D2
 16. P5.0 includes order in analytics → Manager Dashboard
-```
+\`\`\`
 
 ---
 

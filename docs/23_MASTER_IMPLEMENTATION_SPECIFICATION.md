@@ -28,7 +28,7 @@
 
 ### Four-Tier Architecture
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────┐
 │ TIER 1: PUBLIC WEBSITE (Customer-Facing Marketing)      │
 ├─────────────────────────────────────────────────────────┤
@@ -77,7 +77,7 @@
 │ ✓ order_status_history (order_id, old_status, new)     │
 │ ✓ contact_messages (id, name, email, phone, message)   │
 └─────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ---
 
@@ -120,7 +120,7 @@
 **Access:** PUBLIC (anyone with link, NO login required)  
 **URL:** `/track/{TOKEN}` (e.g., `/track/TRK-Q1-001`)
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────┐
 │ [🎂 LOGO] Emily Bakes Cakes           Track Your Order  │
 ├─────────────────────────────────────────────────────────┤
@@ -167,7 +167,7 @@
 │                                                          │
 │ [FOOTER]                                                │
 └─────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 **Auto-Cycling Logic (11 Stages, 2-min each, loops forever):**
 1. Order Received (0:00 - 2:00)
@@ -183,7 +183,7 @@
 11. Loop back to #1 (20:00 - 0:00)
 
 **Technical Implementation:**
-```javascript
+\`\`\`javascript
 // Calculate current stage based on time
 const startTime = new Date(order.created_at);
 const now = new Date();
@@ -206,7 +206,7 @@ const stages = [
 
 // Update UI every 10 seconds
 setInterval(() => updateStatus(), 10000);
-```
+\`\`\`
 
 ---
 
@@ -218,7 +218,7 @@ setInterval(() => updateStatus(), 10000);
 
 **⚠️ CRITICAL:** Bakers have FULL SALES ACCESS + Baking Queue
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────┐
 │ [🎂 Logo] Emily Staff Portal               👤 Baker    │
 │ [Dashboard] [My Queue] [Orders] [Customers] [Products]  │
@@ -266,7 +266,7 @@ setInterval(() => updateStatus(), 10000);
 │ Recent Customers: Available for coordination            │
 │                                                          │
 └─────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ---
 
@@ -278,7 +278,7 @@ setInterval(() => updateStatus(), 10000);
 
 **⚠️ CRITICAL:** Decorators have FULL SALES ACCESS + Decoration Queue
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────┐
 │ [🎂 Logo] Emily Staff Portal          👤 Decorator     │
 │ [Dashboard] [My Queue] [Orders] [Customers] [Gallery]   │
@@ -332,7 +332,7 @@ setInterval(() => updateStatus(), 10000);
 │ Recent Customers: Available for coordination            │
 │                                                          │
 └─────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ---
 
@@ -454,7 +454,7 @@ This means **Baker and Decorator roles INHERIT Sales permissions** plus their sp
 
 ### BAKER NAVIGATION ⚠️ CORRECTED
 
-```
+\`\`\`
 ┌────────────────────────────────────────┐
 │ [🎂 Logo] Emily Bakes                 │
 │ 👤 Baker (baker@emilybakes.com)       │
@@ -477,7 +477,7 @@ This means **Baker and Decorator roles INHERIT Sales permissions** plus their sp
 │ ❓ Help                                │
 │ 🚪 Logout                              │
 └────────────────────────────────────────┘
-```
+\`\`\`
 
 **What Baker Can Do:**
 - ✅ ALL SALES FUNCTIONS (create orders, manage customers, view all orders)
@@ -492,7 +492,7 @@ This means **Baker and Decorator roles INHERIT Sales permissions** plus their sp
 
 ### DECORATOR NAVIGATION ⚠️ CORRECTED
 
-```
+\`\`\`
 ┌────────────────────────────────────────┐
 │ [🎂 Logo] Emily Bakes                 │
 │ 👤 Decorator (decorator@emilybakes.com)│
@@ -516,7 +516,7 @@ This means **Baker and Decorator roles INHERIT Sales permissions** plus their sp
 │ ❓ Help                                │
 │ 🚪 Logout                              │
 └────────────────────────────────────────┘
-```
+\`\`\`
 
 **What Decorator Can Do:**
 - ✅ ALL SALES FUNCTIONS (create orders, manage customers, view all orders)
@@ -562,7 +562,7 @@ This means **Baker and Decorator roles INHERIT Sales permissions** plus their sp
 
 ## 8. DATABASE SCHEMA
 
-```sql
+\`\`\`sql
 -- Customers
 CREATE TABLE customers (
   id SERIAL PRIMARY KEY,
@@ -639,7 +639,7 @@ CREATE TABLE contact_messages (
   message TEXT,
   created_at TIMESTAMP DEFAULT NOW()
 );
-```
+\`\`\`
 
 ---
 

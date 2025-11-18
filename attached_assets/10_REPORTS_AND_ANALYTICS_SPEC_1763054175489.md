@@ -27,7 +27,7 @@ This document defines the manager dashboard and analytics features for the Emily
 **Purpose:** Business intelligence and real-time insights
 
 **Layout:** **note - today stnd view**
-```
+\`\`\`
 ┌──────────────────────────────────────────────────────────────────┐
 │ Header: Logo | Dashboard | Orders | Customers | Reports (active)│
 ├──────────────────────────────────────────────────────────────────┤
@@ -91,7 +91,7 @@ This document defines the manager dashboard and analytics features for the Emily
 │ [Export to PDF]  [Export to Excel]  [Export to CSV]  [Print]   │
 │                                                                  │
 └──────────────────────────────────────────────────────────────────┘
-``` 
+\`\`\` 
 **note switch orders ready for pickup and switch top customers positions**
 
 ---
@@ -103,12 +103,12 @@ This document defines the manager dashboard and analytics features for the Emily
 **Metric:** Sum of all firm_price WHERE pickup_date IN range
 
 **Calculation:**
-```sql
+\`\`\`sql
 SELECT SUM(firm_price) as total_revenue
 FROM CUSTOM_ORDER
 WHERE pickup_date BETWEEN @start_date AND @end_date
   AND order_status_id NOT IN (SELECT id FROM ORDER_STATUS WHERE description = 'Cancelled');
-```
+\`\`\`
 
 **Display:**
 - Large card with currency format ($X,XXX.XX)
@@ -124,12 +124,12 @@ WHERE pickup_date BETWEEN @start_date AND @end_date
 **Metric:** COUNT of orders in date range
 
 **Calculation:**
-```sql
+\`\`\`sql
 SELECT COUNT(*) as order_count
 FROM CUSTOM_ORDER
 WHERE pickup_date BETWEEN @start_date AND @end_date
   AND order_status_id NOT IN ('Cancelled');
-```
+\`\`\`
 
 **Display:**
 - Simple count with order icon
@@ -144,11 +144,11 @@ WHERE pickup_date BETWEEN @start_date AND @end_date
 **Metric:** Total Revenue / Order Count
 
 **Calculation:**
-```sql
+\`\`\`sql
 SELECT AVG(firm_price) as avg_order_value
 FROM CUSTOM_ORDER
 WHERE pickup_date BETWEEN @start_date AND @end_date;
-```
+\`\`\`
 
 **Display:**
 - Currency format ($XXX.XX)
@@ -163,14 +163,14 @@ WHERE pickup_date BETWEEN @start_date AND @end_date;
 **Metric:** COUNT of customers with first order in date range
 
 **Calculation:**
-```sql
+\`\`\`sql
 SELECT COUNT(DISTINCT c.cust_id) as new_customers
 FROM CUSTOMER c
 JOIN CUSTOM_ORDER o ON c.cust_id = o.cust_id
 WHERE o.order_date BETWEEN @start_date AND @end_date
 GROUP BY c.cust_id
 HAVING COUNT(o.order_id) = 1;
-```
+\`\`\`
 
 **Display:** Count with customer icon
 
@@ -181,7 +181,7 @@ HAVING COUNT(o.order_id) = 1;
 **Metric:** Orders from returning customers / Total orders
 
 **Calculation:**
-```sql
+\`\`\`sql
 SELECT 
   (COUNT(CASE WHEN repeat_customers.count > 1 THEN 1 END) * 100.0 / 
    COUNT(*)) as return_rate
@@ -189,7 +189,7 @@ FROM (
   SELECT COUNT(*) as count FROM CUSTOM_ORDER
   GROUP BY cust_id
 ) repeat_customers;
-```
+\`\`\`
 
 **Display:** Percentage (65%)
 
@@ -200,12 +200,12 @@ FROM (
 **Metric:** Sum of unpaid balances (Total Price - Deposit)
 
 **Calculation:**
-```sql
+\`\`\`sql
 SELECT SUM(firm_price - deposit_amount) as balance_due
 FROM CUSTOM_ORDER
 WHERE pickup_date BETWEEN @start_date AND @end_date
   AND order_status_id NOT IN ('Picked Up', 'Cancelled');
-```
+\`\`\`
 
 **Display:** Large amount outstanding
 
@@ -223,7 +223,7 @@ WHERE pickup_date BETWEEN @start_date AND @end_date
 **Aggregation:** SUM(firm_price) per day
 
 **Query:**
-```sql
+\`\`\`sql
 SELECT 
   DATE(pickup_date) as date,
   SUM(firm_price) as revenue
@@ -231,7 +231,7 @@ FROM CUSTOM_ORDER
 WHERE pickup_date BETWEEN @start_date AND @end_date
 GROUP BY DATE(pickup_date)
 ORDER BY date ASC;
-```
+\`\`\`
 
 **Features:**
 - Hover shows exact amount
@@ -246,7 +246,7 @@ ORDER BY date ASC;
 **Size:** Count of orders in each status
 
 **Query:**
-```sql
+\`\`\`sql
 SELECT 
   os.description as status,
   COUNT(co.order_id) as count
@@ -254,7 +254,7 @@ FROM CUSTOM_ORDER co
 JOIN ORDER_STATUS os ON co.order_status_id = os.order_status_id
 WHERE co.pickup_date BETWEEN @start_date AND @end_date
 GROUP BY os.description;
-```
+\`\`\`
 
 **Display:**
 - Pie chart with percentages
@@ -285,7 +285,7 @@ GROUP BY os.description;
 | 3 | James Martinez | 2 | $450.00 | $225.00 | Active |
 
 **Query:**
-```sql
+\`\`\`sql
 SELECT 
   c.cust_id,
   c.cust_first_name + ' ' + c.cust_last_name as customer,
@@ -298,7 +298,7 @@ LEFT JOIN CUSTOM_ORDER co ON c.cust_id = co.cust_id
   AND co.pickup_date BETWEEN @start_date AND @end_date
 GROUP BY c.cust_id, c.cust_first_name, c.cust_last_name, c.cust_status
 ORDER BY total_spent DESC;
-```
+\`\`\`
 
 ---
 
@@ -313,7 +313,7 @@ ORDER BY total_spent DESC;
 | Nov 15 | 3:00 PM | Michael Chen | Baking | $120.00 | 3-layer |
 
 **Query:**
-```sql
+\`\`\`sql
 SELECT 
   co.pickup_date,
   co.pickup_time,
@@ -325,7 +325,7 @@ JOIN CUSTOMER c ON co.cust_id = c.cust_id
 JOIN ORDER_STATUS os ON co.order_status_id = os.order_status_id
 WHERE co.pickup_date BETWEEN @start_date AND @end_date
 ORDER BY co.pickup_date ASC, co.pickup_time ASC;
-```
+\`\`\`
 
 ---
 
@@ -339,7 +339,7 @@ ORDER BY co.pickup_date ASC, co.pickup_time ASC;
 - Outstanding: $250.50
 
 **Query:**
-```sql
+\`\`\`sql
 SELECT 
   SUM(co.deposit_amount) as deposits_paid,
   SUM(co.firm_price * 0.5) as deposits_expected,
@@ -347,7 +347,7 @@ SELECT
 FROM CUSTOM_ORDER co
 WHERE co.pickup_date BETWEEN @start_date AND @end_date
   AND co.order_status_id NOT IN ('Cancelled');
-```
+\`\`\`
 
 ---
 
@@ -368,11 +368,11 @@ WHERE co.pickup_date BETWEEN @start_date AND @end_date
 ### Custom Date Range
 
 **UI:**
-```
+\`\`\`
 From: [Date Picker] ______
 To:   [Date Picker] ______
 [Apply Filter]
-```
+\`\`\`
 
 **Validation:**
 - Start date must be ≤ End date

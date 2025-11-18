@@ -10,7 +10,7 @@
 
 ### Phase 1: Create New Tables
 
-```sql
+\`\`\`sql
 -- Create lookup tables
 CREATE TABLE CAKE_SIZE (
   Size_ID INT PRIMARY KEY AUTO_INCREMENT,
@@ -59,11 +59,11 @@ CREATE TABLE ORDER_ATTACHMENT (
   FOREIGN KEY (Order_ID) REFERENCES CUSTOM_ORDER(Order_ID) ON DELETE CASCADE,
   INDEX (Order_ID)
 );
-```
+\`\`\`
 
 ### Phase 2: Modify Existing Tables
 
-```sql
+\`\`\`sql
 -- Modify CUSTOM_ORDER table
 ALTER TABLE CUSTOM_ORDER
   DROP COLUMN Occasion,
@@ -77,7 +77,7 @@ ALTER TABLE CUSTOM_ORDER
 -- Add indexing for performance
 CREATE INDEX idx_order_firm_price ON CUSTOM_ORDER(Firm_Price);
 CREATE INDEX idx_order_size ON CUSTOM_ORDER(Cake_Size_ID);
-```
+\`\`\`
 
 ---
 
@@ -85,18 +85,18 @@ CREATE INDEX idx_order_size ON CUSTOM_ORDER(Cake_Size_ID);
 
 ### Cake Sizes
 
-```sql
+\`\`\`sql
 INSERT INTO CAKE_SIZE (Size_Name, Base_Price, Serves_Min, Serves_Max, Display_Order) VALUES
 ('Small (4-6 servings)', 25.00, 4, 6, 1),
 ('Medium (8-10 servings)', 40.00, 8, 10, 2),
 ('Large (12-14 servings)', 55.00, 12, 14, 3),
 ('Extra Large (16-18 servings)', 75.00, 16, 18, 4),
 ('Sheet Cake (20+ servings)', 95.00, 20, 30, 5);
-```
+\`\`\`
 
 ### Product Options (Flavors)
 
-```sql
+\`\`\`sql
 INSERT INTO PRODUCT_OPTION (Option_Name, Option_Type, Extra_Cost, Category, Display_Order, Is_Active) VALUES
 -- Flavors
 ('Vanilla', 'Flavor', 0, 'Cake Flavor', 1, 'Y'),
@@ -128,11 +128,11 @@ INSERT INTO PRODUCT_OPTION (Option_Name, Option_Type, Extra_Cost, Category, Disp
 ('Pink', 'Writing Color', 0.50, 'Decoration Color', 4, 'Y'),
 ('Gold', 'Writing Color', 1, 'Decoration Color', 5, 'Y'),
 ('Silver', 'Writing Color', 1, 'Decoration Color', 6, 'Y');
-```
+\`\`\`
 
 ### Sample Customers
 
-```sql
+\`\`\`sql
 INSERT INTO CUSTOMER (Cust_Status_ID, Cust_Type_ID, Cust_First_Name, Cust_Last_Name, Cust_Email_Addr, Cust_Mobile_Phone, Cust_Addr_Line1, State_ID, Cust_Zip_Code, Preferred_Customer) VALUES
 (1, 1, 'Sarah', 'Johnson', 'sarah.johnson@email.com', '(713) 555-0101', '123 Oak Street', 1, '77001', 'Y'),
 (1, 1, 'Michael', 'Chen', 'mchen@email.com', '(713) 555-0102', '456 Maple Ave', 1, '77002', 'Y'),
@@ -144,11 +144,11 @@ INSERT INTO CUSTOMER (Cust_Status_ID, Cust_Type_ID, Cust_First_Name, Cust_Last_N
 (1, 1, 'David', 'Anderson', 'david.a@email.com', '(713) 555-0108', '258 Spruce Road', 1, '77008', 'N'),
 (1, 1, 'Lisa', 'Thompson', 'lthompson@email.com', '(713) 555-0109', '369 Walnut Street', 1, '77009', 'N'),
 (1, 2, 'Corporate', 'Events LLC', 'events@corp.com', '(713) 555-0110', '500 Business Park', 1, '77010', 'Y');
-```
+\`\`\`
 
 ### Sample Orders (Various States)
 
-```sql
+\`\`\`sql
 INSERT INTO CUSTOM_ORDER (Cust_ID, Product_ID, Order_Date, Pickup_Date, Pickup_Time, Total_Price, Firm_Price, Deposit_Amount, Order_Status_ID, Cake_Size_ID) VALUES
 -- Order 1: In Baking
 (1, 1, '2025-11-03', '2025-11-08', '14:00', 75.00, 75.00, 37.50, 2, 3),
@@ -160,11 +160,11 @@ INSERT INTO CUSTOM_ORDER (Cust_ID, Product_ID, Order_Date, Pickup_Date, Pickup_T
 (4, 3, '2025-11-05', '2025-11-10', '10:00', 120.00, 120.00, 60.00, 1, 5),
 -- Order 5: Picked Up
 (5, 1, '2025-11-04', '2025-11-04', '17:00', 65.00, 65.00, 32.50, 5, 2);
-```
+\`\`\`
 
 ### Sample Order Layers
 
-```sql
+\`\`\`sql
 INSERT INTO ORDER_LAYER (Order_ID, Layer_Number, Special_Notes, Position) VALUES
 -- Order 1, Layer 1
 (1, 1, 'Extra filling please', 'Bottom'),
@@ -185,11 +185,11 @@ INSERT INTO ORDER_LAYER (Order_ID, Layer_Number, Special_Notes, Position) VALUES
 
 -- Order 5, Layer 1
 (5, 1, 'Birthday cake - classic', 'Single Layer');
-```
+\`\`\`
 
 ### Sample Layer Options (Customizations)
 
-```sql
+\`\`\`sql
 INSERT INTO ORDER_LAYER_OPTION (Order_ID, Layer_Number, Option_Type, Option_ID, Quantity) VALUES
 -- Order 1, Layer 1
 (1, 1, 'Flavor', 2, 1),           -- Chocolate
@@ -208,13 +208,13 @@ INSERT INTO ORDER_LAYER_OPTION (Order_ID, Layer_Number, Option_Type, Option_ID, 
 (1, 3, 'Filling', 11, 1),         -- Cream Cheese
 (1, 3, 'Icing', 4, 1),            -- Cream Cheese Frosting
 (1, 3, 'Writing Color', 24, 1);   -- Pink
-```
+\`\`\`
 
 ---
 
 ## Node.js/Express Seeder Script
 
-```javascript
+\`\`\`javascript
 // seed.js - Database seeding script
 const mysql = require('mysql2/promise');
 require('dotenv').config();
@@ -278,7 +278,7 @@ async function seedDatabase() {
 }
 
 seedDatabase();
-```
+\`\`\`
 
 ---
 
@@ -286,7 +286,7 @@ seedDatabase();
 
 ### Order Validation
 
-```javascript
+\`\`\`javascript
 const validateOrder = (order) => {
   const errors = [];
   
@@ -335,13 +335,13 @@ const validateOrder = (order) => {
     errors
   };
 };
-```
+\`\`\`
 
 ---
 
 ## Database Constraints
 
-```sql
+\`\`\`sql
 -- Add check constraints
 ALTER TABLE CUSTOM_ORDER
 ADD CONSTRAINT check_price CHECK (Firm_Price > 0),
@@ -351,7 +351,7 @@ ADD CONSTRAINT check_pickup_date CHECK (Pickup_Date >= CURDATE() + INTERVAL 2 DA
 -- Add unique constraints
 ALTER TABLE PRODUCT_OPTION
 ADD CONSTRAINT unique_option_name UNIQUE (Option_Name, Option_Type);
-```
+\`\`\`
 
 ---
 

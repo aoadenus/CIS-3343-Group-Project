@@ -158,35 +158,35 @@ Complete design system reference with color palette, typography, and visual guid
 ## 🎨 Design System at a Glance
 
 ### Color Palette: "Vanilla Raspberry"
-```
+\`\`\`
 Raspberry Pink: #C44569 (Primary)
 Cream Vanilla:  #F8EBD7 (Background)
 Chocolate Brown: #5A3825 (Text)
 Charcoal Gray:  #2B2B2B (Admin/Headings)
 White:          #FFFFFF (Cards)
-```
+\`\`\`
 
 ### Typography
-```
+\`\`\`
 H1: Playfair Display 700 | 40-48px (Hero)
 H2-H6: Poppins 600 | 28-18px (Sections)
 Body: Open Sans 400 | 16-18px (Content)
 Accent: Lucida Handwriting 400i | 18-20px (Taglines)
-```
+\`\`\`
 
 ### Spacing: 8-Point Grid
-```
+\`\`\`
 8px → 16px → 24px → 32px → 48px → 64px → 96px
-```
+\`\`\`
 
 ### Components
-```
+\`\`\`
 Buttons: 3 variants (Primary, Secondary, Ghost)
 Inputs: 48px height, 12px padding
 Cards: 12px radius, 24px padding
 Badges: 5 statuses, 3 sizes
 Toasts: Glassmorphism, 300ms animation
-```
+\`\`\`
 
 ---
 
@@ -238,7 +238,7 @@ Toasts: Glassmorphism, 300ms animation
 ## 📞 Support & Resources
 
 ### File Structure
-```
+\`\`\`
 Emily-Bakes-Cakes/
 ├── 00-START_HERE.md ← YOU ARE HERE
 ├── 00-PRESENTATION_READY_SUMMARY.md
@@ -252,7 +252,7 @@ Emily-Bakes-Cakes/
 ├── pages/ (15 pages)
 ├── styles/ (globals.css)
 └── guidelines/
-```
+\`\`\`
 
 ### Key Directories
 - **`/components/`** - All React components (StandardButton, VideoHero, etc.)
@@ -293,7 +293,7 @@ Emily-Bakes-Cakes/
 
 ## 📖 Documentation Map
 
-```
+\`\`\`
 START HERE (you are here)
     ↓
 [Choose your role]
@@ -305,7 +305,7 @@ START HERE (you are here)
    Summary        Unified       Component      Audit
    (30 pages)     Design        Library        Report
                   (80 pages)    (60 pages)     (120 pages)
-```
+\`\`\`
 
 ---
 

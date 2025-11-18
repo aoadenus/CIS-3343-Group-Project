@@ -49,7 +49,7 @@ I've just created **4 complete, production-ready wizard step components** to rep
 - Payment terms and policies clearly displayed
 
 **Pricing Formula:**
-```
+\`\`\`
 Base Price: $45 (from product)
 + Size Upcharge: varies by size selection
 + Tier Upcharge: $0/$25/$50/$85
@@ -58,7 +58,7 @@ Base Price: $45 (from product)
 
 Deposit (50%): auto-calculated
 Balance Due: total - deposit
-```
+\`\`\`
 
 **Business Rules:**
 - 50% deposit required (enforced)
@@ -89,12 +89,12 @@ Balance Due: total - deposit
 - ✅ Shows customer exactly when cake will be baked and decorated
 
 **Timeline Example:**
-```
+\`\`\`
 Today: Order confirmation → Deposit charged
 Day -1: Baking day → Fresh cake baked
 Pickup Day (morning): Decoration → Final touches
 Pickup Time: Ready at 2:00 PM! 🎂
-```
+\`\`\`
 
 ---
 
@@ -147,7 +147,7 @@ Can optionally add to wizard dialog for real-time pricing feedback while customi
 **File:** `src/components/orderWizard/OrderWizard.tsx`
 
 **What Changed:**
-```typescript
+\`\`\`typescript
 // BEFORE: Placeholder components
 const CustomizationStep = () => <div>Coming Soon</div>;
 const PricingStep = () => <div>Coming Soon</div>;
@@ -159,7 +159,7 @@ import { CustomizationStep } from './CustomizationStep';
 import { PricingStep } from './PricingStep';
 import { SchedulingStep } from './SchedulingStep';
 import { ReviewStep } from './ReviewStep';
-```
+\`\`\`
 
 Also cleaned up unused imports (CheckCircle2, Loader2, format, Card components that were only for placeholders).
 
@@ -218,7 +218,7 @@ All components use **Zustand store** (`orderWizardStore.ts`):
 - Step completion tracking
 
 ### Data Structures
-```typescript
+\`\`\`typescript
 CustomizationData {
   size: '6-inch' | '8-inch' | '10-inch' | ... 
   tiers: 1 | 2 | 3 | 4
@@ -247,10 +247,10 @@ ScheduleData {
   pickupTime: string
   isRush: boolean  // true if < 3 days
 }
-```
+\`\`\`
 
 ### Validation Flow
-```
+\`\`\`
 Step 3 Valid: size + flavor + icingFlavor selected
     ↓
 Step 4 Valid: pricing.total > 0 (auto-calculated)
@@ -260,7 +260,7 @@ Step 5 Valid: pickupDate + pickupTime set
 Step 6 Valid: all previous steps complete
     ↓
 SUBMIT: Create order in database
-```
+\`\`\`
 
 ---
 
@@ -406,7 +406,7 @@ SUBMIT: Create order in database
 
 The wizard is **immediately usable**. Just open the order wizard dialog and all 6 steps are now fully functional!
 
-```typescript
+\`\`\`typescript
 // In your Orders page or dashboard:
 import { OrderWizardDialog } from '@/components/orderWizard/OrderWizard';
 
@@ -430,7 +430,7 @@ function YourPage() {
     </>
   );
 }
-```
+\`\`\`
 
 ### For Production (Future)
 1. Connect real customer data from Supabase
@@ -443,7 +443,7 @@ function YourPage() {
 
 ## 📁 NEW FILES CREATED
 
-```
+\`\`\`
 src/components/orderWizard/
 ├── CustomizationStep.tsx    ← NEW ✅
 ├── PricingStep.tsx           ← NEW ✅
@@ -453,7 +453,7 @@ src/components/orderWizard/
 
 UPDATED:
 ├── OrderWizard.tsx           ← Updated imports
-```
+\`\`\`
 
 All files are in the correct location and follow existing code patterns.
 

@@ -28,4 +28,3 @@ export function getSupabaseConfigSummary() {
     origin: typeof window !== 'undefined' ? window.location.origin : null,
   };
 }
-

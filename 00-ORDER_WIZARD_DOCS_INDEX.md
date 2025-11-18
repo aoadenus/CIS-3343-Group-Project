@@ -125,7 +125,7 @@ Plain text summary:
 ## 📂 FILE LOCATIONS
 
 ### Documentation Files (All in root directory)
-```
+\`\`\`
 CIS-3343-Group-Project/
 ├── 00-ORDER_WIZARD_COMPLETE.md          ⭐ Main doc
 ├── ALL_WIZARD_STEPS_COMPLETE.md         🔧 Technical
@@ -133,10 +133,10 @@ CIS-3343-Group-Project/
 ├── ORDER_WIZARD_QUICK_START_CARD.md     📋 Quick ref
 ├── BUILD_SUMMARY.txt                     ✅ Summary
 └── 00-ORDER_WIZARD_DOCS_INDEX.md         📚 This file
-```
+\`\`\`
 
 ### Code Files (All wizard components)
-```
+\`\`\`
 src/components/orderWizard/
 ├── OrderWizard.tsx              (Main dialog - UPDATED)
 ├── WizardProgress.tsx           (Progress bar)
@@ -148,13 +148,13 @@ src/components/orderWizard/
 ├── SchedulingStep.tsx           (Step 5) ✨ NEW
 ├── ReviewStep.tsx               (Step 6) ✨ NEW
 └── PricingSidebar.tsx           (Bonus)  ✨ NEW
-```
+\`\`\`
 
 ### State Management
-```
+\`\`\`
 src/stores/
 └── orderWizardStore.ts          (Zustand store)
-```
+\`\`\`
 
 ---
 

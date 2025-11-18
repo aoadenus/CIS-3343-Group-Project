@@ -34,7 +34,7 @@ Perform a **full 360° investigation and repair** across these layers:
 
 ### ⚙️ **PHASE 2: CONFIGURATION HARDENING**
 1. Open and verify `.replit` file — if missing or incomplete, create:
-   ```toml
+   \`\`\`toml
    run = "npm run dev"
 
    [nix]
@@ -42,10 +42,10 @@ Perform a **full 360° investigation and repair** across these layers:
 
    [deployment]
    run = ["sh", "-c", "npm run build && npm run preview"]
-   ```
+   \`\`\`
 2. Update vite.config.ts to guarantee compatibility with Replit's external HTTPS proxy:
 
-   ```ts
+   \`\`\`ts
    server: {
      host: '0.0.0.0',
      port: process.env.PORT || 3000,
@@ -66,7 +66,7 @@ Perform a **full 360° investigation and repair** across these layers:
      ],
    },
    base: './',                    // Ensures relative asset paths in proxy
-   ```
+   \`\`\`
 3. Verify that no duplicate or conflicting vite.config files exist.
 
 ### 🧠 **PHASE 3: CLIENT-SIDE RENDERING VERIFICATION**
@@ -74,11 +74,11 @@ Perform a **full 360° investigation and repair** across these layers:
    - Confirm sessionStorage skip works (`welcomeDone` key)
    - Ensure main layout renders correctly after animation
 2. Add temporary fallback logic:
-   ```ts
+   \`\`\`ts
    if (!showWelcome && !mainContentLoaded) {
      return <div>🚨 Fallback Loaded: React rendering confirmed.</div>;
    }
-   ```
+   \`\`\`
 3. If fallback appears externally but not in preview, the issue is external proxy — not your React logic.
 
 ### 🌐 **PHASE 4: NETWORK & CONSOLE CHECKS**
@@ -105,12 +105,12 @@ If external mode fails:
 ### 🧩 **PHASE 6: FINAL STABILIZATION**
 1. Add a `console.log(window.location.href)` in App.tsx to confirm environment detection.
 2. Auto-detect environment:
-   ```ts
+   \`\`\`ts
    const isReplitExternal = window.location.hostname.includes('replit.dev');
    if (isReplitExternal) {
      console.log('Running in Replit external view');
    }
-   ```
+   \`\`\`
 3. Adjust runtime configuration dynamically (if needed).
 
 ---

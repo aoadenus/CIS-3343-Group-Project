@@ -45,7 +45,7 @@ This document specifies every page in the Emily Bakes Cakes internal staff appli
 **Purpose:** Staff authentication with email and password
 
 **Wireframe:**
-```
+\`\`\`
 ┌─────────────────────────────────────┐
 │          Emily Bakes                │
 │         Cakes Logo                  │
@@ -64,7 +64,7 @@ This document specifies every page in the Emily Bakes Cakes internal staff appli
 │  [ Forgot Password? ]               │
 │                                     │
 └─────────────────────────────────────┘
-```
+\`\`\`
 
 **Components:**
 - Email input (required, simple format for demo )  **note - figure out demo credentials**
@@ -110,7 +110,7 @@ This document specifies every page in the Emily Bakes Cakes internal staff appli
 **Purpose:** Daily overview and quick actions
 
 **Wireframe:** **note - add orders to be baked, is revenue today relebant to non mgmt?**
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────────┐
 │ Header: Logo | Dashboard | Orders | Customers | Reports    │
 ├─────────────────────────────────────────────────────────────┤
@@ -149,7 +149,7 @@ This document specifies every page in the Emily Bakes Cakes internal staff appli
 │ └──────┘ └──────┘ └──────┘ └──────────┘                    │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 **Components:**
 - Header: Logo, navigation tabs
@@ -186,7 +186,7 @@ This document specifies every page in the Emily Bakes Cakes internal staff appli
 **Purpose:** Browse all orders with search and filters
 
 **Wireframe:**
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────────┐
 │ Header: Logo | Dashboard | [Orders] | Customers | Reports  │
 ├─────────────────────────────────────────────────────────────┤
@@ -212,7 +212,7 @@ This document specifies every page in the Emily Bakes Cakes internal staff appli
 │ [< Previous] Page 1 [Next >]                               │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 **Components:**
 - New Order button (prominent)
@@ -259,7 +259,7 @@ This document specifies every page in the Emily Bakes Cakes internal staff appli
 **Purpose:** Multi-step order creation
 
 **Overall Structure:**
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────────┐
 │ Header: Logo | Dashboard | Orders | Customers | Reports    │
 ├─────────────────────────────────────────────────────────────┤
@@ -277,10 +277,10 @@ This document specifies every page in the Emily Bakes Cakes internal staff appli
 │ [Back] (disabled if Step 1)      [Next] or [Create Order]  │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 **Step 1: Customer Selection**
-```
+\`\`\`
 ┌────────────────────────────────────────┐
 │ SELECT CUSTOMER                        │
 │                                        │
@@ -297,10 +297,10 @@ This document specifies every page in the Emily Bakes Cakes internal staff appli
 │ (none shown until search)              │
 │                                        │
 └────────────────────────────────────────┘
-```
+\`\`\`
 
 **Step 2: Product Selection**  **note - drop down menus**
-```
+\`\`\`
 ┌────────────────────────────────────────┐
 │ SELECT BASE PRODUCT                    │
 │                                        │
@@ -319,10 +319,10 @@ This document specifies every page in the Emily Bakes Cakes internal staff appli
 │ Total (before layers): $75.00          │
 │                                        │
 └────────────────────────────────────────┘
-```
+\`\`\`
 
 **Step 3: Layers (see LayerRepeater component)**
-```
+\`\`\`
 ┌────────────────────────────────────────┐
 │ CUSTOMIZE LAYERS                       │
 │                                        │
@@ -345,10 +345,10 @@ This document specifies every page in the Emily Bakes Cakes internal staff appli
 │ [+ Add Layer]  (Max 7)                 │
 │                                        │
 └────────────────────────────────────────┘
-```
+\`\`\`
 
 **Step 4: Delivery Details**  **note - word as pickup details so no confusion**
-```
+\`\`\`
 ┌────────────────────────────────────────┐
 │ DELIVERY DETAILS                       │
 │                                        │
@@ -363,10 +363,10 @@ This document specifies every page in the Emily Bakes Cakes internal staff appli
 │ (max 500 chars)                        │
 │                                        │
 └────────────────────────────────────────┘
-```
+\`\`\`
 
 **Step 5: Pricing**
-```
+\`\`\`
 ┌────────────────────────────────────────┐
 │ PRICING & DEPOSIT                      │
 │                                        │
@@ -384,10 +384,10 @@ This document specifies every page in the Emily Bakes Cakes internal staff appli
 │ [Deposit $40.00] [Deposit $50.00]     │
 │                                        │
 └────────────────────────────────────────┘
-```
+\`\`\`
 
 **Step 6: Review**
-```
+\`\`\`
 ┌────────────────────────────────────────┐
 │ REVIEW ORDER                           │
 │                                        │
@@ -409,7 +409,7 @@ This document specifies every page in the Emily Bakes Cakes internal staff appli
 │ [Back] [Edit] [Create Order]           │
 │                                        │
 └────────────────────────────────────────┘
-```
+\`\`\`
 
 **Step Validations:**
 - Step 1: Customer required
@@ -428,7 +428,7 @@ This document specifies every page in the Emily Bakes Cakes internal staff appli
 **Purpose:** View and edit single order
 
 **Wireframe:**
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────────┐
 │ Header: Logo | Dashboard | Orders | Customers | Reports    │
 ├─────────────────────────────────────────────────────────────┤
@@ -486,7 +486,7 @@ This document specifies every page in the Emily Bakes Cakes internal staff appli
 │ Nov 5, 11:00 AM - Created (To Be Created)                 │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 **Components:**
 - Order header (ID, status, dates)

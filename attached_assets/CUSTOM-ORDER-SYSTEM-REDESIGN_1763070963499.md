@@ -48,14 +48,14 @@ Let me walk through the entire order creation system, identifying every issue, a
   3. Highlight current page in menu (solid color, not subtle)
   
 **Menu Structure (Updated):**
-```
+\`\`\`
 📊 Dashboard
 📋 Orders
 👥 Customers
 📈 Reports (Manager only)
 ⚙️ Settings (Manager/Admin only)
 👤 Profile
-```
+\`\`\`
 
 No more confusing labels like "Business Analytics."
 
@@ -83,7 +83,7 @@ No more confusing labels like "Business Analytics."
 
 **Step 3: Customize Layers**
 
-```
+\`\`\`
 ⚠️  MINIMUM 2 LAYERS REQUIRED
 All custom cakes must have at least 2 layers per bakery policy.
 
@@ -112,7 +112,7 @@ LAYER 3 — TOP
 ├─ Enabled if < 7 layers
 ├─ Disabled if = 7 layers (show tooltip: "Maximum 7 layers")
 └─ Clicking auto-numbers new layer (Layer 4, Layer 5, etc.)
-```
+\`\`\`
 
 **Why This Works:**
 - Repeater pattern is familiar from web development (Zapier, Airtable, etc.)
@@ -132,9 +132,9 @@ LAYER 3 — TOP
 **Root Cause:** SPA (single-page app) design doesn't use traditional bread trails.
 
 **REDESIGN:**
-```
+\`\`\`
 Dashboard > Orders > Order 5001 > [Current Page]
-```
+\`\`\`
 Every page except Dashboard shows breadcrumbs:
 - Clickable links (not just text)
 - Appearance: Small text, 12px, Chocolate Brown, underline on hover
@@ -173,7 +173,7 @@ Every page except Dashboard shows breadcrumbs:
 **Root Cause:** Generic dropdown component not optimized.
 
 **REDESIGN:**
-```
+\`\`\`
 ┌──────────────────────────────────────────┐
 │ 🎂 [Select a Cake Flavor]          ▼     │  ← 48px height, clear padding
 └──────────────────────────────────────────┘
@@ -190,7 +190,7 @@ OPEN DROPDOWN:
 │ 🎂 Yellow                                │
 │ 🎂 Devils Food Chocolate                 │
 └──────────────────────────────────────────┘
-```
+\`\`\`
 
 **Rules:**
 - Icon always on LEFT (not right)
@@ -209,7 +209,7 @@ OPEN DROPDOWN:
 **Root Cause:** Max-width not set, no close icon, poor responsive behavior.
 
 **REDESIGN:**
-```
+\`\`\`
 ┌─────────────────────────────────────────────────┐
 │  Order 5001 - Sarah Johnson              [✕]     │  ← X button top-right
 ├─────────────────────────────────────────────────┤
@@ -238,7 +238,7 @@ OPEN DROPDOWN:
 │                                                  │
 │                  [Back] [Edit]                  │
 └─────────────────────────────────────────────────┘
-```
+\`\`\`
 
 **Rules:**
 - Max-width: 600px (fits on tablet, desktop)
@@ -262,7 +262,7 @@ OPEN DROPDOWN:
 **Implementation:**
 
 **Step 4 Validation:**
-```
+\`\`\`
 If Pickup Date < TODAY + 2 days:
   ├─ Show Warning: ⚠️ This is a RUSH ORDER (due in < 2 days)
   ├─ Lock form (prevent submit)
@@ -272,10 +272,10 @@ If Pickup Date < TODAY + 2 days:
   │  ├─ [Request Manager Approval] button
   │  └─ Manager gets email/notification
   └─ Wait for manager response (or cancel)
-```
+\`\`\`
 
 **Manager Dashboard:**
-```
+\`\`\`
 PENDING RUSH ORDERS
 ┌────────────────────────────────────────┐
 │ Order 5012 - Jane Doe                  │
@@ -284,7 +284,7 @@ PENDING RUSH ORDERS
 │ Reason: "Surprise birthday party"      │
 │ [✓ Approve] [✕ Deny]                   │
 └────────────────────────────────────────┘
-```
+\`\`\`
 
 **Database:**
 - Add `IsRushOrder` boolean
@@ -303,7 +303,7 @@ PENDING RUSH ORDERS
 Change: **"Inventory Management" → "Product Catalog"**
 
 **Admin Product Catalog (Manager/Admin Only):**
-```
+\`\`\`
 MANAGE PRODUCTS
 
 ━━━ FLAVORS ━━━
@@ -384,7 +384,7 @@ MANAGE PRODUCTS
 ├─ Banana Strawberry       - $48  [Edit] [Delete]
 ├─ Cookies and Cream       - $50  [Edit] [Delete]
 └─ [+ Add Base Cake]
-```
+\`\`\`
 
 **Key Rules:**
 - No "inventory counts"
@@ -402,7 +402,7 @@ MANAGE PRODUCTS
 **REDESIGN — ROLE-SPECIFIC DASHBOARDS:**
 
 **Sales Staff Dashboard:**
-```
+\`\`\`
 📊 TODAY'S SNAPSHOT
 ├─ Orders Entered Today: 5
 ├─ Orders Ready for Pickup: 2
@@ -419,10 +419,10 @@ MANAGE PRODUCTS
 ├─ Total Revenue: $9,860
 ├─ Repeat Customers: 12
 └─ [View Full Report]
-```
+\`\`\`
 
 **Baker Dashboard:**
-```
+\`\`\`
 🍰 BAKING QUEUE
 ├─ To Be Created: 3 cakes
 │  ├─ Order 5002 - Large Vanilla
@@ -438,10 +438,10 @@ MANAGE PRODUCTS
 ├─ Due Today: Order 5001 @ 2:00 PM
 ├─ Due Tomorrow: Order 5003 @ 3:00 PM
 └─ Due in 2 Days: Orders 5004 & 5006
-```
+\`\`\`
 
 **Decorator Dashboard:**
-```
+\`\`\`
 🎨 DECORATION QUEUE
 ├─ Ready for Decoration: 3 cakes
 │  ├─ Order 5005 - 2-layer Chocolate
@@ -457,10 +457,10 @@ MANAGE PRODUCTS
 ├─ Order 5005: "NO NUTS - Customer allergy"
 ├─ Order 5007: "Extra fondant flowers requested"
 ├─ Order 5009: "Piping should be delicate"
-```
+\`\`\`
 
 **Manager Dashboard:**
-```
+\`\`\`
 📊 BUSINESS METRICS
 ├─ Total Revenue (Today): $1,450
 ├─ Total Revenue (This Week): $9,860
@@ -479,7 +479,7 @@ MANAGE PRODUCTS
 ├─ 1 Overdue Order (Order 5010)
 ├─ 2 Orders Cancelled This Week
 └─ Staff Workload: All within capacity
-```
+\`\`\`
 
 ---
 
@@ -488,7 +488,7 @@ MANAGE PRODUCTS
 **Root Cause:** Multiple pages added without naming convention.
 
 **REDESIGN — UNIFIED NAMING:**
-```
+\`\`\`
 Manager/Admin Menu:
 ├─ Dashboard
 ├─ Orders
@@ -502,7 +502,7 @@ Manager/Admin Menu:
 │  ├─ Staff Management
 │  └─ Product Catalog
 └─ Profile
-```
+\`\`\`
 
 No more confusing names. "Settings" = everything system-wide.
 
@@ -513,7 +513,7 @@ No more confusing names. "Settings" = everything system-wide.
 **Root Cause:** Single-user session model.
 
 **REDESIGN:**
-```
+\`\`\`
 ┌────────────────────────────────┐
 │ Logged in as: Sarah (Sales)    │
 │                                │
@@ -535,7 +535,7 @@ Clicking [Switch Account]:
 └────────────────────────────────┘
 
 [Switch to James]
-```
+\`\`\`
 
 **Implementation:**
 - No logout required
@@ -550,7 +550,7 @@ Clicking [Switch Account]:
 **Root Cause:** Default avatar implementation.
 
 **REDESIGN:**
-```
+\`\`\`
 Sarah Johnson (Sales)
 Avatar Options:
 ├─ Initials: "SJ" (white text on Raspberry Pink background)
@@ -561,10 +561,10 @@ Profile Picture (if available):
 ├─ 64x64px circular crop
 ├─ Fallback to initials
 ├─ Styled consistently
-```
+\`\`\`
 
 **New Dropdown (Top-Right):**
-```
+\`\`\`
 ┌──────────────────────────────────────┐
 │ 👩 Sarah Johnson                     │  ← Avatar (SJ or emoji)
 ├──────────────────────────────────────┤
@@ -577,7 +577,7 @@ Profile Picture (if available):
 │ [Settings]                           │
 │ [Logout]                             │
 └──────────────────────────────────────┘
-```
+\`\`\`
 
 ---
 
@@ -613,7 +613,7 @@ Each metric is actionable, role-specific, no fluff.
 **Root Cause:** Menu state not synced with router.
 
 **REDESIGN:**
-```
+\`\`\`
 Current URL: /orders
 Active Menu: "Orders" is highlighted (Raspberry Pink background, white text)
 
@@ -627,7 +627,7 @@ Active Menu: "Settings" is highlighted
 │  ├─ Lead Time
 │  ├─ Deposit %
 │  └─ Notifications
-```
+\`\`\`
 
 **Implementation:**
 - Use React Router's `useLocation()` to match URL
@@ -640,7 +640,7 @@ Active Menu: "Settings" is highlighted
 
 ### **THE 6-STEP WIZARD (Fixed)**
 
-```
+\`\`\`
 STEP 1: CUSTOMER
 ┌──────────────────────────────────────────────────┐
 │ SELECT OR CREATE CUSTOMER                        │
@@ -664,7 +664,7 @@ STEP 1: CUSTOMER
 │ Address: 123 Main St, Houston TX 77001          │
 └──────────────────────────────────────────────────┘
 [Back: Disabled] [Next: Enabled] [Cancel]
-```
+\`\`\`
 
 **Key Changes:**
 - Autocomplete search (fast)
@@ -673,7 +673,7 @@ STEP 1: CUSTOMER
 
 ---
 
-```
+\`\`\`
 STEP 2: BASE CAKE & SIZE
 ┌──────────────────────────────────────────────────┐
 │ SELECT BASE CAKE                                 │
@@ -698,11 +698,11 @@ STEP 2: BASE CAKE & SIZE
 │ 💰 Subtotal: $148 (Chocolate Cake Base $48 + Large $100) │
 └──────────────────────────────────────────────────┘
 [Back: Enabled] [Next: Enabled] [Cancel]
-```
+\`\`\`
 
 ---
 
-```
+\`\`\`
 STEP 3: CUSTOMIZE LAYERS (Enforced Minimum 2)
 ┌──────────────────────────────────────────────────┐
 │ ⚠️  MINIMUM 2 LAYERS REQUIRED                    │
@@ -736,11 +736,11 @@ STEP 3: CUSTOMIZE LAYERS (Enforced Minimum 2)
 │ 💰 Layer Adjustments: +$5 (extra ganache)      │
 └──────────────────────────────────────────────────┘
 [Back: Enabled] [Next: Enabled] [Cancel]
-```
+\`\`\`
 
 ---
 
-```
+\`\`\`
 STEP 4: PICKUP DETAILS
 ┌──────────────────────────────────────────────────┐
 │ PICKUP DATE (Required, min 2 days from today)  │
@@ -772,11 +772,11 @@ STEP 4: PICKUP DETAILS
 │ Status: ✅ Valid                                │
 └──────────────────────────────────────────────────┘
 [Back: Enabled] [Next: Enabled] [Cancel]
-```
+\`\`\`
 
 ---
 
-```
+\`\`\`
 STEP 5: DECORATIONS & ADD-ONS (Optional)
 ┌──────────────────────────────────────────────────┐
 │ ADD DECORATIONS (All optional)                  │
@@ -798,11 +798,11 @@ STEP 5: DECORATIONS & ADD-ONS (Optional)
 │    Subtotal: $168                              │
 └──────────────────────────────────────────────────┘
 [Back: Enabled] [Next: Enabled] [Cancel]
-```
+\`\`\`
 
 ---
 
-```
+\`\`\`
 STEP 6: PRICING & DEPOSIT
 ┌──────────────────────────────────────────────────┐
 │ PRICING SUMMARY                                  │
@@ -832,11 +832,11 @@ STEP 6: PRICING & DEPOSIT
 │ ℹ️  Deposit validated ✅                        │
 └──────────────────────────────────────────────────┘
 [Back: Enabled] [Next: Enabled] [Cancel]
-```
+\`\`\`
 
 ---
 
-```
+\`\`\`
 STEP 7: REVIEW ORDER
 ┌──────────────────────────────────────────────────┐
 │ REVIEW YOUR ORDER - Order 5001                  │
@@ -879,7 +879,7 @@ STEP 7: REVIEW ORDER
 │ Need to change something? Go back.              │
 └──────────────────────────────────────────────────┘
 [Back: Edit] [Submit: Create Order] [Cancel]
-```
+\`\`\`
 
 ---
 

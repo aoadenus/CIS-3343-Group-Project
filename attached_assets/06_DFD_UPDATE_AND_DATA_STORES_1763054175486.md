@@ -17,7 +17,7 @@ This document provides updated Data Flow Diagrams (DFDs) aligned with the profes
 
 ## Context Diagram (Level 0)
 
-```
+\`\`\`
                         ┌─────────────────────────┐
                         │   Emily Bakes Cakes     │
                         │   Order Management      │
@@ -39,7 +39,7 @@ This document provides updated Data Flow Diagrams (DFDs) aligned with the profes
                         │  Website (Separate)     │ **note - maybe noinquiries its extra**
                         │  (Inquiry emails)       │
                         └─────────────────────────┘
-```
+\`\`\`
 
 **External Entities:**
 - **Staff (Order Entry):** Create orders, enter customer info, manage order details
@@ -51,7 +51,7 @@ This document provides updated Data Flow Diagrams (DFDs) aligned with the profes
 
 ## Level 1 DFD: Main Processes
 
-```
+\`\`\`
                         CUSTOMER
                           │
                           │ (calls/emails/visits)
@@ -99,7 +99,7 @@ This document provides updated Data Flow Diagrams (DFDs) aligned with the profes
 │ORDERS   │  │MANAGER REPORTS│
 │D.S.     │  │& ANALYTICS    │
 └─────────┘  └───────────────┘
-```
+\`\`\`
 
 **Processes:**
 1. **1.0 - Enter Customer Info:** Staff searches or creates customer record
@@ -117,7 +117,7 @@ This document provides updated Data Flow Diagrams (DFDs) aligned with the profes
 
 ## Level 2 DFD: Process 2.0 (Create Order & Customize)
 
-```
+\`\`\`
 STAFF
   │
   ▼
@@ -181,13 +181,13 @@ STAFF
                     ▼
                   STAFF
               (Confirmation)
-```
+\`\`\`
 
 ---
 
 ## Level 2 DFD: Process 3.0 (Update Status & Track)
 
-```
+\`\`\`
 BAKER / MANAGER
        │
        ▼
@@ -224,7 +224,7 @@ BAKER / MANAGER
                     ▼
                  MANAGER
               (Dashboard)
-```
+\`\`\`
 
 ---
 
@@ -377,7 +377,7 @@ BAKER / MANAGER
 
 ### Flow 1: Customer → Order Entry → Customization
 
-```
+\`\`\`
 Customer calls/emails/visits
         │
         ▼
@@ -407,11 +407,11 @@ Deposit tracked in D5 (Payments)
         │
         ▼
 Staff shows Order ID to customer
-```
+\`\`\`
 
 ### Flow 2: Status Tracking & Production
 
-```
+\`\`\`
 Order created [Status: To Be Created]
         │
         ▼
@@ -443,11 +443,11 @@ Customer picks up cake
         │
         ▼
 [3.2] Update status → "Picked Up"
-```
+\`\`\`
 
 ### Flow 3: Manager Reporting
 
-```
+\`\`\`
 Manager logs in [Manager role only]
         │
         ▼
@@ -466,7 +466,7 @@ Dashboard displays KPIs
         ├─ Average Order: $159.70
         ├─ Orders by Status: pie chart
         └─ Top Customers: table
-```
+\`\`\`
 
 ---
 

@@ -31,7 +31,7 @@ This document details all changes to the entity relationship diagram (ERD) based
 
 ## Complete Updated ERD (Crow's Foot Notation)
 
-```
+\`\`\`
 CUSTOMER ||--o{ CUSTOM_ORDER : places
 CUSTOMER ||--o{ PAYMENT_TRANSACTION : pays_for
 
@@ -52,7 +52,7 @@ PRODUCT_OPTION ||--o{ ORDER_LAYER_OPTION : is_selected_on
 ORDER_STATUS ||--o{ CUSTOM_ORDER : tracks
 
 EMPLOYEE ||--o{ CUSTOM_ORDER : creates
-```
+\`\`\`
 
 ---
 
@@ -170,7 +170,7 @@ EMPLOYEE ||--o{ CUSTOM_ORDER : creates
 
 ### Primary Indexes (Mandatory)
 
-```sql
+\`\`\`sql
 -- Customer lookup
 CREATE INDEX idx_customer_email ON CUSTOMER(Email);
 CREATE INDEX idx_customer_name ON CUSTOMER(Last_Name, First_Name);
@@ -186,11 +186,11 @@ CREATE INDEX idx_layer_order ON ORDER_LAYER(Order_ID);
 
 -- Attachment lookup
 CREATE INDEX idx_attachment_order ON ORDER_ATTACHMENT(Order_ID);
-```
+\`\`\`
 
 ### Composite Indexes (High-Impact)
 
-```sql
+\`\`\`sql
 -- Revenue reporting by date
 CREATE INDEX idx_order_date_status ON CUSTOM_ORDER(Pickup_Date, Order_Status_ID);
 
@@ -199,15 +199,15 @@ CREATE INDEX idx_customer_order_date ON CUSTOM_ORDER(Cust_ID, Order_Date DESC);
 
 -- Layer option selection
 CREATE INDEX idx_layer_option_order ON ORDER_LAYER_OPTION(Order_ID, Layer_Number);
-```
+\`\`\`
 
 ### Full-Text Search Index
 
-```sql
+\`\`\`sql
 -- Customer search
 CREATE FULLTEXT INDEX idx_customer_search 
 ON CUSTOMER(Cust_First_Name, Cust_Last_Name, Cust_Email_Addr);
-```
+\`\`\`
 
 ---
 
@@ -266,7 +266,7 @@ ON CUSTOMER(Cust_First_Name, Cust_Last_Name, Cust_Email_Addr);
 
 **Example Order with 3 Layers:**
 
-```
+\`\`\`
 Order #1001
 ├─ Customer: John Smith (Cust_ID: 123)
 ├─ Product: Chocolate Cake (Product_ID: 5)
@@ -297,7 +297,7 @@ Order #1001
       ├─ Icing: Cream Cheese (Option_ID: 37, +$3)
       ├─ Color: Pink (Option_ID: 52)
       └─ Notes: "Decorative flowers on top"
-```
+\`\`\`
 
 ---
 

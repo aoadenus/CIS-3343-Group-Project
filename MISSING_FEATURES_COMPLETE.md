@@ -23,7 +23,7 @@
 - Form data tracking for uploaded images
 
 **Implementation Details:**
-```tsx
+\`\`\`tsx
 // Added to Builder.tsx imports
 import { ImageUploadGrid } from '../../components/ImageUploadGrid';
 
@@ -38,7 +38,7 @@ inspirationImages: [] as File[]
     setFormData({ ...formData, inspirationImages: images });
   }}
 />
-```
+\`\`\`
 
 **Location in Builder:**
 - **Step 3:** "Design & Decoration"
@@ -81,7 +81,7 @@ inspirationImages: [] as File[]
 - ✅ **6s Looping:** Gradient mesh animation
 
 **Animation Timeline:**
-```
+\`\`\`
 Phase 1 (0-0.8s): Entrance
 - Background fades in (white → gradient)
 - Logo fades in with bloom (opacity 0 → 100%, scale 0.85 → 1.0)
@@ -96,7 +96,7 @@ Phase 3 (1.8-2.5s): Hold & Exit
 - All elements hold for 400ms
 - Fade out with scale-up (1.0 → 1.1, opacity 100% → 0%)
 - Background transitions to page content
-```
+\`\`\`
 
 **Design Tokens Used:**
 - Cream Vanilla: #F8EBD7
@@ -129,7 +129,7 @@ Phase 3 (1.8-2.5s): Hold & Exit
 - **Glassmorphism CTA:** Transparent card with blur effect
 
 **Hero Section Features:**
-```tsx
+\`\`\`tsx
 ✅ Eiffel Tower Silhouette (parallax, 5% opacity, fixed position)
 ✅ Gold Dust Overlay (8% opacity pattern)
 ✅ Bokeh Light Specks (15 particles, random positions, 3s pulse)
@@ -138,7 +138,7 @@ Phase 3 (1.8-2.5s): Hold & Exit
 ✅ Gradient Text Heading (Playfair Display, 64px, gradient fill)
 ✅ "Baked with Love" Tagline (Lucida Handwriting, animated underline)
 ✅ Map Connection (Paris ↔ Houston with animated dot)
-```
+\`\`\`
 
 **Section Breakdown:**
 
@@ -178,23 +178,23 @@ Phase 3 (1.8-2.5s): Hold & Exit
    - Blur effect backdrop
 
 **Color Palette:**
-```css
+\`\`\`css
 Dark Base: #2B2B2B (Charcoal Gray)
 Light Base: #F8EBD7 (Cream Vanilla)
 Accent: #C44569 (Raspberry Pink)
 Gradient: #3D2A2A (Dark Raspberry)
 Text on Dark: rgba(248, 235, 215, 0.85)
 Borders: rgba(196, 69, 105, 0.2)
-```
+\`\`\`
 
 **Typography:**
-```css
+\`\`\`css
 Headings: Playfair Display 48px (dark) / 64px (hero)
 Tagline: Lucida Handwriting 28px italic
 Body: Open Sans 17px, line-height 1.8
 Stats: Playfair Display 36px bold
 Labels: Poppins 14px, letter-spacing 0.05em
-```
+\`\`\`
 
 **Animations:**
 - Eiffel Tower: Parallax scroll (Y: 0 → -200px)

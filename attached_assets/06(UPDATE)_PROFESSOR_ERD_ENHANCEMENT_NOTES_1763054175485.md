@@ -85,9 +85,9 @@ By creating a separate `CustomerStatus` table, the system gains:
 - **Audit Trail**: Track when statuses change and by whom
 
 **Relationship Pattern:**
-```
+\`\`\`
 CustomerStatus (1) ──has──> (∞) Customer
-```
+\`\`\`
 
 ---
 
@@ -141,10 +141,10 @@ The Order entity serves as the central hub for the order fulfillment workflow.
 
 ### Key Relationship: Customer → Order → OrderStatus
 
-```
+\`\`\`
 Customer (1) ──places──> (∞) Order
 Order (1) ──has──> (∞) OrderStatus (lookup)
-```
+\`\`\`
 
 **Business Rule:** An order cannot exist without an associated customer. Every order must be assigned to an employee once created. Order status transitions follow a defined workflow to prevent invalid state changes.
 
@@ -260,11 +260,11 @@ OrderLine is the **associative entity** that resolves the many-to-many relations
 **Key Business Rule:** OrderLineStatus is **automatically updated based on aggregate LayerStatus values**. When all layers reach "Assembled" status, OrderLineStatus transitions to "Complete."
 
 ### Relationships
-```
+\`\`\`
 OrderLine (1) ──contains──> (∞) Layer
 OrderLine (1) ──has──> (1) OrderLineStatus (lookup)
 Layer (1) ──has──> (1) LayerStatus (lookup)
-```
+\`\`\`
 
 ---
 
@@ -274,7 +274,7 @@ Layer (1) ──has──> (1) LayerStatus (lookup)
 
 All status tables follow a consistent pattern for maintainability:
 
-```sql
+\`\`\`sql
 CREATE TABLE [Status_Entity_Name] (
     [StatusID] INT PRIMARY KEY IDENTITY(1,1),
     [StatusCode] INT NOT NULL UNIQUE,
@@ -284,7 +284,7 @@ CREATE TABLE [Status_Entity_Name] (
     [CreatedDate] DATETIME NOT NULL DEFAULT GETDATE(),
     [ModifiedDate] DATETIME NOT NULL DEFAULT GETDATE()
 );
-```
+\`\`\`
 
 ### Dynamic Status Advantages
 
@@ -298,7 +298,7 @@ By implementing status as separate lookup tables:
 
 ### Status Propagation Workflow
 
-```
+\`\`\`
 Layer Progress → LayerStatus Updated
                       ↓
                 OrderLine Recalculates
@@ -308,7 +308,7 @@ Layer Progress → LayerStatus Updated
                 Order Summarizes Progress
                       ↓
                 OrderStatus Reflects Overall Progress
-```
+\`\`\`
 
 ---
 
@@ -348,7 +348,7 @@ The professor emphasized the importance of **disaster recovery planning**. In a 
 
 ### Complete Relationship Map
 
-```
+\`\`\`
 CustomerStatus (1) ──← (∞) Customer
                         │
                         │ places
@@ -367,7 +367,7 @@ OrderStatus (1) ──← (∞) Order ──→ (1) Employee
                             │
                             ↓ (1) → (∞)
                         Layer ──→ LayerStatus (1) ──← (∞)
-```
+\`\`\`
 
 ### Foreign Key Requirements
 

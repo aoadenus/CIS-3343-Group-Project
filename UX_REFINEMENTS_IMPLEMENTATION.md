@@ -23,12 +23,12 @@
 - ✅ Contrast: 4.5:1 minimum (WCAG AA)
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { EnhancedHero } from './components/EnhancedHero';
 
 // In Home.tsx
 <EnhancedHero />
-```
+\`\`\`
 
 **Performance:**
 - Lazy-loaded hero image with blur-up transition
@@ -52,7 +52,7 @@ import { EnhancedHero } from './components/EnhancedHero';
 - ✅ Mobile: 2-column grid, swipeable
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { ImageUploadGrid } from './components/ImageUploadGrid';
 
 // In Builder.tsx - Design & Decoration step
@@ -61,7 +61,7 @@ import { ImageUploadGrid } from './components/ImageUploadGrid';
   maxSizeMB={5}
   onImagesChange={(files) => console.log('Images:', files)}
 />
-```
+\`\`\`
 
 **Design Specs:**
 - Slot size: 160×160px (desktop), responsive
@@ -87,11 +87,11 @@ import { ImageUploadGrid } from './components/ImageUploadGrid';
 - ✅ Accessible with sr-only status text
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { LoadingAnimation } from './components/LoadingAnimation';
 
 <LoadingAnimation onComplete={() => setShowApp(true)} />
-```
+\`\`\`
 
 **Animation Timeline:**
 - **0-0.8s:** Logo entrance + shimmer
@@ -120,12 +120,12 @@ import { LoadingAnimation } from './components/LoadingAnimation';
 - ✅ Route change auto-close mobile menu
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { EnhancedNav } from './components/EnhancedNav';
 
 // Replace existing Header in PublicLayout
 <EnhancedNav />
-```
+\`\`\`
 
 **Navigation Structure:**
 - Home, Shop (dropdown), Gallery, About, Contact
@@ -150,7 +150,7 @@ import { EnhancedNav } from './components/EnhancedNav';
 - ✅ Works with all navigation methods
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { ScrollToTop } from './components/ScrollToTop';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -158,7 +158,7 @@ import { BrowserRouter } from 'react-router-dom';
   <ScrollToTop />
   <Routes>...</Routes>
 </BrowserRouter>
-```
+\`\`\`
 
 ---
 
@@ -168,7 +168,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 **File:** `/pages/public/Home.tsx`
 
-```tsx
+\`\`\`tsx
 import { EnhancedHero } from '../../components/EnhancedHero';
 
 export function PublicHome() {
@@ -182,7 +182,7 @@ export function PublicHome() {
     </div>
   );
 }
-```
+\`\`\`
 
 ---
 
@@ -192,7 +192,7 @@ export function PublicHome() {
 
 Find the "Design & Decoration" step and add:
 
-```tsx
+\`\`\`tsx
 import { ImageUploadGrid } from '../../components/ImageUploadGrid';
 
 // In the Design & Decoration tab JSX
@@ -212,7 +212,7 @@ import { ImageUploadGrid } from '../../components/ImageUploadGrid';
   
   {/* Rest of design options */}
 </div>
-```
+\`\`\`
 
 ---
 
@@ -220,7 +220,7 @@ import { ImageUploadGrid } from '../../components/ImageUploadGrid';
 
 **File:** `/App.tsx`
 
-```tsx
+\`\`\`tsx
 import { LoadingAnimation } from './components/LoadingAnimation';
 
 export default function App() {
@@ -238,7 +238,7 @@ export default function App() {
     </>
   );
 }
-```
+\`\`\`
 
 ---
 
@@ -246,7 +246,7 @@ export default function App() {
 
 **File:** `/components/PublicLayout.tsx`
 
-```tsx
+\`\`\`tsx
 import { EnhancedNav } from './EnhancedNav';
 
 export function PublicLayout({ children }) {
@@ -261,7 +261,7 @@ export function PublicLayout({ children }) {
     </>
   );
 }
-```
+\`\`\`
 
 ---
 
@@ -269,7 +269,7 @@ export function PublicLayout({ children }) {
 
 **File:** `/App.tsx`
 
-```tsx
+\`\`\`tsx
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ScrollToTop } from './components/ScrollToTop';
 
@@ -281,7 +281,7 @@ import { ScrollToTop } from './components/ScrollToTop';
     {/* ... other routes */}
   </Routes>
 </BrowserRouter>
-```
+\`\`\`
 
 ---
 
@@ -399,7 +399,7 @@ To implement the Parisian aesthetic About page as requested, create a new versio
 
 ## 🎨 Design Token Reference
 
-```css
+\`\`\`css
 /* Colors */
 --raspberry: #C44569;
 --cream: #F8EBD7;
@@ -425,7 +425,7 @@ To implement the Parisian aesthetic About page as requested, create a new versio
 --duration-base: 200ms;
 --duration-smooth: 300ms;
 --easing: ease-out;
-```
+\`\`\`
 
 ---
 

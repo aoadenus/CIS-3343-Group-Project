@@ -9,31 +9,31 @@ This document defines the complete visual system for Emily Bakes Cakes - a moder
 
 ### Primary Brand Colors
 
-```css
+\`\`\`css
 --color-raspberry: #C44569   /* Primary: CTAs, accents, highlights ONLY */
 --color-cream: #F8EBD7        /* Background base for light mode areas */
 --color-charcoal: #2B2B2B     /* Surface dark: panels, footer, admin sections */
 --color-white: #FFFFFF        /* Pure white for cards and surfaces */
 --color-soft-gray: #E9E9E9    /* Dividers and secondary backgrounds */
-```
+\`\`\`
 
 ### Text Colors (Auto-Adjusting)
 
-```css
+\`\`\`css
 --text-on-light: #2B2B2B              /* Dark text on light backgrounds */
 --text-on-dark: #FFFFFF               /* Light text on dark backgrounds */
 --text-muted-light: rgba(43,43,43,0.65)  /* Muted on light */
 --text-muted-dark: rgba(255,255,255,0.75) /* Muted on dark */
-```
+\`\`\`
 
 ### Semantic Colors
 
-```css
+\`\`\`css
 --color-success: #10B981   /* Green - for success states */
 --color-error: #EF4444     /* Red - for error states */
 --color-warning: #F59E0B   /* Yellow/Amber - for warnings */
 --color-info: #3B82F6      /* Blue - for informational states */
-```
+\`\`\`
 
 ### Critical Rules
 
@@ -48,12 +48,12 @@ This document defines the complete visual system for Emily Bakes Cakes - a moder
 
 ### Font Families
 
-```css
+\`\`\`css
 Primary Heading: 'Playfair Display', serif
 Subheadings: 'Poppins', sans-serif
 Body Text: 'Open Sans', sans-serif
 Accent Script: 'Lucida Handwriting', cursive (taglines/quotes ONLY)
-```
+\`\`\`
 
 ### Typography Hierarchy
 
@@ -65,7 +65,7 @@ Accent Script: 'Lucida Handwriting', cursive (taglines/quotes ONLY)
 - **Usage:** Primary page titles, hero statements
 - **Weight:** 700 (Bold)
 
-```css
+\`\`\`css
 h1 {
   font-family: 'Playfair Display', serif;
   font-weight: 700;
@@ -73,7 +73,7 @@ h1 {
   line-height: 1.2;
   letter-spacing: -0.02em;
 }
-```
+\`\`\`
 
 #### H2-H4 - Subheadings
 - **Font:** Poppins SemiBold
@@ -82,7 +82,7 @@ h1 {
 - **Usage:** Section headers, card titles
 - **Weight:** 600 (SemiBold)
 
-```css
+\`\`\`css
 h2 {
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
@@ -97,7 +97,7 @@ h3 {
 h4 {
   font-size: clamp(18px, 3vw, 24px);
 }
-```
+\`\`\`
 
 #### Body Text
 - **Font:** Open Sans Regular
@@ -106,13 +106,13 @@ h4 {
 - **Usage:** Paragraphs, forms, table data
 - **Weight:** 400 (Regular)
 
-```css
+\`\`\`css
 p {
   font-family: 'Open Sans', sans-serif;
   font-size: clamp(16px, 2vw, 18px);
   line-height: 1.7;
 }
-```
+\`\`\`
 
 #### Accent Script
 - **Font:** Lucida Handwriting Italic
@@ -120,13 +120,13 @@ p {
 - **Usage:** Taglines, quotes ONLY
 - **Weight:** Italic
 
-```css
+\`\`\`css
 .tagline {
   font-family: 'Lucida Handwriting', cursive;
   font-style: italic;
   font-size: clamp(18px, 2.5vw, 20px);
 }
-```
+\`\`\`
 
 ---
 
@@ -135,7 +135,7 @@ p {
 ### Buttons
 
 #### Primary Button
-```css
+\`\`\`css
 .btn-primary {
   background: #C44569;          /* Raspberry Pink */
   color: #FFFFFF;               /* White text */
@@ -155,10 +155,10 @@ p {
   box-shadow: 0 4px 16px rgba(0,0,0,0.12);
   transform: translateY(-1px);
 }
-```
+\`\`\`
 
 #### Secondary Button
-```css
+\`\`\`css
 .btn-secondary {
   background: transparent;       /* Or white */
   color: #C44569;               /* Raspberry text */
@@ -176,11 +176,11 @@ p {
   background: rgba(196,69,105,0.08);
   box-shadow: 0 2px 6px rgba(0,0,0,0.12);
 }
-```
+\`\`\`
 
 ### Input Fields
 
-```css
+\`\`\`css
 .input-field {
   background: #FFFFFF;           /* Light background */
   border: 1px solid #E0E0E0;    /* 1px border */
@@ -197,11 +197,11 @@ p {
   border-color: #C44569;        /* Raspberry focus */
   box-shadow: 0 0 0 3px rgba(196,69,105,0.15);
 }
-```
+\`\`\`
 
 ### Cards
 
-```css
+\`\`\`css
 .card {
   background: #FFFFFF;          /* White background */
   border-radius: 12px;          /* 12px radius */
@@ -212,7 +212,7 @@ p {
 .card:hover {
   box-shadow: 0 4px 16px rgba(0,0,0,0.12);
 }
-```
+\`\`\`
 
 ---
 
@@ -222,7 +222,7 @@ p {
 
 All spacing uses multiples of 8:
 
-```css
+\`\`\`css
 --space-1: 8px
 --space-2: 16px
 --space-3: 24px     /* Minimum card/section padding */
@@ -231,11 +231,11 @@ All spacing uses multiples of 8:
 --space-6: 48px
 --space-8: 64px
 --space-12: 96px
-```
+\`\`\`
 
 ### Container
 
-```css
+\`\`\`css
 .container {
   max-width: 1440px;
   margin: 0 auto;
@@ -253,7 +253,7 @@ All spacing uses multiples of 8:
     padding: 0 64px;            /* Desktop */
   }
 }
-```
+\`\`\`
 
 ### Visual Hierarchy Rules
 
@@ -267,12 +267,12 @@ All spacing uses multiples of 8:
 
 ## Shadows
 
-```css
+\`\`\`css
 --shadow-card: 0 2px 8px rgba(0,0,0,0.08)
 --shadow-hover: 0 4px 16px rgba(0,0,0,0.12)
 --shadow-button: 0 2px 6px rgba(0,0,0,0.12)
 --shadow-raspberry: 0 4px 16px rgba(196,69,105,0.3)
-```
+\`\`\`
 
 ---
 
@@ -286,7 +286,7 @@ All spacing uses multiples of 8:
 
 ### Touch Targets
 
-```css
+\`\`\`css
 /* Minimum 44x44px (WCAG 2.1 AAA) */
 button, a[role="button"] {
   min-height: 44px;
@@ -299,28 +299,28 @@ button, a[role="button"] {
     min-height: 48px;
   }
 }
-```
+\`\`\`
 
 ### Focus States
 
-```css
+\`\`\`css
 *:focus-visible {
   outline: 2px solid #C44569;
   outline-offset: 2px;
 }
-```
+\`\`\`
 
 ---
 
 ## Responsive Breakpoints
 
-```css
+\`\`\`css
 /* Mobile First Approach */
 @media (max-width: 767px)    /* Mobile */
 @media (min-width: 768px)    /* Tablet */
 @media (min-width: 1024px)   /* Desktop */
 @media (min-width: 1440px)   /* Large Desktop */
-```
+\`\`\`
 
 ---
 
@@ -361,32 +361,32 @@ button, a[role="button"] {
 ## Common Patterns
 
 ### Hero Section
-```css
+\`\`\`css
 .hero {
   background: linear-gradient(rgba(43,43,43,0.7), rgba(43,43,43,0.7)),
               url('hero-image.jpg');
   color: #FFFFFF;              /* Light text on dark */
   padding: 96px 24px;
 }
-```
+\`\`\`
 
 ### Dark Surface Panel
-```css
+\`\`\`css
 .surface-dark {
   background: #2B2B2B;         /* Charcoal */
   color: #FFFFFF;              /* Light text */
   padding: 48px 24px;
 }
-```
+\`\`\`
 
 ### Light Content Section
-```css
+\`\`\`css
 .section-light {
   background: #F8EBD7;         /* Cream */
   color: #2B2B2B;              /* Dark text */
   padding: 96px 24px;
 }
-```
+\`\`\`
 
 ---
 

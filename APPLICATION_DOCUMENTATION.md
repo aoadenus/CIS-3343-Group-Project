@@ -67,7 +67,7 @@ The system delivers three measurable improvements:
 - **Email Service:** Resend integration
 
 ### Project Structure
-```
+\`\`\`
 /workspace
 ├── src/
 │   ├── components/          # Reusable UI components
@@ -86,7 +86,7 @@ The system delivers three measurable improvements:
 ├── shared/
 │   └── schema.ts            # Drizzle ORM database schema
 └── build/                   # Vite production build output
-```
+\`\`\`
 
 ---
 
@@ -338,7 +338,7 @@ The system delivers three measurable improvements:
 ## Technical Stack
 
 ### Dependencies (Production)
-```json
+\`\`\`json
 {
   "react": "18.3.1",
   "react-dom": "18.3.1",
@@ -359,7 +359,7 @@ The system delivers three measurable improvements:
   "jspdf": "^2.5.2",
   "xlsx": "^0.18.5"
 }
-```
+\`\`\`
 
 ### Development Tools
 - TypeScript (5.7.2)
@@ -369,12 +369,12 @@ The system delivers three measurable improvements:
 - ESLint (code quality)
 
 ### Environment Variables
-```
+\`\`\`
 DATABASE_URL=<Replit Neon PostgreSQL connection string>
 JWT_SECRET=<Production secret for token signing>
 RESEND_API_KEY=<Email service API key>
 PORT=3000 (backend)
-```
+\`\`\`
 
 ---
 
@@ -383,7 +383,7 @@ PORT=3000 (backend)
 ### Tables
 
 #### 1. `customers`
-```typescript
+\`\`\`typescript
 {
   id: serial (primary key),
   firstName: varchar(100),
@@ -394,10 +394,10 @@ PORT=3000 (backend)
   createdAt: timestamp,
   notes: text
 }
-```
+\`\`\`
 
 #### 2. `employees`
-```typescript
+\`\`\`typescript
 {
   id: serial (primary key),
   firstName: varchar(100),
@@ -408,10 +408,10 @@ PORT=3000 (backend)
   isActive: boolean,
   createdAt: timestamp
 }
-```
+\`\`\`
 
 #### 3. `orders`
-```typescript
+\`\`\`typescript
 {
   id: serial (primary key),
   customerId: integer (FK → customers),
@@ -435,10 +435,10 @@ PORT=3000 (backend)
   createdAt: timestamp,
   updatedAt: timestamp
 }
-```
+\`\`\`
 
 #### 4. `products`
-```typescript
+\`\`\`typescript
 {
   id: serial (primary key),
   name: varchar(255),
@@ -449,10 +449,10 @@ PORT=3000 (backend)
   isActive: boolean,
   createdAt: timestamp
 }
-```
+\`\`\`
 
 #### 5. `order_status_history`
-```typescript
+\`\`\`typescript
 {
   id: serial (primary key),
   orderId: integer (FK → orders),
@@ -462,10 +462,10 @@ PORT=3000 (backend)
   changedAt: timestamp,
   notes: text
 }
-```
+\`\`\`
 
 #### 6. `inquiries` (DORMANT - Future Optional Website)
-```typescript
+\`\`\`typescript
 {
   id: serial (primary key),
   name: varchar(255),
@@ -478,10 +478,10 @@ PORT=3000 (backend)
   status: varchar(50),
   createdAt: timestamp
 }
-```
+\`\`\`
 
 #### 7. `contactMessages` (DORMANT - Future Optional Website)
-```typescript
+\`\`\`typescript
 {
   id: serial (primary key),
   name: varchar(255),
@@ -490,7 +490,7 @@ PORT=3000 (backend)
   message: text,
   createdAt: timestamp
 }
-```
+\`\`\`
 
 **Note:** Tables 6-7 are dormant and excluded from staff application scope. They exist for future optional public website features (Priority 4).
 
@@ -546,22 +546,22 @@ All endpoints require JWT authentication via `Authorization: Bearer <token>` hea
 
 ### Development Environment
 **Backend Server:**
-```bash
+\`\`\`bash
 npm run server:dev
 # Runs on: http://localhost:3000
-```
+\`\`\`
 
 **Frontend Server:**
-```bash
+\`\`\`bash
 npm run dev
 # Runs on: http://localhost:5000 (exposed to Replit webview)
-```
+\`\`\`
 
 ### Production Environment
 **Build Command:**
-```bash
+\`\`\`bash
 npm run build
-```
+\`\`\`
 
 **Deployment Configuration:**
 - Platform: Replit Autoscale Deployments
@@ -570,13 +570,13 @@ npm run build
 - Database: Replit Neon PostgreSQL
 
 ### Database Migrations
-```bash
+\`\`\`bash
 # Sync schema changes to database
 npm run db:push
 
 # Force sync (use if conflicts)
 npm run db:push --force
-```
+\`\`\`
 
 ### Environment Setup
 1. Ensure `DATABASE_URL` is set (automatically provided by Replit)

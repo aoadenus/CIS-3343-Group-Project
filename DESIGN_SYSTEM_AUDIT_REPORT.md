@@ -71,24 +71,24 @@ The Emily Bakes Cakes design system has been audited for visual consistency, acc
 ### Shadows, Radii, Spacing - VERIFIED & CONSISTENT
 
 #### Shadows (8-point scale)
-```css
+\`\`\`css
 --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08)     ✅ Consistent
 --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.12)   ✅ Consistent
 --shadow-button: 0 2px 6px rgba(0, 0, 0, 0.12)   ✅ Consistent
 --shadow-raspberry: 0 4px 16px rgba(196, 69, 105, 0.3) ✅ Consistent
-```
+\`\`\`
 
 #### Border Radius (8-point scale)
-```css
+\`\`\`css
 --radius-sm: 8px    ✅ Consistent
 --radius-md: 12px   ✅ Consistent (primary radius)
 --radius-lg: 16px   ✅ Consistent
 --radius-xl: 24px   ✅ Consistent
 --radius-full: 9999px ✅ Consistent (circular)
-```
+\`\`\`
 
 #### Spacing (8-point grid system)
-```css
+\`\`\`css
 --space-1: 8px      ✅ Base unit
 --space-2: 16px     ✅ 2x
 --space-3: 24px     ✅ 3x
@@ -97,7 +97,7 @@ The Emily Bakes Cakes design system has been audited for visual consistency, acc
 --space-6: 48px     ✅ 6x
 --space-8: 64px     ✅ 8x
 --space-12: 96px    ✅ 12x
-```
+\`\`\`
 
 **Findings:**
 - ✅ All spacing follows strict 8-point grid
@@ -114,7 +114,7 @@ The Emily Bakes Cakes design system has been audited for visual consistency, acc
 ### Component Styling Analysis
 
 #### StandardButton Component ✅ EXCELLENT
-```typescript
+\`\`\`typescript
 ✅ Three variants: primary, secondary, ghost
 ✅ Consistent padding across sizes (sm: 8/16, md: 12/24, lg: 16/32)
 ✅ Border radius: 8px (sm/md), 12px (lg) - matches design system
@@ -125,14 +125,14 @@ The Emily Bakes Cakes design system has been audited for visual consistency, acc
 ✅ Min heights: 36px (sm), 44px (md), 48px (lg) - WCAG touch targets
 ✅ Icon support with 8px gap
 ✅ Full-width option available
-```
+\`\`\`
 
 **Issues Found:** None ✅
 
 ---
 
 #### StandardInput Component ✅ EXCELLENT
-```typescript
+\`\`\`typescript
 ✅ Height: 48px (matches spec exactly)
 ✅ Padding: 12px (matches spec exactly)
 ✅ Border radius: 8px (matches design system)
@@ -143,14 +143,14 @@ The Emily Bakes Cakes design system has been audited for visual consistency, acc
 ✅ Label with required indicator (*)
 ✅ ARIA attributes: aria-invalid, aria-describedby
 ✅ Responsive focus styles with visual feedback
-```
+\`\`\`
 
 **Issues Found:** None ✅
 
 ---
 
 #### StandardBadge Component ✅ EXCELLENT
-```typescript
+\`\`\`typescript
 ✅ Five status variants: pending, inProgress, completed, ready, cancelled
 ✅ Three sizes: sm (11px), md (12px), lg (14px)
 ✅ Border radius: 4px (sm), 6px (md), 8px (lg)
@@ -160,7 +160,7 @@ The Emily Bakes Cakes design system has been audited for visual consistency, acc
 ✅ ARIA role="status" with proper label
 ✅ Custom badge option for flexibility
 ✅ Transition: 150ms ease-out
-```
+\`\`\`
 
 **Issues Found:** None ✅
 
@@ -169,11 +169,11 @@ The Emily Bakes Cakes design system has been audited for visual consistency, acc
 ### Auto-Layout & Responsive Design ✅ PASSED
 
 **Container System:**
-```css
+\`\`\`css
 Max-width: 1440px                    ✅ Consistent
 Padding: 24px (mobile) → 48px (tablet) → 64px (desktop)
 Grid gap: 16px (mobile) → 24px (tablet) → 32px (desktop)
-```
+\`\`\`
 
 **Breakpoints:**
 - Mobile: < 768px ✅
@@ -271,7 +271,7 @@ Grid gap: 16px (mobile) → 24px (tablet) → 32px (desktop)
 ### Toast Notifications - Stack Validation ✅
 
 **Toast Configuration:**
-```typescript
+\`\`\`typescript
 Position: top-right (public) / top-center (admin)
 Gap: 8px between toasts                    ✅ Matches spec
 Width: 400px (desktop) / 90vw (mobile)     ✅ Responsive
@@ -279,7 +279,7 @@ Max toasts: 5 simultaneous                 ✅ Performance limit
 Auto-dismiss: 5s (success/info) / 8s (error/warning) ✅ User control
 Animation: slide-in 300ms ease-out         ✅ Smooth
 Z-index: 9999                              ✅ Above all content
-```
+\`\`\`
 
 **Stack Behavior:**
 - ✅ New toasts appear at top of stack
@@ -289,12 +289,12 @@ Z-index: 9999                              ✅ Above all content
 - ✅ Keyboard accessible (Tab to focus, Enter/Space to dismiss)
 
 **Glassmorphism Effect:**
-```css
+\`\`\`css
 backdrop-filter: blur(16px)                ✅ Modern
 background: rgba(248, 235, 215, 0.95)      ✅ High transparency
 border: 1px solid rgba(255, 255, 255, 0.3) ✅ Subtle
 border-radius: 12px                        ✅ Matches cards
-```
+\`\`\`
 
 **Result:** ✅ **EXCELLENT** - Toast system is production-ready with modern styling.
 
@@ -305,7 +305,7 @@ border-radius: 12px                        ✅ Matches cards
 ### Interactive Flows Audit
 
 #### **Flow 1: Public User Journey** ✅ COMPLETE
-```
+\`\`\`
 Home → Shop → Product Detail → Builder → Cart → Checkout
  ✅     ✅       ✅               ✅        ✅      ✅
 
@@ -314,10 +314,10 @@ Back navigation supported
 State persistence across pages
 Loading states implemented
 Error handling in place
-```
+\`\`\`
 
 #### **Flow 2: Admin User Journey** ✅ COMPLETE
-```
+\`\`\`
 Login → Dashboard → Orders → Order Detail → Reports
   ✅       ✅         ✅         ✅            ✅
 
@@ -326,10 +326,10 @@ Role-based access implemented
 Sidebar navigation consistent
 Data visualizations functional
 Export functionality ready
-```
+\`\`\`
 
 #### **Flow 3: Custom Cake Builder** ✅ COMPLETE
-```
+\`\`\`
 Select Size → Choose Flavor → Pick Design → Add Message → Review → Confirm
     ✅            ✅             ✅            ✅         ✅        ✅
 
@@ -338,7 +338,7 @@ Progress indicator visible
 Validation on each step
 Preview updates in real-time
 Back navigation supported
-```
+\`\`\`
 
 **Findings:**
 - ✅ All major user flows tested and functional
@@ -461,7 +461,7 @@ Back navigation supported
 ### Tab Order Validation ✅ PASSED
 
 **Homepage Tab Order:**
-```
+\`\`\`
 1. Skip to main content link         ✅ First focusable
 2. Logo (homepage link)               ✅ Logical
 3. Navigation links (Shop, About, Gallery, etc.) ✅ Horizontal
@@ -470,10 +470,10 @@ Back navigation supported
 6. Secondary CTA button               ✅ Secondary action
 7. Featured product cards             ✅ Grid order
 8. Footer links                       ✅ Last
-```
+\`\`\`
 
 **Admin Dashboard Tab Order:**
-```
+\`\`\`
 1. Skip to main content link          ✅ First focusable
 2. Logo (dashboard link)              ✅ Logical
 3. Sidebar navigation items           ✅ Vertical
@@ -481,16 +481,16 @@ Back navigation supported
 5. Dashboard metrics                  ✅ Left to right
 6. Charts and graphs                  ✅ Focus on interactive elements
 7. Action buttons                     ✅ Logical order
-```
+\`\`\`
 
 **Form Tab Order:**
-```
+\`\`\`
 1. First input field                  ✅ Logical sequence
 2. Second input field                 ✅ Natural flow
 3. Optional fields                    ✅ In order
 4. Submit button                      ✅ Last
 5. Cancel/Back button                 ✅ Alternative action
-```
+\`\`\`
 
 **Result:** ✅ **EXCELLENT** - Tab order is logical and predictable throughout.
 
@@ -507,11 +507,11 @@ Back navigation supported
 - ✅ Icon images: Functional descriptions (e.g., "Search icon")
 
 **Placeholder System:**
-```typescript
+\`\`\`typescript
 <img src="..." alt={product.name} />                // ✅ Dynamic
 <LazyImage src="..." alt="Elegant wedding cake" /> // ✅ Descriptive
 <ImageWithFallback alt="" role="presentation" />   // ✅ Decorative
-```
+\`\`\`
 
 **Result:** ✅ All images have appropriate alt text or are properly marked as decorative.
 
@@ -520,7 +520,7 @@ Back navigation supported
 ### Focus Ring Visibility ✅ PASSED
 
 **Focus Indicator Specs:**
-```css
+\`\`\`css
 Outline: 2px solid #C44569           ✅ Raspberry Pink (brand color)
 Outline-offset: 2px                  ✅ Visible separation
 Border-radius: 4px                   ✅ Smooth corners
@@ -536,10 +536,10 @@ Tested on:
 - Radio buttons                      ✅ Visible
 - Cards (when focusable)             ✅ Visible
 - Modal close buttons                ✅ Visible
-```
+\`\`\`
 
 **Mouse vs. Keyboard:**
-```css
+\`\`\`css
 *:focus:not(:focus-visible) {
   outline: none;              ✅ Hidden for mouse clicks
 }
@@ -547,7 +547,7 @@ Tested on:
 *:focus-visible {
   outline: 2px solid #C44569; ✅ Visible for keyboard
 }
-```
+\`\`\`
 
 **Result:** ✅ **PERFECT** - Focus indicators visible and distinguishable for all keyboard navigation.
 
@@ -557,7 +557,7 @@ Tested on:
 
 ### Page Organization - RECOMMENDED STRUCTURE
 
-```
+\`\`\`
 📁 Emily-Bakes-Cakes-Design-System/
 │
 ├── 📄 00-Design-System/
@@ -606,7 +606,7 @@ Tested on:
     ├── Navigation/
     ├── Toasts/
     └── Loading/
-```
+\`\`\`
 
 ---
 
@@ -633,30 +633,30 @@ Tested on:
 **Export Specifications:**
 
 #### Images (@2x PNG)
-```
+\`\`\`
 Homepage Hero: 3840x2160 @2x         ✅ Optimized
 Product Images: 1600x1600 @2x        ✅ Optimized
 Gallery Images: 2000x2000 @2x        ✅ Optimized
 Team Photos: 800x800 @2x             ✅ Optimized
 Logo: 800x800 @2x (transparent)      ✅ Optimized
 Favicon: 512x512 @2x                 ✅ Optimized
-```
+\`\`\`
 
 #### Icons (SVG)
-```
+\`\`\`
 Navigation Icons: 24x24               ✅ Exported
 Status Icons: 24x24                   ✅ Exported
 Social Icons: 32x32                   ✅ Exported
 Logo: Vector                          ✅ Exported
 Illustrations: Vector                 ✅ Exported
-```
+\`\`\`
 
 **File Naming Convention:**
-```
+\`\`\`
 Format: component-variant-size-state.format
 Example: button-primary-lg-hover.png
 Example: icon-cake-24.svg
-```
+\`\`\`
 
 **Export Checklist:**
 - [x] All images optimized with TinyPNG
@@ -671,7 +671,7 @@ Example: icon-cake-24.svg
 ### Component Library Publishing ✅ READY
 
 **Library Structure:**
-```
+\`\`\`
 Emily-Bakes-Cakes-Library/
 ├── 01-Foundations/
 │   ├── Colors
@@ -695,7 +695,7 @@ Emily-Bakes-Cakes-Library/
     ├── Public-Layout
     ├── Admin-Layout
     └── Form-Layout
-```
+\`\`\`
 
 **Publishing Checklist:**
 - [x] All components have descriptions
@@ -722,10 +722,10 @@ Emily-Bakes-Cakes-Library/
 H5 and H6 styles are defined in globals.css but not documented in style guide or component library.
 
 **Recommendation:**
-```markdown
+\`\`\`markdown
 H5: Poppins 600, 16-20px, line-height 1.4 - Use for small section headers
 H6: Poppins 600, 14-18px, line-height 1.5 - Use for card subtitles
-```
+\`\`\`
 
 **Priority:** Can be addressed post-launch ✅
 
@@ -741,7 +741,7 @@ Current breakpoints: 768px (tablet), 1024px (desktop)
 Gap: 640px-768px could use intermediate styles for small tablets
 
 **Recommendation:**
-```css
+\`\`\`css
 @media (min-width: 640px) {
   /* Small tablet styles */
   .container {
@@ -749,7 +749,7 @@ Gap: 640px-768px could use intermediate styles for small tablets
     padding-right: 32px;
   }
 }
-```
+\`\`\`
 
 **Priority:** Nice to have, not critical ✅
 

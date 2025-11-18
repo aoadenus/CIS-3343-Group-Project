@@ -49,7 +49,7 @@ Transform the customer and admin experience with **cutting-edge frontend technol
 
 **Proposed Solution: Zustand**
 
-```typescript
+\`\`\`typescript
 // src/store/authStore.ts
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -100,7 +100,7 @@ function DashboardHeader() {
     </header>
   );
 }
-```
+\`\`\`
 
 **Benefits:**
 - ✅ Eliminates prop drilling
@@ -117,7 +117,7 @@ function DashboardHeader() {
 
 **Proposed Solution: TanStack Query (React Query)**
 
-```typescript
+\`\`\`typescript
 // src/hooks/useOrders.ts
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -165,7 +165,7 @@ function OrdersList() {
     </div>
   );
 }
-```
+\`\`\`
 
 **Benefits:**
 - ✅ Automatic caching
@@ -182,7 +182,7 @@ function OrdersList() {
 
 **Proposed Solution: WebSocket Integration**
 
-```typescript
+\`\`\`typescript
 // src/hooks/useRealtimeOrders.ts
 import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
@@ -222,7 +222,7 @@ function AdminDashboard() {
   
   return <OrdersKanbanBoard orders={orders} />;
 }
-```
+\`\`\`
 
 **Benefits:**
 - ✅ Live updates across all users
@@ -238,7 +238,7 @@ function AdminDashboard() {
 
 **Proposed Solution: Service Worker + Manifest**
 
-```json
+\`\`\`json
 // public/manifest.json
 {
   "name": "Emily Bakes Cakes",
@@ -261,9 +261,9 @@ function AdminDashboard() {
     }
   ]
 }
-```
+\`\`\`
 
-```typescript
+\`\`\`typescript
 // src/serviceWorker.ts
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -287,7 +287,7 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
-```
+\`\`\`
 
 **Benefits:**
 - ✅ Install to home screen
@@ -304,7 +304,7 @@ self.addEventListener('fetch', (event) => {
 
 **Proposed Enhancement: Advanced Framer Motion**
 
-```typescript
+\`\`\`typescript
 // src/components/OrderCard.tsx
 import { motion, useAnimation } from 'framer-motion';
 
@@ -345,7 +345,7 @@ function OrderCard({ order }) {
     <OrderCard key={order.id} order={order} />
   ))}
 </AnimatePresence>
-```
+\`\`\`
 
 **Benefits:**
 - ✅ Smooth page transitions
@@ -362,7 +362,7 @@ function OrderCard({ order }) {
 
 **Proposed Enhancement: Advanced Validation & UX**
 
-```typescript
+\`\`\`typescript
 // src/components/forms/OrderForm.tsx
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -421,7 +421,7 @@ function OrderForm() {
     </form>
   );
 }
-```
+\`\`\`
 
 **Benefits:**
 - ✅ Type-safe validation
@@ -438,7 +438,7 @@ function OrderForm() {
 
 **Proposed Solution: Client-Side Compression**
 
-```typescript
+\`\`\`typescript
 // src/utils/imageOptimization.ts
 import imageCompression from 'browser-image-compression';
 
@@ -466,7 +466,7 @@ async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
     uploadFile(file);
   }
 }
-```
+\`\`\`
 
 **Benefits:**
 - ✅ Faster uploads
@@ -482,7 +482,7 @@ async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
 
 **Proposed Enhancement: WCAG AAA Compliance**
 
-```typescript
+\`\`\`typescript
 // src/components/accessible/AccessibleButton.tsx
 interface AccessibleButtonProps {
   children: React.ReactNode;
@@ -543,7 +543,7 @@ function OrdersList() {
     </div>
   );
 }
-```
+\`\`\`
 
 **Benefits:**
 - ✅ Screen reader support
@@ -562,7 +562,7 @@ function OrdersList() {
 
 #### **A. Code Splitting**
 
-```typescript
+\`\`\`typescript
 // src/App.tsx - Route-based code splitting
 import { lazy, Suspense } from 'react';
 
@@ -581,13 +581,13 @@ function App() {
     </Suspense>
   );
 }
-```
+\`\`\`
 
 **NOTE:** Code splitting must be carefully implemented in Replit environment. Consider direct imports for critical routes.
 
 #### **B. Virtual Scrolling for Long Lists**
 
-```typescript
+\`\`\`typescript
 // src/components/VirtualOrderList.tsx
 import { useVirtualizer } from '@tanstack/react-virtual';
 
@@ -623,7 +623,7 @@ function VirtualOrderList({ orders }: { orders: Order[] }) {
     </div>
   );
 }
-```
+\`\`\`
 
 **Benefits:**
 - ✅ Render 1000+ orders without lag
@@ -632,7 +632,7 @@ function VirtualOrderList({ orders }: { orders: Order[] }) {
 
 #### **C. Image Lazy Loading**
 
-```typescript
+\`\`\`typescript
 // src/components/LazyImage.tsx
 function LazyImage({ src, alt, ...props }: ImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -668,7 +668,7 @@ function LazyImage({ src, alt, ...props }: ImageProps) {
     </div>
   );
 }
-```
+\`\`\`
 
 ---
 
@@ -678,7 +678,7 @@ function LazyImage({ src, alt, ...props }: ImageProps) {
 
 **Proposed Solution: Granular Error Handling**
 
-```typescript
+\`\`\`typescript
 // src/components/ErrorBoundary.tsx
 import { Component, ReactNode } from 'react';
 
@@ -728,7 +728,7 @@ class ErrorBoundary extends Component<Props, State> {
 <ErrorBoundary fallback={<OrdersErrorFallback />}>
   <OrdersList />
 </ErrorBoundary>
-```
+\`\`\`
 
 ---
 
@@ -736,7 +736,7 @@ class ErrorBoundary extends Component<Props, State> {
 
 ### **Component Library Expansion**
 
-```
+\`\`\`
 src/components/
 ├── ui/                     # Base components (existing)
 │   ├── Button/
@@ -762,7 +762,7 @@ src/components/
     ├── Drawer/
     ├── Tooltip/
     └── Popover/
-```
+\`\`\`
 
 ---
 
@@ -770,7 +770,7 @@ src/components/
 
 ### **Touch Gestures**
 
-```typescript
+\`\`\`typescript
 // src/hooks/useSwipeGesture.ts
 import { useGesture } from '@use-gesture/react';
 
@@ -800,11 +800,11 @@ function OrderCard({ order, onSwipeLeft, onSwipeRight }) {
 }
 
 // Usage: Swipe right to approve, left to reject
-```
+\`\`\`
 
 ### **Bottom Sheet for Mobile**
 
-```typescript
+\`\`\`typescript
 // src/components/mobile/BottomSheet.tsx
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 
@@ -828,7 +828,7 @@ function MobileOrderActions({ order }) {
     </Sheet>
   );
 }
-```
+\`\`\`
 
 ---
 

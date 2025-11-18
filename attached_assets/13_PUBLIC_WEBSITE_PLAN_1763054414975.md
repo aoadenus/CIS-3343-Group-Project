@@ -73,12 +73,12 @@ Clear messaging: "To place an order, call us at (713) 555-CAKE or visit in perso
 - Consistent branding (watermark with "Emily Bakes")
 
 **Example Caption:** **note - clarity**
-```
+\`\`\`
 "Chocolate Dream Cake
 Vanilla and raspberry layers with dark chocolate ganache
 Birthday celebration for 25 guests
 August 2024"
-```
+\`\`\`
 
 ---
 
@@ -120,7 +120,7 @@ August 2024"
 **Purpose:** Provide inquiry form and contact details
 
 **Contact Methods:**
-```
+\`\`\`
 Phone: (713) 555-CAKE (713-555-2253)
 Email: orders@emilybakes.com
 Visit: 456 Baking Lane, Houston, TX 77001
@@ -128,10 +128,10 @@ Hours:
   Mon-Fri: 9:00 AM - 6:00 PM
   Sat: 10:00 AM - 4:00 PM
   Sun: CLOSED
-```
+\`\`\`
 
 **Inquiry Form:**
-```
+\`\`\`
 Name: [Text input, required]
 Email: [Email input, required]
 Phone: [Phone input, optional]
@@ -145,7 +145,7 @@ Our staff will guide you through the process and enter
 your custom order details into our system."
 
 [Submit button]
-```
+\`\`\`
 
 **Form Processing:**
 - Validation: Name and email required
@@ -250,7 +250,7 @@ your custom order details into our system."
 - Correct phone number throughout (713-555-2253 or (713) 555-CAKE)
 
 ### Example Copy
-```
+\`\`\`
 ❌ DON'T SAY:
 "Order your custom cake online now. 
 Add to cart. Easy checkout."
@@ -260,7 +260,7 @@ Add to cart. Easy checkout."
 at (713) 555-CAKE or visit us in person at 456 Baking Lane. 
 Our team will walk you through the design process and create 
 something truly special for your celebration."
-```
+\`\`\`
 
 ---
 
@@ -414,7 +414,7 @@ something truly special for your celebration."
 
 ## Example Visitor Flow
 
-```
+\`\`\`
 Customer → Google Search "custom cakes Houston"
 Customer → Finds www.emilybakescakes.com
 Customer → Browses gallery, impressed
@@ -428,7 +428,7 @@ Emily → Enters customer info and customization
 Emily → Sets price and pickup date
 Emily → Confirms with customer
 Customer → Pays when picking up cake
-```
+\`\`\`
 
 ---
 

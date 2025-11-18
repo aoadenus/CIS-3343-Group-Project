@@ -309,7 +309,7 @@
 ## 🚀 RUNNING THE APPLICATION
 
 ### Quick Start:
-```bash
+\`\`\`bash
 # Install dependencies
 npm install
 
@@ -317,17 +317,17 @@ npm install
 npm run dev
 
 # Access at http://localhost:5173
-```
+\`\`\`
 
 ### Test Accounts:
-```
+\`\`\`
 Owner: emily@emilybakescakes.com / password
 Manager: manager@emilybakescakes.com / password
 Sales: sales@emilybakescakes.com / password
 Baker: baker@emilybakescakes.com / password
 Decorator: decorator@emilybakescakes.com / password
 Accountant: accountant@emilybakescakes.com / password
-```
+\`\`\`
 
 ### Presentation Mode:
 - Application works with or without backend
@@ -381,7 +381,7 @@ Accountant: accountant@emilybakescakes.com / password
 
 ## 📁 PROJECT STRUCTURE
 
-```
+\`\`\`
 CIS-3343-Group-Project/
 ├── src/
 │   ├── pages/
@@ -403,7 +403,7 @@ CIS-3343-Group-Project/
 ├── server/                                    ✅ Express backend
 ├── database-schema.sql                        ✅ PostgreSQL schema
 └── PRESENTATION_READY_SUMMARY.md             ✅ This document
-```
+\`\`\`
 
 ---
 

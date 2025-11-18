@@ -28,4 +28,3 @@ export function AppProviders({ children }: { children: ReactNode }) {
     </AuthProvider>
   );
 }
-

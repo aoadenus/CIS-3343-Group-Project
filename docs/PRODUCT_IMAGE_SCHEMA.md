@@ -14,7 +14,7 @@ This document describes the image support feature added to the Emily Bakes Cakes
 All product data structures now include an optional `image_path` field of type `VARCHAR(255)` to store the relative path to product images.
 
 #### 1. Standard Cakes
-```typescript
+\`\`\`typescript
 export interface StandardCakeRecipe {
   id: string;
   name: string;
@@ -29,88 +29,88 @@ export interface StandardCakeRecipe {
     notes?: string;
   }>;
 }
-```
+\`\`\`
 
 **Image Path Format**: `/images/products/cakes/{cake-id}.jpg`
 
 **Example**:
-```typescript
+\`\`\`typescript
 {
   id: 'birthday-celebration',
   name: 'Birthday Celebration',
   image_path: '/images/products/cakes/birthday-celebration.jpg',
   // ... other fields
 }
-```
+\`\`\`
 
 #### 2. Cake Flavors
-```typescript
+\`\`\`typescript
 export interface CakeFlavor {
   id: string;
   name: string;
   price: number;
   image_path?: string;  // NEW: Path to flavor image
 }
-```
+\`\`\`
 
 **Image Path Format**: `/images/products/cake-flavors/{flavor-id}.jpg`
 
 **Example**:
-```typescript
+\`\`\`typescript
 {
   id: 'vanilla',
   name: 'Vanilla',
   price: 0,
   image_path: '/images/products/cake-flavors/vanilla.jpg'
 }
-```
+\`\`\`
 
 #### 3. Filling Flavors
-```typescript
+\`\`\`typescript
 export interface FillingFlavor {
   id: string;
   name: string;
   price: number;
   image_path?: string;  // NEW: Path to filling image
 }
-```
+\`\`\`
 
 **Image Path Format**: `/images/products/fillings/{filling-id}.jpg`
 
 **Example**:
-```typescript
+\`\`\`typescript
 {
   id: 'chocolate-mousse',
   name: 'Chocolate Mousse',
   price: 0,
   image_path: '/images/products/fillings/chocolate-mousse.jpg'
 }
-```
+\`\`\`
 
 #### 4. Icing Flavors
-```typescript
+\`\`\`typescript
 export interface IcingFlavor {
   id: string;
   name: string;
   price: number;
   image_path?: string;  // NEW: Path to icing image
 }
-```
+\`\`\`
 
 **Image Path Format**: `/images/products/icings/{icing-id}.jpg`
 
 **Example**:
-```typescript
+\`\`\`typescript
 {
   id: 'cream-cheese',
   name: 'Cream Cheese',
   price: 0,
   image_path: '/images/products/icings/cream-cheese.jpg'
 }
-```
+\`\`\`
 
 #### 5. Icing Colors
-```typescript
+\`\`\`typescript
 export interface ColorOption {
   id: string;
   name: string;
@@ -118,7 +118,7 @@ export interface ColorOption {
   category: 'primary' | 'pastel' | 'neon' | 'fall' | 'extra';
   image_path?: string;  // NEW: Path to color sample image (optional)
 }
-```
+\`\`\`
 
 **Image Path Format**: `/images/products/icing-colors/{color-id}.jpg`
 
@@ -130,7 +130,7 @@ export interface ColorOption {
 
 All product images are stored in the `/public/images/products/` directory with the following subdirectories:
 
-```
+\`\`\`
 /public/images/products/
 ├── cakes/                    # Standard cake images
 │   ├── birthday-celebration.jpg
@@ -155,7 +155,7 @@ All product images are stored in the `/public/images/products/` directory with t
 ├── icing-colors/           # Icing color sample images (optional)
 │   └── ...
 └── placeholder.svg         # Fallback placeholder image
-```
+\`\`\`
 
 ---
 
@@ -165,7 +165,7 @@ A placeholder image (`/images/products/placeholder.svg`) is provided for product
 
 **Usage**: All image components include error handling to fall back to the placeholder:
 
-```typescript
+\`\`\`typescript
 <img
   src={product.image_path || '/images/products/placeholder.svg'}
   alt={product.name}
@@ -173,7 +173,7 @@ A placeholder image (`/images/products/placeholder.svg`) is provided for product
     (e.target as HTMLImageElement).src = '/images/products/placeholder.svg'; 
   }}
 />
-```
+\`\`\`
 
 ---
 
@@ -213,15 +213,15 @@ Standard cakes are displayed as a grid of cards with thumbnails:
 If product data is moved from static files to a database, the following schema additions are recommended:
 
 #### Products Table Extension
-```sql
+\`\`\`sql
 ALTER TABLE products
 ADD COLUMN image_path VARCHAR(255) NULL;
 
 COMMENT ON COLUMN products.image_path IS 'Relative path to product image from /public directory';
-```
+\`\`\`
 
 #### Cake Flavors Table (New)
-```sql
+\`\`\`sql
 CREATE TABLE cake_flavors (
   id SERIAL PRIMARY KEY,
   flavor_id VARCHAR(100) NOT NULL UNIQUE,
@@ -231,10 +231,10 @@ CREATE TABLE cake_flavors (
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()
 );
-```
+\`\`\`
 
 #### Filling Flavors Table (New)
-```sql
+\`\`\`sql
 CREATE TABLE filling_flavors (
   id SERIAL PRIMARY KEY,
   filling_id VARCHAR(100) NOT NULL UNIQUE,
@@ -244,10 +244,10 @@ CREATE TABLE filling_flavors (
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()
 );
-```
+\`\`\`
 
 #### Icing Flavors Table (New)
-```sql
+\`\`\`sql
 CREATE TABLE icing_flavors (
   id SERIAL PRIMARY KEY,
   icing_id VARCHAR(100) NOT NULL UNIQUE,
@@ -257,10 +257,10 @@ CREATE TABLE icing_flavors (
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()
 );
-```
+\`\`\`
 
 #### Icing Colors Table (New)
-```sql
+\`\`\`sql
 CREATE TABLE icing_colors (
   id SERIAL PRIMARY KEY,
   color_id VARCHAR(100) NOT NULL UNIQUE,
@@ -271,7 +271,7 @@ CREATE TABLE icing_colors (
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()
 );
-```
+\`\`\`
 
 ---
 

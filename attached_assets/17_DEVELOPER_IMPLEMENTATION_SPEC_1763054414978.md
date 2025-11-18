@@ -40,7 +40,7 @@
 
 ### Development Environment Setup
 
-```bash
+\`\`\`bash
 # Project initialization
 npx create-react-app emily-bakes-dashboard --template typescript
 cd emily-bakes-dashboard
@@ -52,22 +52,22 @@ npm install tailwindcss postcss autoprefixer chart.js recharts axios react-route
 npx tailwindcss init -p
 
 # Directory structure created (see below)
-```
+\`\`\`
 
 ### Environment Variables (.env)
 
-```
+\`\`\`
 REACT_APP_API_BASE_URL=http://localhost:3001/api
 REACT_APP_SOCKET_URL=http://localhost:3001
 REACT_APP_JWT_SECRET=your_jwt_secret_here
 REACT_APP_ENV=development
-```
+\`\`\`
 
 ---
 
 ## FOLDER STRUCTURE
 
-```
+\`\`\`
 src/
 ├── components/
 │   ├── shared/
@@ -206,7 +206,7 @@ tsconfig.json
 tailwind.config.js
 postcss.config.js
 README.md
-```
+\`\`\`
 
 ---
 
@@ -214,7 +214,7 @@ README.md
 
 ### 1. NavigationSidebar.tsx
 
-```typescript
+\`\`\`typescript
 interface NavigationSidebarProps {
   role: 'sales' | 'baker' | 'decorator' | 'accountant' | 'manager';
   activeTab: string;
@@ -255,11 +255,11 @@ const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
     </aside>
   );
 };
-```
+\`\`\`
 
 ### 2. TopNotificationBanner.tsx
 
-```typescript
+\`\`\`typescript
 interface Notification {
   id: string;
   type: 'alert' | 'warning' | 'success' | 'error';
@@ -295,11 +295,11 @@ const TopNotificationBanner: React.FC<{ notifications: Notification[] }> = ({
     </div>
   );
 };
-```
+\`\`\`
 
 ### 3. KPISummary.tsx
 
-```typescript
+\`\`\`typescript
 interface KPICard {
   label: string;
   value: string | number;
@@ -328,11 +328,11 @@ const KPISummary: React.FC<{ kpis: KPICard[] }> = ({ kpis }) => {
     </div>
   );
 };
-```
+\`\`\`
 
 ### 4. Modal.tsx
 
-```typescript
+\`\`\`typescript
 interface ModalProps {
   isOpen: boolean;
   title: string;
@@ -393,7 +393,7 @@ const Modal: React.FC<ModalProps> = ({
     </div>
   );
 };
-```
+\`\`\`
 
 ---
 
@@ -401,7 +401,7 @@ const Modal: React.FC<ModalProps> = ({
 
 ## Component Hierarchy
 
-```
+\`\`\`
 SalesDashboardPage
 ├── TopNotificationBanner (rush orders, confirmations)
 ├── SalesDashboard (main container)
@@ -421,13 +421,13 @@ SalesDashboardPage
 │   │   └── OrderStatusTracker
 │   └── RightSidebar
 │       └── SalesKPI
-```
+\`\`\`
 
 ## Component Specifications
 
 ### SalesDashboard.tsx
 
-```typescript
+\`\`\`typescript
 interface SalesDashboardState {
   activeView: 'wizard' | 'pickups' | 'customers' | 'status';
   currentOrder: Order | null;
@@ -482,11 +482,11 @@ export const SalesDashboard: React.FC = () => {
     </div>
   );
 };
-```
+\`\`\`
 
 ### NewOrderWizard.tsx (Multi-Step Form)
 
-```typescript
+\`\`\`typescript
 interface OrderFormData {
   customerId: number;
   cakeTypeId: number;
@@ -587,11 +587,11 @@ export const NewOrderWizard: React.FC<{ onSubmit: (data: OrderFormData) => void 
     </div>
   );
 };
-```
+\`\`\`
 
 ### RushOrderInquiry.tsx
 
-```typescript
+\`\`\`typescript
 interface RushOrderRequest {
   customerId: number;
   orderId?: number;
@@ -650,11 +650,11 @@ export const RushOrderInquiry: React.FC<{
     </Modal>
   );
 };
-```
+\`\`\`
 
 ## API Endpoints for Sales Dashboard
 
-```typescript
+\`\`\`typescript
 // orderService.ts
 export const orderServiceAPI = {
   createOrder: (data: OrderFormData) =>
@@ -678,7 +678,7 @@ export const orderServiceAPI = {
   searchOrders: (query: string) =>
     axios.get(`/orders/search?q=${query}`),
 };
-```
+\`\`\`
 
 ---
 
@@ -686,7 +686,7 @@ export const orderServiceAPI = {
 
 ## Component Hierarchy
 
-```
+\`\`\`
 BakerDashboardPage
 ├── TopNotificationBanner (allergies, rush alerts)
 ├── BakerDashboard
@@ -702,11 +702,11 @@ BakerDashboardPage
 │   └── RightSidebar
 │       ├── FlavorBreakdownSummary
 │       └── BakerKPI
-```
+\`\`\`
 
 ## OrdersToBakeQueue.tsx
 
-```typescript
+\`\`\`typescript
 interface OrderRow {
   orderId: number;
   customerId: number;
@@ -803,11 +803,11 @@ export const OrdersToBakeQueue: React.FC = () => {
     </div>
   );
 };
-```
+\`\`\`
 
 ## LayerDetailsExpander.tsx
 
-```typescript
+\`\`\`typescript
 export const LayerDetailsExpander: React.FC<{
   order: OrderRow;
   onOrderUpdate: () => void;
@@ -872,11 +872,11 @@ export const LayerDetailsExpander: React.FC<{
     </div>
   );
 };
-```
+\`\`\`
 
 ## API Endpoints for Baker Dashboard
 
-```typescript
+\`\`\`typescript
 export const bakerServiceAPI = {
   getOrdersToBake: (filters: { filter: string; sortBy: string }) =>
     axios.get('/baker/orders-to-bake', { params: filters }),
@@ -893,7 +893,7 @@ export const bakerServiceAPI = {
   getBakerKPIs: () =>
     axios.get('/baker/kpis'),
 };
-```
+\`\`\`
 
 ---
 
@@ -901,7 +901,7 @@ export const bakerServiceAPI = {
 
 ## Component Hierarchy
 
-```
+\`\`\`
 DecoratorDashboardPage
 ├── TopNotificationBanner (design changes, rush alerts)
 ├── DecoratorDashboard
@@ -917,11 +917,11 @@ DecoratorDashboardPage
 │   └── RightSidebar
 │       ├── SuppliesPrepList (Icing colors, decorations)
 │       └── DecoratorKPI
-```
+\`\`\`
 
 ## LayerChecklist.tsx
 
-```typescript
+\`\`\`typescript
 interface ChecklistItem {
   id: string;
   stepNumber: number;
@@ -1018,11 +1018,11 @@ export const LayerChecklist: React.FC<{
     </div>
   );
 };
-```
+\`\`\`
 
 ## IcingColorSwatch.tsx
 
-```typescript
+\`\`\`typescript
 export const IcingColorSwatch: React.FC<{
   orderId: number;
 }> = ({ orderId }) => {
@@ -1078,11 +1078,11 @@ export const IcingColorSwatch: React.FC<{
     </div>
   );
 };
-```
+\`\`\`
 
 ## API Endpoints for Decorator Dashboard
 
-```typescript
+\`\`\`typescript
 export const decoratorServiceAPI = {
   getReadyForDecoration: () =>
     axios.get('/decorator/ready-queue'),
@@ -1108,7 +1108,7 @@ export const decoratorServiceAPI = {
   getLastMinuteAlerts: () =>
     axios.get('/decorator/alerts'),
 };
-```
+\`\`\`
 
 ---
 
@@ -1116,7 +1116,7 @@ export const decoratorServiceAPI = {
 
 ## DailyRevenueBreakdown.tsx
 
-```typescript
+\`\`\`typescript
 export const DailyRevenueBreakdown: React.FC = () => {
   const [dateRange, setDateRange] = React.useState<'today' | 'week' | 'month' | 'custom'>('today');
   const [revenueData, setRevenueData] = React.useState<RevenueEntry[]>([]);
@@ -1197,11 +1197,11 @@ export const DailyRevenueBreakdown: React.FC = () => {
     </div>
   );
 };
-```
+\`\`\`
 
 ## PaymentReconciliation.tsx
 
-```typescript
+\`\`\`typescript
 export const PaymentReconciliation: React.FC = () => {
   const [reconciliation, setReconciliation] = React.useState<PaymentReconciliationData>();
   const { getPaymentReconciliation } = useRevenueService();
@@ -1265,11 +1265,11 @@ export const PaymentReconciliation: React.FC = () => {
     </div>
   );
 };
-```
+\`\`\`
 
 ## API Endpoints for Accountant Dashboard
 
-```typescript
+\`\`\`typescript
 export const accountantServiceAPI = {
   getDailyRevenue: (range: 'today' | 'week' | 'month' | 'custom') =>
     axios.get('/accountant/revenue', { params: { range } }),
@@ -1292,7 +1292,7 @@ export const accountantServiceAPI = {
   getAccountantKPIs: () =>
     axios.get('/accountant/kpis'),
 };
-```
+\`\`\`
 
 ---
 
@@ -1300,7 +1300,7 @@ export const accountantServiceAPI = {
 
 ## StaffActivityOverview.tsx
 
-```typescript
+\`\`\`typescript
 export const StaffActivityOverview: React.FC = () => {
   const [activities, setActivities] = React.useState<StaffActivity[]>([]);
   const [timeRange, setTimeRange] = React.useState<'hour' | 'day' | 'week'>('day');
@@ -1356,11 +1356,11 @@ export const StaffActivityOverview: React.FC = () => {
     </div>
   );
 };
-```
+\`\`\`
 
 ## BusinessMetricsDashboard.tsx
 
-```typescript
+\`\`\`typescript
 export const BusinessMetricsDashboard: React.FC = () => {
   const [metrics, setMetrics] = React.useState<BusinessMetrics>();
   const { getBusinessMetrics } = useManagerService();
@@ -1426,11 +1426,11 @@ export const BusinessMetricsDashboard: React.FC = () => {
     </div>
   );
 };
-```
+\`\`\`
 
 ## StaffWorkloadHeatmap.tsx
 
-```typescript
+\`\`\`typescript
 export const StaffWorkloadHeatmap: React.FC = () => {
   const [heatmapData, setHeatmapData] = React.useState<WorkloadEntry[]>([]);
   const { getStaffWorkload } = useManagerService();
@@ -1502,11 +1502,11 @@ export const StaffWorkloadHeatmap: React.FC = () => {
     </div>
   );
 };
-```
+\`\`\`
 
 ## EmergencyDownload.tsx
 
-```typescript
+\`\`\`typescript
 export const EmergencyDownload: React.FC = () => {
   const [loading, setLoading] = React.useState(false);
   const { downloadEmergencyBackup } = useManagerService();
@@ -1593,11 +1593,11 @@ export const EmergencyDownload: React.FC = () => {
     </Modal>
   );
 };
-```
+\`\`\`
 
 ## API Endpoints for Manager Dashboard
 
-```typescript
+\`\`\`typescript
 export const managerServiceAPI = {
   getStaffActivities: (timeRange: 'hour' | 'day' | 'week') =>
     axios.get('/manager/staff-activities', { params: { timeRange } }),
@@ -1626,7 +1626,7 @@ export const managerServiceAPI = {
   flagConcern: (concern: ConcernData) =>
     axios.post('/manager/concerns', concern),
 };
-```
+\`\`\`
 
 ---
 
@@ -1634,7 +1634,7 @@ export const managerServiceAPI = {
 
 ## Authentication Endpoints
 
-```typescript
+\`\`\`typescript
 export const authAPI = {
   login: (email: string, password: string) =>
     axios.post('/auth/login', { email, password }),
@@ -1648,11 +1648,11 @@ export const authAPI = {
   getCurrentUser: () =>
     axios.get('/auth/me'),
 };
-```
+\`\`\`
 
 ## Real-Time WebSocket Events
 
-```typescript
+\`\`\`typescript
 // socketService.ts
 import io from 'socket.io-client';
 
@@ -1678,7 +1678,7 @@ socket.on('layer:completed', (orderId, layerNumber) => {
 socket.on('urgent-alert', (message) => {
   // Show top banner notification
 });
-```
+\`\`\`
 
 ---
 
@@ -1686,7 +1686,7 @@ socket.on('urgent-alert', (message) => {
 
 ## Sample Queries for Dashboard Population
 
-```sql
+\`\`\`sql
 -- Get Orders to Bake (Baker Dashboard)
 SELECT 
   o.Order_ID,
@@ -1734,7 +1734,7 @@ LEFT JOIN CUSTOM_ORDER o ON (
 )
 CROSS JOIN (SELECT CASE WHEN Role_ID = 1 THEN 10 WHEN Role_ID = 2 THEN 5 ELSE 3 END as limit FROM ROLE) MAX_CAPACITY
 GROUP BY e.Employee_ID;
-```
+\`\`\`
 
 ---
 
@@ -1766,7 +1766,7 @@ GROUP BY e.Employee_ID;
 
 ## E2E Testing (Cypress)
 
-```typescript
+\`\`\`typescript
 describe('Sales Staff - New Order Wizard', () => {
   it('should complete 8-step wizard and create order', () => {
     cy.login('sales@emilybakes.com', 'DemoPass123!');
@@ -1799,7 +1799,7 @@ describe('Baker Dashboard - Order Queue', () => {
     cy.get('[data-testid="layer-status-dropdown-1"]').should('have.value', 'Baking');
   });
 });
-```
+\`\`\`
 
 ## Performance Testing
 

@@ -35,7 +35,7 @@
 - Displays balance due calculation
 
 **Code**:
-```typescript
+\`\`\`typescript
 export function validateDeposit(depositAmount: number, totalAmount: number): {
   valid: boolean;
   error?: string;
@@ -53,7 +53,7 @@ export function validateDeposit(depositAmount: number, totalAmount: number): {
   
   return { valid: true, minimumDeposit };
 }
-```
+\`\`\`
 
 ---
 
@@ -72,7 +72,7 @@ export function validateDeposit(depositAmount: number, totalAmount: number): {
 - Visual rush order banner with approval checkbox
 
 **Code**:
-```typescript
+\`\`\`typescript
 export function isDateAtLeastDaysAway(dateString: string, minDays = 2): boolean {
   if (!dateString) return false;
   const target = new Date(dateString);
@@ -81,7 +81,7 @@ export function isDateAtLeastDaysAway(dateString: string, minDays = 2): boolean 
   const diffDays = diffMs / (1000 * 60 * 60 * 24);
   return diffDays >= minDays - 0.0001;
 }
-```
+\`\`\`
 
 ---
 
@@ -101,7 +101,7 @@ export function isDateAtLeastDaysAway(dateString: string, minDays = 2): boolean 
 - Success message for good planning (>24 hours)
 
 **Code**:
-```typescript
+\`\`\`typescript
 export function isPickupTimeValid(pickupDate: string, pickupTime: string): {
   valid: boolean;
   error?: string;
@@ -127,7 +127,7 @@ export function isPickupTimeValid(pickupDate: string, pickupTime: string): {
   
   return { valid: true, hoursUntil };
 }
-```
+\`\`\`
 
 **Visual Feedback**:
 - ❌ Error: "Pickup must be at least 4 hours from now" (red banner)
@@ -153,13 +153,13 @@ export function isPickupTimeValid(pickupDate: string, pickupTime: string): {
 - Prevents wizard progress without approval
 
 **Visual Banner**:
-```
+\`\`\`
 ⚠️ Rush Order Detected
 This is a same-day order. Manager approval is required to proceed.
 Only 6 hours until pickup.
 
 ☐ Manager Approval (Required)
-```
+\`\`\`
 
 ---
 
@@ -193,7 +193,7 @@ Only 6 hours until pickup.
 - Auto-focus on first error
 
 **Usage**:
-```tsx
+\`\`\`tsx
 <FormField
   label="Event Date"
   htmlFor="eventDate"
@@ -203,7 +203,7 @@ Only 6 hours until pickup.
 >
   <Input id="eventDate" type="date" />
 </FormField>
-```
+\`\`\`
 
 ---
 
@@ -222,7 +222,7 @@ Only 6 hours until pickup.
 - `DepositRequirementBanner` - For deposit compliance display
 
 **Usage**:
-```tsx
+\`\`\`tsx
 <BusinessRuleBanner
   type="info"
   title="📋 Pickup Requirements"
@@ -235,7 +235,7 @@ Only 6 hours until pickup.
   approved={managerApproval}
   onApprovalChange={setManagerApproval}
 />
-```
+\`\`\`
 
 ---
 
@@ -277,7 +277,7 @@ Only 6 hours until pickup.
 10. **Customer Notes** - With character counter (0/500)
 
 **Validation Logic**:
-```typescript
+\`\`\`typescript
 export function validateStep8(formData: any): boolean {
   // Required: event date and pickup time
   if (!formData.eventDate || !formData.pickupTime) return false;
@@ -296,7 +296,7 @@ export function validateStep8(formData: any): boolean {
   
   return true;
 }
-```
+\`\`\`
 
 ---
 
@@ -305,7 +305,7 @@ export function validateStep8(formData: any): boolean {
 ### **WizardContext.tsx**:
 Added `pickupTime` field to `WizardFormData` interface:
 
-```typescript
+\`\`\`typescript
 export interface WizardFormData {
   // ... other fields
   eventDate: string;
@@ -313,10 +313,10 @@ export interface WizardFormData {
   servings: string;
   // ... other fields
 }
-```
+\`\`\`
 
 **Initial State**:
-```typescript
+\`\`\`typescript
 const INITIAL_FORM_DATA: WizardFormData = {
   // ... other fields
   eventDate: '',
@@ -324,7 +324,7 @@ const INITIAL_FORM_DATA: WizardFormData = {
   servings: '',
   // ... other fields
 };
-```
+\`\`\`
 
 ---
 
@@ -413,36 +413,36 @@ All new components are mobile-responsive:
 ## 🧪 TESTING SCENARIOS
 
 ### **Test Case 1: 4-Hour Buffer**
-```
+\`\`\`
 Given: User selects today's date
 When: User selects time < 4 hours from now
 Then: Error displayed: "Pickup must be at least 4 hours from now"
 And: Cannot proceed to next step
-```
+\`\`\`
 
 ### **Test Case 2: Rush Order Approval**
-```
+\`\`\`
 Given: User selects date < 2 days away
 When: Rush banner appears
 Then: Manager approval checkbox required
 And: Cannot proceed without approval
-```
+\`\`\`
 
 ### **Test Case 3: Deposit Validation**
-```
+\`\`\`
 Given: Total order = $100.00
 When: User enters deposit < $50.00
 Then: Error displayed: "Minimum deposit is $50.00 (50% of total)"
 And: Banner shows requirement not met
-```
+\`\`\`
 
 ### **Test Case 4: Past Date Prevention**
-```
+\`\`\`
 Given: User selects yesterday's date
 When: Date field loses focus
 Then: Error displayed: "Event date cannot be in the past"
 And: Date field shows invalid state
-```
+\`\`\`
 
 ---
 

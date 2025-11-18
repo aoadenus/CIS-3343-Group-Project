@@ -46,4 +46,3 @@ CRUD Availability:
 Ensure full Create, Read, Update, Delete (CRUD) functionality for both customer accounts and orders—every record must be manageable with no restrictions.
 Summary:
 We need a system where customer and order data is searchable, viewable, and manageable. The custom cake builder should give users the most flexibility possible. The backend must handle payments, cancellations, and provide total control over customer and order management. The product catalog on the backend needs to always match the shop page on the frontend, and the workflow—backend to customer-facing—should be smooth and consistent.
- 

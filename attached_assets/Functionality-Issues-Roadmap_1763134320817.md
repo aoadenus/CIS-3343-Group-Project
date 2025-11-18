@@ -29,12 +29,12 @@ Based on comprehensive review of the case study requirements (CIS 3343) and impl
 - Toast notifications when orders change status
 
 **Implementation Details:**
-```
+\`\`\`
 Frontend: useEffect with interval/WebSocket listener
 Backend: Event emitter or WebSocket broadcast on order updates
 Database: Optimize ORDER_STATUS_HISTORY queries for speed
 UI: Add pulsing green dot + "Live" badge in header
-```
+\`\`\`
 
 ---
 
@@ -49,14 +49,14 @@ UI: Add pulsing green dot + "Live" badge in header
 - Add hover state indicating clickability
 
 **Implementation Details:**
-```jsx
+\`\`\`jsx
 <KPICard 
   title="Today's Orders"
   value={5}
   onClick={() => navigate('/orders?date=today')}
   className="cursor-pointer hover:shadow-lg transition"
 />
-```
+\`\`\`
 
 ---
 
@@ -72,11 +72,11 @@ UI: Add pulsing green dot + "Live" badge in header
 - Show estimated wait time if customer is late
 
 **Implementation Details:**
-```
+\`\`\`
 Columns: ID | Customer | Phone | Pickup Time | Payment Status | Total Price | Actions
 Color: Green (Full payment), Amber (Deposit), Red (Unpaid)
 Button: [Call] [Mark Picked Up] [View Order Details]
-```
+\`\`\`
 
 ---
 
@@ -91,12 +91,12 @@ Button: [Call] [Mark Picked Up] [View Order Details]
 - Add severity/priority indicator
 
 **Example Format:**
-```
+\`\`\`
 🔴 [URGENT] 11:45 AM - Order 5012 OVERDUE (3 hrs) - Baker Tom needs assistance
 🟣 11:30 AM - Order 5011 moved to Decorating - By Sarah (Sales)
 🟢 11:15 AM - Payment received for Order 5001 ($40) - Sarah recorded
 🔵 11:00 AM - New customer Lisa Taylor created by Sarah
-```
+\`\`\`
 
 ---
 
@@ -189,7 +189,7 @@ Button: [Call] [Mark Picked Up] [View Order Details]
 Create **Staff Performance Dashboard** (Page 34 in wireframes - NOT YET BUILT) with:
 
 **Sales Performance:**
-```
+\`\`\`
 Orders Created This Week: 12
 Average Order Value: $156.88
 Total Sales Revenue: $1,882.50
@@ -199,10 +199,10 @@ Average Response Time: 2.3 minutes
 Performance Score: 95/100
 Trend: Strong (↑ +5 from last week)
 Status: EXCEEDS EXPECTATIONS
-```
+\`\`\`
 
 **Baker Performance:**
-```
+\`\`\`
 Cakes Completed This Week: 11
 Average Baking Time: 4.2 hours (target: 4h)
 Quality Issues: 0 rejects
@@ -213,10 +213,10 @@ Performance Score: 92/100
 Trend: Stable (consistent performer)
 Status: MEETS EXPECTATIONS
 Attention Needed: Improve on-time completion to 95%
-```
+\`\`\`
 
 **Decorator Performance:**
-```
+\`\`\`
 Cakes Decorated This Week: 10
 Average Decoration Time: 1.8 hours (target: 2h)
 Quality Scores: 9.8/10 (excellent)
@@ -228,7 +228,7 @@ Performance Score: 98/100
 Trend: Excellent (↑ +8 from last week)
 Status: EXCEEDS EXPECTATIONS
 Recognition: Top performer this week!
-```
+\`\`\`
 
 **Implementation:**
 - Calculate metrics daily from order_status_history + QC logs
@@ -351,13 +351,13 @@ Build all **6 Client Reports** with Recharts visualizations and export capabilit
 - Recommendations for popular vs. unpopular items
 
 **Implementation:**
-```
+\`\`\`
 Tech Stack: Recharts (charts) + React Table (data tables)
 Backend: GET /api/reports/[report-name]?dateRange=...
 Frontend: ReportPage component with tabs for each report
 Export: jsPDF (PDF) + papaparse (CSV)
 Caching: Cache reports for 1 hour to improve performance
-```
+\`\`\`
 
 ---
 
@@ -388,7 +388,7 @@ Integrate **Resend Email Service**:
    - Ingredient alerts (from special requests)
 
 **Implementation:**
-```
+\`\`\`
 Backend: POST /api/orders → Generate tracking_token → Send email via Resend
 Email: Include tracking link with token
 Frontend: /track/:token page (already built, auto-cycling)
@@ -396,7 +396,7 @@ Trigger Events:
   - Order created → Send confirmation
   - Status changes → Send customer update
   - Reaches "Ready for Pickup" → Send ready alert
-```
+\`\`\`
 
 ---
 

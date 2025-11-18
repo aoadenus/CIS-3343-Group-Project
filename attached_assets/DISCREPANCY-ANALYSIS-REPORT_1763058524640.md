@@ -132,16 +132,16 @@ Lists **11 DIFFERENT STAGES**:
 
 **Document #1 (23_MASTER...):**
 Shows navigation includes direct links to dedicated pages:
-```
+\`\`\`
 [Dashboard] [Orders List] [Order Form] [Customers List] [Customers Form] [Reports]
-```
+\`\`\`
 (Implies these are all separate pages)
 
 **Document #2 (EMILY-BAKES...):**
 Shows navigation that doesn't list separate CRUD pages:
-```
+\`\`\`
 [Dashboard] [Orders] [Customers] [Products] [Reports] [Help]
-```
+\`\`\`
 (Implies these are menu items that trigger modals or sub-views)
 
 **Impact:** User experience flows completely different
@@ -152,9 +152,9 @@ Shows navigation that doesn't list separate CRUD pages:
 
 **Document #1 (23_MASTER...):**
 - Includes detailed JavaScript implementation:
-  ```javascript
+  \`\`\`javascript
   const currentStage = Math.floor(elapsedMinutes / 2) % 11;
-  ```
+  \`\`\`
 - Implies using **real elapsed time** from order creation
 
 **Document #2 (EMILY-BAKES...):**
@@ -169,7 +169,7 @@ Shows navigation that doesn't list separate CRUD pages:
 
 **Document #1 (23_MASTER...):**
 Shows **nested hierarchical status display**:
-```
+\`\`\`
 ● In Production ✅ Complete
   ├─ Baking Layer 1 ✅ Complete
   ├─ Baking Layer 2 ✅ Complete
@@ -177,18 +177,18 @@ Shows **nested hierarchical status display**:
   ├─ Assembling ⏳ Pending
   └─ Decorating ⏳ Pending
 ● Quality Check ⏳ Pending
-```
+\`\`\`
 
 **Document #2 (EMILY-BAKES...):**
 Shows **linear flat status display**:
-```
+\`\`\`
 ✅ Order Placed
 ✅ Design Approved
 ✅ Pending Baking
 🟡 Baking in Progress
 ⏳ Cooling (Next ~2 min)
 ○ Ready for Decorating
-```
+\`\`\`
 
 **Impact:** UI layout and visual hierarchy completely different
 

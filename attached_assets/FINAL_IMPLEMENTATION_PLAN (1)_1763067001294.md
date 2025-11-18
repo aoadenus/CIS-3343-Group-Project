@@ -253,7 +253,7 @@
 
 ### New Table: `employees`
 
-```typescript
+\`\`\`typescript
 export const employees = pgTable('employees', {
   id: serial('id').primaryKey(),
   email: varchar('email', { length: 255 }).notNull().unique(),
@@ -264,20 +264,20 @@ export const employees = pgTable('employees', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
-```
+\`\`\`
 
 ### Updated Table: `orders` (add tracking)
 
-```typescript
+\`\`\`typescript
 // Add these fields to existing orders table:
 trackingToken: varchar('tracking_token', { length: 50 }).unique(),
 assignedBaker: integer('assigned_baker').references(() => employees.id),
 assignedDecorator: integer('assigned_decorator').references(() => employees.id),
-```
+\`\`\`
 
 ### New Table: `order_status_history`
 
-```typescript
+\`\`\`typescript
 export const orderStatusHistory = pgTable('order_status_history', {
   id: serial('id').primaryKey(),
   orderId: integer('order_id').references(() => orders.id).notNull(),
@@ -286,7 +286,7 @@ export const orderStatusHistory = pgTable('order_status_history', {
   updatedBy: integer('updated_by').references(() => employees.id),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
-```
+\`\`\`
 
 ---
 
@@ -305,12 +305,12 @@ export const orderStatusHistory = pgTable('order_status_history', {
 - Totals row
 
 **Implementation:**
-```typescript
+\`\`\`typescript
 // Use existing Recharts infrastructure
 <BarChart data={ordersByDay}>
   <Bar dataKey="count" fill="#C44569" />
 </BarChart>
-```
+\`\`\`
 
 ---
 
@@ -524,7 +524,7 @@ export const orderStatusHistory = pgTable('order_status_history', {
 - Mobile-responsive
 
 **Auto-Cycling Logic:**
-```javascript
+\`\`\`javascript
 // Calculate current stage based on time
 const startTime = new Date(order.created_at);
 const now = new Date();
@@ -548,7 +548,7 @@ const stages = [
 
 // Update UI every 10 seconds
 setInterval(() => updateStatus(), 10000);
-```
+\`\`\`
 
 **Email Workflow:**
 1. Staff creates order in dashboard
@@ -588,37 +588,37 @@ setInterval(() => updateStatus(), 10000);
 ## 13. NAVIGATION STRUCTURE
 
 ### Public Navigation
-```
+\`\`\`
 [Logo] Emily Bakes Cakes
 [Home] [Shop] [Gallery] [About] [Contact]
-```
+\`\`\`
 
 ### Staff Navigation (Role-Based)
 
 **Sales:**
-```
+\`\`\`
 [Dashboard] [Create Order] [Orders] [Customers] [Products] [Reports] [Logout]
-```
+\`\`\`
 
 **Baker:**
-```
+\`\`\`
 [Dashboard] [My Queue] [Create Order] [Orders] [Customers] [Reports] [Logout]
-```
+\`\`\`
 
 **Decorator:**
-```
+\`\`\`
 [Dashboard] [My Queue] [Create Order] [Orders] [Customers] [Gallery] [Reports] [Logout]
-```
+\`\`\`
 
 **Accountant:**
-```
+\`\`\`
 [Dashboard] [Orders] [Customers] [Reports] [Analytics] [Payments] [Logout]
-```
+\`\`\`
 
 **Manager:**
-```
+\`\`\`
 [Dashboard] [Orders] [Customers] [Products] [Staff] [Reports] [Analytics] [Settings] [Logout]
-```
+\`\`\`
 
 ---
 

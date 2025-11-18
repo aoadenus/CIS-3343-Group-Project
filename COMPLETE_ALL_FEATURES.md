@@ -161,23 +161,23 @@
 - ✅ White border (2px, 60% opacity)
 
 **Color Scheme:**
-```css
+\`\`\`css
 Dark Base: #2B2B2B (Charcoal Gray)
 Light Base: #F8EBD7 (Cream Vanilla)
 Accent: #C44569 (Raspberry Pink)
 Gradient Blend: #3D2A2A (Dark Raspberry)
 Text on Dark: rgba(248, 235, 215, 0.85)
 Borders: rgba(196, 69, 105, 0.2)
-```
+\`\`\`
 
 **Typography:**
-```css
+\`\`\`css
 Headings: Playfair Display 48-64px
 Tagline: Lucida Handwriting 28px italic
 Body: Open Sans 17px, line-height 1.8
 Stats: Playfair Display 36px bold
 Labels: Poppins 14px, letter-spacing 0.05em
-```
+\`\`\`
 
 **Animations:**
 - Eiffel Tower: Parallax scroll (Y: 0 → -200px)

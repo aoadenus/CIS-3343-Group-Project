@@ -22,15 +22,15 @@ Content-Type: `application/json`
 **Purpose:** Authenticate staff member and return JWT token **Response (200 OK):**
 
 **Request:**
-```json
+\`\`\`json
 {
   "email": "staff@emilybakes.com", 
   "password": "secure_password"
 }
-```
+\`\`\`
 
 **Response (200 OK):**
-```json
+\`\`\`json
 {
   "accessToken": "eyJhbGciOiJIUzI1NiIs...",
   "refreshToken": "eyJhbGciOiJIUzI1NiIs...",
@@ -41,14 +41,14 @@ Content-Type: `application/json`
     "permissions": ["create:order", "read:own"]
   }
 }
-```
+\`\`\`
 
 **Response (401 Unauthorized):**
-```json
+\`\`\`json
 {
   "error": "Invalid email or password"
 }
-```
+\`\`\`
 
 ---
 
@@ -59,7 +59,7 @@ Content-Type: `application/json`
 **Purpose:** Create new customer record
 
 **Request:**
-```json
+\`\`\`json
 {
   "firstName": "Sarah",
   "lastName": "Johnson",
@@ -70,10 +70,10 @@ Content-Type: `application/json`
   "zipCode": "77001",
   "type": "Retail"
 }
-```
+\`\`\`
 
 **Response (201 Created):**
-```json
+\`\`\`json
 {
   "customerId": 42,
   "firstName": "Sarah",
@@ -83,24 +83,24 @@ Content-Type: `application/json`
   "totalSpending": 0,
   "createdAt": "2025-11-05T10:30:00Z"
 }
-```
+\`\`\`
 
 **Validation Errors (400 Bad Request):**
-```json
+\`\`\`json
 {
   "errors": [
     { "field": "email", "message": "Email is required" },
     { "field": "email", "message": "Email already exists" }
   ]
 }
-```
+\`\`\`
 
 ### GET /customers/:customerId
 
 **Purpose:** Retrieve customer profile with order history
 
 **Response (200 OK):**
-```json
+\`\`\`json
 {
   "customerId": 42,
   "firstName": "Sarah",
@@ -127,7 +127,7 @@ Content-Type: `application/json`
     }
   ]
 }
-```
+\`\`\`
 
 ### GET /customers?search=john&limit=20&offset=0
 
@@ -140,7 +140,7 @@ Content-Type: `application/json`
 - `status`: Filter by customer status (Active, VIP, Preferred)
 
 **Response (200 OK):**
-```json
+\`\`\`json
 {
   "total": 3,
   "limit": 20,
@@ -155,7 +155,7 @@ Content-Type: `application/json`
     }
   ]
 }
-```
+\`\`\`
 
 ---
 
@@ -166,7 +166,7 @@ Content-Type: `application/json`
 **Purpose:** Create new custom cake order
 
 **Request:**
-```json
+\`\`\`json
 {
   "customerId": 42,
   "productId": 1,
@@ -201,10 +201,10 @@ Content-Type: `application/json`
   ],
   "specialRequests": "No nuts please"
 }
-```
+\`\`\`
 
 **Response (201 Created):**
-```json
+\`\`\`json
 {
   "orderId": 5001,
   "customerId": 42,
@@ -216,24 +216,24 @@ Content-Type: `application/json`
   "depositAmount": 50.00,
   "balanceDue": 45.00
 }
-```
+\`\`\`
 
 **Validation Errors (400 Bad Request):**
-```json
+\`\`\`json
 {
   "errors": [
     { "field": "pickupDate", "message": "Pickup date must be at least 2 days in advance" },
     { "field": "depositAmount", "message": "Deposit must be at least 50% of total price" }
   ]
 }
-```
+\`\`\`
 
 ### GET /orders/:orderId
 
 **Purpose:** Retrieve complete order details
 
 **Response (200 OK):**
-```json
+\`\`\`json
 {
   "orderId": 5001,
   "customer": {
@@ -302,29 +302,29 @@ Content-Type: `application/json`
   },
   "specialRequests": "No nuts please"
 }
-```
+\`\`\`
 
 ### PATCH /orders/:orderId/status
 
 **Purpose:** Update order status (Manager only)
 
 **Request:**
-```json
+\`\`\`json
 {
   "newStatus": "Decorating",
   "notes": "Started decorating this morning"
 }
-```
+\`\`\`
 
 **Response (200 OK):**
-```json
+\`\`\`json
 {
   "orderId": 5001,
   "status": "Decorating",
   "updatedAt": "2025-11-06T09:00:00Z",
   "updatedBy": "Manager Name"
 }
-```
+\`\`\`
 
 **Allowed Transitions:** **note - lets see...**
 - To Be Created → In Baking
@@ -346,7 +346,7 @@ Content-Type: `application/json`
 - `sort`: Sort field (date, status, price)
 
 **Response (200 OK):**
-```json
+\`\`\`json
 {
   "total": 15,
   "limit": 20,
@@ -363,23 +363,23 @@ Content-Type: `application/json`
     }
   ]
 }
-```
+\`\`\`
 
 ### POST /orders/:orderId/payment
 
 **Purpose:** Record payment transaction
 
 **Request:**
-```json
+\`\`\`json
 {
   "paymentAmount": 45.00,
   "paymentMethod": "Credit Card",
   "transactionReference": "TXN-123456"
 }
-```
+\`\`\`
 
 **Response (201 Created):**
-```json
+\`\`\`json
 {
   "transactionId": 1001,
   "orderId": 5001,
@@ -387,7 +387,7 @@ Content-Type: `application/json`
   "status": "Completed",
   "transactionDate": "2025-11-10T14:00:00Z"
 }
-```
+\`\`\`
 
 ---
 
@@ -403,7 +403,7 @@ Content-Type: `application/json`
 - `offset`: Pagination offset
 
 **Response (200 OK):**
-```json
+\`\`\`json
 {
   "products": [
     {
@@ -416,14 +416,14 @@ Content-Type: `application/json`
     }
   ]
 }
-```
+\`\`\`
 
 ### GET /products/:productId/options
 
 **Purpose:** Get customization options for a product
 
 **Response (200 OK):**
-```json
+\`\`\`json
 {
   "options": {
     "flavors": [
@@ -442,7 +442,7 @@ Content-Type: `application/json`
     ]
   }
 }
-```
+\`\`\`
 
 ---
 
@@ -458,7 +458,7 @@ Content-Type: `application/json`
 - `endDate`: End date (required if custom)
 
 **Response (200 OK):**
-```json
+\`\`\`json
 {
   "period": "November 2025",
   "startDate": "2025-11-01",
@@ -491,53 +491,53 @@ Content-Type: `application/json`
     { "date": "2025-11-02", "revenue": 380.00 }
   ]
 }
-```
+\`\`\`
 
 ---
 
 ## Error Responses
 
 ### 400 Bad Request
-```json
+\`\`\`json
 {
   "error": "Validation failed",
   "details": [
     { "field": "email", "message": "Invalid email format" }
   ]
 }
-```
+\`\`\`
 
 ### 401 Unauthorized
-```json
+\`\`\`json
 {
   "error": "Unauthorized",
   "message": "Invalid or expired token"
 }
-```
+\`\`\`
 
 ### 403 Forbidden
-```json
+\`\`\`json
 {
   "error": "Forbidden",
   "message": "You do not have permission to access this resource"
 }
-```
+\`\`\`
 
 ### 404 Not Found
-```json
+\`\`\`json
 {
   "error": "Not found",
   "message": "Order #5001 not found"
 }
-```
+\`\`\`
 
 ### 500 Internal Server Error
-```json
+\`\`\`json
 {
   "error": "Internal server error",
   "message": "An unexpected error occurred"
 }
-```
+\`\`\`
 
 ---
 
@@ -545,7 +545,7 @@ Content-Type: `application/json`
 
 ### Client emits to server
 
-```javascript
+\`\`\`javascript
 // Subscribe to order updates
 socket.emit('order:subscribe', { orderId: 5001 });
 
@@ -554,11 +554,11 @@ socket.emit('order:statusChange', {
   orderId: 5001, 
   newStatus: 'Decorating' 
 });
-```
+\`\`\`
 
 ### Server broadcasts to clients
 
-```javascript
+\`\`\`javascript
 // Order status updated
 socket.on('order:statusUpdated', (data) => {
   // { orderId, status, changedAt, changedBy }
@@ -573,7 +573,7 @@ socket.on('order:created', (data) => {
 socket.on('notification:orderReady', (data) => {
   // { orderId, customerName, pickupTime }
 });
-```
+\`\`\`
 
 ---
 

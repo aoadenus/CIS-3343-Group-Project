@@ -38,7 +38,7 @@ Based on live inspection of the Shop page, here's a comprehensive technical brea
 - Creates visual hierarchy imbalance (CTA should be secondary to products)
 
 **Technical Fix**:
-```tsx
+\`\`\`tsx
 // REDUCE from current large size to:
 <section className="bg-gradient-to-r from-[#C44569]/10 to-[#F5E6D3]/30 
   rounded-xl p-6 mb-8">  {/* Changed from p-12 or larger */}
@@ -52,7 +52,7 @@ Based on live inspection of the Shop page, here's a comprehensive technical brea
     Create Your Custom Cake
   </button>
 </section>
-```
+\`\`\`
 **Reasoning**: CTAs should invite, not overwhelm. Scale down padding, font sizes, and button dimensions by ~40%.
 
 ---
@@ -64,7 +64,7 @@ Based on live inspection of the Shop page, here's a comprehensive technical brea
 - Doesn't match the quality of a modern bakery brand
 
 **Technical Fix**:
-```tsx
+\`\`\`tsx
 <h1 className="text-4xl md:text-5xl font-bold mb-2 
   bg-gradient-to-r from-[#C44569] via-[#8B3A5E] to-[#C44569] 
   bg-clip-text text-transparent
@@ -77,7 +77,7 @@ Based on live inspection of the Shop page, here's a comprehensive technical brea
 <p className="text-gray-600 italic text-lg mb-8">
   Handcrafted perfection, baked fresh daily
 </p>
-```
+\`\`\`
 **Reasoning**: 
 - Gradient text (raspberry to deep plum) adds sophistication
 - Decorative underline accent creates visual interest
@@ -94,7 +94,7 @@ Based on live inspection of the Shop page, here's a comprehensive technical brea
 - Page feels incomplete and unprofessional
 
 **Technical Fix**:
-```tsx
+\`\`\`tsx
 // In ProductCard.tsx:
 <div className="relative overflow-hidden rounded-t-xl 
   aspect-[4/3] bg-gradient-to-br from-[#F5E6D3] to-[#E8D5C4]">
@@ -118,7 +118,7 @@ Based on live inspection of the Shop page, here's a comprehensive technical brea
     </div>
   )}
 </div>
-```
+\`\`\`
 **Reasoning**:
 - Add image container with fixed aspect ratio (4:3) for consistency
 - Fallback placeholder SVG icon for missing images
@@ -126,7 +126,7 @@ Based on live inspection of the Shop page, here's a comprehensive technical brea
 - Lazy loading improves page performance
 
 **Data Fix**:
-```tsx
+\`\`\`tsx
 // In src/data or Shop.tsx:
 const products = [
   {
@@ -139,7 +139,7 @@ const products = [
   },
   // ... more products
 ];
-```
+\`\`\`
 
 ---
 
@@ -150,7 +150,7 @@ const products = [
 - Users may not realize it's interactive
 
 **Technical Fix**:
-```tsx
+\`\`\`tsx
 <div className="relative inline-block">
   <select
     className="appearance-none bg-white border-2 border-[#C44569] 
@@ -178,7 +178,7 @@ const products = [
       strokeWidth={2.5} d="M19 9l-7 7-7-7" />
   </svg>
 </div>
-```
+\`\`\`
 **Reasoning**:
 - `appearance-none` removes default browser dropdown styling
 - Custom chevron SVG makes it obviously a dropdown

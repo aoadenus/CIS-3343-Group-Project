@@ -69,7 +69,7 @@
 - [ ] SQL injection prevention (parameterized queries)
 - [ ] XSS prevention (sanitize outputs)
 
-```javascript
+\`\`\`javascript
 // Example: SQL injection prevention
 // ❌ VULNERABLE
 const query = `SELECT * FROM orders WHERE customer_id = ${customerId}`;
@@ -77,7 +77,7 @@ const query = `SELECT * FROM orders WHERE customer_id = ${customerId}`;
 // ✅ SAFE
 const query = 'SELECT * FROM orders WHERE customer_id = ?';
 db.query(query, [customerId]);
-```
+\`\`\`
 
 ### File Upload Security
 - [ ] File type validation (magic bytes, not extension)
@@ -87,7 +87,7 @@ db.query(query, [customerId]);
 - [ ] Unique filename with timestamp
 - [ ] No executable files (.exe, .sh, .bat)
 
-```javascript
+\`\`\`javascript
 // Example: File validation
 const allowedMimes = ['image/jpeg', 'image/png', 'image/webp'];
 if (!allowedMimes.includes(file.type)) {
@@ -97,7 +97,7 @@ if (!allowedMimes.includes(file.type)) {
 if (file.size > 5 * 1024 * 1024) {
   throw new Error('File too large');
 }
-```
+\`\`\`
 
 ---
 
@@ -110,7 +110,7 @@ if (file.size > 5 * 1024 * 1024) {
 - [ ] Return 429 Too Many Requests
 
 ### CORS Configuration
-```javascript
+\`\`\`javascript
 // Express example
 app.use(cors({
   origin: ['https://emilybakes.com'],
@@ -118,7 +118,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
-```
+\`\`\`
 
 ### Headers Security
 - [ ] X-Content-Type-Options: nosniff
@@ -159,7 +159,7 @@ app.use(cors({
 - [ ] Failed login attempts logged
 - [ ] Status changes logged with reason
 
-```javascript
+\`\`\`javascript
 // Example: Audit log entry
 {
   timestamp: '2025-11-05T10:30:00Z',
@@ -170,7 +170,7 @@ app.use(cors({
   newValue: 'Decorating',
   ipAddress: '192.168.1.1'
 }
-```
+\`\`\`
 
 ### Error Logging **note - not necessary for demo**
 - [ ] Errors logged to centralized system (Sentry, DataDog)
@@ -219,14 +219,14 @@ app.use(cors({
 ## Deployment Security
 
 ### Environment Configuration
-```bash
+\`\`\`bash
 # .env.production (never commit)
 DATABASE_URL=postgres://user:pass@host:5432/db
 JWT_SECRET=long_random_secret_key_here
 STRIPE_SECRET_KEY=sk_live_...
 API_BASE_URL=https://api.emilybakes.com
 LOG_LEVEL=warn
-```
+\`\`\`
 
 ### SSL/TLS Certificate
 - [ ] Valid SSL certificate installed
@@ -246,14 +246,14 @@ LOG_LEVEL=warn
 ## Vulnerability Management **note - clarity** **note - clarity**
 
 ### Dependency Security
-```bash
+\`\`\`bash
 # Check for vulnerable packages
 npm audit
 npm audit fix
 
 # Weekly security checks
 npm audit --production
-```
+\`\`\`
 
 - [ ] Dependencies audited weekly
 - [ ] Vulnerable packages patched immediately
@@ -319,7 +319,7 @@ npm audit --production
 4. Review (post-incident analysis)
 
 ### Breach Notification Template
-```
+\`\`\`
 Subject: Important Security Notice
 
 Dear Valued Customer,
@@ -344,7 +344,7 @@ What you can do:
 
 Sincerely,
 Emily Bakes Cakes Security Team
-```
+\`\`\`
 
 ---
 

@@ -33,7 +33,7 @@
 
 ### Step 1: Backup Current Code
 
-```bash
+\`\`\`bash
 # 1. Commit current state to main branch
 git add .
 git commit -m "Backup: Homepage before order tracking refactor - Nov 6, 2025"
@@ -45,7 +45,7 @@ git push origin main-backup
 
 # 3. Create new development branch for this feature
 git checkout -b feature/order-tracking-demo
-```
+\`\`\`
 
 **What You Have:**
 - Original code safe on `main`
@@ -56,7 +56,7 @@ git checkout -b feature/order-tracking-demo
 
 **Identify these components in your current homepage:**
 
-```
+\`\`\`
 HomePage Component
 ├── Header/Navigation
 │   ├── Logo
@@ -71,7 +71,7 @@ HomePage Component
 ├── About Section
 ├── Contact/Footer
 └── [NEW] → Order Tracker Widget (INSERT HERE)
-```
+\`\`\`
 
 **Questions to answer:**
 - Where does the homepage live? (`src/pages/HomePage.tsx` or similar?)
@@ -81,7 +81,7 @@ HomePage Component
 ### Step 3: Refactor Homepage to Use Sub-Components
 
 **Before (Monolithic):**
-```typescript
+\`\`\`typescript
 // BadHomePage.tsx - Everything in one file
 export const HomePage = () => {
   return (
@@ -94,10 +94,10 @@ export const HomePage = () => {
     </div>
   );
 };
-```
+\`\`\`
 
 **After (Modular):**
-```typescript
+\`\`\`typescript
 // HomePage.tsx - Clean & Modular
 import { Header } from './sections/Header';
 import { Hero } from './sections/Hero';
@@ -118,7 +118,7 @@ export const HomePage = () => {
     </div>
   );
 };
-```
+\`\`\`
 
 **Benefits:**
 - ✅ Order tracker is isolated; can be added/removed without touching other sections
@@ -130,7 +130,7 @@ export const HomePage = () => {
 
 **Create these files:**
 
-```
+\`\`\`
 src/pages/
 ├── HomePage.tsx (main container)
 └── sections/
@@ -140,11 +140,11 @@ src/pages/
     ├── About.tsx (Company info)
     ├── OrderTrackerWidget.tsx (NEW - Order tracker)
     └── Footer.tsx (Links, contact)
-```
+\`\`\`
 
 **Example: Extract Header**
 
-```typescript
+\`\`\`typescript
 // Old way (inline in HomePage)
 <header>
   <Logo />
@@ -163,7 +163,7 @@ export const Header = () => {
     </header>
   );
 };
-```
+\`\`\`
 
 **Why This Matters:**
 - If order tracker breaks later, header still works
@@ -175,30 +175,30 @@ export const Header = () => {
 **Decide placement:** Where should the order tracker widget appear on the homepage?
 
 **Option A: After Hero (Most Visible)**
-```
+\`\`\`
 [Header]
 [Hero Banner - "Track Your Order"]
 [Order Tracker Widget] ← NEW
 [Product Showcase]
 [About]
 [Footer]
-```
+\`\`\`
 
 **Option B: In Dedicated Section**
-```
+\`\`\`
 [Header]
 [Hero Banner]
 [Product Showcase]
 [Track Your Order Section]  ← NEW dedicated section
 [About]
 [Footer]
-```
+\`\`\`
 
 **Recommendation:** Option A (after hero) for demo impact
 
 ### Step 6: Test Homepage Before Adding Tracker
 
-```bash
+\`\`\`bash
 # 1. Start dev server
 npm start
 
@@ -216,15 +216,15 @@ npm start
 # 4. Responsive check
 # Resize browser to mobile size
 # Everything should still look good
-```
+\`\`\`
 
 **If anything breaks:**
-```bash
+\`\`\`bash
 # Revert this branch and start over
 git checkout feature/order-tracking-demo
 git reset --hard origin/main
 git pull
-```
+\`\`\`
 
 ---
 
@@ -241,7 +241,7 @@ git pull
 
 ## Order Status Flow (From Case Study)
 
-```
+\`\`\`
 Timeline: 0s → 110s (11 statuses × 10 seconds each)
 
 ┌─────────────────────────────────────────────────────────────┐
@@ -260,11 +260,11 @@ Timeline: 0s → 110s (11 statuses × 10 seconds each)
 │  Timeline: 30s / 110s (27% complete)                       │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ## React Component: OrderTrackerWidget.tsx
 
-```typescript
+\`\`\`typescript
 import React, { useState, useEffect } from 'react';
 
 interface OrderStatus {
@@ -490,11 +490,11 @@ export const OrderTrackerWidget: React.FC = () => {
     </section>
   );
 };
-```
+\`\`\`
 
 ## Add Widget to Homepage
 
-```typescript
+\`\`\`typescript
 // src/pages/HomePage.tsx
 import { OrderTrackerWidget } from './sections/OrderTrackerWidget';
 
@@ -510,11 +510,11 @@ export const HomePage = () => {
     </div>
   );
 };
-```
+\`\`\`
 
 ## Testing the Widget
 
-```bash
+\`\`\`bash
 # Start dev server
 npm start
 
@@ -528,7 +528,7 @@ npm start
 ✓ Can click "Watch Again" to restart
 ✓ No console errors
 ✓ Works on mobile (resize browser)
-```
+\`\`\`
 
 ---
 
@@ -565,7 +565,7 @@ npm start
 
 ### Step 1: Create SendGrid Account
 
-```
+\`\`\`
 1. Go to sendgrid.com
 2. Sign up (free account)
 3. Verify email address
@@ -573,16 +573,16 @@ npm start
    - Dashboard → API Keys → Create API Key
    - Name: "Emily Bakes Demo"
    - Save the key (you'll need it)
-```
+\`\`\`
 
 ### Step 2: Backend Setup (Node.js/Express Example)
 
-```bash
+\`\`\`bash
 # Install SendGrid package
 npm install @sendgrid/mail
-```
+\`\`\`
 
-```typescript
+\`\`\`typescript
 // services/emailService.ts
 import sgMail from '@sendgrid/mail';
 
@@ -664,11 +664,11 @@ export const sendOrderTrackingEmail = async (
     return { success: false, message: 'Failed to send email' };
   }
 };
-```
+\`\`\`
 
 ### Step 3: Trigger Email on Order Creation
 
-```typescript
+\`\`\`typescript
 // routes/orders.ts
 import { sendOrderTrackingEmail } from '../services/emailService';
 
@@ -699,16 +699,16 @@ app.post('/api/orders', async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 });
-```
+\`\`\`
 
 ### Step 4: Environment Variables
 
-```
+\`\`\`
 # .env file
 SENDGRID_API_KEY=SG.xxxxxxxxxxxxx
 SENDGRID_FROM_EMAIL=orders@emilybakescakes.com
 APP_URL=http://localhost:3000
-```
+\`\`\`
 
 ---
 
@@ -716,7 +716,7 @@ APP_URL=http://localhost:3000
 
 ## Full Integration Flow
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────────────┐
 │                    FLOW: Order Creation to Tracking             │
 └─────────────────────────────────────────────────────────────────┘
@@ -751,7 +751,7 @@ APP_URL=http://localhost:3000
        └─→ OrderTrackerWidget loads
            └─→ Customer clicks "Demo: Watch Progress"
                └─→ Tracker animates through all 11 statuses over 2 minutes
-```
+\`\`\`
 
 ## Testing Checklist
 
@@ -792,7 +792,7 @@ APP_URL=http://localhost:3000
 
 ## Manual Testing
 
-```bash
+\`\`\`bash
 # Test 1: Local tracker widget
 npm start
 # Navigate to homepage
@@ -810,7 +810,7 @@ npm start
 # Create a test order with email: your-email@domain.com
 # Check email inbox for tracking email
 # Click link and verify tracker works
-```
+\`\`\`
 
 ---
 
@@ -820,7 +820,7 @@ npm start
 
 ### Frontend: Order Submission
 
-```typescript
+\`\`\`typescript
 // components/sales/OrderWizardStep8Review.tsx
 const handleSubmitOrder = async () => {
   try {
@@ -851,11 +851,11 @@ const handleSubmitOrder = async () => {
     showNotification('❌ Failed to create order', 'error');
   }
 };
-```
+\`\`\`
 
 ### Backend: Order Creation with Email
 
-```typescript
+\`\`\`typescript
 // backend/routes/orders.ts
 import express from 'express';
 import { sendOrderTrackingEmail } from '../services/emailService';
@@ -930,11 +930,11 @@ router.post('/api/orders', async (req, res) => {
 });
 
 export default router;
-```
+\`\`\`
 
 ### Tracking Link Handler
 
-```typescript
+\`\`\`typescript
 // backend/routes/tracking.ts
 router.get('/api/track/:token', async (req, res) => {
   try {
@@ -979,7 +979,7 @@ app.get('/track/:token', (req, res) => {
     token: req.params.token,
   });
 });
-```
+\`\`\`
 
 ---
 
@@ -1024,7 +1024,7 @@ app.get('/track/:token', (req, res) => {
 
 ## Launch Day (November 21)
 
-```bash
+\`\`\`bash
 # Final checks before presentation
 npm start  # Dev server running
 
@@ -1042,7 +1042,7 @@ npm start  # Dev server running
 - Verify API keys in .env
 - Check network tab in browser dev tools
 - Restart dev server and try again
-```
+\`\`\`
 
 ---
 

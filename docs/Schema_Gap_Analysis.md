@@ -17,7 +17,7 @@
 ### 1. CUSTOMER ENTITY
 
 #### **Case Study Requirements**
-```
+\`\`\`
 Table: Customer
 Attributes (18 total):
 1.  Cust_ID                 (Integer, 6)         PK, Auto-increment
@@ -38,10 +38,10 @@ Attributes (18 total):
 16. Cust_Email_Addr         (Varchar, 40)        Optional
 17. Comments about Customer (Varchar, 1000)      Optional
 18. Preferred Customer      (Char, 1)            Optional, Y/N
-```
+\`\`\`
 
 #### **Current Implementation**
-```typescript
+\`\`\`typescript
 customers: {
   id:              serial               PK, Auto-increment
   name:            varchar(255)         Required
@@ -58,7 +58,7 @@ customers: {
   deletedAt:       timestamp            Optional
   deletedBy:       varchar(255)         Optional
 }
-```
+\`\`\`
 
 #### **Gap Analysis**
 
@@ -93,7 +93,7 @@ customers: {
 ### 2. CUSTOMER_STATUS TABLE (Lookup)
 
 #### **Case Study Requirements**
-```
+\`\`\`
 Table: Customer Status
 Attributes:
 1. Cust_Status_Id          (Integer, 2)    PK, Auto-increment
@@ -104,13 +104,13 @@ Example Values:
 - Inactive
 - Suspended
 - Preferred
-```
+\`\`\`
 
 #### **Current Implementation**
-```
+\`\`\`
 ❌ NOT IMPLEMENTED
 Currently using: isVip (boolean) field on customers table
-```
+\`\`\`
 
 **Gap Analysis:**
 - **Impact:** MEDIUM - Limits customer segmentation
@@ -123,7 +123,7 @@ Currently using: isVip (boolean) field on customers table
 ### 3. CUSTOMER_TYPE TABLE (Lookup)
 
 #### **Case Study Requirements**
-```
+\`\`\`
 Table: Customer Type
 Attributes:
 1. Cust_Type_Id       (Integer, 2)    PK, Auto-increment
@@ -132,13 +132,13 @@ Attributes:
 Values:
 - Retail (individual)
 - Corporate (business)
-```
+\`\`\`
 
 #### **Current Implementation**
-```
+\`\`\`
 ❌ NOT IMPLEMENTED
 No field to distinguish Retail vs. Corporate customers
-```
+\`\`\`
 
 **Gap Analysis:**
 - **Impact:** **HIGH** - Critical business rule not enforced
@@ -148,18 +148,18 @@ No field to distinguish Retail vs. Corporate customers
 - **Priority:** **P1**
 
 **Suggested Implementation:**
-```typescript
+\`\`\`typescript
 // Add to customers table
 customerType: varchar('customer_type', { length: 20 }).notNull().default('retail')
 // Constraint: 'retail' | 'corporate'
-```
+\`\`\`
 
 ---
 
 ### 4. STATE/PROVINCE TABLE (Lookup)
 
 #### **Case Study Requirements**
-```
+\`\`\`
 Table: State / Province
 Attributes:
 1. State_Id          (Integer)      PK
@@ -168,13 +168,13 @@ Attributes:
 4. Country_Id        (Integer, 3)   FK, Required
 
 Example: { id: 48, abbr: 'TX', name: 'Texas', country_id: 1 }
-```
+\`\`\`
 
 #### **Current Implementation**
-```
+\`\`\`
 ❌ NOT IMPLEMENTED
 No geographic normalization
-```
+\`\`\`
 
 **Gap Analysis:**
 - **Impact:** MEDIUM - Limits address validation and reporting
@@ -187,19 +187,19 @@ No geographic normalization
 ### 5. COUNTRY TABLE (Lookup)
 
 #### **Case Study Requirements**
-```
+\`\`\`
 Table: Country
 Attributes:
 1. Country_Id   (Integer, 3)    PK
 2. Country_Name (Varchar, 60)   Required
 
 Example: { id: 1, name: 'United States' }
-```
+\`\`\`
 
 #### **Current Implementation**
-```
+\`\`\`
 ❌ NOT IMPLEMENTED
-```
+\`\`\`
 
 **Gap Analysis:**
 - **Impact:** LOW - Most customers likely domestic (Houston, Texas)
@@ -211,7 +211,7 @@ Example: { id: 1, name: 'United States' }
 ### 6. CUSTOM_ORDER ENTITY
 
 #### **Case Study Requirements**
-```
+\`\`\`
 Table: Custom Order
 Attributes (15 total):
 1.  Order ID           (Integer, 9)       PK, Auto-increment
@@ -229,10 +229,10 @@ Attributes (15 total):
 13. Is Cancelled       (Char, 1)          Required, Default: 'N'
 14. Final Approval ID  (Integer, 5)       FK, Optional
 15. Notes / Instructions (Varchar, 1000) Optional
-```
+\`\`\`
 
 #### **Current Implementation**
-```typescript
+\`\`\`typescript
 orders: {
   id:                    serial           PK
   customerId:            integer          FK → customers.id, Required
@@ -268,7 +268,7 @@ orders: {
   deletedAt:             timestamp        Optional
   deletedBy:             varchar(255)     Optional
 }
-```
+\`\`\`
 
 #### **Gap Analysis**
 
@@ -306,7 +306,7 @@ orders: {
 ### 7. ORDER_STATUS TABLE (Lookup)
 
 #### **Case Study Requirements**
-```
+\`\`\`
 Table: Order Status
 Attributes:
 1. Order Status ID      (Integer, 2)    PK, Auto-increment
@@ -319,14 +319,14 @@ Example Values:
 - Completed
 - Ready for Pickup
 - Picked Up
-```
+\`\`\`
 
 #### **Current Implementation**
-```
+\`\`\`
 ❌ NOT IMPLEMENTED as separate table
 Currently using: Enum constraint in application code
 Values: 'pending', 'preparing', 'ready', 'completed', 'cancelled'
-```
+\`\`\`
 
 **Gap Analysis:**
 - **Impact:** LOW - Application logic enforces valid statuses
@@ -339,7 +339,7 @@ Values: 'pending', 'preparing', 'ready', 'completed', 'cancelled'
 ### 8. PRODUCT ENTITY
 
 #### **Case Study Requirements**
-```
+\`\`\`
 Table: Product
 Attributes (6 total):
 1. Product ID    (Integer, 5)     PK, Auto-increment
@@ -351,10 +351,10 @@ Attributes (6 total):
 
 Example: { id: 1, name: '6-inch Round', price: 20.00, 
            servesMin: 4, servesMax: 6, categoryId: 1 }
-```
+\`\`\`
 
 #### **Current Implementation**
-```typescript
+\`\`\`typescript
 products: {
   id:          serial           PK
   name:        varchar(255)     Required
@@ -374,7 +374,7 @@ products: {
   deletedAt:   timestamp        Optional
   deletedBy:   varchar(255)     Optional
 }
-```
+\`\`\`
 
 #### **Gap Analysis**
 
@@ -405,7 +405,7 @@ products: {
 ### 9. PRODUCT_OPTION TABLE
 
 #### **Case Study Requirements**
-```
+\`\`\`
 Table: Product Option
 Attributes (5 total):
 1. Option ID       (Integer, 5)     PK, Auto-increment
@@ -418,10 +418,10 @@ Examples:
 - { id: 1, name: 'Vanilla', type: 'Cake Flavor', cost: 0, customizable: 'Y' }
 - { id: 25, name: 'Red', type: 'Icing Color', cost: 0, customizable: 'Y' }
 - { id: 40, name: 'Fondant Decorations', type: 'Decoration', cost: 15.00, customizable: 'Y' }
-```
+\`\`\`
 
 #### **Current Implementation**
-```
+\`\`\`
 ❌ NOT IMPLEMENTED as database table
 Currently: Hardcoded in /src/data/cakeOptions.ts
 
@@ -436,7 +436,7 @@ export const fillings = [
   { id: 'chocolate-mousse', name: 'Chocolate Mousse', price: 5 },
   ...
 ];
-```
+\`\`\`
 
 **Gap Analysis:**
 - **Impact:** **MEDIUM** - Options cannot be managed dynamically
@@ -446,7 +446,7 @@ export const fillings = [
 - **Priority:** **P2**
 
 **Suggested Migration:**
-```typescript
+\`\`\`typescript
 product_options: {
   id:            serial         PK
   name:          varchar(100)   Required
@@ -457,14 +457,14 @@ product_options: {
   displayOrder:  integer        Default 0
   createdAt:     timestamp      Default NOW()
 }
-```
+\`\`\`
 
 ---
 
 ### 10. ORDER_PRODUCT_OPTION TABLE (Junction)
 
 #### **Case Study Requirements**
-```
+\`\`\`
 Table: Order Product Option
 Attributes (5 total):
 1. Order ID        (Integer, 9)    PK, FK
@@ -475,10 +475,10 @@ Attributes (5 total):
 
 Purpose: Links orders to specific customization options
 Example: Order #123 has Option #5 (Vanilla) on Layer 1
-```
+\`\`\`
 
 #### **Current Implementation**
-```
+\`\`\`
 🟡 PARTIALLY IMPLEMENTED
 Not as separate table, but as JSONB field on orders table:
 
@@ -494,7 +494,7 @@ orders.layers = [
     "notes": ""
   }
 ]
-```
+\`\`\`
 
 **Gap Analysis:**
 - **Status:** INNOVATIVE ALTERNATIVE - JSONB vs. junction table
@@ -514,7 +514,7 @@ orders.layers = [
 ### 11. EMPLOYEE TABLE (Missing)
 
 #### **Case Study Implication**
-```
+\`\`\`
 Referenced as Foreign Keys in:
 - Orders.Sales_Staff_ID
 - Orders.Last_Employee_ID  
@@ -527,15 +527,15 @@ Implied Attributes:
 - Role (Sales Staff, Baker, Decorator, Manager)
 - Contact_Info
 - Active Status
-```
+\`\`\`
 
 #### **Current Implementation**
-```
+\`\`\`
 ❌ NOT IMPLEMENTED as table
 Workaround: Using varchar fields:
 - orders.lastModifiedBy (string)
 - payments.recordedBy (string)
-```
+\`\`\`
 
 **Gap Analysis:**
 - **Impact:** **MEDIUM-HIGH** - Cannot properly track employee performance
@@ -548,7 +548,7 @@ Workaround: Using varchar fields:
 - **Priority:** **P1-P2**
 
 **Suggested Implementation:**
-```typescript
+\`\`\`typescript
 employees: {
   id:        serial         PK
   firstName: varchar(50)    Required
@@ -566,23 +566,23 @@ employees: {
 salesStaffId:      integer FK → employees.id
 lastEmployeeId:    integer FK → employees.id
 finalApprovalId:   integer FK → employees.id
-```
+\`\`\`
 
 ---
 
 ### 12. PAYMENTS TABLE
 
 #### **Case Study Requirements**
-```
+\`\`\`
 Not explicitly defined in data dictionary
 Implied from business rules:
 - Track payment method (Cash, Debit, Major Credit Cards)
 - Minimum 50% deposit
 - Track payment status
-```
+\`\`\`
 
 #### **Current Implementation**
-```typescript
+\`\`\`typescript
 payments: {
   id:            serial         PK
   orderId:       integer        FK → orders.id, Required
@@ -595,7 +595,7 @@ payments: {
   createdAt:     timestamp      Default NOW()
   updatedAt:     timestamp      Default NOW()
 }
-```
+\`\`\`
 
 **Gap Analysis:**
 - **Status:** ✅ **EXCEEDS REQUIREMENTS**
@@ -614,13 +614,13 @@ payments: {
 ### 13. INQUIRIES TABLE
 
 #### **Case Study Requirements**
-```
+\`\`\`
 Not in data dictionary
 Added as system enhancement for lead management
-```
+\`\`\`
 
 #### **Current Implementation**
-```typescript
+\`\`\`typescript
 inquiries: {
   id:                serial         PK
   customerId:        integer        FK → customers.id (nullable)
@@ -637,7 +637,7 @@ inquiries: {
   respondedAt:       timestamp      Optional
   createdAt:         timestamp      Default NOW()
 }
-```
+\`\`\`
 
 **Gap Analysis:**
 - **Status:** ✅ **ENHANCEMENT** - Not required but valuable
@@ -649,13 +649,13 @@ inquiries: {
 ### 14. CONTACT_MESSAGES TABLE
 
 #### **Case Study Requirements**
-```
+\`\`\`
 Implied from Requirement #4 (Optional Updated Website)
 Contact form functionality
-```
+\`\`\`
 
 #### **Current Implementation**
-```typescript
+\`\`\`typescript
 contact_messages: {
   id:                serial         PK
   name:              varchar(255)   Required
@@ -667,7 +667,7 @@ contact_messages: {
   status:            varchar(50)    Default 'unread'
   createdAt:         timestamp      Default NOW()
 }
-```
+\`\`\`
 
 **Gap Analysis:**
 - **Status:** ✅ **MEETS REQUIREMENTS**
@@ -733,20 +733,20 @@ contact_messages: {
 ### **Tier 1: Critical for Case Study Compliance (1-2 weeks)**
 
 1. ✅ **Add `customer_type` to customers table**
-   ```sql
+   \`\`\`sql
    ALTER TABLE customers ADD COLUMN customer_type VARCHAR(20) DEFAULT 'retail';
    -- Constraint: 'retail' | 'corporate'
-   ```
+   \`\`\`
 
 2. ✅ **Create `employees` table**
    - Enable proper staff tracking
    - Add FKs to orders table (salesStaffId, lastEmployeeId, finalApprovalId)
 
 3. ✅ **Add serving size to products**
-   ```sql
+   \`\`\`sql
    ALTER TABLE products ADD COLUMN serves_min INTEGER;
    ALTER TABLE products ADD COLUMN serves_max INTEGER;
-   ```
+   \`\`\`
 
 4. ✅ **Migrate product options to database**
    - Create `product_options` table
@@ -756,13 +756,13 @@ contact_messages: {
 ### **Tier 2: Important for Data Quality (1 week)**
 
 5. ✅ **Add customer address fields**
-   ```sql
+   \`\`\`sql
    ALTER TABLE customers ADD COLUMN address_line1 VARCHAR(100);
    ALTER TABLE customers ADD COLUMN address_line2 VARCHAR(100);
    ALTER TABLE customers ADD COLUMN city VARCHAR(60);
    ALTER TABLE customers ADD COLUMN state VARCHAR(50);
    ALTER TABLE customers ADD COLUMN zip_code VARCHAR(10);
-   ```
+   \`\`\`
 
 6. ✅ **Create lookup tables**
    - `customer_status` (Active, Inactive, Preferred)

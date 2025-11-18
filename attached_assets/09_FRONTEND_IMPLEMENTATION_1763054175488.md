@@ -9,7 +9,7 @@
 
 ## Project Structure
 
-```
+\`\`\`
 src/
 ├── pages/
 │   ├── Dashboard.tsx
@@ -69,7 +69,7 @@ src/
 │   ├── tailwind.config.js
 │   └── design-tokens.css
 └── App.tsx
-```
+\`\`\`
 
 ---
 
@@ -77,7 +77,7 @@ src/
 
 **Purpose:** Allow staff to add/remove layers with per-layer customization
 
-```typescript
+\`\`\`typescript
 // src/components/forms/LayerRepeater.tsx
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
@@ -236,13 +236,13 @@ export const LayerRepeater: React.FC<LayerRepeaterProps> = ({
     </div>
   );
 };
-```
+\`\`\`
 
 ---
 
 ## New Order Wizard (Step-by-Step)
 
-```typescript
+\`\`\`typescript
 // src/pages/Orders/NewOrderWizard.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -445,13 +445,13 @@ export const NewOrderWizard: React.FC = () => {
 };
 
 export default NewOrderWizard;
-```
+\`\`\`
 
 ---
 
 ## Custom Hook: useOrders
 
-```typescript
+\`\`\`typescript
 // src/hooks/useOrders.ts
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { apiClient } from '@/services/api';
@@ -502,13 +502,13 @@ export const useUpdateOrderStatus = () => {
     }
   );
 };
-```
+\`\`\`
 
 ---
 
 ## Production Sheet Component
 
-```typescript
+\`\`\`typescript
 // src/components/orders/ProductionSheet.tsx
 import React, { useRef } from 'react';
 import { Order } from '@/types/orders';
@@ -593,13 +593,13 @@ export const ProductionSheet: React.FC<ProductionSheetProps> = ({
     </div>
   );
 };
-```
+\`\`\`
 
 ---
 
 ## Form Validation Utility
 
-```typescript
+\`\`\`typescript
 // src/services/validation.ts
 export interface ValidationError {
   field: string;
@@ -665,7 +665,7 @@ export const validateOrder = (data: any): ValidationError[] => {
 
   return errors;
 };
-```
+\`\`\`
 
 ---
 

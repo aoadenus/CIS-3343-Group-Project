@@ -23,15 +23,15 @@
 - ✅ Updated demo credentials section to show all 6 accounts with password
 
 **Before:**
-```typescript
+\`\`\`typescript
 // Simulate API call
 await new Promise(resolve => setTimeout(resolve, 1000));
 showToast('success', 'Welcome back, Emily!'); // Always Emily!
 onLogin();
-```
+\`\`\`
 
 **After:**
-```typescript
+\`\`\`typescript
 const response = await fetch('/api/auth/staff-login', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
@@ -50,12 +50,12 @@ if (!response.ok) {
 localStorage.setItem('token', data.token);
 showToast('success', `Welcome back, ${data.user.name}!`, 'Login Successful');
 onLogin();
-```
+\`\`\`
 
 ### 2. Demo Credentials Display
 **Updated login page to show all 6 demo accounts:**
 
-```
+\`\`\`
 Demo Credentials
 Owner:      emily@emilybakes.com
 Manager:    manager@emilybakes.com
@@ -65,16 +65,16 @@ Decorator:  decorator@emilybakes.com
 Accountant: accountant@emilybakes.com
 
 All passwords: DemoPass123!
-```
+\`\`\`
 
 ---
 
 ## ✅ VERIFICATION COMPLETED
 
 ### Database Verification
-```sql
+\`\`\`sql
 SELECT id, email, name, role, is_active FROM employees;
-```
+\`\`\`
 
 **Results:**
 | ID | Email | Name | Role | Active |
@@ -96,7 +96,7 @@ Tested `/api/auth/staff-login` endpoint with each account:
 | baker@emilybakes.com | `"baker"` | Tom Anderson | ✅ Working |
 
 **Sample JWT Payload (sales):**
-```json
+\`\`\`json
 {
   "id": 3,
   "email": "sales@emilybakes.com",
@@ -105,12 +105,12 @@ Tested `/api/auth/staff-login` endpoint with each account:
   "iat": 1763067269,
   "exp": 1763672069
 }
-```
+\`\`\`
 
 ### Frontend Routing Verification
 **App.tsx routing logic:** ✅ CORRECT
 
-```typescript
+\`\`\`typescript
 const getRoleDashboard = () => {
   switch (userRole) {
     case 'sales':
@@ -128,12 +128,12 @@ const getRoleDashboard = () => {
       return <SalesDashboard onNavigate={setActivePage} />;
   }
 };
-```
+\`\`\`
 
 ### Logout Verification
 **App.tsx logout handler:** ✅ CORRECT
 
-```typescript
+\`\`\`typescript
 const handleLogout = () => {
   localStorage.removeItem('token'); // Clears JWT
   setIsAuthenticated(false);
@@ -141,7 +141,7 @@ const handleLogout = () => {
   setAppMode('public');
   setActivePage('home');
 };
-```
+\`\`\`
 
 ---
 

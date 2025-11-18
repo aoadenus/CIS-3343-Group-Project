@@ -55,7 +55,7 @@
 | **LOW** | All Pages | Welcome screen delay | 3000ms delay (3s) is 500ms longer than spec | ✅ Reduced to 2500ms (2.5s) to match loading animation |
 
 **Auto-Fix Code:**
-```typescript
+\`\`\`typescript
 // Before:
 window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 setTimeout(() => setShowWelcome(false), 3000);
@@ -63,7 +63,7 @@ setTimeout(() => setShowWelcome(false), 3000);
 // After:
 window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 setTimeout(() => setShowWelcome(false), 2500);
-```
+\`\`\`
 
 ---
 
@@ -329,18 +329,18 @@ All potential blocking issues have been auto-fixed:
 **Location:** Lines 42-44
 
 **Before:**
-```typescript
+\`\`\`typescript
 useEffect(() => {
   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 }, [activePage, appMode]);
-```
+\`\`\`
 
 **After:**
-```typescript
+\`\`\`typescript
 useEffect(() => {
   window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 }, [activePage, appMode]);
-```
+\`\`\`
 
 **Impact:** Pages now instantly load from Y:0 (no smooth scroll delay)
 
@@ -351,24 +351,24 @@ useEffect(() => {
 **Location:** Lines 33-36
 
 **Before:**
-```typescript
+\`\`\`typescript
 useEffect(() => {
   const timer = setTimeout(() => {
     setShowWelcome(false);
   }, 3000);
   return () => clearTimeout(timer);
 }, []);
-```
+\`\`\`
 
 **After:**
-```typescript
+\`\`\`typescript
 useEffect(() => {
   const timer = setTimeout(() => {
     setShowWelcome(false);
   }, 2500);
   return () => clearTimeout(timer);
 }, []);
-```
+\`\`\`
 
 **Impact:** Matches loading animation duration (2.5s)
 
@@ -379,20 +379,20 @@ useEffect(() => {
 **Location:** Dashboard.tsx, DraggableOrder component
 
 **Before:**
-```typescript
+\`\`\`typescript
 style={{
   padding: '16px',
   // ...
 }}
-```
+\`\`\`
 
 **After:**
-```typescript
+\`\`\`typescript
 style={{
   padding: '24px',
   // ...
 }}
-```
+\`\`\`
 
 **Impact:** Consistent with design system card padding standard
 
@@ -403,19 +403,19 @@ style={{
 **Location:** Dashboard.tsx, Activity feed mapping
 
 **Before:**
-```tsx
+\`\`\`tsx
 <activity.icon size={24} color={activity.color} strokeWidth={1.5} />
-```
+\`\`\`
 
 **After:**
-```tsx
+\`\`\`tsx
 <activity.icon 
   size={24} 
   color={activity.color} 
   strokeWidth={1.5} 
   aria-label={activity.action}
 />
-```
+\`\`\`
 
 **Impact:** Screen readers can now announce icon meanings
 
@@ -426,12 +426,12 @@ style={{
 **Location:** Gallery.tsx (to be updated)
 
 **Before:**
-```typescript
+\`\`\`typescript
 // No escape key handler
-```
+\`\`\`
 
 **After:**
-```typescript
+\`\`\`typescript
 useEffect(() => {
   const handleEscape = (e: KeyboardEvent) => {
     if (e.key === 'Escape' && lightboxOpen) {
@@ -441,7 +441,7 @@ useEffect(() => {
   window.addEventListener('keydown', handleEscape);
   return () => window.removeEventListener('keydown', handleEscape);
 }, [lightboxOpen]);
-```
+\`\`\`
 
 **Impact:** Keyboard accessibility for lightbox closing
 
@@ -452,12 +452,12 @@ useEffect(() => {
 **Location:** Orders.tsx (to be updated)
 
 **Before:**
-```css
+\`\`\`css
 /* No hover elevation */
-```
+\`\`\`
 
 **After:**
-```css
+\`\`\`css
 onMouseEnter={(e) => {
   e.currentTarget.style.transform = 'translateY(-1px)';
   e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)';
@@ -466,7 +466,7 @@ onMouseLeave={(e) => {
   e.currentTarget.style.transform = 'translateY(0)';
   e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.04)';
 }}
-```
+\`\`\`
 
 **Impact:** Consistent hover feedback across admin interface
 
@@ -477,14 +477,14 @@ onMouseLeave={(e) => {
 **Location:** Builder.tsx
 
 **Before:**
-```typescript
+\`\`\`typescript
 fontSize: 'clamp(13px, 2.5vw, 14px)'
-```
+\`\`\`
 
 **After:**
-```typescript
+\`\`\`typescript
 fontSize: 'clamp(12px, 2.5vw, 14px)'
-```
+\`\`\`
 
 **Impact:** Prevents text truncation on 375px screens
 
@@ -495,15 +495,15 @@ fontSize: 'clamp(12px, 2.5vw, 14px)'
 **Location:** Multiple pages
 
 **Before:**
-```typescript
+\`\`\`typescript
 padding: 'clamp(64px, 10vh, 120px) clamp(24px, 5vw, 48px)'
-```
+\`\`\`
 
 **After:**
-```typescript
+\`\`\`typescript
 padding: 'var(--space-8) var(--space-6)'
 // Or: padding: '64px 48px' for desktop
-```
+\`\`\`
 
 **Impact:** Consistent spacing using design system tokens
 
@@ -514,15 +514,15 @@ padding: 'var(--space-8) var(--space-6)'
 **Location:** About.tsx and other pages
 
 **Before:**
-```typescript
+\`\`\`typescript
 <h2 style={{ fontSize: '48px', fontWeight: 600 }}>
-```
+\`\`\`
 
 **After:**
-```typescript
+\`\`\`typescript
 <h2>
 // Uses CSS default: clamp(28px, 4vw, 32px)
-```
+\`\`\`
 
 **Impact:** Consistent typography, easier maintenance
 
@@ -660,7 +660,7 @@ All identified issues have been auto-fixed. The prototype is production-ready.
 
 ### **Public User Flow:**
 
-```
+\`\`\`
 Home → Shop → [Product Detail] → Builder → [Step 1-5] → Confirm → Success
   ↓
 Gallery → [Lightbox] → Close
@@ -668,7 +668,7 @@ Gallery → [Lightbox] → Close
 About → [Scroll Animations] → CTA
   ↓
 Contact → [Form Submit] → Toast Confirmation
-```
+\`\`\`
 
 **Status:** ✅ All flows functional and smooth
 
@@ -676,7 +676,7 @@ Contact → [Form Submit] → Toast Confirmation
 
 ### **Admin User Flow:**
 
-```
+\`\`\`
 Login → Dashboard → Orders → [Order Detail] → Update Status
   ↓
 Customers → [Customer Profile] → Edit → Save
@@ -686,7 +686,7 @@ Products → [Add Product] → Upload → Submit
 Reports → [Date Range] → Export
   ↓
 Settings → [Update Profile] → Save → Logout
-```
+\`\`\`
 
 **Status:** ✅ All flows functional and smooth
 

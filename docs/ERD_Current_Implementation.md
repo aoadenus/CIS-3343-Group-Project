@@ -6,7 +6,7 @@
 ## ENTITIES AND ATTRIBUTES
 
 ### 1. CUSTOMERS (Primary Entity)
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────────┐
 │                         CUSTOMERS                            │
 ├─────────────────────────────────────────────────────────────┤
@@ -33,10 +33,10 @@
 │  • deletedAt (TIMESTAMP) NULL                              │
 │  • deletedBy (VARCHAR 255) NULL                            │
 └─────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### 2. ORDERS (Transaction Entity)
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────────┐
 │                          ORDERS                              │
 ├─────────────────────────────────────────────────────────────┤
@@ -97,10 +97,10 @@
 │  • deletedAt (TIMESTAMP) NULL                              │
 │  • deletedBy (VARCHAR 255) NULL                            │
 └─────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### 3. PRODUCTS (Catalog Entity)
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────────┐
 │                         PRODUCTS                             │
 ├─────────────────────────────────────────────────────────────┤
@@ -134,10 +134,10 @@
 │  • deletedAt (TIMESTAMP) NULL                              │
 │  • deletedBy (VARCHAR 255) NULL                            │
 └─────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### 4. INQUIRIES (Lead Entity)
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────────┐
 │                        INQUIRIES                             │
 ├─────────────────────────────────────────────────────────────┤
@@ -165,10 +165,10 @@
 │ Audit:                                                      │
 │  • createdAt (TIMESTAMP) DEFAULT NOW()                     │
 └─────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### 5. CONTACT_MESSAGES (Communication Entity)
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────────┐
 │                    CONTACT_MESSAGES                          │
 ├─────────────────────────────────────────────────────────────┤
@@ -191,10 +191,10 @@
 │ Audit:                                                      │
 │  • createdAt (TIMESTAMP) DEFAULT NOW()                     │
 └─────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### 6. PAYMENTS (Financial Record Entity)
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────────┐
 │                         PAYMENTS                             │
 ├─────────────────────────────────────────────────────────────┤
@@ -217,14 +217,14 @@
 │  • createdAt (TIMESTAMP) DEFAULT NOW()                     │
 │  • updatedAt (TIMESTAMP) DEFAULT NOW()                     │
 └─────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ---
 
 ## RELATIONSHIPS (Crow's Foot Notation)
 
 ### 1. CUSTOMERS ─────< ORDERS (One-to-Many)
-```
+\`\`\`
 CUSTOMERS ||────────o{ ORDERS
    (1)                  (0..*)
 
@@ -232,10 +232,10 @@ Relationship Type: MANDATORY on ORDER side
 Foreign Key: orders.customerId → customers.id
 Business Rule: Every order must belong to exactly one customer
 Cardinality: One customer can have zero or many orders
-```
+\`\`\`
 
 ### 2. CUSTOMERS ─────< INQUIRIES (One-to-Many, Optional)
-```
+\`\`\`
 CUSTOMERS ||────────o{ INQUIRIES
    (1)                  (0..*)
 
@@ -243,10 +243,10 @@ Relationship Type: OPTIONAL (NULL allowed)
 Foreign Key: inquiries.customerId → customers.id
 Business Rule: Inquiries can be linked to existing customers or remain anonymous
 Cardinality: One customer can have zero or many inquiries
-```
+\`\`\`
 
 ### 3. ORDERS ─────< PAYMENTS (One-to-Many)
-```
+\`\`\`
 ORDERS ||────────o{ PAYMENTS
  (1)                (0..*)
 
@@ -254,13 +254,13 @@ Relationship Type: MANDATORY on PAYMENT side
 Foreign Key: payments.orderId → orders.id
 Business Rule: Every payment record must be associated with an order
 Cardinality: One order can have zero or many payment transactions
-```
+\`\`\`
 
 ---
 
 ## ENTITY RELATIONSHIPS SUMMARY
 
-```
+\`\`\`
 ┌──────────────┐
 │  CUSTOMERS   │
 │   (Core)     │
@@ -289,7 +289,7 @@ Cardinality: One order can have zero or many payment transactions
 │  (Catalog)   │          │  (Communication) │
 │ [Independent]│          │   [Independent]  │
 └──────────────┘          └──────────────────┘
-```
+\`\`\`
 
 ---
 
@@ -297,7 +297,7 @@ Cardinality: One order can have zero or many payment transactions
 
 ### 1. **Unlimited Layer System (JSONB)**
 The `orders.layers` field stores an array of layer objects:
-```json
+\`\`\`json
 [
   {
     "flavor": "Vanilla",
@@ -310,7 +310,7 @@ The `orders.layers` field stores an array of layer objects:
     "notes": ""
   }
 ]
-```
+\`\`\`
 - **Max 2 fillings per layer** (enforced in application logic)
 - **Unlimited total layers** supported
 - **Layer notes** up to 255 characters
@@ -345,7 +345,7 @@ All major entities include:
 
 ## INDEXES (Recommended for Performance)
 
-```sql
+\`\`\`sql
 -- Customer lookups
 CREATE INDEX idx_customers_email ON customers(email);
 CREATE INDEX idx_customers_deleted ON customers(deletedAt) WHERE deletedAt IS NULL;
@@ -367,7 +367,7 @@ CREATE INDEX idx_products_deleted ON products(deletedAt) WHERE deletedAt IS NULL
 -- Inquiry management
 CREATE INDEX idx_inquiries_status ON inquiries(status);
 CREATE INDEX idx_inquiries_created ON inquiries(createdAt DESC);
-```
+\`\`\`
 
 ---
 

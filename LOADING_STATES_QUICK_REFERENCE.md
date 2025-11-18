@@ -9,7 +9,7 @@
 
 ### 1. Skeleton Card Placeholders
 
-```tsx
+\`\`\`tsx
 import { SkeletonCard } from '../components/Loading/SkeletonCard';
 
 // Customer site - Product skeleton
@@ -23,13 +23,13 @@ import { SkeletonCard } from '../components/Loading/SkeletonCard';
 
 // Admin portal - Chart skeleton with pulse
 <SkeletonCard variant="admin" type="chart" />
-```
+\`\`\`
 
 ---
 
 ### 2. Lazy Loading Images
 
-```tsx
+\`\`\`tsx
 import { LazyImage } from '../components/Loading/LazyImage';
 
 // With blur-up thumbnail
@@ -45,13 +45,13 @@ import { LazyImage } from '../components/Loading/LazyImage';
   src="https://example.com/image.jpg"
   alt="Product"
 />
-```
+\`\`\`
 
 ---
 
 ### 3. Progress Bars
 
-```tsx
+\`\`\`tsx
 import { ProgressBar, IndeterminateProgressBar } from '../components/Loading/ProgressBar';
 
 // Known progress (0-100)
@@ -63,13 +63,13 @@ import { ProgressBar, IndeterminateProgressBar } from '../components/Loading/Pro
 
 // Unknown duration
 <IndeterminateProgressBar variant="admin" />
-```
+\`\`\`
 
 ---
 
 ### 4. Loading Spinners
 
-```tsx
+\`\`\`tsx
 import { LoadingSpinner, ButtonSpinner } from '../components/Loading/LoadingSpinner';
 
 // Inline spinner with label
@@ -80,7 +80,7 @@ import { LoadingSpinner, ButtonSpinner } from '../components/Loading/LoadingSpin
   <ButtonSpinner size="sm" />
   Saving...
 </button>
-```
+\`\`\`
 
 ---
 
@@ -88,7 +88,7 @@ import { LoadingSpinner, ButtonSpinner } from '../components/Loading/LoadingSpin
 
 ### Pattern 1: Page with Skeleton Loading
 
-```tsx
+\`\`\`tsx
 export function ProductsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState([]);
@@ -118,13 +118,13 @@ export function ProductsPage() {
     </div>
   );
 }
-```
+\`\`\`
 
 ---
 
 ### Pattern 2: Progressive Content Reveal
 
-```tsx
+\`\`\`tsx
 <div className="grid grid-cols-4 gap-6">
   {kpis.map((kpi, index) => (
     <div key={kpi.id} className="progressive-content">
@@ -132,7 +132,7 @@ export function ProductsPage() {
     </div>
   ))}
 </div>
-```
+\`\`\`
 
 **CSS automatically staggers:**
 - 1st item: 0ms delay
@@ -144,7 +144,7 @@ export function ProductsPage() {
 
 ### Pattern 3: Form Submission with Progress
 
-```tsx
+\`\`\`tsx
 export function CheckoutForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -190,13 +190,13 @@ export function CheckoutForm() {
     </>
   );
 }
-```
+\`\`\`
 
 ---
 
 ### Pattern 4: Lazy Loading Gallery
 
-```tsx
+\`\`\`tsx
 export function Gallery() {
   const [images, setImages] = useState([]);
   const [loadedCount, setLoadedCount] = useState(0);
@@ -223,7 +223,7 @@ export function Gallery() {
     </div>
   );
 }
-```
+\`\`\`
 
 ---
 
@@ -232,24 +232,24 @@ export function Gallery() {
 ### Customer vs Admin Shimmer Colors
 
 **Customer (Warm):**
-```css
+\`\`\`css
 linear-gradient(
   90deg,
   rgba(248, 235, 215, 0.3) 0%,      /* Cream Vanilla */
   rgba(196, 69, 105, 0.1) 50%,      /* Raspberry Pink */
   rgba(248, 235, 215, 0.3) 100%
 )
-```
+\`\`\`
 
 **Admin (Professional):**
-```css
+\`\`\`css
 linear-gradient(
   90deg,
   rgba(240, 240, 240, 0.15) 0%,     /* Light Gray */
   rgba(255, 255, 255, 0.05) 50%,    /* White */
   rgba(240, 240, 240, 0.15) 100%
 )
-```
+\`\`\`
 
 ---
 
@@ -273,7 +273,7 @@ linear-gradient(
 
 ## ♿ Accessibility Checklist
 
-```tsx
+\`\`\`tsx
 // ✅ Hide skeleton from screen readers
 <div className="skeleton-card" aria-hidden="true">
   {/* Skeleton content */}
@@ -294,7 +294,7 @@ linear-gradient(
 @media (prefers-reduced-motion: reduce) {
   .skeleton-shimmer { animation: none; }
 }
-```
+\`\`\`
 
 ---
 
@@ -305,49 +305,49 @@ linear-gradient(
 **Problem:** Skeleton appears briefly then disappears
 **Solution:** Ensure `isLoading` state is initialized to `true`
 
-```tsx
+\`\`\`tsx
 // ❌ Wrong
 const [isLoading, setIsLoading] = useState(false);
 
 // ✅ Correct
 const [isLoading, setIsLoading] = useState(true);
-```
+\`\`\`
 
 ### Layout Shift During Load
 
 **Problem:** Content jumps when skeleton is replaced
 **Solution:** Ensure skeleton matches content dimensions
 
-```tsx
+\`\`\`tsx
 // Skeleton and content must have same container size
 <div style={{ minHeight: '200px' }}>
   {isLoading ? <SkeletonCard /> : <ContentCard />}
 </div>
-```
+\`\`\`
 
 ### Images Not Lazy Loading
 
 **Problem:** All images load at once
 **Solution:** Verify LazyImage is imported correctly
 
-```tsx
+\`\`\`tsx
 // ✅ Use LazyImage component
 import { LazyImage } from '../components/Loading/LazyImage';
 
 // ❌ Not regular img tag
 <LazyImage src="..." alt="..." />
-```
+\`\`\`
 
 ### Progress Bar Not Visible
 
 **Problem:** Progress bar doesn't appear
 **Solution:** Check z-index and position
 
-```tsx
+\`\`\`tsx
 // Progress bar uses z-index: 9999
 // Ensure no other elements have higher z-index
 <ProgressBar progress={50} />
-```
+\`\`\`
 
 ---
 
@@ -403,33 +403,33 @@ import { LazyImage } from '../components/Loading/LazyImage';
 ### 2. Skeleton Sizing
 
 **Match Content Dimensions:**
-```tsx
+\`\`\`tsx
 // Product card is 300x400px
 <SkeletonCard 
   style={{ width: '300px', height: '400px' }}
   variant="customer"
   type="product"
 />
-```
+\`\`\`
 
 ### 3. Progressive Enhancement
 
 **Show most important content first:**
 
-```
+\`\`\`
 Loading Priority:
 1. Navigation (instant)
 2. Page structure (50ms)
 3. Above-the-fold content (200ms)
 4. Below-the-fold content (lazy load)
 5. Non-critical images (lazy load)
-```
+\`\`\`
 
 ### 4. Error States
 
 **Always handle loading errors:**
 
-```tsx
+\`\`\`tsx
 const [isLoading, setIsLoading] = useState(true);
 const [error, setError] = useState(null);
 
@@ -443,7 +443,7 @@ useEffect(() => {
 if (error) return <ErrorMessage />;
 if (isLoading) return <SkeletonCard />;
 return <Content />;
-```
+\`\`\`
 
 ---
 
@@ -451,7 +451,7 @@ return <Content />;
 
 ### Touch-Friendly Loading States
 
-```tsx
+\`\`\`tsx
 // Ensure loading indicators are visible on small screens
 <div style={{ minHeight: '48px' }}>
   {isLoading ? (
@@ -460,11 +460,11 @@ return <Content />;
     <Content />
   )}
 </div>
-```
+\`\`\`
 
 ### Bandwidth Optimization
 
-```tsx
+\`\`\`tsx
 // Use smaller thumbnails for mobile
 const thumbnailUrl = isMobile 
   ? image.thumbnail_mobile  // 5px wide
@@ -475,7 +475,7 @@ const thumbnailUrl = isMobile
   alt={image.alt}
   thumbnail={thumbnailUrl}
 />
-```
+\`\`\`
 
 ---
 

@@ -7,7 +7,7 @@
 ## 📋 GLOBAL DASHBOARD REQUIREMENTS (APPLY TO ALL 6 ROLES)
 
 ### **Brand Standards (STRICT ENFORCEMENT)**
-```css
+\`\`\`css
 /* COLOR PALETTE - Use ONLY these colors */
 --raspberry-pink: #C44569;    /* Primary actions, KPI highlights */
 --cream-vanilla: #F8EBD7;     /* Card backgrounds */
@@ -20,10 +20,10 @@
 --warning-amber: #F59E0B;
 --error-red: #EF4444;
 --info-blue: #3B82F6;
-```
+\`\`\`
 
 ### **Typography System**
-```css
+\`\`\`css
 /* HEADINGS */
 H1: Playfair Display, 32px, Bold, Charcoal Gray
 H2: Poppins, 24px, SemiBold, Charcoal Gray
@@ -33,10 +33,10 @@ H3: Poppins, 20px, SemiBold, Charcoal Gray
 Body: Open Sans, 16px, Regular, Chocolate Brown
 Small: Open Sans, 14px, Regular, Chocolate Brown
 Tiny: Open Sans, 12px, Regular, Chocolate Brown
-```
+\`\`\`
 
 ### **Layout Structure (ALL Dashboards)**
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────┐
 │ HEADER (80px height, fixed)                             │
 │ - Logo (left, 180px wide)                               │
@@ -65,10 +65,10 @@ Tiny: Open Sans, 12px, Regular, Chocolate Brown
 │ - Help Link (center)                                    │
 │ - Version (right)                                       │
 └─────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### **KPI Card Component (STANDARDIZED)**
-```tsx
+\`\`\`tsx
 // STRUCTURE
 <div className="kpi-card">
   <div className="kpi-header">
@@ -110,10 +110,10 @@ Tiny: Open Sans, 12px, Regular, Chocolate Brown
 }
 
 // CLICK BEHAVIOR: Opens modal with detailed breakdown
-```
+\`\`\`
 
 ### **Modal System (ALL Detail Views)**
-```tsx
+\`\`\`tsx
 // TRIGGER: Clicking any KPI card
 // POSITION: Centered overlay (50% from top, 50% from left, transform)
 // SIZE: max-width: 800px, max-height: 90vh
@@ -151,7 +151,7 @@ Tiny: Open Sans, 12px, Regular, Chocolate Brown
 - Focus returns to trigger element on close
 - aria-modal="true"
 - aria-labelledby points to modal title
-```
+\`\`\`
 
 ---
 
@@ -169,7 +169,7 @@ Tiny: Open Sans, 12px, Regular, Chocolate Brown
 ### **KPI Cards (4-column grid)**
 
 #### **KPI 1: Today's Orders**
-```tsx
+\`\`\`tsx
 Icon: ShoppingCart (Lucide React)
 Color: Raspberry Pink
 Value: {count} (e.g., "12")
@@ -178,10 +178,10 @@ Click Action: Opens modal showing:
   - Table of all orders created today
   - Columns: Order ID, Customer Name, Cake Type, Total, Status
   - Each row clickable → navigates to /admin/order-management?id={orderId}
-```
+\`\`\`
 
 #### **KPI 2: Pending Deposits**
-```tsx
+\`\`\`tsx
 Icon: DollarSign
 Color: Warning Amber (#F59E0B)
 Value: "$1,245" (sum of all partial deposits owed)
@@ -190,10 +190,10 @@ Click Action: Opens modal showing:
   - Table of orders with payment_status = 'partial_deposit'
   - Columns: Customer, Order Date, Total, Paid, Balance Due, Action
   - Action button: "Send Reminder Email"
-```
+\`\`\`
 
 #### **KPI 3: Pickups Today**
-```tsx
+\`\`\`tsx
 Icon: Package
 Color: Success Green
 Value: {count} "8"
@@ -203,10 +203,10 @@ Click Action: Opens modal showing:
   - Sorted by pickup time (earliest first)
   - Each shows: Customer, Time, Order Summary, Phone Number
   - "Mark as Picked Up" button (updates status to 'completed')
-```
+\`\`\`
 
 #### **KPI 4: Recent Inquiries**
-```tsx
+\`\`\`tsx
 Icon: MessageCircle
 Color: Info Blue
 Value: {count} "3 unread"
@@ -215,10 +215,10 @@ Click Action: Opens modal showing:
   - Table from contact_messages where status = 'pending'
   - Columns: Name, Email, Subject, Date, Action
   - Action: "Mark as Contacted" button
-```
+\`\`\`
 
 ### **Quick Actions Section**
-```tsx
+\`\`\`tsx
 <div className="quick-actions" style={{
   display: 'flex',
   gap: '16px',
@@ -249,10 +249,10 @@ Click Action: Opens modal showing:
     View All Orders
   </Button>
 </div>
-```
+\`\`\`
 
 ### **Recent Orders Section (Below Quick Actions)**
-```tsx
+\`\`\`tsx
 <Card className="recent-orders">
   <CardHeader>
     <h3>Recent Orders (Last 7 Days)</h3>
@@ -286,10 +286,10 @@ Click Action: Opens modal showing:
 - Hover: rgba(196,69,105,0.1)
 - Row height: 56px
 - Font: Open Sans 14px
-```
+\`\`\`
 
 ### **Activity Feed (Right Sidebar)**
-```tsx
+\`\`\`tsx
 <Card className="activity-feed" style={{
   position: 'sticky',
   top: '96px', // Below fixed header
@@ -317,7 +317,7 @@ Click Action: Opens modal showing:
 - "Sarah Chen created Order #1234"
 - "Mike Baker moved Order #1230 to 'In Baking'"
 - "Lisa Decorator completed Order #1228"
-```
+\`\`\`
 
 ---
 
@@ -335,17 +335,17 @@ Click Action: Opens modal showing:
 ### **KPI Cards**
 
 #### **KPI 1: My Baking Queue**
-```tsx
+\`\`\`tsx
 Icon: ChefHat
 Color: Chocolate Brown
 Value: {count} "5 orders"
 Trend: "2 due today"
 Priority Indicator: Red dot if any orders due in < 4 hours
 Click Action: Scrolls to "Baking Queue" section below
-```
+\`\`\`
 
 #### **KPI 2: Tomorrow's Schedule**
-```tsx
+\`\`\`tsx
 Icon: Calendar
 Color: Info Blue
 Value: {count} "8 orders"
@@ -354,10 +354,10 @@ Click Action: Opens modal with:
   - Timeline view of tomorrow's orders
   - Sorted by pickup time (work backward 4 hours)
   - Shows complexity (number of layers, decorations)
-```
+\`\`\`
 
 #### **KPI 3: Completed Today**
-```tsx
+\`\`\`tsx
 Icon: CheckCircle
 Color: Success Green
 Value: {count} "12"
@@ -365,29 +365,29 @@ Trend: "+2 from yesterday"
 Click Action: Opens modal showing:
   - List of orders moved to 'in_decorating' status today
   - Shows time taken per order
-```
+\`\`\`
 
 #### **KPI 4: Sales Performance** (Shared with Sales)
-```tsx
+\`\`\`tsx
 Icon: TrendingUp
 Color: Raspberry Pink
 Value: "$3,420" (orders created when baker was on sales duty)
 Trend: "You created 8 orders this week"
 Click Action: Same as Sales KPI 1
-```
+\`\`\`
 
 ### **Quick Actions**
-```tsx
+\`\`\`tsx
 <Button variant="primary" onClick={() => navigate('/admin/order-create')}>
   Create Order (Sales Mode)
 </Button>
 <Button variant="secondary" onClick={() => navigate('/admin/fulfillment-board')}>
   View Kanban Board
 </Button>
-```
+\`\`\`
 
 ### **Baking Queue (Primary Section)**
-```tsx
+\`\`\`tsx
 <Card className="baking-queue">
   <CardHeader>
     <h3>My Baking Queue</h3>
@@ -464,7 +464,7 @@ Click Action: Same as Sales KPI 1
 // VISUAL PRIORITY
 - Sort by urgency DESC, then pickup date ASC
 - High urgency orders at top with pulsing animation
-```
+\`\`\`
 
 ---
 
@@ -482,17 +482,17 @@ Click Action: Same as Sales KPI 1
 ### **KPI Cards**
 
 #### **KPI 1: Decoration Queue**
-```tsx
+\`\`\`tsx
 Icon: Palette
 Color: Raspberry Pink
 Value: {count} "4 orders"
 Trend: "1 complex design"
 Priority: Red dot if < 4 hours to pickup
 Click Action: Scrolls to queue section
-```
+\`\`\`
 
 #### **KPI 2: Reference Photos**
-```tsx
+\`\`\`tsx
 Icon: Image
 Color: Info Blue
 Value: {count} "7 photos uploaded"
@@ -501,24 +501,24 @@ Click Action: Opens modal with:
   - Gallery grid of all customer-uploaded photos
   - Grouped by order
   - Lightbox on click
-```
+\`\`\`
 
 #### **KPI 3: Completed Today**
-```tsx
+\`\`\`tsx
 Icon: CheckCircle
 Color: Success Green
 Value: {count} "6"
 Trend: "Average time: 1.2 hours/order"
 Click Action: Same as Baker KPI 3
-```
+\`\`\`
 
 #### **KPI 4: Sales Performance** (Shared)
-```tsx
+\`\`\`tsx
 Same as Baker KPI 4
-```
+\`\`\`
 
 ### **Decoration Queue (Primary Section)**
-```tsx
+\`\`\`tsx
 <Card className="decoration-queue">
   <CardHeader>
     <h3>Decoration Queue</h3>
@@ -629,7 +629,7 @@ Same as Baker KPI 4
     ))}
   </CardBody>
 </Card>
-```
+\`\`\`
 
 ---
 
@@ -647,7 +647,7 @@ Same as Baker KPI 4
 ### **KPI Cards**
 
 #### **KPI 1: Total Revenue (This Month)**
-```tsx
+\`\`\`tsx
 Icon: DollarSign
 Color: Success Green
 Value: "$45,230"
@@ -657,10 +657,10 @@ Click Action: Opens modal with:
   - Daily revenue breakdown (line chart)
   - Top revenue days
   - Payment method breakdown (Cash 30%, Credit 70%)
-```
+\`\`\`
 
 #### **KPI 2: Outstanding Deposits**
-```tsx
+\`\`\`tsx
 Icon: AlertCircle
 Color: Warning Amber
 Value: "$8,450" (sum of all partial deposits)
@@ -670,10 +670,10 @@ Click Action: Opens modal with:
   - Aging buckets: 0-7 days, 8-14 days, 15+ days
   - Each row shows: Customer, Order Date, Total, Paid, Balance, Days Overdue
   - Action: "Generate Payment Reminder Report" (PDF)
-```
+\`\`\`
 
 #### **KPI 3: Completed Orders**
-```tsx
+\`\`\`tsx
 Icon: CheckCircle
 Color: Info Blue
 Value: {count} "156" (this month)
@@ -681,10 +681,10 @@ Trend: "+8 from last month"
 Click Action: Opens modal with:
   - Calendar heatmap showing order volume by day
   - Busiest days highlighted
-```
+\`\`\`
 
 #### **KPI 4: Average Order Value**
-```tsx
+\`\`\`tsx
 Icon: TrendingUp
 Color: Raspberry Pink
 Value: "$127.50"
@@ -693,10 +693,10 @@ Click Action: Opens modal with:
   - Distribution chart (histogram of order values)
   - Median, Mean, Mode
   - Top 5 highest-value orders
-```
+\`\`\`
 
 ### **Quick Actions**
-```tsx
+\`\`\`tsx
 <Button variant="primary" onClick={() => navigate('/admin/business-intelligence')}>
   View All Reports
 </Button>
@@ -706,10 +706,10 @@ Click Action: Opens modal with:
 <Button variant="secondary" onClick={() => handleExportFinancials()}>
   Export Financials (CSV)
 </Button>
-```
+\`\`\`
 
 ### **Financial Summary (Primary Section)**
-```tsx
+\`\`\`tsx
 <div className="financial-grid" style={{
   display: 'grid',
   gridTemplateColumns: '2fr 1fr',
@@ -802,7 +802,7 @@ Click Action: Opens modal with:
     </div>
   </CardBody>
 </Card>
-```
+\`\`\`
 
 ---
 
@@ -820,7 +820,7 @@ Click Action: Opens modal with:
 ### **KPI Cards**
 
 #### **KPI 1: Orders Pipeline**
-```tsx
+\`\`\`tsx
 Icon: BarChart3
 Color: Raspberry Pink
 Value: {count} "34 active"
@@ -828,10 +828,10 @@ Breakdown: "5 to_be_created, 12 in_baking, 8 in_decorating, 9 ready"
 Click Action: Opens modal with:
   - Funnel chart showing order distribution across statuses
   - Bottleneck detection (status with longest avg time)
-```
+\`\`\`
 
 #### **KPI 2: Staff Performance**
-```tsx
+\`\`\`tsx
 Icon: Users
 Color: Info Blue
 Value: "8 active" (online employees)
@@ -839,10 +839,10 @@ Trend: "Sarah Chen (top performer: 15 orders)"
 Click Action: Opens modal with:
   - Leaderboard table: Employee, Orders Completed, Avg Time, Rating
   - Color-coded: Green (excellent), Yellow (average), Red (needs improvement)
-```
+\`\`\`
 
 #### **KPI 3: Pending Approvals**
-```tsx
+\`\`\`tsx
 Icon: Clock
 Color: Warning Amber
 Value: {count} "3"
@@ -850,19 +850,19 @@ Trend: "Awaiting your review"
 Click Action: Opens modal with:
   - List of orders in 'ready' status
   - Each shows: Order details, Photos of finished cake, Approve/Reject buttons
-```
+\`\`\`
 
 #### **KPI 4: Revenue Today**
-```tsx
+\`\`\`tsx
 Icon: DollarSign
 Color: Success Green
 Value: "$1,890"
 Trend: "+15% vs. yesterday"
 Click Action: Same as Accountant KPI 1
-```
+\`\`\`
 
 ### **Quick Actions**
-```tsx
+\`\`\`tsx
 <Button variant="primary" onClick={() => navigate('/admin/fulfillment-board')}>
   View Kanban Board
 </Button>
@@ -872,10 +872,10 @@ Click Action: Same as Accountant KPI 1
 <Button variant="secondary" onClick={() => navigate('/admin/business-intelligence')}>
   View Reports
 </Button>
-```
+\`\`\`
 
 ### **System Overview (Primary Section)**
-```tsx
+\`\`\`tsx
 <div className="manager-grid" style={{
   display: 'grid',
   gridTemplateColumns: '1fr 1fr',
@@ -944,7 +944,7 @@ Click Action: Same as Accountant KPI 1
     </HealthMetrics>
   </CardBody>
 </Card>
-```
+\`\`\`
 
 ---
 
@@ -955,7 +955,7 @@ Click Action: Same as Accountant KPI 1
 ### **Identical to Manager Dashboard PLUS:**
 
 #### **Additional KPI: Business Growth**
-```tsx
+\`\`\`tsx
 Icon: TrendingUp
 Color: Raspberry Pink
 Value: "+18% MoM"
@@ -963,10 +963,10 @@ Trend: "Best month: August ($52K)"
 Click Action: Opens modal with:
   - Year-over-year comparison chart
   - Key metrics: Revenue, Orders, Customer Retention
-```
+\`\`\`
 
 #### **Additional Section: Strategic Insights**
-```tsx
+\`\`\`tsx
 <Card className="strategic-insights">
   <CardHeader>
     <h3>Strategic Insights</h3>
@@ -991,14 +991,14 @@ Click Action: Opens modal with:
     </InsightGrid>
   </CardBody>
 </Card>
-```
+\`\`\`
 
 ---
 
 ## 🎯 IMPLEMENTATION CHECKLIST FOR REPLIT AI
 
 ### **Phase 1: Foundation (Do First)**
-```bash
+\`\`\`bash
 1. Create new dashboards directory structure:
    /src/pages/admin/dashboards/
    ├── components/
@@ -1018,10 +1018,10 @@ Click Action: Opens modal with:
 
 3. Create shared types:
    /src/types/dashboard.ts
-```
+\`\`\`
 
 ### **Phase 2: Components (Build Reusable)**
-```tsx
+\`\`\`tsx
 // KPICard.tsx - MUST IMPLEMENT EXACTLY
 interface KPICardProps {
   icon: LucideIcon;
@@ -1049,10 +1049,10 @@ interface OrderCardProps {
   role: UserRole; // Different actions per role
   onStatusUpdate: (orderId: number, newStatus: OrderStatus) => void;
 }
-```
+\`\`\`
 
 ### **Phase 3: API Integration**
-```typescript
+\`\`\`typescript
 // Create new endpoints in server/routes/dashboard.ts
 
 // GET /api/dashboard/sales
@@ -1069,10 +1069,10 @@ interface OrderCardProps {
 
 // GET /api/dashboard/manager
 // Returns: { kpis: {...}, orderPipeline: [...], staffPerformance: [...] }
-```
+\`\`\`
 
 ### **Phase 4: Styling (Brand Consistency)**
-```css
+\`\`\`css
 /* Create /src/styles/dashboard.css */
 
 /* APPLY GLOBALLY TO ALL DASHBOARDS */
@@ -1116,10 +1116,10 @@ interface OrderCardProps {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.9; }
 }
-```
+\`\`\`
 
 ### **Phase 5: WCAG Compliance**
-```tsx
+\`\`\`tsx
 // EVERY interactive element MUST have:
 1. aria-label or aria-labelledby
 2. keyboard navigation (Tab, Enter, Escape)
@@ -1137,7 +1137,7 @@ interface OrderCardProps {
 >
   {/* content */}
 </button>
-```
+\`\`\`
 
 ---
 

@@ -25,7 +25,7 @@ This document details all refinements made to the Emily Bakes Cakes prototype ac
 
 #### Implementation Details
 
-```tsx
+\`\`\`tsx
 <section 
   className="relative overflow-hidden"
   style={{ 
@@ -44,7 +44,7 @@ This document details all refinements made to the Emily Bakes Cakes prototype ac
     background: 'linear-gradient(to bottom, transparent 0%, rgba(248, 235, 215, 0.3) 100%)'
   }} />
 </section>
-```
+\`\`\`
 
 **Specifications:**
 - ✅ Height: `85vh` (exactly as requested)
@@ -57,7 +57,7 @@ This document details all refinements made to the Emily Bakes Cakes prototype ac
 
 ### H1 Typography
 
-```tsx
+\`\`\`tsx
 <h1 style={{
   fontFamily: 'Lucida Handwriting, cursive',
   fontSize: '28px',
@@ -67,7 +67,7 @@ This document details all refinements made to the Emily Bakes Cakes prototype ac
 }}>
   Sweetness from the Heart
 </h1>
-```
+\`\`\`
 
 **Specifications:**
 - ✅ Font: Lucida Handwriting
@@ -80,7 +80,7 @@ This document details all refinements made to the Emily Bakes Cakes prototype ac
 
 ### Prominent CTA Button
 
-```tsx
+\`\`\`tsx
 <button style={{
   background: '#C44569',
   color: 'white',
@@ -94,7 +94,7 @@ This document details all refinements made to the Emily Bakes Cakes prototype ac
 }}>
   Order Custom Cake
 </button>
-```
+\`\`\`
 
 **Specifications:**
 - ✅ Background: Raspberry Pink (#C44569)
@@ -117,7 +117,7 @@ This document details all refinements made to the Emily Bakes Cakes prototype ac
 - ✅ Swipeable gesture support
 - ✅ Lazy loading images
 
-```tsx
+\`\`\`tsx
 <Card style={{
   background: 'white',
   borderRadius: '12px',
@@ -127,7 +127,7 @@ This document details all refinements made to the Emily Bakes Cakes prototype ac
 }}>
   {/* Card content */}
 </Card>
-```
+\`\`\`
 
 ---
 
@@ -135,7 +135,7 @@ This document details all refinements made to the Emily Bakes Cakes prototype ac
 
 **Application:**
 
-```css
+\`\`\`css
 /* 60% Cream Vanilla backgrounds */
 body, section, main {
   background: #F8EBD7;
@@ -150,7 +150,7 @@ p, span, body {
 a, button.primary, .highlight {
   color: #C44569;
 }
-```
+\`\`\`
 
 **Throughout the site:**
 - ✅ Backgrounds: 60% Cream Vanilla (#F8EBD7)
@@ -167,7 +167,7 @@ a, button.primary, .highlight {
 
 #### Card Structure
 
-```tsx
+\`\`\`tsx
 <Card style={{ 
   padding: '24px',
   background: 'white',
@@ -208,7 +208,7 @@ a, button.primary, .highlight {
     <Line dataKey="value" stroke="#C44569" />
   </LineChart>
 </Card>
-```
+\`\`\`
 
 **Specifications:**
 - ✅ 4 KPI cards (Today's Orders, Orders in Progress, Ready for Pickup, This Week's Revenue)
@@ -222,7 +222,7 @@ a, button.primary, .highlight {
 
 ### Kanban Board - Drag & Drop Visual Cues
 
-```tsx
+\`\`\`tsx
 <div
   className="kanban-column-hover"
   style={{
@@ -233,10 +233,10 @@ a, button.primary, .highlight {
 >
   {/* Column content */}
 </div>
-```
+\`\`\`
 
 **CSS:**
-```css
+\`\`\`css
 .kanban-column-hover {
   border: 2px solid transparent;
   transition: all 300ms ease;
@@ -251,7 +251,7 @@ a, button.primary, .highlight {
   border: 2px dashed #C44569;
   background: rgba(196, 69, 105, 0.08);
 }
-```
+\`\`\`
 
 **Specifications:**
 - ✅ Dashed borders on hover
@@ -263,7 +263,7 @@ a, button.primary, .highlight {
 
 ### Activity Feed
 
-```tsx
+\`\`\`tsx
 <div className="flex items-start gap-4">
   {/* Icon: 24px line-style, Chocolate Brown */}
   <div style={{
@@ -291,7 +291,7 @@ a, button.primary, .highlight {
     </p>
   </div>
 </div>
-```
+\`\`\`
 
 **Specifications:**
 - ✅ Action icons: 24px, line-style (strokeWidth: 1.5), Chocolate Brown
@@ -339,7 +339,7 @@ a, button.primary, .highlight {
 
 ### CSS Media Queries
 
-```css
+\`\`\`css
 /* Mobile: <768px */
 @media (max-width: 768px) {
   h1 {
@@ -368,7 +368,7 @@ a, button.primary, .highlight {
     grid-template-columns: repeat(3, 1fr);
   }
 }
-```
+\`\`\`
 
 ---
 
@@ -378,7 +378,7 @@ a, button.primary, .highlight {
 
 #### 1. Button Hover - Scale 1.05
 
-```css
+\`\`\`css
 .cta-button-hover {
   transition: all 200ms ease-out;
 }
@@ -390,7 +390,7 @@ a, button.primary, .highlight {
 .cta-button-hover:active {
   transform: scale(0.98) translateY(0);
 }
-```
+\`\`\`
 
 **Applied to:**
 - All CTA buttons
@@ -401,7 +401,7 @@ a, button.primary, .highlight {
 
 #### 2. Product Card Lift - box-shadow 2px→8px
 
-```css
+\`\`\`css
 .card-lift {
   transition: all 200ms ease-out;
   box-shadow: 0 2px 8px rgba(90, 56, 37, 0.12);
@@ -411,7 +411,7 @@ a, button.primary, .highlight {
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(90, 56, 37, 0.18);
 }
-```
+\`\`\`
 
 **Applied to:**
 - Product cards
@@ -423,7 +423,7 @@ a, button.primary, .highlight {
 
 #### 3. Form Input - 2px Raspberry Pink border-bottom animation
 
-```css
+\`\`\`css
 .input-focus-animation {
   position: relative;
   border-bottom: 2px solid transparent;
@@ -444,7 +444,7 @@ a, button.primary, .highlight {
 .input-focus-animation:focus::after {
   width: 100%;
 }
-```
+\`\`\`
 
 **Applied to:**
 - All form inputs
@@ -456,7 +456,7 @@ a, button.primary, .highlight {
 
 #### 4. Real-Time Price Updates - Pulse Animation
 
-```css
+\`\`\`css
 @keyframes pricePulse {
   0%, 100% {
     transform: scale(1);
@@ -471,10 +471,10 @@ a, button.primary, .highlight {
 .price-pulse {
   animation: pricePulse 600ms ease-in-out;
 }
-```
+\`\`\`
 
 **Usage:**
-```tsx
+\`\`\`tsx
 const [price, setPrice] = useState(50);
 
 useEffect(() => {
@@ -484,7 +484,7 @@ useEffect(() => {
     priceRef.current?.classList.remove('price-pulse');
   }, 600);
 }, [price]);
-```
+\`\`\`
 
 **Applied to:**
 - Custom cake builder price display
@@ -495,7 +495,7 @@ useEffect(() => {
 
 #### 5. Loading Skeletons - Shimmer Effect
 
-```css
+\`\`\`css
 @keyframes shimmer {
   0% {
     background-position: -200% 0;
@@ -515,7 +515,7 @@ useEffect(() => {
   );
   background-size: 200% 100%;
 }
-```
+\`\`\`
 
 **Applied to:**
 - Page load placeholders
@@ -527,7 +527,7 @@ useEffect(() => {
 
 #### 6. Navigation Links - Underline Slide-In (left to right, 150ms)
 
-```css
+\`\`\`css
 .nav-link-underline {
   position: relative;
   text-decoration: none;
@@ -547,7 +547,7 @@ useEffect(() => {
 .nav-link-underline:hover::after {
   width: 100%;
 }
-```
+\`\`\`
 
 **Applied to:**
 - Header navigation links
@@ -559,7 +559,7 @@ useEffect(() => {
 
 #### 7. Icon Scale Animation
 
-```css
+\`\`\`css
 .icon-scale {
   transition: transform 150ms ease-out;
 }
@@ -567,7 +567,7 @@ useEffect(() => {
 .icon-scale:hover {
   transform: scale(1.15);
 }
-```
+\`\`\`
 
 **Applied to:**
 - Social media icons
@@ -676,7 +676,7 @@ useEffect(() => {
 - Skip links provided
 
 ✅ **Reduced Motion:**
-```css
+\`\`\`css
 @media (prefers-reduced-motion: reduce) {
   .cta-button-hover,
   .card-lift,
@@ -686,7 +686,7 @@ useEffect(() => {
     transition: none;
   }
 }
-```
+\`\`\`
 
 ---
 

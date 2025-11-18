@@ -4,7 +4,7 @@ This directory contains images for all product types used in the Emily Bakes Cak
 
 ## Directory Structure
 
-```
+\`\`\`
 /public/images/products/
 ├── cakes/                    # Standard cake images (14 cakes)
 ├── cake-flavors/            # Cake flavor images (6 flavors)
@@ -12,7 +12,7 @@ This directory contains images for all product types used in the Emily Bakes Cak
 ├── icings/                  # Icing flavor images (6 icings)
 ├── icing-colors/           # Icing color sample images (optional, 37 colors)
 └── placeholder.svg         # Fallback placeholder image
-```
+\`\`\`
 
 ## Image Specifications
 

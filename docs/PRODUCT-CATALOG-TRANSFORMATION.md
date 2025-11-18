@@ -136,7 +136,7 @@ All 14 standard cakes from the case study menu are now in the database:
 - **Popularity Meter** - Visual 5-dot popularity indicator
 
 ### Card Layout
-```
+\`\`\`
 ┌─────────────────────────┐
 │   Product Image/Icon    │  ← 192px height
 ├─────────────────────────┤
@@ -149,7 +149,7 @@ All 14 standard cakes from the case study menu are now in the database:
 │ $30.00      Popularity: │
 │ Base price  ●●●●○       │  ← Price + Rating
 └─────────────────────────┘
-```
+\`\`\`
 
 ### Search & Filters (Menu View)
 - **Search Bar** - Search by name, category, or description
@@ -175,9 +175,9 @@ All 14 standard cakes from the case study menu are now in the database:
 
 Run the population script anytime:
 
-```bash
+\`\`\`bash
 tsx server/populate-products.ts
-```
+\`\`\`
 
 **Flags:**
 - Default: Skips existing products
@@ -199,7 +199,7 @@ tsx server/populate-products.ts
 
 ## 📊 Database Schema
 
-```typescript
+\`\`\`typescript
 products {
   id: serial (primary key)
   name: varchar (required)
@@ -212,7 +212,7 @@ products {
   createdAt: timestamp
   updatedAt: timestamp
 }
-```
+\`\`\`
 
 ---
 

@@ -192,7 +192,7 @@
 
 ### ✅ 6. File Organization
 
-```
+\`\`\`
 📁 Emily-Bakes-Cakes-Final/
 │
 ├── 📄 00-Design-System/
@@ -236,7 +236,7 @@
 └── 📄 04-Assets/
     ├── Attributions.md ✅
     └── (Unsplash images referenced) ✅
-```
+\`\`\`
 
 **Status:** ✅ Complete - All files organized, documented, and ready
 

@@ -43,7 +43,7 @@ This document details refinements 5-10 of the Emily Bakes Cakes prototype:
 
 **Implementation:** `/styles/globals.css`
 
-```css
+\`\`\`css
 /* Visible focus: 2px solid Raspberry Pink, 2px offset */
 *:focus-visible {
   outline: 2px solid #C44569;
@@ -64,7 +64,7 @@ select:focus-visible {
 *:focus:not(:focus-visible) {
   outline: none;
 }
-```
+\`\`\`
 
 **Applied to:**
 - ✅ All buttons
@@ -80,11 +80,11 @@ select:focus-visible {
 
 **Component:** `/components/SkipLink.tsx`
 
-```tsx
+\`\`\`tsx
 <SkipLink />
 // Positioned absolutely, hidden until keyboard focus
 // Jumps to #main-content landmark
-```
+\`\`\`
 
 **Features:**
 - ✅ Visually hidden until focused
@@ -94,14 +94,14 @@ select:focus-visible {
 - ✅ Links to `#main-content` ID
 
 **Usage:**
-```tsx
+\`\`\`tsx
 // Add to Layout components
 <SkipLink />
 <Header />
 <main id="main-content">
   {/* Page content */}
 </main>
-```
+\`\`\`
 
 ---
 
@@ -109,7 +109,7 @@ select:focus-visible {
 
 **Progressive Sizing H1→H6:**
 
-```css
+\`\`\`css
 main h1 {
   font-size: clamp(28px, 5vw, 48px);
   font-family: 'Playfair Display', serif;
@@ -139,7 +139,7 @@ main h6 {
   font-size: clamp(14px, 2vw, 18px);
   font-family: 'Poppins', sans-serif;
 }
-```
+\`\`\`
 
 **Visual Hierarchy:**
 - H1: Hero titles (largest)
@@ -156,28 +156,28 @@ main h6 {
 **Guidelines:**
 
 ✅ **Descriptive images:**
-```tsx
+\`\`\`tsx
 <img 
   src="cake.jpg" 
   alt="Three-tier wedding cake with white fondant and pink rose decorations" 
 />
-```
+\`\`\`
 
 ✅ **Decorative images:**
-```tsx
+\`\`\`tsx
 <img 
   src="divider.svg" 
   alt="" 
   role="presentation"
 />
-```
+\`\`\`
 
 ✅ **Functional images (buttons):**
-```tsx
+\`\`\`tsx
 <button aria-label="Edit order #1234">
   <EditIcon aria-hidden="true" />
 </button>
-```
+\`\`\`
 
 **All images must include:**
 - `alt` attribute (empty string for decorative)
@@ -197,17 +197,17 @@ main h6 {
    - Footer
 
 2. **Forms:**
-   ```tsx
+   \`\`\`tsx
    <form>
      {/* Natural DOM order = tab order */}
      <input tabIndex={0} /> {/* Name */}
      <input tabIndex={0} /> {/* Email */}
      <button tabIndex={0}>Submit</button>
    </form>
-   ```
+   \`\`\`
 
 3. **Custom Components:**
-   ```tsx
+   \`\`\`tsx
    // Make custom components focusable
    <div 
      role="button" 
@@ -220,7 +220,7 @@ main h6 {
    >
      Click me
    </div>
-   ```
+   \`\`\`
 
 ---
 
@@ -228,7 +228,7 @@ main h6 {
 
 **ARIA Labels & Roles:**
 
-```tsx
+\`\`\`tsx
 // Status badges
 <span role="status" aria-label="Status: Pending">
   Pending
@@ -258,7 +258,7 @@ main h6 {
 <div id="email-error" role="alert">
   Please enter a valid email
 </div>
-```
+\`\`\`
 
 ---
 
@@ -271,11 +271,11 @@ main h6 {
 #### Variants
 
 **1. Primary Button**
-```tsx
+\`\`\`tsx
 <StandardButton variant="primary">
   Order Now
 </StandardButton>
-```
+\`\`\`
 
 **Specs:**
 - Background: Raspberry Pink (#C44569)
@@ -284,11 +284,11 @@ main h6 {
 - Hover: Scale 1.05, enhanced shadow
 
 **2. Secondary Button**
-```tsx
+\`\`\`tsx
 <StandardButton variant="secondary">
   Learn More
 </StandardButton>
-```
+\`\`\`
 
 **Specs:**
 - Background: White
@@ -297,11 +297,11 @@ main h6 {
 - Hover: Lift effect, border → Raspberry Pink
 
 **3. Ghost Button**
-```tsx
+\`\`\`tsx
 <StandardButton variant="ghost">
   Cancel
 </StandardButton>
-```
+\`\`\`
 
 **Specs:**
 - Background: Transparent
@@ -311,11 +311,11 @@ main h6 {
 
 #### Sizes
 
-```tsx
+\`\`\`tsx
 <StandardButton size="sm">Small</StandardButton>
 <StandardButton size="md">Medium</StandardButton> {/* Default */}
 <StandardButton size="lg">Large</StandardButton>
-```
+\`\`\`
 
 | Size | Font | Padding | Height | Radius |
 |------|------|---------|--------|--------|
@@ -325,7 +325,7 @@ main h6 {
 
 #### Props
 
-```tsx
+\`\`\`tsx
 interface StandardButtonProps {
   variant?: 'primary' | 'secondary' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
@@ -335,11 +335,11 @@ interface StandardButtonProps {
   disabled?: boolean;
   // ... plus all standard button props
 }
-```
+\`\`\`
 
 #### Examples
 
-```tsx
+\`\`\`tsx
 // With icon
 <StandardButton 
   variant="primary" 
@@ -362,7 +362,7 @@ interface StandardButtonProps {
 <StandardButton disabled>
   Unavailable
 </StandardButton>
-```
+\`\`\`
 
 ---
 
@@ -372,13 +372,13 @@ interface StandardButtonProps {
 
 #### Specifications
 
-```tsx
+\`\`\`tsx
 <StandardInput
   label="Customer Name"
   placeholder="Enter name"
   required
 />
-```
+\`\`\`
 
 **Specs:**
 - Height: **48px**
@@ -411,13 +411,13 @@ interface StandardButtonProps {
 
 #### With Icon
 
-```tsx
+\`\`\`tsx
 <StandardInput
   label="Email"
   icon={<Mail size={20} />}
   placeholder="your@email.com"
 />
-```
+\`\`\`
 
 **Icon positioning:**
 - Left: 12px
@@ -426,12 +426,12 @@ interface StandardButtonProps {
 
 #### With Error
 
-```tsx
+\`\`\`tsx
 <StandardInput
   label="Phone"
   error="Please enter a valid phone number"
 />
-```
+\`\`\`
 
 **Error display:**
 - Red icon (alert circle)
@@ -441,7 +441,7 @@ interface StandardButtonProps {
 
 #### Props
 
-```tsx
+\`\`\`tsx
 interface StandardInputProps {
   label?: string;
   error?: string;
@@ -450,7 +450,7 @@ interface StandardInputProps {
   fullWidth?: boolean;
   // ... plus all standard input props
 }
-```
+\`\`\`
 
 ---
 
@@ -461,52 +461,52 @@ interface StandardInputProps {
 #### Status Variants
 
 **1. Pending**
-```tsx
+\`\`\`tsx
 <StandardBadge status="pending" />
-```
+\`\`\`
 - Background: Yellow (#FEF3C7)
 - Text: Brown (#92400E)
 - Label: "Pending"
 
 **2. In Progress**
-```tsx
+\`\`\`tsx
 <StandardBadge status="inProgress" />
-```
+\`\`\`
 - Background: Blue (#3B82F6)
 - Text: White
 - Label: "In Progress"
 
 **3. Completed**
-```tsx
+\`\`\`tsx
 <StandardBadge status="completed" />
-```
+\`\`\`
 - Background: Green (#10B981)
 - Text: White
 - Label: "Completed"
 
 **4. Ready**
-```tsx
+\`\`\`tsx
 <StandardBadge status="ready" />
-```
+\`\`\`
 - Background: Raspberry Pink (#C44569)
 - Text: White
 - Label: "Ready"
 
 **5. Cancelled**
-```tsx
+\`\`\`tsx
 <StandardBadge status="cancelled" />
-```
+\`\`\`
 - Background: Gray (#6B7280)
 - Text: White
 - Label: "Cancelled"
 
 #### Sizes
 
-```tsx
+\`\`\`tsx
 <StandardBadge status="pending" size="sm" />
 <StandardBadge status="pending" size="md" /> {/* Default */}
 <StandardBadge status="pending" size="lg" />
-```
+\`\`\`
 
 | Size | Font | Padding | Radius |
 |------|------|---------|--------|
@@ -516,14 +516,14 @@ interface StandardInputProps {
 
 #### Custom Badge
 
-```tsx
+\`\`\`tsx
 <CustomBadge
   backgroundColor="#8B5CF6"
   textColor="white"
 >
   Premium
 </CustomBadge>
-```
+\`\`\`
 
 ---
 
@@ -559,7 +559,7 @@ interface StandardInputProps {
 
 **Revenue Trend Chart:**
 
-```tsx
+\`\`\`tsx
 <AreaChart data={monthlyRevenue}>
   <defs>
     <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
@@ -575,7 +575,7 @@ interface StandardInputProps {
     fill="url(#revenueGradient)"
   />
 </AreaChart>
-```
+\`\`\`
 
 **Features:**
 - ✅ Smooth curves (monotone interpolation)
@@ -590,7 +590,7 @@ interface StandardInputProps {
 
 **Specifications:**
 
-```tsx
+\`\`\`tsx
 <BarChart data={topSellingCakes}>
   <Bar 
     dataKey="sales" 
@@ -598,7 +598,7 @@ interface StandardInputProps {
     radius={[8, 8, 0, 0]}
   />
 </BarChart>
-```
+\`\`\`
 
 **Features:**
 - ✅ Raspberry Pink bars (#C44569)
@@ -613,13 +613,13 @@ interface StandardInputProps {
 
 **Complementary Color Palette:**
 
-```tsx
+\`\`\`tsx
 const customerData = [
   { name: 'New', value: 35, color: '#C44569' },      // Raspberry Pink
   { name: 'Returning', value: 45, color: '#5A3825' }, // Chocolate Brown
   { name: 'VIP', value: 20, color: '#2B2B2B' }       // Charcoal Gray
 ];
-```
+\`\`\`
 
 **Features:**
 - ✅ Brand-aligned colors
@@ -634,7 +634,7 @@ const customerData = [
 
 **Custom Styling:**
 
-```tsx
+\`\`\`tsx
 <Tooltip 
   contentStyle={{ 
     backgroundColor: 'white', 
@@ -646,7 +646,7 @@ const customerData = [
   }}
   formatter={(value) => [`$${value.toLocaleString()}`, 'Revenue']}
 />
-```
+\`\`\`
 
 **Features:**
 - ✅ White background
@@ -662,7 +662,7 @@ const customerData = [
 
 **Visual Indicator:**
 
-```tsx
+\`\`\`tsx
 <div style={{
   padding: '8px 12px',
   background: 'rgba(196, 69, 105, 0.08)',
@@ -674,7 +674,7 @@ const customerData = [
   <Calendar size={16} color="#C44569" />
   <span>Last 6 Months</span>
 </div>
-```
+\`\`\`
 
 **Features:**
 - ✅ Calendar icon (Raspberry Pink)
@@ -688,7 +688,7 @@ const customerData = [
 
 **Mobile Optimizations:**
 
-```css
+\`\`\`css
 @media (max-width: 768px) {
   .chart-container {
     height: 280px; /* Reduced from 320px */
@@ -702,7 +702,7 @@ const customerData = [
     flex-direction: column; /* Stack legend */
   }
 }
-```
+\`\`\`
 
 **Features:**
 - ✅ Height adjustments for mobile
@@ -722,12 +722,12 @@ const customerData = [
 #### Pre-defined Types
 
 **1. Orders Empty**
-```tsx
+\`\`\`tsx
 <EmptyState 
   type="orders"
   onAction={() => navigate('/builder')}
 />
-```
+\`\`\`
 
 **Display:**
 - Icon: Cake with question mark (custom SVG)
@@ -736,12 +736,12 @@ const customerData = [
 - CTA: "Create Order"
 
 **2. Products Empty**
-```tsx
+\`\`\`tsx
 <EmptyState 
   type="products"
   onAction={() => setShowAddProduct(true)}
 />
-```
+\`\`\`
 
 **Display:**
 - Icon: Shopping bag
@@ -750,23 +750,23 @@ const customerData = [
 - CTA: "Add Product"
 
 **3. Customers Empty**
-```tsx
+\`\`\`tsx
 <EmptyState 
   type="customers"
   onAction={() => navigate('/orders')}
 />
-```
+\`\`\`
 
 **4. Gallery Empty**
-```tsx
+\`\`\`tsx
 <EmptyState 
   type="gallery"
   onAction={() => setShowUpload(true)}
 />
-```
+\`\`\`
 
 **5. Custom Empty**
-```tsx
+\`\`\`tsx
 <EmptyState 
   type="custom"
   title="No reviews yet"
@@ -774,7 +774,7 @@ const customerData = [
   actionLabel="View Orders"
   onAction={() => navigate('/orders')}
 />
-```
+\`\`\`
 
 ---
 
@@ -782,9 +782,9 @@ const customerData = [
 
 **Custom SVG Component:**
 
-```tsx
+\`\`\`tsx
 <CakeQuestionIllustration />
-```
+\`\`\`
 
 **Features:**
 - Simple line art style
@@ -800,14 +800,14 @@ const customerData = [
 
 **Inline Error Messages:**
 
-```tsx
+\`\`\`tsx
 <StandardInput
   label="Email"
   error="Please enter a valid email address"
   value={email}
   onChange={(e) => setEmail(e.target.value)}
 />
-```
+\`\`\`
 
 **Display:**
 - ✅ Red alert icon (circle with exclamation)
@@ -818,14 +818,14 @@ const customerData = [
 - ✅ aria-describedby linking to error
 
 **Example:**
-```
+\`\`\`
 ┌─────────────────────────┐
 │ Email Address          │
 ├─────────────────────────┤
 │ john@example           │ ← Red border
 └─────────────────────────┘
   ⚠️ Please enter a valid email address
-```
+\`\`\`
 
 ---
 
@@ -835,7 +835,7 @@ const customerData = [
 
 **Design:**
 
-```
+\`\`\`
            🍰
           404
     This page got eaten!
@@ -847,7 +847,7 @@ was too delicious?
 [Back to Home] [Go Back]
 
       🧁  🍪  🍩
-```
+\`\`\`
 
 **Features:**
 - ✅ Playful copy: "This page got eaten! 🍰"
@@ -974,7 +974,7 @@ was too delicious?
 #### Aspect Ratio Standards
 
 **Products (4:3):**
-```
+\`\`\`
 ┌──────────────┐
 │              │
 │    CAKE      │
@@ -982,16 +982,16 @@ was too delicious?
 │              │
 └──────────────┘
     900px
-```
+\`\`\`
 
 **Lifestyle (16:9):**
-```
+\`\`\`
 ┌─────────────────────┐
 │     SCENE           │
 │    1920px           │
 └─────────────────────┘
       1080px
-```
+\`\`\`
 
 ---
 
@@ -999,7 +999,7 @@ was too delicious?
 
 **1. Subtle Vignettes**
 
-```css
+\`\`\`css
 /* Hero images */
 .hero-image::after {
   content: '';
@@ -1011,7 +1011,7 @@ was too delicious?
     rgba(0, 0, 0, 0.15) 100%
   );
 }
-```
+\`\`\`
 
 **Purpose:**
 - Draw eye to center
@@ -1068,12 +1068,12 @@ was too delicious?
 - Avoid: PNG (too large for photos)
 
 **Implementation:**
-```tsx
+\`\`\`tsx
 <picture>
   <source srcSet="cake.webp" type="image/webp" />
   <img src="cake.jpg" alt="Chocolate cake" />
 </picture>
-```
+\`\`\`
 
 ---
 
@@ -1087,7 +1087,7 @@ was too delicious?
 
 **Initial View (Essential Fields Only):**
 
-```
+\`\`\`
 ┌─────────────────────────────────┐
 │ Cake Size*         [Dropdown]  │
 │ Flavor*            [Dropdown]  │
@@ -1096,11 +1096,11 @@ was too delicious?
 │                                 │
 │ [+ Show Advanced Options]      │
 └─────────────────────────────────┘
-```
+\`\`\`
 
 **Expanded View (Advanced Options):**
 
-```
+\`\`\`
 ┌─────────────────────────────────┐
 │ ... essential fields ...        │
 │                                 │
@@ -1122,11 +1122,11 @@ was too delicious?
 │ Special Requests               │
 │ [Textarea]                     │
 └─────────────────────────────────┘
-```
+\`\`\`
 
 **Implementation:**
 
-```tsx
+\`\`\`tsx
 const [showAdvanced, setShowAdvanced] = useState(false);
 
 return (
@@ -1157,7 +1157,7 @@ return (
     )}
   </form>
 );
-```
+\`\`\`
 
 ---
 
@@ -1165,7 +1165,7 @@ return (
 
 **Tabbed Content Pattern:**
 
-```
+\`\`\`
 ┌─────────────────────────────────────┐
 │  [Ingredients] [Allergens]          │
 │  [Customization] [Reviews]          │
@@ -1174,11 +1174,11 @@ return (
 │  Tab Content Here                   │
 │                                     │
 └─────────────────────────────────────┘
-```
+\`\`\`
 
 **Instead of long scroll:**
 
-```tsx
+\`\`\`tsx
 <Tabs defaultValue="ingredients">
   <TabsList>
     <TabsTrigger value="ingredients">Ingredients</TabsTrigger>
@@ -1203,7 +1203,7 @@ return (
     {/* Customer reviews */}
   </TabsContent>
 </Tabs>
-```
+\`\`\`
 
 **Benefits:**
 - ✅ Reduced scroll length
@@ -1218,7 +1218,7 @@ return (
 **Add Product Form:**
 
 **Step 1: Basic Info**
-```
+\`\`\`
 ┌─────────────────────────────────┐
 │ Product Name*                   │
 │ Category*                       │
@@ -1226,10 +1226,10 @@ return (
 │                                 │
 │ [Next: Pricing →]              │
 └─────────────────────────────────┘
-```
+\`\`\`
 
 **Step 2: Pricing**
-```
+\`\`\`
 ┌─────────────────────────────────┐
 │ Base Price*                     │
 │ Sizes & Pricing                 │
@@ -1239,10 +1239,10 @@ return (
 │                                 │
 │ [← Back] [Next: Availability →]│
 └─────────────────────────────────┘
-```
+\`\`\`
 
 **Step 3: Availability**
-```
+\`\`\`
 ┌─────────────────────────────────┐
 │ Available Days                  │
 │ □ Monday                        │
@@ -1254,11 +1254,11 @@ return (
 │                                 │
 │ [← Back] [Save Product]        │
 └─────────────────────────────────┘
-```
+\`\`\`
 
 **Implementation:**
 
-```tsx
+\`\`\`tsx
 const [currentStep, setCurrentStep] = useState(1);
 
 const steps = [
@@ -1313,7 +1313,7 @@ return (
     </div>
   </div>
 );
-```
+\`\`\`
 
 ---
 
@@ -1321,7 +1321,7 @@ return (
 
 **Question Mark Icon Pattern:**
 
-```tsx
+\`\`\`tsx
 <div className="flex items-center gap-2">
   <label>Lead Time</label>
   <Tooltip content="Minimum days needed before pickup">
@@ -1345,11 +1345,11 @@ return (
     </button>
   </Tooltip>
 </div>
-```
+\`\`\`
 
 **Tooltip Styling:**
 
-```tsx
+\`\`\`tsx
 <Tooltip
   content="..."
   side="top"
@@ -1365,7 +1365,7 @@ return (
     maxWidth: '250px'
   }}
 />
-```
+\`\`\`
 
 **When to Use:**
 - ✅ Technical terms
@@ -1475,7 +1475,7 @@ return (
 ### Quick Start
 
 **1. Add Accessibility**
-```tsx
+\`\`\`tsx
 import { SkipLink } from './components/SkipLink';
 
 function App() {
@@ -1489,10 +1489,10 @@ function App() {
     </>
   );
 }
-```
+\`\`\`
 
 **2. Use Standard Components**
-```tsx
+\`\`\`tsx
 import { StandardButton } from './components/StandardButton';
 import { StandardInput } from './components/StandardInput';
 import { StandardBadge } from './components/StandardBadge';
@@ -1509,10 +1509,10 @@ import { StandardBadge } from './components/StandardBadge';
 </StandardButton>
 
 <StandardBadge status="pending" />
-```
+\`\`\`
 
 **3. Add Empty States**
-```tsx
+\`\`\`tsx
 import { EmptyState } from './components/EmptyState';
 
 {orders.length === 0 ? (
@@ -1523,17 +1523,17 @@ import { EmptyState } from './components/EmptyState';
 ) : (
   <OrderList orders={orders} />
 )}
-```
+\`\`\`
 
 **4. Handle 404**
-```tsx
+\`\`\`tsx
 import NotFound from './pages/NotFound';
 
 <Routes>
   {/* ... your routes */}
   <Route path="*" element={<NotFound />} />
 </Routes>
-```
+\`\`\`
 
 ---
 

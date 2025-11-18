@@ -101,7 +101,7 @@ Create **6 specialized user interfaces**, each tailored to a specific role menti
 
 ### **System-Wide Navigation Flow**
 
-```
+\`\`\`
                     ┌─────────────────────────┐
                     │   LOGIN PORTAL          │
                     │   /login                │
@@ -123,11 +123,11 @@ Create **6 specialized user interfaces**, each tailored to a specific role menti
     │Accountant│  │ Customer │
     │  Portal  │  │  Public  │
     └──────────┘  └──────────┘
-```
+\`\`\`
 
 ### **Role Redirection Logic**
 
-```typescript
+\`\`\`typescript
 // server/middleware/roleRouter.ts
 
 export function redirectByRole(req: Request, res: Response, next: NextFunction) {
@@ -148,7 +148,7 @@ export function redirectByRole(req: Request, res: Response, next: NextFunction) 
   
   next();
 }
-```
+\`\`\`
 
 ---
 
@@ -166,7 +166,7 @@ Streamlined order creation and customer management for front-desk staff.
 
 ### **Screen Layout**
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────────┐
 │  Emily Bakes Cakes - Sales Staff                    [Sarah] │
 ├─────────────────────────────────────────────────────────────┤
@@ -193,11 +193,11 @@ Streamlined order creation and customer management for front-desk staff.
 │  │ 4:00 PM  - Order #1050 - Emily Brown - In Progress   │  │
 │  └──────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### **Order Creation Workflow**
 
-```
+\`\`\`
 Step 1: Customer Selection
 ┌───────────────────────────────────┐
 │ Find Customer                     │
@@ -271,11 +271,11 @@ Step 4: Payment
 │                                   │
 │ [Process Card] [Complete Order]   │
 └───────────────────────────────────┘
-```
+\`\`\`
 
 ### **Sales Staff Permissions**
 
-```typescript
+\`\`\`typescript
 const salesPermissions = [
   'customers:read',
   'customers:create',
@@ -289,7 +289,7 @@ const salesPermissions = [
   'inquiries:read',
   'inquiries:respond'
 ];
-```
+\`\`\`
 
 ---
 
@@ -307,7 +307,7 @@ Simple, focused production queue for baking staff.
 
 ### **Screen Layout**
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────────┐
 │  🍰 Baker Dashboard                            [Mike - Baker]│
 ├─────────────────────────────────────────────────────────────┤
@@ -333,11 +333,11 @@ Simple, focused production queue for baking staff.
 │  ⚠️ Order #1056 needs to start NOW (rush order)            │
 │  ℹ️ Low inventory: Vanilla extract (reorder needed)        │
 └─────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### **Order Detail View (Baker)**
 
-```
+\`\`\`
 ┌───────────────────────────────────┐
 │ Order #1053 - Baker View          │
 ├───────────────────────────────────┤
@@ -368,11 +368,11 @@ Simple, focused production queue for baking staff.
 │ Status: Baking                    │
 │ [Mark Complete] [Need Help]       │
 └───────────────────────────────────┘
-```
+\`\`\`
 
 ### **Baker Permissions**
 
-```typescript
+\`\`\`typescript
 const bakerPermissions = [
   'orders:read', // assigned orders only
   'orders:update_status', // to 'baking', 'baking_complete'
@@ -381,7 +381,7 @@ const bakerPermissions = [
   'inventory:read',
   'inventory:flag_low_stock'
 ];
-```
+\`\`\`
 
 ---
 
@@ -399,7 +399,7 @@ Visual, design-focused interface for decoration staff.
 
 ### **Screen Layout**
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────────┐
 │  🎨 Decorator Workstation                    [Anna - Master]│
 ├─────────────────────────────────────────────────────────────┤
@@ -438,11 +438,11 @@ Visual, design-focused interface for decoration staff.
 │  │ [Mark Complete] [Need Approval]         │              │
 │  └──────────────────────────────────────────┘              │
 └─────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### **Design Complexity Calculator**
 
-```typescript
+\`\`\`typescript
 // Automatically calculates complexity based on order details
 
 interface ComplexityFactors {
@@ -467,11 +467,11 @@ function calculateComplexity(order: Order): 1 | 2 | 3 {
   if (score >= 2) return 2; // 🌟🌟 Medium
   return 1;                 // 🌟 Simple
 }
-```
+\`\`\`
 
 ### **Decorator Permissions**
 
-```typescript
+\`\`\`typescript
 const decoratorPermissions = [
   'orders:read', // assigned orders only
   'orders:update_status', // to 'decorating', 'awaiting_approval'
@@ -482,7 +482,7 @@ const decoratorPermissions = [
   'images:view', // inspiration images
   'designs:save' // save custom designs to library
 ];
-```
+\`\`\`
 
 ---
 
@@ -500,7 +500,7 @@ Financial management, payment tracking, and reporting for Dan (CPA).
 
 ### **Screen Layout**
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────────┐
 │  💰 Accountant Portal                         [Dan - CPA]   │
 ├─────────────────────────────────────────────────────────────┤
@@ -533,11 +533,11 @@ Financial management, payment tracking, and reporting for Dan (CPA).
 │  Quick Actions:                                             │
 │  [Record Payment] [Bank Deposit] [Generate Report]         │
 └─────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### **Payment Reconciliation Flow**
 
-```
+\`\`\`
 ┌───────────────────────────────────┐
 │ Cash Register Reconciliation      │
 ├───────────────────────────────────┤
@@ -560,11 +560,11 @@ Financial management, payment tracking, and reporting for Dan (CPA).
 │                                   │
 │ [Reconcile & Lock] [Report Issue] │
 └───────────────────────────────────┘
-```
+\`\`\`
 
 ### **Accountant Permissions**
 
-```typescript
+\`\`\`typescript
 const accountantPermissions = [
   'payments:read',
   'payments:create',
@@ -578,7 +578,7 @@ const accountantPermissions = [
   'deposits:track',
   'deposits:record'
 ];
-```
+\`\`\`
 
 ---
 
@@ -596,7 +596,7 @@ Comprehensive oversight and control for Emily and James.
 
 ### **Screen Layout**
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────────┐
 │  👑 Owner Dashboard                              [Emily]    │
 ├─────────────────────────────────────────────────────────────┤
@@ -633,11 +633,11 @@ Comprehensive oversight and control for Emily and James.
 │  │ Tom (Baker)     - 2 orders (running behind)   ⚠️      │  │
 │  └──────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### **Approval Workflow**
 
-```
+\`\`\`
 ┌───────────────────────────────────┐
 │ Order Approval - #1057            │
 ├───────────────────────────────────┤
@@ -669,11 +669,11 @@ Comprehensive oversight and control for Emily and James.
 │                                   │
 │ [Submit Approval]                 │
 └───────────────────────────────────┘
-```
+\`\`\`
 
 ### **Owner/Manager Permissions**
 
-```typescript
+\`\`\`typescript
 const ownerPermissions = [
   'ALL:*', // Full system access
   'employees:manage',
@@ -687,7 +687,7 @@ const ownerPermissions = [
   'analytics:all',
   'system:configure'
 ];
-```
+\`\`\`
 
 ---
 
@@ -703,7 +703,7 @@ All interfaces share:
 - ✅ Common modals and dialogs
 - ✅ Shared notification system
 
-```typescript
+\`\`\`typescript
 // Shared Components Library
 
 /src/components/shared/
@@ -723,7 +723,7 @@ All interfaces share:
     ├── Toast.tsx           // Notifications
     ├── LoadingSpinner.tsx
     └── EmptyState.tsx
-```
+\`\`\`
 
 ---
 
@@ -731,7 +731,7 @@ All interfaces share:
 
 ### **Route Protection**
 
-```typescript
+\`\`\`typescript
 // src/components/ProtectedRoute.tsx
 
 interface ProtectedRouteProps {
@@ -759,11 +759,11 @@ export function ProtectedRoute({ allowedRoles, children }: ProtectedRouteProps) 
     <BakerQueue />
   </ProtectedRoute>
 } />
-```
+\`\`\`
 
 ### **Feature Flags**
 
-```typescript
+\`\`\`typescript
 // Fine-grained feature control within interfaces
 
 interface FeaturePermissions {
@@ -785,7 +785,7 @@ function getFeatures(role: string): FeaturePermissions {
   
   return features[role];
 }
-```
+\`\`\`
 
 ---
 
@@ -799,7 +799,7 @@ All interfaces are **fully responsive** and optimized for:
 
 ### **Mobile-First Baker Interface**
 
-```
+\`\`\`
 ┌──────────────────┐
 │ 🍰 My Queue      │
 │       [Mike]  ☰  │
@@ -823,7 +823,7 @@ All interfaces are **fully responsive** and optimized for:
 │ ✓ Completed: 3   │
 │ ⚠️ Behind: 0     │
 └──────────────────┘
-```
+\`\`\`
 
 ---
 

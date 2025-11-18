@@ -37,7 +37,7 @@ Added `image_path` field to all product data structures in `src/data/cakeOptions
 
 ### 2. Directory Structure Created
 
-```
+\`\`\`
 /public/images/products/
 ├── cakes/                    # Standard cake images
 ├── cake-flavors/            # Cake flavor images
@@ -46,7 +46,7 @@ Added `image_path` field to all product data structures in `src/data/cakeOptions
 ├── icing-colors/           # Color sample images
 ├── placeholder.svg         # Fallback image
 └── README.md               # Image specifications
-```
+\`\`\`
 
 ### 3. UI Component Updates
 
@@ -80,7 +80,7 @@ Added `image_path` field to all product data structures in `src/data/cakeOptions
 ### 4. Error Handling
 
 All image displays include robust error handling:
-```typescript
+\`\`\`typescript
 <img
   src={product.image_path || '/images/products/placeholder.svg'}
   alt={product.name}
@@ -88,7 +88,7 @@ All image displays include robust error handling:
     (e.target as HTMLImageElement).src = '/images/products/placeholder.svg'; 
   }}
 />
-```
+\`\`\`
 
 Features:
 - Automatic fallback to placeholder if image missing

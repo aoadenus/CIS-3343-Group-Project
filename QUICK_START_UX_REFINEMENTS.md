@@ -11,7 +11,7 @@
 
 Replace your current hero section with:
 
-```tsx
+\`\`\`tsx
 import { EnhancedHero } from '../../components/EnhancedHero';
 
 export function PublicHome() {
@@ -22,7 +22,7 @@ export function PublicHome() {
     </div>
   );
 }
-```
+\`\`\`
 
 **What You Get:**
 - ✅ Smooth 0.5x parallax scroll
@@ -39,7 +39,7 @@ export function PublicHome() {
 
 In the "Design & Decoration" step, add after color selector:
 
-```tsx
+\`\`\`tsx
 import { ImageUploadGrid } from '../../components/ImageUploadGrid';
 
 <ImageUploadGrid
@@ -50,7 +50,7 @@ import { ImageUploadGrid } from '../../components/ImageUploadGrid';
     // Save to state or send to backend
   }}
 />
-```
+\`\`\`
 
 **What You Get:**
 - ✅ 5 upload slots with validation
@@ -67,7 +67,7 @@ import { ImageUploadGrid } from '../../components/ImageUploadGrid';
 
 Replace WelcomeScreen with:
 
-```tsx
+\`\`\`tsx
 import { LoadingAnimation } from './components/LoadingAnimation';
 
 export default function App() {
@@ -85,7 +85,7 @@ export default function App() {
     </>
   );
 }
-```
+\`\`\`
 
 **What You Get:**
 - ✅ 2.5s elegant animation (was 3s dark)
@@ -102,7 +102,7 @@ export default function App() {
 
 Replace existing navigation with:
 
-```tsx
+\`\`\`tsx
 import { EnhancedNav } from './components/EnhancedNav';
 
 export function PublicLayout({ children }) {
@@ -114,7 +114,7 @@ export function PublicLayout({ children }) {
     </>
   );
 }
-```
+\`\`\`
 
 **What You Get:**
 - ✅ Animated dropdown chevrons (180° rotate)
@@ -131,7 +131,7 @@ export function PublicLayout({ children }) {
 
 Add inside your Router:
 
-```tsx
+\`\`\`tsx
 import { BrowserRouter } from 'react-router-dom';
 import { ScrollToTop } from './components/ScrollToTop';
 
@@ -141,7 +141,7 @@ import { ScrollToTop } from './components/ScrollToTop';
     {/* Your routes */}
   </Routes>
 </BrowserRouter>
-```
+\`\`\`
 
 **What You Get:**
 - ✅ Every page loads from top
@@ -153,14 +153,14 @@ import { ScrollToTop } from './components/ScrollToTop';
 
 ## 📦 All New Components
 
-```
+\`\`\`
 /components/
 ├── EnhancedHero.tsx ← Parallax hero section
 ├── ImageUploadGrid.tsx ← 5-slot image upload
 ├── LoadingAnimation.tsx ← 2.5s pastel loader
 ├── EnhancedNav.tsx ← Dropdown navigation
 └── ScrollToTop.tsx ← Auto-scroll utility
-```
+\`\`\`
 
 ---
 
@@ -180,7 +180,7 @@ Copy all 5 components from `/components/` directory and update these files:
 ## 🎨 Visual Preview
 
 **EnhancedHero:**
-```
+\`\`\`
 ┌─────────────────────────────────┐
 │   [Parallax Background Image]   │
 │         [Dark Gradient]          │
@@ -191,10 +191,10 @@ Copy all 5 components from `/components/` directory and update these files:
 │   └───────────────────────┘     │
 │         [Scroll ↓]               │
 └─────────────────────────────────┘
-```
+\`\`\`
 
 **ImageUploadGrid:**
-```
+\`\`\`
 ┌───────────────────────────────┐
 │ Upload Inspiration Images     │
 │ ┌───┐ ┌───┐ ┌───┐ ┌───┐ ┌───┐│
@@ -202,10 +202,10 @@ Copy all 5 components from `/components/` directory and update these files:
 │ └───┘ └───┘ └───┘ └───┘ └───┘│
 │        2 of 5 uploaded         │
 └───────────────────────────────┘
-```
+\`\`\`
 
 **EnhancedNav:**
-```
+\`\`\`
 ┌────────────────────────────────┐
 │ Emily Bakes  [Home] [Shop ▼]  │
 │              [Gallery] [About] │
@@ -217,7 +217,7 @@ Copy all 5 components from `/components/` directory and update these files:
    │ Birthday     │
    │ Custom       │
    └──────────────┘
-```
+\`\`\`
 
 ---
 

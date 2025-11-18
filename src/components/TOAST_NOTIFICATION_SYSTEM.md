@@ -18,7 +18,7 @@ Premium toast-style notifications designed for the Emily Bakes Cakes brand using
 
 ### Container Style
 
-```css
+\`\`\`css
 Width: 320-400px (responsive)
 Height: auto (fits content)
 Border Radius: 12px
@@ -26,7 +26,7 @@ Padding: 16px 24px
 Shadow: 0 4px 16px rgba(0, 0, 0, 0.15)
 Backdrop Filter: blur(12px) /* Glassmorphism */
 Layout: [icon] [message/title] [close icon]
-```
+\`\`\`
 
 ### Typography
 
@@ -42,85 +42,85 @@ Layout: [icon] [message/title] [close icon]
 
 ### Error (Raspberry Pink)
 
-```css
+\`\`\`css
 Background: #C44569 (Raspberry Pink)
 Text: #FFFFFF (White)
 Icon: AlertCircle, White
 Border: #E36B86 (10% lighter Raspberry)
 Progress Bar: #E36B86
 ARIA Label: "Error notification"
-```
+\`\`\`
 
 **Usage:** Payment failures, form validation errors, system errors, session expiration
 
 **Example:**
-```typescript
+\`\`\`typescript
 showToast('error', 'Failed to process payment. Please check your card details.');
 showToast('error', 'Your session has expired.', 'Session Expired');
-```
+\`\`\`
 
 ---
 
 ### Warning (Soft Amber)
 
-```css
+\`\`\`css
 Background: #FFD166 (Soft Amber)
 Text: #2B2B2B (Charcoal Gray)
 Icon: AlertTriangle, Charcoal Gray
 Border: #F6C343
 Progress Bar: #F6C343
 ARIA Label: "Warning notification"
-```
+\`\`\`
 
 **Usage:** Time-sensitive notices, rush order warnings, inventory alerts, policy reminders
 
 **Example:**
-```typescript
+\`\`\`typescript
 showToast('warning', 'Custom cake orders require 48 hours advance notice.');
 showToast('warning', 'Rush fees may apply.', 'Rush Order Warning');
-```
+\`\`\`
 
 ---
 
 ### Success (Mint Green)
 
-```css
+\`\`\`css
 Background: #59C9A5 (Mint Green)
 Text: #FFFFFF (White)
 Icon: CheckCircle, White
 Border: #4BB491
 Progress Bar: #4BB491
 ARIA Label: "Success notification"
-```
+\`\`\`
 
 **Usage:** Order confirmations, successful saves, completed actions, order ready notifications
 
 **Example:**
-```typescript
+\`\`\`typescript
 showToast('success', 'Your custom cake order has been successfully placed!');
 showToast('success', 'Order #259 is ready for pickup.', 'Order Ready!');
-```
+\`\`\`
 
 ---
 
 ### Info / Neutral (Cream Vanilla)
 
-```css
+\`\`\`css
 Background: #F8EBD7 (Cream Vanilla)
 Text: #2B2B2B (Charcoal Gray)
 Icon: Info, Raspberry Pink (#C44569)
 Border: #EAD4B8
 Progress Bar: #C44569 (Raspberry)
 ARIA Label: "Information notification"
-```
+\`\`\`
 
 **Usage:** General information, pickup schedules, business hours, helpful tips
 
 **Example:**
-```typescript
+\`\`\`typescript
 showToast('info', 'We\'re closed on Sundays. Visit us Monday-Saturday.');
 showToast('info', 'Order scheduled for Nov 2nd.', 'Pickup Schedule');
-```
+\`\`\`
 
 ---
 
@@ -128,7 +128,7 @@ showToast('info', 'Order scheduled for Nov 2nd.', 'Pickup Schedule');
 
 ### Basic Import
 
-```typescript
+\`\`\`typescript
 import { useToast } from './components/ToastContext';
 
 function MyComponent() {
@@ -137,22 +137,22 @@ function MyComponent() {
   // Show a toast
   showToast('success', 'Order placed successfully!');
 }
-```
+\`\`\`
 
 ### Function Signature
 
-```typescript
+\`\`\`typescript
 showToast(
   type: 'success' | 'error' | 'info' | 'warning',
   message: string,
   title?: string,           // Optional title
   duration?: number         // Optional duration (default: 5000ms)
 )
-```
+\`\`\`
 
 ### Examples
 
-```typescript
+\`\`\`typescript
 // Simple message
 showToast('success', 'Settings saved successfully!');
 
@@ -164,7 +164,7 @@ showToast('info', 'Quick notification', undefined, 3000);
 
 // All parameters
 showToast('warning', 'Your cart will expire in 5 minutes.', 'Cart Expiring Soon', 7000);
-```
+\`\`\`
 
 ---
 
@@ -200,11 +200,11 @@ showToast('warning', 'Your cart will expire in 5 minutes.', 'Cart Expiring Soon'
 
 ### ARIA Support
 
-```html
+\`\`\`html
 <div role="alert" aria-live="polite" aria-label="[Error|Warning|Success|Info] notification">
   <!-- Toast content -->
 </div>
-```
+\`\`\`
 
 ### Keyboard Navigation
 - **Tab:** Focus on close button
@@ -249,7 +249,7 @@ All variants meet **WCAG AA standards (≥4.5:1)**:
 
 Wrap your app with `ToastProvider`:
 
-```typescript
+\`\`\`typescript
 import { ToastProvider } from './components/ToastContext';
 
 function App() {
@@ -259,11 +259,11 @@ function App() {
     </ToastProvider>
   );
 }
-```
+\`\`\`
 
 ### Context Structure
 
-```typescript
+\`\`\`typescript
 interface Toast {
   id: string;
   type: 'success' | 'error' | 'info' | 'warning';
@@ -276,7 +276,7 @@ interface ToastContextType {
   showToast: (type, message, title?, duration?) => void;
   removeToast: (id: string) => void;
 }
-```
+\`\`\`
 
 ### Technologies Used
 - **React Context API:** State management
@@ -310,7 +310,7 @@ interface ToastContextType {
 ## Common Use Cases
 
 ### E-commerce / Orders
-```typescript
+\`\`\`typescript
 // Order placed
 showToast('success', 'Your order #259 has been placed!', 'Order Confirmed');
 
@@ -322,10 +322,10 @@ showToast('warning', 'Items in your cart for 30 minutes.', 'Cart Expiring');
 
 // Pickup ready
 showToast('info', 'Ready for pickup today at 2:00 PM.', 'Order #259 Ready');
-```
+\`\`\`
 
 ### Forms & Settings
-```typescript
+\`\`\`typescript
 // Save success
 showToast('success', 'Your profile has been updated.');
 
@@ -337,10 +337,10 @@ showToast('warning', 'You have unsaved changes.');
 
 // Auto-save
 showToast('info', 'Changes saved automatically.');
-```
+\`\`\`
 
 ### Authentication
-```typescript
+\`\`\`typescript
 // Login success
 showToast('success', 'Welcome back, Emily!');
 
@@ -349,7 +349,7 @@ showToast('error', 'Please log in again.', 'Session Expired');
 
 // Password changed
 showToast('success', 'Your password has been updated.');
-```
+\`\`\`
 
 ---
 

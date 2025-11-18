@@ -70,13 +70,13 @@
 ### 5. Demo Credentials Too Small
 - [ ] Make "DemoPass123" text MUCH LARGER on login page
 - [ ] Create prominent credentials box with:
-  ```
+  \`\`\`
   🔐 DEMO CREDENTIALS
   Email: emily@emilybakes.com
   Password: DemoPass123
   
   (6 staff accounts available)
-  ```
+  \`\`\`
 - [ ] Test visibility on laptop and projector screens
 
 **Status:** ⚠️ GRADING IMPACT  

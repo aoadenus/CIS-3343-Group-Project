@@ -28,14 +28,14 @@
 ### Component: VideoHero.tsx
 
 **Implementation:**
-```tsx
+\`\`\`tsx
 import { VideoHero } from '../components/VideoHero';
 
 <VideoHero 
   onExploreCakes={() => navigate('/shop')}
   onCustomOrder={() => navigate('/builder')}
 />
-```
+\`\`\`
 
 **Features:**
 - ✅ Full viewport (100vh) immersive experience
@@ -71,14 +71,14 @@ import { VideoHero } from '../components/VideoHero';
 ### Component: BentoGrid.tsx
 
 **Implementation:**
-```tsx
+\`\`\`tsx
 import { BentoGrid } from '../components/BentoGrid';
 
 <BentoGrid 
   products={products}
   onQuickAdd={(id) => handleQuickAdd(id)}
 />
-```
+\`\`\`
 
 **Features:**
 - ✅ Asymmetric grid layout inspired by Apple.com
@@ -119,12 +119,12 @@ import { BentoGrid } from '../components/BentoGrid';
 ### Component: ParallaxAbout.tsx
 
 **Implementation:**
-```tsx
+\`\`\`tsx
 import { ParallaxAbout } from '../components/ParallaxAbout';
 
 // In About page route
 <ParallaxAbout />
-```
+\`\`\`
 
 **Sections:**
 
@@ -178,15 +178,15 @@ import { ParallaxAbout } from '../components/ParallaxAbout';
 ### Component: DarkModeToggle.tsx
 
 **Implementation:**
-```tsx
+\`\`\`tsx
 import { DarkModeToggle } from '../components/DarkModeToggle';
 
 // In Settings or Header
 <DarkModeToggle />
-```
+\`\`\`
 
 **Color Scheme:**
-```css
+\`\`\`css
 /* Dark Mode */
 --bg-base: #1A1A1A          /* Deep charcoal background */
 --bg-card: #2B2B2B          /* Lighter charcoal cards */
@@ -203,7 +203,7 @@ import { DarkModeToggle } from '../components/DarkModeToggle';
 --text-primary: #2B2B2B     /* Charcoal Gray */
 --text-secondary: #5A3825   /* Chocolate Brown */
 --accent: #C44569           /* Raspberry Pink */
-```
+\`\`\`
 
 **Features:**
 - ✅ Sun/Moon icon toggle (animated rotation + scale)
@@ -237,7 +237,7 @@ import { DarkModeToggle } from '../components/DarkModeToggle';
 **Status:** Documented for future implementation
 
 **Concept:**
-```tsx
+\`\`\`tsx
 // 3D Cake Preview with CSS Transforms
 <div style={{
   perspective: '1000px',
@@ -256,7 +256,7 @@ import { DarkModeToggle } from '../components/DarkModeToggle';
     <div className="cake-tier tier-3" />
   </div>
 </div>
-```
+\`\`\`
 
 **Features:**
 - `perspective: 1000px` for 3D space
@@ -282,7 +282,7 @@ import { DarkModeToggle } from '../components/DarkModeToggle';
 **Status:** Documented for future implementation
 
 **CSS Specs:**
-```css
+\`\`\`css
 /* Neumorphic Input */
 .neomorphic-input {
   background: #F8EBD7;
@@ -340,7 +340,7 @@ import { DarkModeToggle } from '../components/DarkModeToggle';
     inset -2px -2px 4px rgba(255, 255, 255, 0.6);
   transform: translateY(0);
 }
-```
+\`\`\`
 
 **Apply to:**
 - Custom cake builder inputs
@@ -372,7 +372,7 @@ import { DarkModeToggle } from '../components/DarkModeToggle';
 - Keyboard: Arrow keys to navigate categories
 
 **Structure:**
-```
+\`\`\`
 ┌─────────────────────────────────────────────────┐
 │  [X Close]                                      │
 │                                                 │
@@ -386,7 +386,7 @@ import { DarkModeToggle } from '../components/DarkModeToggle';
 │                              │                 │
 │  Quick Links: Gallery | About                  │
 └─────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ---
 
@@ -395,11 +395,11 @@ import { DarkModeToggle } from '../components/DarkModeToggle';
 ### Component: TestimonialCarousel.tsx
 
 **Implementation:**
-```tsx
+\`\`\`tsx
 import { TestimonialCarousel } from '../components/TestimonialCarousel';
 
 <TestimonialCarousel />
-```
+\`\`\`
 
 **Features:**
 - ✅ Horizontally scrolling carousel
@@ -471,16 +471,16 @@ import { TestimonialCarousel } from '../components/TestimonialCarousel';
 **Examples:**
 
 **Home Icon (Door Opens):**
-```svg
+\`\`\`svg
 <svg viewBox="0 0 24 24">
   <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
   <path class="door" d="M9 22V12h6v10" />
   <!-- Animate door transform origin and scaleX on hover -->
 </svg>
-```
+\`\`\`
 
 **Cake Icon (Candle Appears):**
-```svg
+\`\`\`svg
 <svg viewBox="0 0 24 24">
   <rect class="cake-base" x="4" y="14" width="16" height="8" rx="2" />
   <line class="candle" x1="12" y1="14" x2="12" y2="6" 
@@ -488,17 +488,17 @@ import { TestimonialCarousel } from '../components/TestimonialCarousel';
   <ellipse class="flame" cx="12" cy="4" rx="2" ry="3" 
            fill="#FFD700" opacity="0" />
 </svg>
-```
+\`\`\`
 
 **Calendar Icon (Pages Flip):**
-```svg
+\`\`\`svg
 <svg viewBox="0 0 24 24">
   <rect class="calendar-back" x="3" y="4" width="18" height="18" rx="2" />
   <rect class="calendar-page" x="3" y="4" width="18" height="18" rx="2" 
         transform-origin="top" />
   <!-- RotateX on hover to create flip effect -->
 </svg>
-```
+\`\`\`
 
 **Loading States:**
 - Whisk spinning: `rotate(0deg)` → `rotate(720deg)`
@@ -521,7 +521,7 @@ import { TestimonialCarousel } from '../components/TestimonialCarousel';
 
 ### Update Home Page
 
-```tsx
+\`\`\`tsx
 // /pages/public/Home.tsx
 
 import { VideoHero } from '../../components/VideoHero';
@@ -548,11 +548,11 @@ export function PublicHome() {
     </div>
   );
 }
-```
+\`\`\`
 
 ### Update Shop Page
 
-```tsx
+\`\`\`tsx
 // /pages/public/Shop.tsx
 
 import { BentoGrid } from '../../components/BentoGrid';
@@ -587,11 +587,11 @@ export function Shop() {
     </div>
   );
 }
-```
+\`\`\`
 
 ### Update About Page
 
-```tsx
+\`\`\`tsx
 // /pages/public/About.tsx
 
 import { ParallaxAbout } from '../../components/ParallaxAbout';
@@ -599,11 +599,11 @@ import { ParallaxAbout } from '../../components/ParallaxAbout';
 export function About() {
   return <ParallaxAbout />;
 }
-```
+\`\`\`
 
 ### Add Dark Mode to Admin
 
-```tsx
+\`\`\`tsx
 // /pages/Settings.tsx or Admin Header
 
 import { DarkModeToggle } from '../../components/DarkModeToggle';
@@ -619,7 +619,7 @@ export function Settings() {
     </div>
   );
 }
-```
+\`\`\`
 
 ---
 
@@ -627,7 +627,7 @@ export function Settings() {
 
 Add to `/styles/globals.css`:
 
-```css
+\`\`\`css
 /* Video Hero Fallback */
 @media (prefers-reduced-motion: reduce) {
   video {
@@ -689,7 +689,7 @@ Add to `/styles/globals.css`:
     background: rgba(255, 255, 255, 0.95) !important;
   }
 }
-```
+\`\`\`
 
 ---
 

@@ -95,7 +95,7 @@ AUTOMATED DIAGNOSTIC & FIX SEQUENCE:
 If any page components are missing, create them with this template structure:
 
 For Public Pages (Home, Shop, Gallery, etc.):
-```typescript
+\`\`\`typescript
 export function [PageName]() {
   return (
     <div style={{ padding: '40px', minHeight: '100vh' }}>
@@ -108,10 +108,10 @@ export function [PageName]() {
     </div>
   );
 }
-```
+\`\`\`
 
 For Admin Pages (Dashboard, Orders, etc.):
-```typescript
+\`\`\`typescript
 export function [PageName]() {
   return (
     <div style={{ padding: '40px', background: '#F5F5F5', minHeight: '100vh' }}>
@@ -122,10 +122,10 @@ export function [PageName]() {
     </div>
   );
 }
-```
+\`\`\`
 
 For PublicLayout if missing:
-```typescript
+\`\`\`typescript
 import { ReactNode } from 'react';
 
 interface PublicLayoutProps {
@@ -158,10 +158,10 @@ export function PublicLayout({ children, activePage, onNavigate, onAdminAccess }
     </div>
   );
 }
-```
+\`\`\`
 
 For ToastContext if missing:
-```typescript
+\`\`\`typescript
 import { createContext, ReactNode } from 'react';
 
 export const ToastContext = createContext(null);
@@ -169,7 +169,7 @@ export const ToastContext = createContext(null);
 export function ToastProvider({ children }: { children: ReactNode }) {
   return <ToastContext.Provider value={null}>{children}</ToastContext.Provider>;
 }
-```
+\`\`\`
 
 === PHASE 7: TESTING & VERIFICATION ===
 13. After all fixes:
@@ -209,6 +209,6 @@ After completing all phases, provide:
 EXECUTE ALL PHASES AUTOMATICALLY. Fix issues as you find them. Create missing files. Test thoroughly. Report final status.
 
 START NOW.
-```
+\`\`\`
 
 ---

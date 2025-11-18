@@ -18,7 +18,7 @@ Add smooth animated gradients that create movement and visual hierarchy while pr
 
 **Implementation:** `/pages/public/Home.tsx`
 
-```tsx
+\`\`\`tsx
 <section className="relative overflow-hidden">
   {/* Animated Gradient Mesh Background */}
   <div className="animated-gradient-hero">
@@ -37,10 +37,10 @@ Add smooth animated gradients that create movement and visual hierarchy while pr
     <h1>Hero Title</h1>
   </div>
 </section>
-```
+\`\`\`
 
 **Gradient Colors:**
-```css
+\`\`\`css
 Layer 1: #F8EBD7 → #FFD6BA → #F7B1C3
          (Cream Vanilla → Soft Peach → Light Raspberry Pink)
          
@@ -49,7 +49,7 @@ Layer 2: Radial gradient with Soft Peach (#FFD6BA)
          
 Layer 3: Radial gradient with Light Raspberry (#F7B1C3)
          Position: 70% 50%
-```
+\`\`\`
 
 **Animation:**
 - **Duration:** 10-15 seconds per layer
@@ -69,14 +69,14 @@ Layer 3: Radial gradient with Light Raspberry (#F7B1C3)
 
 **Implementation:**
 
-```tsx
+\`\`\`tsx
 <section className="gradient-divider">
   {/* Section content */}
 </section>
-```
+\`\`\`
 
 **CSS:**
-```css
+\`\`\`css
 .gradient-divider::before {
   content: '';
   position: absolute;
@@ -91,7 +91,7 @@ Layer 3: Radial gradient with Light Raspberry (#F7B1C3)
     transparent 100%
   );
 }
-```
+\`\`\`
 
 **Usage:** Applied to Weekly Spotlight, Features, and Testimonials sections
 
@@ -103,14 +103,14 @@ Layer 3: Radial gradient with Light Raspberry (#F7B1C3)
 
 **Implementation:**
 
-```tsx
+\`\`\`tsx
 <Card className="card-with-gradient-depth">
   {/* Card content */}
 </Card>
-```
+\`\`\`
 
 **CSS:**
-```css
+\`\`\`css
 .card-with-gradient-depth::before {
   content: '';
   position: absolute;
@@ -127,7 +127,7 @@ Layer 3: Radial gradient with Light Raspberry (#F7B1C3)
 .card-with-gradient-depth:hover::before {
   opacity: 1;
 }
-```
+\`\`\`
 
 **Effect:** 
 - Inactive: No gradient visible
@@ -142,7 +142,7 @@ Layer 3: Radial gradient with Light Raspberry (#F7B1C3)
 ### 4. Gradient Background Examples
 
 #### Hero Section
-```
+\`\`\`
 ┌─────────────────────────────────────────┐
 │  ╭─────────────────────────────────╮    │
 │  │ Animated flowing gradient mesh  │    │  
@@ -153,10 +153,10 @@ Layer 3: Radial gradient with Light Raspberry (#F7B1C3)
 │  │  Order Custom Cake →            │    │
 │  ╰─────────────────────────────────╯    │
 └─────────────────────────────────────────┘
-```
+\`\`\`
 
 #### Section with Diagonal Divider
-```
+\`\`\`
 ┌─────────────────────────────────────────┐
 │ ╱╲╱╲╱╲╱╲╱╲  ← Diagonal gradient line    │
 ├─────────────────────────────────────────┤
@@ -164,7 +164,7 @@ Layer 3: Radial gradient with Light Raspberry (#F7B1C3)
 │                                         │
 │  [Featured Cake Card]                   │
 └─────────────────────────────────────────┘
-```
+\`\`\`
 
 ---
 
@@ -174,22 +174,22 @@ Layer 3: Radial gradient with Light Raspberry (#F7B1C3)
 
 **Implementation:** `/components/AdminLayout.tsx`
 
-```tsx
+\`\`\`tsx
 <main style={{
   background: 'linear-gradient(135deg, #F5F5F5 0%, #EBEBEB 50%, #F5F5F5 100%)'
 }}>
   {children}
 </main>
-```
+\`\`\`
 
 **Colors:**
-```
+\`\`\`
 Light Gray (#F5F5F5) → Lighter Gray (#EBEBEB) → Light Gray (#F5F5F5)
 Subtle, professional, non-distracting
-```
+\`\`\`
 
 **Alternative (for dark mode future):**
-```css
+\`\`\`css
 .admin-gradient-bg {
   background: linear-gradient(
     135deg,
@@ -197,7 +197,7 @@ Subtle, professional, non-distracting
     #1F2A36 100%     /* Deep Navy */
   );
 }
-```
+\`\`\`
 
 ---
 
@@ -205,14 +205,14 @@ Subtle, professional, non-distracting
 
 **Implementation:**
 
-```tsx
+\`\`\`tsx
 <Card className="admin-widget-active">
   {/* Card content */}
 </Card>
-```
+\`\`\`
 
 **CSS:**
-```css
+\`\`\`css
 .admin-widget-active::after {
   content: '';
   position: absolute;
@@ -230,7 +230,7 @@ Subtle, professional, non-distracting
 .admin-widget-active.is-focused::after {
   opacity: 1;
 }
-```
+\`\`\`
 
 **Effect:**
 - Default: Clean white card with neutral border
@@ -244,16 +244,16 @@ Subtle, professional, non-distracting
 
 **Implementation:**
 
-```tsx
+\`\`\`tsx
 <div className="admin-card-gradient">
   <Card>
     {/* Content */}
   </Card>
 </div>
-```
+\`\`\`
 
 **CSS:**
-```css
+\`\`\`css
 .admin-card-gradient::before {
   content: '';
   position: absolute;
@@ -268,7 +268,7 @@ Subtle, professional, non-distracting
   );
   /* Creates 1px gradient border effect */
 }
-```
+\`\`\`
 
 **Usage:** Premium data cards, highlighted widgets, active panels
 
@@ -277,17 +277,17 @@ Subtle, professional, non-distracting
 ### 4. Dashboard Widget Examples
 
 #### KPI Card (Default)
-```
+\`\`\`
 ┌─────────────────────┐
 │  Today's Orders     │  ← White card
 │                     │     Neutral border
 │       22            │     No gradient
 │       ↑3            │
 └─────────────────────┘
-```
+\`\`\`
 
 #### KPI Card (Hover/Active)
-```
+\`\`\`
 ┌═══════════════════════┐
 │  Today's Orders       │  ← White card
 │  ⚪ radial glow       │     Raspberry border tint
@@ -295,7 +295,7 @@ Subtle, professional, non-distracting
 │       ↑3              │
 └═══════════════════════┘
        Focused state
-```
+\`\`\`
 
 ---
 
@@ -326,7 +326,7 @@ Subtle, professional, non-distracting
 
 ### Step 1: Apply to Hero Section
 
-```tsx
+\`\`\`tsx
 // /pages/public/Home.tsx
 <section className="relative overflow-hidden">
   <div className="animated-gradient-hero">
@@ -336,19 +336,19 @@ Subtle, professional, non-distracting
   </div>
   {/* Rest of hero content */}
 </section>
-```
+\`\`\`
 
 ### Step 2: Add Gradient Dividers
 
-```tsx
+\`\`\`tsx
 <section className="gradient-divider">
   {/* Section content */}
 </section>
-```
+\`\`\`
 
 ### Step 3: Enhance Cards
 
-```tsx
+\`\`\`tsx
 // Customer site
 <Card className="card-with-gradient-depth">
   {/* Card content */}
@@ -358,11 +358,11 @@ Subtle, professional, non-distracting
 <Card className="admin-widget-active">
   {/* Card content */}
 </Card>
-```
+\`\`\`
 
 ### Step 4: Add Focus States (Admin)
 
-```tsx
+\`\`\`tsx
 <Card 
   className="admin-widget-active"
   onMouseEnter={(e) => e.currentTarget.classList.add('is-focused')}
@@ -370,7 +370,7 @@ Subtle, professional, non-distracting
 >
   {/* Content */}
 </Card>
-```
+\`\`\`
 
 ---
 
@@ -388,7 +388,7 @@ All gradients maintain WCAG AA compliance:
 
 ### Reduced Motion Support
 
-```css
+\`\`\`css
 @media (prefers-reduced-motion: reduce) {
   .animated-gradient-hero .gradient-layer-1,
   .animated-gradient-hero .gradient-layer-2,
@@ -401,7 +401,7 @@ All gradients maintain WCAG AA compliance:
     transition: none;
   }
 }
-```
+\`\`\`
 
 **Effect:** Users who prefer reduced motion see static gradients with no animation
 
@@ -432,38 +432,38 @@ All gradients maintain WCAG AA compliance:
 ### Front-End Hero Section
 
 **Before:**
-```
+\`\`\`
 Static cream background (#F8EBD7)
 + Background image overlay
 + Text on top
-```
+\`\`\`
 
 **After:**
-```
+\`\`\`
 Animated gradient mesh (Cream → Peach → Raspberry)
 + Background image (15% opacity)
 + Soft radial overlay
 + Text on top (fully legible)
 = More dynamic, premium feel
-```
+\`\`\`
 
 ### Admin Dashboard Cards
 
 **Before:**
-```
+\`\`\`
 White card
 + Gray border
 + Static shadow
-```
+\`\`\`
 
 **After:**
-```
+\`\`\`
 White card
 + Neutral border (default)
 + Raspberry glow (on hover/focus)
 + Gradient border accent (premium cards)
 = Subtle depth and focus indication
-```
+\`\`\`
 
 ---
 
@@ -471,7 +471,7 @@ White card
 
 ### Customer Website - Product Showcase
 
-```tsx
+\`\`\`tsx
 export function ProductShowcase() {
   return (
     <section className="py-16 gradient-divider">
@@ -490,13 +490,13 @@ export function ProductShowcase() {
     </section>
   );
 }
-```
+\`\`\`
 
 **Result:** Cards have subtle gradient depth on hover, section has diagonal divider
 
 ### Admin Portal - KPI Dashboard
 
-```tsx
+\`\`\`tsx
 export function KPIDashboard() {
   return (
     <div className="grid grid-cols-4 gap-6">
@@ -514,7 +514,7 @@ export function KPIDashboard() {
     </div>
   );
 }
-```
+\`\`\`
 
 **Result:** Cards show subtle raspberry glow when hovered or focused
 
@@ -540,7 +540,7 @@ export function KPIDashboard() {
 
 ### Animation States (Customer)
 
-```
+\`\`\`
 Gradient Layer 1:
 0%   → Background at 0% position, 200% size
 50%  → Background at 100% position, 250% size
@@ -555,11 +555,11 @@ Gradient Layer 3:
 0%   → translate(0, 0) scale(1), opacity 0.4
 50%  → translate(-10%, -10%) scale(1.15), opacity 0.35
 100% → Back to translate(0, 0) scale(1), opacity 0.4
-```
+\`\`\`
 
 ### Interaction States (Admin)
 
-```
+\`\`\`
 Default:
 - Border: #E0E0E0 (neutral gray)
 - Shadow: 0 2px 8px rgba(0, 0, 0, 0.08)
@@ -569,7 +569,7 @@ Hover/Focus:
 - Border: rgba(196, 69, 105, 0.2) (light raspberry)
 - Shadow: 0 4px 16px rgba(196, 69, 105, 0.12)
 - Glow: opacity 1 (visible)
-```
+\`\`\`
 
 ---
 

@@ -35,7 +35,7 @@ All components use design tokens from `src/styles/dashboard-tokens.css`. These t
 
 Import components from the index file:
 
-```tsx
+\`\`\`tsx
 import { DashboardLayout } from '@/components/dashboard-v2';
 
 function MyDashboard() {
@@ -45,7 +45,7 @@ function MyDashboard() {
     </DashboardLayout>
   );
 }
-```
+\`\`\`
 
 ## Design Principles
 
@@ -59,7 +59,7 @@ function MyDashboard() {
 
 All components use CSS variables with the `--db-` prefix:
 
-```css
+\`\`\`css
 /* Example usage */
 .my-component {
   background: var(--db-color-white);
@@ -68,17 +68,17 @@ All components use CSS variables with the `--db-` prefix:
   border-radius: var(--db-radius-md);
   box-shadow: var(--db-shadow-card);
 }
-```
+\`\`\`
 
 ## File Structure
 
-```
+\`\`\`
 dashboard-v2/
 ├── README.md           # This file
 ├── index.ts            # Export all components
 ├── DashboardLayout.tsx # Main layout wrapper
 └── [future components]
-```
+\`\`\`
 
 ## Contributing
 

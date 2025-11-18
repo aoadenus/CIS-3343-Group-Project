@@ -416,7 +416,7 @@ Ready for Pickup
 
 ## Wireframe
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │                   HEADER / NAV                      │
 │  Logo  Home  Gallery  Menu  Contact  [Staff Login]  │
@@ -466,11 +466,11 @@ MOBILE (320px):
 - Featured cakes: 1 per row
 - Hero button below image
 - Footer: Stack horizontally
-```
+\`\`\`
 
 ## Implementation Prompt
 
-```
+\`\`\`
 Build PUBLIC HOME PAGE (React component):
 
 Component: src/pages/public/Home.tsx
@@ -532,7 +532,7 @@ ACCEPTANCE CRITERIA:
 ✅ Images lazy-load
 ✅ No console errors
 ✅ Mobile navigation works (hamburger menu on header)
-```
+\`\`\`
 
 ## Clarifying Questions for This Page
 
@@ -549,7 +549,7 @@ ACCEPTANCE CRITERIA:
 
 ## Wireframe
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │                   HEADER / NAV                      │
 ├─────────────────────────────────────────────────────┤
@@ -588,11 +588,11 @@ MOBILE (320px):
 - Filter buttons: Scroll horizontally OR dropdown menu
 - Gallery grid: 1 per row
 - Lightbox: Full screen
-```
+\`\`\`
 
 ## Implementation Prompt
 
-```
+\`\`\`
 Build GALLERY PAGE (React component):
 
 Component: src/pages/public/Gallery.tsx
@@ -655,7 +655,7 @@ ACCEPTANCE CRITERIA:
 ✅ Mobile responsive (1 col on phone)
 ✅ Images lazy-load
 ✅ Pagination works if >12 cakes
-```
+\`\`\`
 
 ## Clarifying Questions
 
@@ -672,7 +672,7 @@ ACCEPTANCE CRITERIA:
 
 ## Wireframe
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │                   HEADER / NAV                      │
 ├─────────────────────────────────────────────────────┤
@@ -723,11 +723,11 @@ ACCEPTANCE CRITERIA:
 │  FOOTER                                             │
 │                                                       │
 └─────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ## Implementation Prompt
 
-```
+\`\`\`
 Build MENU/PRICING PAGE (React component):
 
 Component: src/pages/public/Menu.tsx
@@ -806,7 +806,7 @@ ACCEPTANCE CRITERIA:
 ✅ Buttons navigate correctly
 ✅ No console errors
 ✅ Table readable on mobile (horizontal scroll OK)
-```
+\`\`\`
 
 ## Clarifying Questions
 
@@ -823,7 +823,7 @@ ACCEPTANCE CRITERIA:
 
 ## Wireframe
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │                   HEADER / NAV                      │
 ├─────────────────────────────────────────────────────┤
@@ -879,11 +879,11 @@ ACCEPTANCE CRITERIA:
 │  FOOTER                                             │
 │                                                       │
 └─────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ## Implementation Prompt
 
-```
+\`\`\`
 Build CONTACT PAGE (React component):
 
 Component: src/pages/public/Contact.tsx
@@ -1003,7 +1003,7 @@ ACCEPTANCE CRITERIA:
 ✅ Responsive on mobile/tablet/desktop
 ✅ All links work (phone, email, social, maps)
 ✅ No console errors
-```
+\`\`\`
 
 ## Clarifying Questions
 
@@ -1039,7 +1039,7 @@ ACCEPTANCE CRITERIA:
 
 ## Wireframe
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │                   HEADER / NAV                      │
 ├─────────────────────────────────────────────────────┤
@@ -1070,11 +1070,11 @@ ACCEPTANCE CRITERIA:
 │  FOOTER                                             │
 │                                                       │
 └─────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ## Implementation Prompt
 
-```
+\`\`\`
 Build CUSTOMER LOGIN PAGE (React component):
 
 Component: src/pages/public/CustomerLogin.tsx
@@ -1180,7 +1180,7 @@ ACCEPTANCE CRITERIA:
 ✅ Mobile responsive
 ✅ "Forgot Password" link (if implemented)
 ✅ "Create Account" link works
-```
+\`\`\`
 
 ## Clarifying Questions
 
@@ -1212,7 +1212,7 @@ ACCEPTANCE CRITERIA:
 
 ## Wireframe
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │           HEADER: Welcome, [Customer Name]          │
 │  [Notifications] [Profile] [Logout]                 │
@@ -1257,11 +1257,11 @@ ACCEPTANCE CRITERIA:
 │  [< Prev] [1] [2] [3] [Next >]                     │
 │                                                       │
 └─────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ## Implementation Prompt
 
-```
+\`\`\`
 Build CUSTOMER DASHBOARD (React component):
 
 Component: src/pages/admin/CustomerDashboard.tsx
@@ -1370,7 +1370,7 @@ ACCEPTANCE CRITERIA:
 ✅ "Reorder" pre-fills form
 ✅ No console errors
 ✅ Handles empty state (no orders)
-```
+\`\`\`
 
 ## Clarifying Questions
 
@@ -1404,7 +1404,7 @@ ACCEPTANCE CRITERIA:
 
 ## Wireframe
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │                   HEADER                            │
 │  Track Your Order                                   │
@@ -1463,11 +1463,11 @@ ACCEPTANCE CRITERIA:
 - Status auto-updates every 2 minutes
 - Cycles through all 11 statuses over ~22 minutes
 - Progress bar fills as status advances
-```
+\`\`\`
 
 ## Implementation Prompt
 
-```
+\`\`\`
 Build DEMO TRACKING PAGE (React component):
 
 Component: src/pages/public/DemoTracker.tsx
@@ -1549,7 +1549,7 @@ LAYOUT:
    - Help text: "Questions about your order?"
 
 AUTO-UPDATE LOGIC (JavaScript):
-```javascript
+\`\`\`javascript
 const [currentStatusIndex, setCurrentStatusIndex] = useState(0);
 
 useEffect(() => {
@@ -1562,7 +1562,7 @@ useEffect(() => {
 
 // Calculate progress percentage
 const progressPercentage = (currentStatusIndex / 10) * 100; // 10 = 11 statuses - 1
-```
+\`\`\`
 
 STYLING:
 - Progress bar: 20px height, gradient (blue → green)
@@ -1588,7 +1588,7 @@ ACCEPTANCE CRITERIA:
 ✅ Mobile responsive
 ✅ No console errors
 ✅ Smooth animations between status changes
-```
+\`\`\`
 
 ## Clarifying Questions
 

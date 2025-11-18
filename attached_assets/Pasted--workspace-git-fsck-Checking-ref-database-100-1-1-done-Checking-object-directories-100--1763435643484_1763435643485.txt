@@ -75,4 +75,4 @@ Your branch and 'origin/main' have diverged,
 and have 3 and 5 different commits each, respectively.
 
 nothing to commit, working tree clean
-~/workspace$ 
+~/workspace$

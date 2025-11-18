@@ -68,7 +68,7 @@ Create **comprehensive, realistic demo data** that:
 
 ### Sample Customer Data
 
-```json
+\`\`\`json
 {
   "CustomerID": "C-101",
   "Name": "Jane Doe",
@@ -83,7 +83,7 @@ Create **comprehensive, realistic demo data** that:
   "TotalOrders": 12,
   "Notes": "VIP customer, loves vanilla cakes"
 }
-```
+\`\`\`
 
 ### Customer Status Reference
 
@@ -120,7 +120,7 @@ Create **comprehensive, realistic demo data** that:
 
 ### Sample Order Data
 
-```json
+\`\`\`json
 {
   "OrderID": "O-2401",
   "CustomerID": "C-101",
@@ -138,7 +138,7 @@ Create **comprehensive, realistic demo data** that:
   "LastUpdatedDate": "2025-10-14 09:30:00",
   "Notes": "Customer requested extra edible gold leaf"
 }
-```
+\`\`\`
 
 ---
 
@@ -163,7 +163,7 @@ Create **comprehensive, realistic demo data** that:
 
 ### Sample Layer Data
 
-```json
+\`\`\`json
 {
   "LayerID": "L-2401-01",
   "OrderID": "O-2401",
@@ -178,7 +178,7 @@ Create **comprehensive, realistic demo data** that:
   "EstimatedDecorationTime": 30,
   "Notes": "NO NUTS - severe allergy warning"
 }
-```
+\`\`\`
 
 ---
 
@@ -199,7 +199,7 @@ Create **comprehensive, realistic demo data** that:
 
 ### Sample Product Data
 
-```json
+\`\`\`json
 {
   "ProductID": "P-1001",
   "Name": "8-inch Round Chocolate",
@@ -210,7 +210,7 @@ Create **comprehensive, realistic demo data** that:
   "IsActive": true,
   "Description": "Classic moist chocolate cake, 2-3 layers"
 }
-```
+\`\`\`
 
 ---
 
@@ -218,7 +218,7 @@ Create **comprehensive, realistic demo data** that:
 
 ## Order Status Workflow (12 + 1 States)
 
-```
+\`\`\`
 Timeline Flow for Order Tracking:
 
 1. Order Placed
@@ -246,11 +246,11 @@ Timeline Flow for Order Tracking:
 Special States (can occur at any point):
 12. On Hold (waiting for something)
 13. Cancelled (customer cancellation or issue)
-```
+\`\`\`
 
 ### Status Enum with Codes
 
-```typescript
+\`\`\`typescript
 enum OrderStatus {
   OrderPlaced = "Order Placed",           // 1
   DesignApproved = "Design Approved",     // 2
@@ -266,11 +266,11 @@ enum OrderStatus {
   OnHold = "On Hold",                     // 12 (special)
   Cancelled = "Cancelled",                // 13 (special)
 }
-```
+\`\`\`
 
 ### Layer Status (5 States)
 
-```typescript
+\`\`\`typescript
 enum LayerStatus {
   NotStarted = "Not Started",
   Baking = "Baking",
@@ -278,18 +278,18 @@ enum LayerStatus {
   Decorating = "Decorating",
   Done = "Done",
 }
-```
+\`\`\`
 
 ### Customer Status (4 States)
 
-```typescript
+\`\`\`typescript
 enum CustomerStatus {
   Active = 1,           // Normal, can order
   Inactive = 2,         // Hasn't ordered recently
   OutOfBusiness = 3,    // Corporate account closed
   Banned = 4,           // Access denied
 }
-```
+\`\`\`
 
 ---
 
@@ -305,7 +305,7 @@ enum CustomerStatus {
 
 ### Sample Q1 Customers
 
-```json
+\`\`\`json
 {
   "Q1_Customers": [
     {
@@ -334,11 +334,11 @@ enum CustomerStatus {
     }
   ]
 }
-```
+\`\`\`
 
 ### Sample Q1 Orders
 
-```json
+\`\`\`json
 {
   "Q1_Orders": [
     {
@@ -370,7 +370,7 @@ enum CustomerStatus {
     }
   ]
 }
-```
+\`\`\`
 
 ---
 
@@ -384,7 +384,7 @@ enum CustomerStatus {
 
 ### Sample Q2 Customers
 
-```json
+\`\`\`json
 {
   "Q2_Customers": [
     {
@@ -413,11 +413,11 @@ enum CustomerStatus {
     }
   ]
 }
-```
+\`\`\`
 
 ### Sample Q2 Orders
 
-```json
+\`\`\`json
 {
   "Q2_Orders": [
     {
@@ -448,7 +448,7 @@ enum CustomerStatus {
     }
   ]
 }
-```
+\`\`\`
 
 ---
 
@@ -462,7 +462,7 @@ enum CustomerStatus {
 
 ### Sample Q3 Customers
 
-```json
+\`\`\`json
 {
   "Q3_Customers": [
     {
@@ -492,11 +492,11 @@ enum CustomerStatus {
     }
   ]
 }
-```
+\`\`\`
 
 ### Sample Q3 Orders (FULL STATUS CYCLE)
 
-```json
+\`\`\`json
 {
   "Q3_Orders_FullStatusCycle": [
     {
@@ -578,7 +578,7 @@ enum CustomerStatus {
     }
   ]
 }
-```
+\`\`\`
 
 ---
 
@@ -593,7 +593,7 @@ enum CustomerStatus {
 
 ### Sample Q4 Customers
 
-```json
+\`\`\`json
 {
   "Q4_Customers": [
     {
@@ -622,11 +622,11 @@ enum CustomerStatus {
     }
   ]
 }
-```
+\`\`\`
 
 ### Sample Q4 Orders
 
-```json
+\`\`\`json
 {
   "Q4_Orders": [
     {
@@ -656,7 +656,7 @@ enum CustomerStatus {
     }
   ]
 }
-```
+\`\`\`
 
 ---
 
@@ -710,7 +710,7 @@ enum CustomerStatus {
 
 ## Customer Seed Data
 
-```sql
+\`\`\`sql
 -- Clear existing data (if needed)
 DELETE FROM CUSTOMER WHERE Cust_ID LIKE 'C-%';
 
@@ -741,11 +741,11 @@ VALUES
 ('C-Q4A', 'Rachel Green', 'rachel.g@email.com', '(713) 555-4001', 1, 0, 1, '2025-09-01', '2025-10-25', 'Thanksgiving planner'),
 ('C-Q4B', 'Mark Johnson', 'mark.j@email.com', '(713) 555-4002', 1, 0, 0, '2025-10-01', '2025-10-22', 'New customer - first order'),
 ('C-Q4C', 'Holiday Corp', 'holiday@corp.com', '(713) 555-4003', 1, 1, 1, '2024-10-15', '2025-10-20', 'Major holiday account');
-```
+\`\`\`
 
 ## Order Seed Data
 
-```sql
+\`\`\`sql
 -- Clear existing data
 DELETE FROM CUSTOM_ORDER WHERE Order_ID LIKE 'O-%';
 
@@ -784,13 +784,13 @@ VALUES
 ('O-Q4A-001', 'C-Q4A', '2025-11-15', '2025-11-20', '10:00 AM', 'Ready for Pickup', 175.00, 87.50, 87.50, 1, 'TRK-Q4A001', 'E-201', 'Thanksgiving rush!'),
 ('O-Q4A-002', 'C-Q4B', '2025-11-20', '2025-12-15', '3:00 PM', 'In Baking', 65.00, 32.50, 32.50, 0, 'TRK-Q4A002', 'E-202', 'First order - new customer'),
 ('O-Q4A-003', 'C-Q4C', '2025-11-18', '2025-12-18', '1:00 PM', 'In Decorating', 550.00, 275.00, 275.00, 1, 'TRK-Q4A003', 'E-203', 'Holiday corporate event - RUSH');
-```
+\`\`\`
 
 ---
 
 # TYPESCRIPT INTERFACES
 
-```typescript
+\`\`\`typescript
 // types/demo-data.types.ts
 
 export interface DemoCustomer {
@@ -879,7 +879,7 @@ export interface DemoDataSet {
   layers: DemoOrderLayer[];
   description: string;
 }
-```
+\`\`\`
 
 ---
 
@@ -887,7 +887,7 @@ export interface DemoDataSet {
 
 ## Structure: `/src/data/demo/`
 
-```
+\`\`\`
 src/data/demo/
 ├── customers-q1.json
 ├── customers-q2.json
@@ -899,11 +899,11 @@ src/data/demo/
 ├── orders-q4.json
 ├── layers-q3-full-cycle.json
 └── all-options-coverage.json
-```
+\`\`\`
 
 ### Example: customers-q1.json
 
-```json
+\`\`\`json
 {
   "quarter": "Q1",
   "timestamp": "2025-11-06T19:00:00Z",
@@ -938,7 +938,7 @@ src/data/demo/
     }
   ]
 }
-```
+\`\`\`
 
 ---
 
@@ -946,7 +946,7 @@ src/data/demo/
 
 ## Frontend: Loading Demo Data Dynamically
 
-```typescript
+\`\`\`typescript
 // services/demoDataService.ts
 
 export class DemoDataService {
@@ -990,11 +990,11 @@ export class DemoDataService {
     }
   }
 }
-```
+\`\`\`
 
 ## Frontend: Demo Mode Selector
 
-```typescript
+\`\`\`typescript
 // components/DemoModeSelector.tsx
 
 export const DemoModeSelector: React.FC = () => {
@@ -1041,13 +1041,13 @@ export const DemoModeSelector: React.FC = () => {
     </div>
   );
 };
-```
+\`\`\`
 
 ---
 
 ## Backend: Database Seeding
 
-```bash
+\`\`\`bash
 # Seed the database with demo data
 npm run seed:demo
 
@@ -1056,7 +1056,7 @@ npm run seed:demo:q1
 npm run seed:demo:q2
 npm run seed:demo:q3
 npm run seed:demo:q4
-```
+\`\`\`
 
 ---
 

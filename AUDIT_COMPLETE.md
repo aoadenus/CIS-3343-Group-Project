@@ -24,13 +24,13 @@
 **Line:** 42-44
 
 **Change:**
-```typescript
+\`\`\`typescript
 // Before: Smooth scroll (creates delay)
 window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 
 // After: Instant scroll (immediate Y:0 reset)
 window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-```
+\`\`\`
 
 **Impact:** Pages now load from top instantly (no scroll animation delay)
 
@@ -41,13 +41,13 @@ window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 **Line:** 34
 
 **Change:**
-```typescript
+\`\`\`typescript
 // Before: 3 seconds
 setTimeout(() => setShowWelcome(false), 3000);
 
 // After: 2.5 seconds (matches loading animation)
 setTimeout(() => setShowWelcome(false), 2500);
-```
+\`\`\`
 
 **Impact:** Perfectly synchronized with pastel loading animation
 
@@ -58,7 +58,7 @@ setTimeout(() => setShowWelcome(false), 2500);
 **Line:** 169
 
 **Change:**
-```typescript
+\`\`\`typescript
 // Before: Inconsistent 16px
 padding: '16px',
 borderRadius: '8px',
@@ -66,7 +66,7 @@ borderRadius: '8px',
 // After: Design system standard 24px
 padding: '24px',
 borderRadius: '12px',
-```
+\`\`\`
 
 **Impact:** Consistent with all other card components
 
@@ -77,7 +77,7 @@ borderRadius: '12px',
 **Line:** 814
 
 **Change:**
-```tsx
+\`\`\`tsx
 // Before: No accessibility label
 <activity.icon size={24} color={activity.color} />
 
@@ -87,7 +87,7 @@ borderRadius: '12px',
   color={activity.color}
   aria-label={activity.action}
 />
-```
+\`\`\`
 
 **Impact:** Screen readers can now announce activity icons
 
@@ -240,7 +240,7 @@ All documentation is complete and comprehensive:
 ## 🔄 PROTOTYPE FLOWS VERIFIED
 
 ### **Public User Journey:**
-```
+\`\`\`
 ✅ Home (scroll animations)
   ↓
 ✅ Shop (grid layout, filters)
@@ -252,10 +252,10 @@ All documentation is complete and comprehensive:
 ✅ About (Parisian design, parallax)
   ↓
 ✅ Contact (form validation, toast)
-```
+\`\`\`
 
 ### **Admin User Journey:**
-```
+\`\`\`
 ✅ Login (authentication)
   ↓
 ✅ Dashboard (KPIs, Kanban, activity feed)
@@ -271,7 +271,7 @@ All documentation is complete and comprehensive:
 ✅ Settings (profile, preferences)
   ↓
 ✅ Logout (return to public)
-```
+\`\`\`
 
 ---
 

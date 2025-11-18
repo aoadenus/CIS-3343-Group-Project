@@ -31,7 +31,7 @@ This document outlines **50+ enhancement suggestions** organized by category and
 **Impact:** HIGH - Limits business agility
 
 **Implementation:**
-```typescript
+\`\`\`typescript
 // New Tables
 product_options: {
   id: serial PK
@@ -53,7 +53,7 @@ option_categories: {
   displayOrder: integer
   maxSelectionsPerLayer: integer Default 2
 }
-```
+\`\`\`
 
 **Admin UI Features:**
 - ✅ Add/edit/delete options through UI
@@ -74,7 +74,7 @@ option_categories: {
 **Impact:** HIGH - Lost revenue opportunities
 
 **Implementation:**
-```typescript
+\`\`\`typescript
 pricing_rules: {
   id: serial PK
   ruleType: varchar(50) // 'base_price', 'per_layer', 'per_filling', 'size_multiplier', 'discount'
@@ -87,7 +87,7 @@ pricing_rules: {
   isActive: boolean Default true
   priority: integer Default 0
 }
-```
+\`\`\`
 
 **Features:**
 - ✅ Seasonal pricing (holidays, weddings season)
@@ -108,7 +108,7 @@ pricing_rules: {
 **Impact:** MEDIUM-HIGH - Inefficient workflow management
 
 **Implementation:**
-```typescript
+\`\`\`typescript
 employees: {
   id: serial PK
   firstName: varchar(50)
@@ -137,7 +137,7 @@ employee_assignments: {
   hoursSpent: decimal Optional
   notes: text Optional
 }
-```
+\`\`\`
 
 **Features:**
 - ✅ Employee directory
@@ -158,7 +158,7 @@ employee_assignments: {
 **Impact:** MEDIUM - Missing case study requirement
 
 **Implementation:**
-```typescript
+\`\`\`typescript
 // Add to customers table
 customerType: varchar(20) Default 'retail' // 'retail', 'corporate'
 companyName: varchar(255) Optional
@@ -181,7 +181,7 @@ customer_locations: {
   phone: varchar(50)
   isPrimary: boolean Default false
 }
-```
+\`\`\`
 
 **Features:**
 - ✅ Corporate account management
@@ -204,7 +204,7 @@ customer_locations: {
 **Impact:** HIGH - Customer experience gap
 
 **Implementation:**
-```typescript
+\`\`\`typescript
 email_templates: {
   id: serial PK
   templateKey: varchar(50) Unique // 'order_confirmation', 'ready_for_pickup', 'thank_you'
@@ -228,7 +228,7 @@ email_queue: {
   orderId: integer Optional FK
   createdAt: timestamp
 }
-```
+\`\`\`
 
 **Template Types:**
 - ✅ Order confirmation
@@ -257,7 +257,7 @@ email_queue: {
 **Impact:** MEDIUM - Inflexibility
 
 **Implementation:**
-```typescript
+\`\`\`typescript
 business_rules: {
   id: serial PK
   ruleKey: varchar(100) Unique // 'minimum_advance_notice_days', 'deposit_percentage'
@@ -268,10 +268,10 @@ business_rules: {
   lastModifiedBy: varchar(255)
   updatedAt: timestamp
 }
-```
+\`\`\`
 
 **Configurable Rules:**
-```json
+\`\`\`json
 {
   "minimum_advance_notice_days": 2,
   "deposit_percentage_required": 50,
@@ -283,7 +283,7 @@ business_rules: {
   "max_image_size_mb": 5,
   "auto_approve_orders_under_dollars": 100
 }
-```
+\`\`\`
 
 **Admin UI:**
 - ✅ Rules dashboard
@@ -301,7 +301,7 @@ business_rules: {
 **Impact:** MEDIUM - Manual communication required
 
 **Implementation:**
-```typescript
+\`\`\`typescript
 notification_preferences: {
   id: serial PK
   userId: integer FK // Customer or Employee
@@ -323,7 +323,7 @@ notifications_log: {
   deliveryStatus: varchar(20) // 'sent', 'delivered', 'failed'
   relatedOrderId: integer Optional FK
 }
-```
+\`\`\`
 
 **Features:**
 - ✅ Customer opt-in/opt-out preferences
@@ -345,7 +345,7 @@ notifications_log: {
 **Impact:** LOW-MEDIUM
 
 **Implementation:**
-```typescript
+\`\`\`typescript
 form_fields: {
   id: serial PK
   formType: varchar(50) // 'custom_builder', 'inquiry', 'contact'
@@ -358,7 +358,7 @@ form_fields: {
   displayOrder: integer
   isActive: boolean
 }
-```
+\`\`\`
 
 **Admin Features:**
 - ✅ Add custom fields to forms
@@ -378,7 +378,7 @@ form_fields: {
 **Impact:** LOW - Not critical for MVP
 
 **Implementation:**
-```typescript
+\`\`\`typescript
 ingredients: {
   id: serial PK
   name: varchar(100)
@@ -399,7 +399,7 @@ recipe_ingredients: {
   quantityNeeded: decimal
   unit: varchar(20)
 }
-```
+\`\`\`
 
 **Features:**
 - ✅ Ingredient stock tracking
@@ -422,7 +422,7 @@ recipe_ingredients: {
 **Impact:** HIGH - Time-consuming
 
 **Implementation:**
-```typescript
+\`\`\`typescript
 workflow_stages: {
   id: serial PK
   orderType: varchar(50) // 'custom', 'shop'
@@ -446,7 +446,7 @@ workflow_transitions: {
   isAutomatic: boolean Default false
   notes: text Optional
 }
-```
+\`\`\`
 
 **Automated Triggers:**
 1. **Order Created** → Send confirmation email
@@ -468,7 +468,7 @@ workflow_transitions: {
 **Impact:** MEDIUM - Inefficient workload distribution
 
 **Implementation:**
-```typescript
+\`\`\`typescript
 assignment_rules: {
   id: serial PK
   ruleType: varchar(50) // 'skill_based', 'load_balanced', 'round_robin'
@@ -477,7 +477,7 @@ assignment_rules: {
   targetRole: varchar(50)
   isActive: boolean
 }
-```
+\`\`\`
 
 **Features:**
 - ✅ Auto-assign to least busy employee
@@ -506,14 +506,14 @@ assignment_rules: {
 - ✅ Staff schedule conflicts
 
 **Implementation:**
-```typescript
+\`\`\`typescript
 // Cron jobs running every hour
 SELECT * FROM orders 
 WHERE status = 'ready' 
   AND eventDate - INTERVAL '24 hours' < NOW()
   AND eventDate > NOW()
   AND pickup_reminder_sent = false
-```
+\`\`\`
 
 **Estimated Effort:** 2-3 days  
 **Business Value:** $$$ - Prevents mistakes
@@ -594,7 +594,7 @@ WHERE status = 'ready'
 **Impact:** MEDIUM - No social proof
 
 **Implementation:**
-```typescript
+\`\`\`typescript
 reviews: {
   id: serial PK
   orderId: integer FK
@@ -608,7 +608,7 @@ reviews: {
   displayOnWebsite: boolean Default false
   createdAt: timestamp
 }
-```
+\`\`\`
 
 **Features:**
 - ✅ Email request for review 7 days after pickup

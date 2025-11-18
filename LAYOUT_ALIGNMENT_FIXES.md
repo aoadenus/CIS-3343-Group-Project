@@ -71,7 +71,7 @@ Consistent page-level spacing and centering.
 - `StackContainer` - Vertical stacking with gap
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { PageContainer, SectionContainer, ContentWrapper } from './components/PageContainer';
 
 <PageContainer maxWidth="1440px" padding bottomMargin>
@@ -81,7 +81,7 @@ import { PageContainer, SectionContainer, ContentWrapper } from './components/Pa
     </ContentWrapper>
   </SectionContainer>
 </PageContainer>
-```
+\`\`\`
 
 ---
 
@@ -96,13 +96,13 @@ Consistent text styling with proper spacing.
 - `ResponsiveText` - Auto-responsive typography
 
 **Usage:**
-```tsx
+\`\`\`tsx
 import { H1, H2, Body, Tagline } from './components/Typography';
 
 <H1 centered>Emily Bakes Cakes</H1>
 <Tagline centered>Sweetness from the Heart</Tagline>
 <Body>Handcrafted with love...</Body>
-```
+\`\`\`
 
 ---
 
@@ -111,45 +111,45 @@ import { H1, H2, Body, Tagline } from './components/Typography';
 ### Global Classes (in `/styles/globals.css`)
 
 **Page Layout:**
-```css
+\`\`\`css
 .page-container           /* Max 1440px, auto margin, responsive padding */
 .section-spacing          /* Margin bottom: 48-72px */
 .section-spacing-large    /* Margin bottom: 72-120px */
 .content-max-width        /* Max 700px for readability */
-```
+\`\`\`
 
 **Heading Spacing:**
-```css
+\`\`\`css
 .heading-spacing-h1       /* 32px top, 24px bottom */
 .heading-spacing-h2       /* 28px top, 20px bottom */
 .heading-spacing-h3       /* 24px top, 16px bottom */
-```
+\`\`\`
 
 **Grid System:**
-```css
+\`\`\`css
 .responsive-grid          /* Base grid with clamp gaps */
 .responsive-grid-1        /* 1 column */
 .responsive-grid-2        /* 2 columns (1 on mobile) */
 .responsive-grid-3        /* 3 columns (2 on tablet, 1 on mobile) */
-```
+\`\`\`
 
 **Layout Helpers:**
-```css
+\`\`\`css
 .stack                    /* Vertical flex with gap */
 .center-content          /* Center align + justify */
 .page-fade-in            /* 300ms fade animation */
 .page-transition         /* Fade + slide transition */
 .hero-content-center     /* Hero section centering */
 .card-equal-height       /* Equal height cards */
-```
+\`\`\`
 
 **Responsive:**
-```css
+\`\`\`css
 .stack-mobile            /* Stack vertically on mobile */
 .center-mobile           /* Center text on mobile */
 .full-width-mobile       /* 100% width on mobile */
 .no-clip-mobile          /* Prevent clipping on mobile */
-```
+\`\`\`
 
 ---
 
@@ -157,7 +157,7 @@ import { H1, H2, Body, Tagline } from './components/Typography';
 
 ### Step 1: Update App.tsx (Already Complete)
 
-```tsx
+\`\`\`tsx
 import { motion, AnimatePresence } from 'motion/react';
 
 // Scroll to top on page change
@@ -177,14 +177,14 @@ useEffect(() => {
     {renderPage()}
   </motion.div>
 </AnimatePresence>
-```
+\`\`\`
 
 ---
 
 ### Step 2: Wrap Pages in PageContainer
 
 **Before:**
-```tsx
+\`\`\`tsx
 export function About() {
   return (
     <div>
@@ -193,10 +193,10 @@ export function About() {
     </div>
   );
 }
-```
+\`\`\`
 
 **After:**
-```tsx
+\`\`\`tsx
 import { PageContainer, SectionContainer } from '../components/PageContainer';
 import { H1, Body } from '../components/Typography';
 
@@ -210,29 +210,29 @@ export function About() {
     </PageContainer>
   );
 }
-```
+\`\`\`
 
 ---
 
 ### Step 3: Use Typography Components
 
 **Before:**
-```tsx
+\`\`\`tsx
 <h1 style={{ fontSize: '48px', marginBottom: '20px' }}>
   Emily Bakes Cakes
 </h1>
 <p style={{ lineHeight: 1.5, maxWidth: '600px' }}>
   Handcrafted cakes...
 </p>
-```
+\`\`\`
 
 **After:**
-```tsx
+\`\`\`tsx
 import { H1, Body } from './components/Typography';
 
 <H1 centered>Emily Bakes Cakes</H1>
 <Body centered>Handcrafted cakes...</Body>
-```
+\`\`\`
 
 Benefits:
 - ✅ Auto spacing (32px top, 24px bottom)
@@ -246,7 +246,7 @@ Benefits:
 ### Step 4: Use Grid/Stack Layouts
 
 **Grid Layout:**
-```tsx
+\`\`\`tsx
 import { CardGrid } from './components/PageContainer';
 
 <CardGrid minCardWidth="300px" gap="clamp(16px, 3vw, 32px)">
@@ -254,10 +254,10 @@ import { CardGrid } from './components/PageContainer';
   <Card>Item 2</Card>
   <Card>Item 3</Card>
 </CardGrid>
-```
+\`\`\`
 
 **Stack Layout:**
-```tsx
+\`\`\`tsx
 import { StackContainer } from './components/PageContainer';
 
 <StackContainer spacing="clamp(16px, 3vw, 24px)">
@@ -265,7 +265,7 @@ import { StackContainer } from './components/PageContainer';
   <div>Item 2</div>
   <div>Item 3</div>
 </StackContainer>
-```
+\`\`\`
 
 ---
 
@@ -279,7 +279,7 @@ import { StackContainer } from './components/PageContainer';
 - 12px padding
 
 **Example:**
-```tsx
+\`\`\`tsx
 <div className="responsive-grid-3">
   {/* 3 columns desktop, 2 tablet, 1 mobile */}
   <Card>1</Card>
@@ -292,7 +292,7 @@ import { StackContainer } from './components/PageContainer';
   <Button>Order</Button>
   <Button>Browse</Button>
 </div>
-```
+\`\`\`
 
 ---
 
@@ -300,7 +300,7 @@ import { StackContainer } from './components/PageContainer';
 
 ### 8-Point Grid System
 
-```css
+\`\`\`css
 --space-1: 8px
 --space-2: 16px
 --space-3: 24px   ← Default padding
@@ -309,21 +309,21 @@ import { StackContainer } from './components/PageContainer';
 --space-6: 48px   ← Input heights
 --space-8: 64px   ← Section spacing
 --space-12: 96px  ← Hero padding
-```
+\`\`\`
 
 **Usage:**
-```tsx
+\`\`\`tsx
 <div style={{ padding: 'var(--space-3)', marginBottom: 'var(--space-8)' }}>
   {/* 24px padding, 64px margin bottom */}
 </div>
-```
+\`\`\`
 
 Or use CSS classes:
-```tsx
+\`\`\`tsx
 <div className="p-3 section-spacing">
   {/* 24px padding, 48-72px margin bottom */}
 </div>
-```
+\`\`\`
 
 ---
 
@@ -340,13 +340,13 @@ Or use CSS classes:
 | **Body** | 18px | 16px | 1.6 | 16px bottom |
 
 **Implementation:**
-```css
+\`\`\`css
 /* Automatic with global CSS */
 h1 { font-size: clamp(32px, 5vw, 48px); }
 h2 { font-size: clamp(24px, 4vw, 36px); }
 h3 { font-size: clamp(20px, 3vw, 28px); }
 p  { font-size: clamp(16px, 2vw, 18px); }
-```
+\`\`\`
 
 ---
 
@@ -355,15 +355,15 @@ p  { font-size: clamp(16px, 2vw, 18px); }
 ### Automatic Scroll-to-Top
 
 **Implementation in App.tsx:**
-```tsx
+\`\`\`tsx
 useEffect(() => {
   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 }, [activePage, appMode]);
-```
+\`\`\`
 
 ### Fade Transition
 
-```tsx
+\`\`\`tsx
 <AnimatePresence mode="wait">
   <motion.div
     key={activePage}
@@ -375,7 +375,7 @@ useEffect(() => {
     {pageContent}
   </motion.div>
 </AnimatePresence>
-```
+\`\`\`
 
 **Result:**
 - ✅ Page loads from top (Y: 0)
@@ -397,7 +397,7 @@ useEffect(() => {
 | **Cards** | Auto-fit | Responsive grids |
 
 **Example:**
-```tsx
+\`\`\`tsx
 <PageContainer maxWidth="1440px">
   <ContentWrapper maxWidth="700px">
     <Body>
@@ -406,7 +406,7 @@ useEffect(() => {
     </Body>
   </ContentWrapper>
 </PageContainer>
-```
+\`\`\`
 
 ---
 
@@ -415,7 +415,7 @@ useEffect(() => {
 ### 1. Touch Targets
 Minimum 44×44px on desktop, 48×48px on mobile.
 
-```css
+\`\`\`css
 button, a[role="button"] {
   min-height: 44px;
   min-width: 44px;
@@ -424,17 +424,17 @@ button, a[role="button"] {
 @media (max-width: 767px) {
   button { min-height: 48px; }
 }
-```
+\`\`\`
 
 ### 2. Focus Indicators
 2px Raspberry Pink outline, 2px offset.
 
-```css
+\`\`\`css
 *:focus-visible {
   outline: 2px solid #C44569;
   outline-offset: 2px;
 }
-```
+\`\`\`
 
 ### 3. Text Contrast
 Minimum 4.5:1 (WCAG AA).
@@ -446,14 +446,14 @@ Minimum 4.5:1 (WCAG AA).
 ### 4. Reduced Motion
 Respects `prefers-reduced-motion`.
 
-```css
+\`\`\`css
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
 }
-```
+\`\`\`
 
 ---
 
@@ -502,24 +502,24 @@ Respects `prefers-reduced-motion`.
 ## 🎨 Visual Examples
 
 ### Before (Issues)
-```
+\`\`\`
 ❌ Text overflows container
 ❌ Inconsistent spacing (15px, 23px, 31px)
 ❌ Mobile text clipped
 ❌ Scroll position retained on nav
 ❌ No max-width on paragraphs
 ❌ Headings too close together
-```
+\`\`\`
 
 ### After (Fixed)
-```
+\`\`\`
 ✅ All text within container
 ✅ 8-point grid spacing (8, 16, 24, 32, 48px)
 ✅ Mobile fully visible
 ✅ Always scrolls to top
 ✅ Paragraphs max 700px wide
 ✅ H1: 32px top, 24px bottom
-```
+\`\`\`
 
 ---
 
@@ -528,7 +528,7 @@ Respects `prefers-reduced-motion`.
 ### Common Patterns
 
 **Page Structure:**
-```tsx
+\`\`\`tsx
 <PageContainer>
   <SectionContainer spacing="normal">
     <H1 centered>Title</H1>
@@ -541,33 +541,33 @@ Respects `prefers-reduced-motion`.
     <Card>3</Card>
   </CardGrid>
 </PageContainer>
-```
+\`\`\`
 
 **Hero Section:**
-```tsx
+\`\`\`tsx
 <div className="hero-content-center">
   <H1 centered>Emily Bakes Cakes</H1>
   <Tagline centered>Sweetness from the Heart</Tagline>
   <Button>Order Now</Button>
 </div>
-```
+\`\`\`
 
 **Responsive Grid:**
-```tsx
+\`\`\`tsx
 <div className="responsive-grid-3">
   {/* 3 → 2 → 1 columns */}
   {items.map(item => <Card key={item.id}>{item}</Card>)}
 </div>
-```
+\`\`\`
 
 **Stack Layout:**
-```tsx
+\`\`\`tsx
 <StackContainer spacing="24px">
   <div>Item 1</div>
   <div>Item 2</div>
   <div>Item 3</div>
 </StackContainer>
-```
+\`\`\`
 
 ---
 

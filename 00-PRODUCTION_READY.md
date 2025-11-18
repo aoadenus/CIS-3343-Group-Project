@@ -37,7 +37,7 @@ The Emily Bakes Cakes prototype has successfully completed a comprehensive audit
 
 ### **Category Breakdown (A-J)**
 
-```
+\`\`\`
 A. Navigation & Page Load       12/12 ✅ Perfect
 B. Layout Grid & Spacing        18/18 ✅ Perfect
 C. Typography & Color Tokens    15/15 ✅ Perfect
@@ -50,7 +50,7 @@ I. Builder: Inspiration Images   6/6  ✅ Perfect
 J. Reports & Charts (Admin)      5/5  ✅ Perfect
 
 TOTAL:                         122/122 ✅ PERFECT SCORE
-```
+\`\`\`
 
 ---
 
@@ -161,7 +161,7 @@ All documentation is complete and production-ready:
 ## 🔄 USER FLOWS VERIFIED
 
 ### **Public Customer Journey**
-```
+\`\`\`
 Home (scroll animations)
   ↓
 Shop (grid layout, filters)
@@ -175,10 +175,10 @@ About (Parisian design, parallax effects)
 Contact (form validation, toast notifications)
 
 Status: ✅ ALL FLOWS FUNCTIONAL
-```
+\`\`\`
 
 ### **Admin Staff Journey**
-```
+\`\`\`
 Login (authentication)
   ↓
 Dashboard (KPIs, Kanban board, activity feed)
@@ -196,7 +196,7 @@ Settings (profile, preferences)
 Logout (return to public home)
 
 Status: ✅ ALL FLOWS FUNCTIONAL
-```
+\`\`\`
 
 ---
 
@@ -400,7 +400,7 @@ Your Emily Bakes Cakes prototype is:
 
 ## 🌟 ACHIEVEMENT UNLOCKED
 
-```
+\`\`\`
 ╔═══════════════════════════════════════════════════════════════╗
 ║                                                               ║
 ║               🎂 EMILY BAKES CAKES 🎂                        ║
@@ -417,7 +417,7 @@ Your Emily Bakes Cakes prototype is:
 ║              "Sweetness from the Heart" 💖                   ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
-```
+\`\`\`
 
 ---
 

@@ -13,33 +13,33 @@ Successfully transformed the admin dashboard into a **real-time operational inte
 **Layout**: Grid 4 columns (responsive: 1 col mobile, 2 cols tablet, 4 cols desktop)
 
 **Card Styling**:
-```css
+\`\`\`css
 padding: 24px; /* Consistent across all cards */
 background: white;
 border-radius: 12px;
 box-shadow: 0 2px 8px rgba(90, 56, 37, 0.12);
 border: 1px solid rgba(90, 56, 37, 0.08);
 transition: all 300ms ease;
-```
+\`\`\`
 
 **Hover State**:
-```css
+\`\`\`css
 box-shadow: 0 4px 16px rgba(90, 56, 37, 0.18);
 transform: translateY(-2px);
-```
+\`\`\`
 
 ---
 
 ### 1️⃣ Today's Orders
 
 **Large Number**:
-```css
+\`\`\`css
 font-family: 'Poppins';
 font-weight: 700;
 font-size: 36px;
 color: #2B2B2B; /* Charcoal Gray */
 line-height: 1;
-```
+\`\`\`
 
 **Trend Indicator**:
 - **Green Positive**: ↑3 with TrendingUp icon
@@ -63,12 +63,12 @@ line-height: 1;
 ### 2️⃣ Orders in Progress
 
 **Large Number**:
-```css
+\`\`\`css
 font-family: 'Poppins';
 font-weight: 700;
 font-size: 36px;
 color: #2B2B2B;
-```
+\`\`\`
 
 **Trend Indicator**:
 - **Red Negative**: ↓2 with TrendingDown icon
@@ -109,13 +109,13 @@ color: #2B2B2B;
 ### 4️⃣ This Week's Revenue
 
 **Large Number**: 
-```css
+\`\`\`css
 $6.4k /* Formatted as X.Xk */
 font-family: 'Poppins';
 font-weight: 700;
 font-size: 36px;
 color: #2B2B2B;
-```
+\`\`\`
 
 **Trend Indicator**:
 - **Green Positive**: ↑12%
@@ -136,7 +136,7 @@ color: #2B2B2B;
 
 ### Implementation (Recharts)
 
-```tsx
+\`\`\`tsx
 <ResponsiveContainer width="100%" height="40px">
   <LineChart data={sparklineData}>
     <Line 
@@ -148,7 +148,7 @@ color: #2B2B2B;
     />
   </LineChart>
 </ResponsiveContainer>
-```
+\`\`\`
 
 **Features**:
 - **No axes** for minimal design
@@ -160,11 +160,11 @@ color: #2B2B2B;
 - **Responsive width** (100% of card)
 
 **Data Structure**:
-```typescript
+\`\`\`typescript
 const sparkline = [
   { value: 8 }, { value: 12 }, { value: 10 }, { value: 15 }, ...
 ];
-```
+\`\`\`
 
 ---
 
@@ -185,19 +185,19 @@ const sparkline = [
 ### Column Specifications
 
 **Container**:
-```css
+\`\`\`css
 background: #F8EBD7; /* Cream Vanilla */
 border-radius: 12px;
 padding: 16px;
 min-height: 400px;
-```
+\`\`\`
 
 **Hover State (Drop Target)**:
-```css
+\`\`\`css
 border: 2px dashed #C44569;
 box-shadow: 0 4px 16px rgba(196, 69, 105, 0.2);
 transition: all 300ms ease;
-```
+\`\`\`
 
 **Column Header**:
 - Font: Poppins SemiBold 16px
@@ -209,7 +209,7 @@ transition: all 300ms ease;
 ### Order Card Specifications
 
 **Card Styling**:
-```css
+\`\`\`css
 padding: 16px;
 background: white;
 border-radius: 8px;
@@ -218,19 +218,19 @@ box-shadow: 0 2px 4px rgba(90, 56, 37, 0.08);
 margin-bottom: 12px;
 cursor: move;
 transition: all 300ms ease;
-```
+\`\`\`
 
 **Dragging State**:
-```css
+\`\`\`css
 opacity: 0.5;
-```
+\`\`\`
 
 **Hover State**:
-```css
+\`\`\`css
 box-shadow: 0 4px 12px rgba(90, 56, 37, 0.15);
 transform: translateY(-2px);
 transition: all 300ms ease; /* Smooth 300ms transition */
-```
+\`\`\`
 
 **Visual Cues**:
 - ✅ **Dashed border** on drop zone hover
@@ -244,12 +244,12 @@ transition: all 300ms ease; /* Smooth 300ms transition */
 ### Order Card Content
 
 **Order ID**: 
-```css
+\`\`\`css
 font-family: 'Poppins';
 font-weight: 600;
 font-size: 14px;
 color: #2B2B2B;
-```
+\`\`\`
 
 **Priority Badge**:
 - High: #C44569
@@ -260,36 +260,36 @@ color: #2B2B2B;
 - Font: 10px uppercase
 
 **Cake Name**:
-```css
+\`\`\`css
 font-family: 'Poppins';
 font-weight: 500;
 font-size: 15px;
 color: #2B2B2B;
-```
+\`\`\`
 
 **Customer Name**:
-```css
+\`\`\`css
 font-family: 'Open Sans';
 font-size: 13px;
 color: #5A3825;
 opacity: 0.8;
-```
+\`\`\`
 
 **Price**:
-```css
+\`\`\`css
 font-family: 'Poppins';
 font-weight: 600;
 font-size: 14px;
 color: #C44569; /* Raspberry Pink */
-```
+\`\`\`
 
 **Pickup Date**:
-```css
+\`\`\`css
 font-family: 'Open Sans';
 font-size: 12px;
 color: #5A3825;
 opacity: 0.7;
-```
+\`\`\`
 - Calendar icon (12px)
 - Format: "Pickup: Nov 5"
 
@@ -298,7 +298,7 @@ opacity: 0.7;
 ### Drag & Drop Functionality
 
 **useDrag Hook**:
-```typescript
+\`\`\`typescript
 const [{ isDragging }, drag] = useDrag({
   type: ItemTypes.ORDER,
   item: { order, fromColumn: columnId },
@@ -306,10 +306,10 @@ const [{ isDragging }, drag] = useDrag({
     isDragging: monitor.isDragging()
   })
 });
-```
+\`\`\`
 
 **useDrop Hook**:
-```typescript
+\`\`\`typescript
 const [{ isOver }, drop] = useDrop({
   accept: ItemTypes.ORDER,
   drop: (item) => {
@@ -321,15 +321,15 @@ const [{ isOver }, drop] = useDrop({
     isOver: monitor.isOver()
   })
 });
-```
+\`\`\`
 
 **Toast Notification**:
-```typescript
+\`\`\`typescript
 toast.success('Order updated', {
   description: `${order.id} moved to ${toColumn}`,
   duration: 2000
 });
-```
+\`\`\`
 
 ---
 
@@ -338,33 +338,33 @@ toast.success('Order updated', {
 ### Specifications
 
 **Container**:
-```css
+\`\`\`css
 padding: 24px; /* Consistent 24px */
 background: white;
 border-radius: 12px;
 box-shadow: 0 2px 8px rgba(90, 56, 37, 0.12);
-```
+\`\`\`
 
 **Feed Item Layout**:
-```
+\`\`\`
 [Icon] [Action Title]
        [Details]
        [Timestamp]
-```
+\`\`\`
 
 ---
 
 ### Action Icons (24px Line-Style)
 
 **Icon Specifications**:
-```css
+\`\`\`css
 size: 24px; /* Reduced to 20px for balance */
 color: {action-specific-color};
 stroke-width: 2; /* Line-style */
-```
+\`\`\`
 
 **Icon Container**:
-```css
+\`\`\`css
 width: 40px;
 height: 40px;
 border-radius: 8px;
@@ -372,7 +372,7 @@ background: {color}15; /* 15% opacity */
 display: flex;
 align-items: center;
 justify-content: center;
-```
+\`\`\`
 
 **Icon Types & Colors**:
 - **ShoppingCart** - New order - `#C44569` (Raspberry)
@@ -387,15 +387,15 @@ justify-content: center;
 ### Timestamp Formatting
 
 **Specification**:
-```css
+\`\`\`css
 font-family: 'Open Sans';
 font-size: 12px;
 color: #2B2B2B;
 opacity: 0.7; /* 70% opacity as requested */
-```
+\`\`\`
 
 **Format Logic**:
-```typescript
+\`\`\`typescript
 const formatTimestamp = (date: Date): string => {
   const diffMs = now.getTime() - date.getTime();
   const diffMins = Math.floor(diffMs / 60000);
@@ -409,7 +409,7 @@ const formatTimestamp = (date: Date): string => {
   const diffDays = Math.floor(diffHours / 24);
   return `${diffDays}d ago`;
 };
-```
+\`\`\`
 
 **Examples**:
 - "Just now"
@@ -422,43 +422,43 @@ const formatTimestamp = (date: Date): string => {
 ### Activity Item Styling
 
 **Action Title**:
-```css
+\`\`\`css
 font-family: 'Poppins';
 font-weight: 500;
 font-size: 14px;
 color: #2B2B2B;
 margin-bottom: 4px;
-```
+\`\`\`
 
 **Details**:
-```css
+\`\`\`css
 font-family: 'Open Sans';
 font-size: 13px;
 color: #5A3825;
 opacity: 0.8;
 margin-bottom: 6px;
-```
+\`\`\`
 
 **Timestamp**:
-```css
+\`\`\`css
 font-family: 'Open Sans';
 font-size: 12px;
 color: #2B2B2B;
 opacity: 0.7; /* Charcoal Gray 70% opacity */
-```
+\`\`\`
 
 **Item Separator**:
-```css
+\`\`\`css
 border-bottom: 1px solid rgba(90, 56, 37, 0.1);
 padding-bottom: 16px;
-```
+\`\`\`
 
 **Animation**:
-```typescript
+\`\`\`typescript
 initial={{ opacity: 0, x: -20 }}
 animate={{ opacity: 1, x: 0 }}
 transition={{ delay: index * 0.05, duration: 0.3 }}
-```
+\`\`\`
 
 ---
 
@@ -494,43 +494,43 @@ transition={{ delay: index * 0.05, duration: 0.3 }}
 ### Typography Hierarchy
 
 **Display Numbers** (KPIs):
-```css
+\`\`\`css
 font-family: 'Poppins';
 font-weight: 700; /* Bold */
 font-size: 36px;
 color: #2B2B2B;
-```
+\`\`\`
 
 **Section Headings**:
-```css
+\`\`\`css
 font-family: 'Poppins';
 font-weight: 600; /* SemiBold */
 font-size: 20px;
 color: #2B2B2B;
-```
+\`\`\`
 
 **Card Titles**:
-```css
+\`\`\`css
 font-family: 'Poppins';
 font-weight: 500;
 font-size: 14-16px;
 color: #2B2B2B;
-```
+\`\`\`
 
 **Body Text**:
-```css
+\`\`\`css
 font-family: 'Open Sans';
 font-size: 13-14px;
 color: #5A3825;
-```
+\`\`\`
 
 **Timestamps**:
-```css
+\`\`\`css
 font-family: 'Open Sans';
 font-size: 12px;
 color: #2B2B2B;
 opacity: 0.7; /* 70% as specified */
-```
+\`\`\`
 
 ---
 
@@ -539,45 +539,45 @@ opacity: 0.7; /* 70% as specified */
 ### Hover Effects
 
 **All Cards**:
-```css
+\`\`\`css
 transition: all 300ms ease;
-```
+\`\`\`
 
 **Hover State**:
-```css
+\`\`\`css
 transform: translateY(-2px);
 box-shadow: 0 4px 16px rgba(90, 56, 37, 0.18);
-```
+\`\`\`
 
 **Kanban Drop Zone**:
-```css
+\`\`\`css
 border: 2px dashed #C44569;
 box-shadow: 0 4px 16px rgba(196, 69, 105, 0.2);
 transition: all 300ms ease; /* 300ms as specified */
-```
+\`\`\`
 
 ---
 
 ### Animations
 
 **KPI Numbers** (on update):
-```typescript
+\`\`\`typescript
 initial={{ scale: 1.1 }}
 animate={{ scale: 1 }}
-```
+\`\`\`
 
 **Activity Feed Items** (staggered):
-```typescript
+\`\`\`typescript
 initial={{ opacity: 0, x: -20 }}
 animate={{ opacity: 1, x: 0 }}
 transition={{ delay: index * 0.05, duration: 0.3 }}
-```
+\`\`\`
 
 **Clock Icon** (rotating):
-```typescript
+\`\`\`typescript
 animate={{ rotate: [0, 5, 0] }}
 transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-```
+\`\`\`
 
 ---
 
@@ -586,22 +586,22 @@ transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
 ### KPI Cards Grid
 
 **Mobile (< 640px)**:
-```css
+\`\`\`css
 grid-template-columns: 1fr;
 gap: 24px;
-```
+\`\`\`
 
 **Tablet (640px - 1024px)**:
-```css
+\`\`\`css
 grid-template-columns: repeat(2, 1fr);
 gap: 24px;
-```
+\`\`\`
 
 **Desktop (> 1024px)**:
-```css
+\`\`\`css
 grid-template-columns: repeat(4, 1fr);
 gap: 24px;
-```
+\`\`\`
 
 ### Kanban Board
 
@@ -676,7 +676,7 @@ gap: 24px;
 ## 📊 Data Structure
 
 ### Order Interface
-```typescript
+\`\`\`typescript
 interface Order {
   id: string;          // e.g., "#248"
   customer: string;    // Full name
@@ -685,10 +685,10 @@ interface Order {
   priority: 'high' | 'medium' | 'low';
   value: number;       // Dollar amount
 }
-```
+\`\`\`
 
 ### Activity Interface
-```typescript
+\`\`\`typescript
 interface Activity {
   id: number;
   action: string;
@@ -697,7 +697,7 @@ interface Activity {
   icon: LucideIcon;
   color: string;
 }
-```
+\`\`\`
 
 ---
 

@@ -247,12 +247,12 @@
 - ✅ CTA buttons
 
 **Example:**
-```
+\`\`\`
      [🍰?]
   No orders yet
 Your first custom cake awaits!
   [Create Order]
-```
+\`\`\`
 
 ### Form Validation
 - ✅ Inline error messages
@@ -314,7 +314,7 @@ Your first custom cake awaits!
 - ✅ Advanced: Decorations, dietary, uploads
 
 **Pattern:**
-```
+\`\`\`
 [Size*] [Flavor*] [Frosting*] [Date*]
 
 [+ Show Advanced Options]
@@ -322,7 +322,7 @@ Your first custom cake awaits!
 ↓ (expands)
 
 Decorations, Dietary, Uploads, Special Requests
-```
+\`\`\`
 
 ### Product Detail Pages
 - ✅ Tabbed content (Ingredients, Allergens, Customization, Reviews)
@@ -545,12 +545,12 @@ Decorations, Dietary, Uploads, Special Requests
 ### For Developers
 
 **1. Install Dependencies**
-```bash
+\`\`\`bash
 npm install
-```
+\`\`\`
 
 **2. Import Components**
-```tsx
+\`\`\`tsx
 import { 
   StandardButton, 
   StandardInput, 
@@ -558,19 +558,19 @@ import {
   EmptyState,
   SkipLink
 } from './components/...';
-```
+\`\`\`
 
 **3. Add Skip Link**
-```tsx
+\`\`\`tsx
 <SkipLink />
 <Header />
 <main id="main-content">
   {/* Your content */}
 </main>
-```
+\`\`\`
 
 **4. Use Standard Components**
-```tsx
+\`\`\`tsx
 <StandardInput 
   label="Email" 
   error={errors.email}
@@ -582,16 +582,16 @@ import {
 </StandardButton>
 
 <StandardBadge status="pending" />
-```
+\`\`\`
 
 **5. Handle Empty States**
-```tsx
+\`\`\`tsx
 {items.length === 0 ? (
   <EmptyState type="orders" onAction={handleCreate} />
 ) : (
   <ItemList items={items} />
 )}
-```
+\`\`\`
 
 ### For Designers
 

@@ -74,4 +74,3 @@ Explain technical terms (animated mesh gradient, WCAG accessibility, micro-inter
 Output the code as a single file (e.g., Home.jsx) unless modularization is requested.
 
 Make the new homepage visually impressive, fully interactive, and easy to customize further.
-

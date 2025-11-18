@@ -10,9 +10,9 @@
 ### **Quick Test Script** (5 minutes)
 
 1. **Start the App**:
-   ```bash
+   \`\`\`bash
    npm run dev
-   ```
+   \`\`\`
 
 2. **Navigate to Order Creation**:
    - Login as Sales user
@@ -21,17 +21,17 @@
 3. **Test Business Rules**:
 
 #### **Test 1: 4-Hour Buffer Rule** ⏰
-```
+\`\`\`
 Step 8 → Pickup Details
 1. Select TODAY's date
 2. Select time < 4 hours from now (e.g., if it's 2PM, select 5PM)
 3. ✅ Expected: Red error "Pickup must be at least 4 hours from now"
 4. Change time to 6:30PM (4+ hours away)
 5. ✅ Expected: Green success "4 hours, 30 minutes until pickup"
-```
+\`\`\`
 
 #### **Test 2: 2-Day Minimum** 📅
-```
+\`\`\`
 Step 8 → Pickup Details
 1. Select TOMORROW's date
 2. ✅ Expected: Red rush order banner appears
@@ -40,17 +40,17 @@ Step 8 → Pickup Details
 5. ✅ Expected: Cannot proceed
 6. Check "Manager Approval" checkbox
 7. ✅ Expected: Can now proceed
-```
+\`\`\`
 
 #### **Test 3: 50% Deposit** 💰
-```
+\`\`\`
 Step 7 → Pricing
 1. Total shows (e.g., $85.00)
 2. Try entering $20.00 deposit
 3. ✅ Expected: Error banner "Minimum deposit is $42.50 (50% of total)"
 4. Enter $45.00
 5. ✅ Expected: Green success "Deposit requirement met"
-```
+\`\`\`
 
 ---
 
@@ -58,7 +58,7 @@ Step 7 → Pricing
 
 ### **Import from `utils/validation.ts`**:
 
-```typescript
+\`\`\`typescript
 import {
   isPickupTimeValid,      // 4-hour buffer check
   getRushOrderStatus,     // Comprehensive rush analysis
@@ -67,11 +67,11 @@ import {
   isPickupInPast,         // Past date detection
   validateRequiredField,  // Generic required check
 } from '@/utils/validation';
-```
+\`\`\`
 
 ### **Usage Examples**:
 
-```typescript
+\`\`\`typescript
 // Check 4-hour buffer
 const result = isPickupTimeValid('2025-11-18', '18:30');
 if (!result.valid) {
@@ -85,7 +85,7 @@ console.log(rushStatus.message); // "Less than 2 days - rush order..."
 // Validate deposit
 const depositCheck = validateDeposit(4000, 8500); // cents
 console.log(depositCheck.error); // "Minimum deposit is $42.50..."
-```
+\`\`\`
 
 ---
 
@@ -93,7 +93,7 @@ console.log(depositCheck.error); // "Minimum deposit is $42.50..."
 
 ### **FormField** - Enterprise Form Fields
 
-```tsx
+\`\`\`tsx
 import { FormField } from '@/components/ui/FormField';
 
 <FormField
@@ -107,7 +107,7 @@ import { FormField } from '@/components/ui/FormField';
 >
   <Input id="eventDate" type="date" />
 </FormField>
-```
+\`\`\`
 
 **Props**:
 - `label` - Field label text
@@ -122,7 +122,7 @@ import { FormField } from '@/components/ui/FormField';
 
 ### **BusinessRuleBanner** - Rule Display
 
-```tsx
+\`\`\`tsx
 import { BusinessRuleBanner, RushOrderBanner } from '@/components/ui/BusinessRuleBanner';
 
 // General banner
@@ -140,7 +140,7 @@ import { BusinessRuleBanner, RushOrderBanner } from '@/components/ui/BusinessRul
   approved={managerApproval}
   onApprovalChange={(checked) => setManagerApproval(checked)}
 />
-```
+\`\`\`
 
 ---
 
@@ -148,7 +148,7 @@ import { BusinessRuleBanner, RushOrderBanner } from '@/components/ui/BusinessRul
 
 ### **Console Logs Added**:
 
-```typescript
+\`\`\`typescript
 // Step 8 validation logs
 console.log('Date validation:', {
   eventDate: formData.eventDate,
@@ -160,7 +160,7 @@ console.log('Time validation:', {
   pickupTime: formData.pickupTime,
   validation: isPickupTimeValid(formData.eventDate, formData.pickupTime)
 });
-```
+\`\`\`
 
 ### **Check Browser Console**:
 - Validation errors show in console
@@ -173,25 +173,25 @@ console.log('Time validation:', {
 
 ### **Issue 1: "pickupTime is undefined"**
 **Fix**: Make sure WizardContext initializes with:
-```typescript
+\`\`\`typescript
 pickupTime: ''  // in INITIAL_FORM_DATA
-```
+\`\`\`
 
 ### **Issue 2: Validation not triggering**
 **Fix**: Check useEffect dependencies:
-```typescript
+\`\`\`typescript
 useEffect(() => {
   // validation logic
 }, [formData.eventDate, pickupTime]);  // Include both!
-```
+\`\`\`
 
 ### **Issue 3: FormField import error**
 **Fix**: Check path is correct:
-```typescript
+\`\`\`typescript
 import { FormField } from '@/components/ui/FormField';
 // OR
 import { FormField } from '../../../../components/ui/FormField';
-```
+\`\`\`
 
 ---
 
@@ -219,7 +219,7 @@ import { FormField } from '../../../../components/ui/FormField';
 
 ### **Step 8 Pickup - All Validations**:
 
-```typescript
+\`\`\`typescript
 export function validateStep8(formData: any): boolean {
   // 1. Required fields
   if (!formData.eventDate) return false;
@@ -242,20 +242,20 @@ export function validateStep8(formData: any): boolean {
   
   return true;
 }
-```
+\`\`\`
 
 ---
 
 ## 🎨 ACCESSIBILITY TESTING
 
 ### **Screen Reader Test**:
-```bash
+\`\`\`bash
 # macOS VoiceOver
 Cmd + F5
 
 # Windows Narrator
 Windows + Ctrl + Enter
-```
+\`\`\`
 
 **Test Flow**:
 1. Navigate to Step 8
@@ -290,7 +290,7 @@ Windows + Ctrl + Enter
 
 ### **Good Test Cases**:
 
-```javascript
+\`\`\`javascript
 // Valid same-day order (>4 hours)
 {
   eventDate: '2025-11-18',  // Today
@@ -309,11 +309,11 @@ Windows + Ctrl + Enter
   eventDate: '2025-11-22',  // 4 days away
   pickupTime: '12:00'
 }
-```
+\`\`\`
 
 ### **Invalid Test Cases**:
 
-```javascript
+\`\`\`javascript
 // TOO SOON - 4-hour buffer violated
 {
   eventDate: '2025-11-18',  // Today
@@ -332,7 +332,7 @@ Windows + Ctrl + Enter
   eventDate: '2025-11-17',  // Yesterday
   pickupTime: '12:00'
 }
-```
+\`\`\`
 
 ---
 

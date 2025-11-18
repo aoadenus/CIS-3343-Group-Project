@@ -12,15 +12,15 @@ This is a **dual-interface web application** featuring:
 ## 🌈 Color Palette
 
 ### Brand Colors
-```css
+\`\`\`css
 --accent-raspberry: #C44569    /* Primary actions, highlights, CTAs */
 --accent-vanilla: #F8EBD7      /* Warm accents, secondary backgrounds */
 --accent-chocolate: #5A3825    /* Secondary text, borders */
 --charcoal: #2B2B2B            /* Dark neutral */
-```
+\`\`\`
 
 ### Dark Theme (Public Site)
-```css
+\`\`\`css
 /* Surface Colors */
 --surface-primary: #0A0A0A     /* Main background */
 --surface-secondary: #1A1A1A   /* Section backgrounds */
@@ -36,24 +36,24 @@ This is a **dual-interface web application** featuring:
 --border-subtle: rgba(255, 255, 255, 0.08)
 --border-medium: rgba(255, 255, 255, 0.15)
 --border-strong: rgba(255, 255, 255, 0.25)
-```
+\`\`\`
 
 ### Light Theme (Admin Portal)
 Applied via `.light-theme` class:
-```css
+\`\`\`css
 --surface-primary: #F8EBD7
 --surface-secondary: #FFFFFF
 --text-primary: #2B2B2B
 --text-secondary: #5A3825
 --border-subtle: rgba(90, 56, 37, 0.1)
-```
+\`\`\`
 
 ---
 
 ## 📐 Typography
 
 ### Font Stack
-```css
+\`\`\`css
 /* Serif - Display & Headings */
 font-family: 'Playfair Display', serif;
 
@@ -65,17 +65,17 @@ font-family: 'Open Sans', sans-serif;
 
 /* Script - Accent Taglines */
 font-family: 'Lucida Handwriting', cursive;
-```
+\`\`\`
 
 ### Type Scale
-```css
+\`\`\`css
 h1: clamp(40px, 8vw, 72px)  /* Hero headings */
 h2: clamp(32px, 6vw, 48px)  /* Section headings */
 h3: clamp(24px, 5vw, 32px)  /* Card headings */
 h4: clamp(18px, 4vw, 24px)  /* List titles */
 h5: clamp(16px, 3.5vw, 20px)  /* Small headings */
 body: clamp(14px, 2.5vw, 16px)  /* Base text */
-```
+\`\`\`
 
 ### Font Weights
 - **Display**: 700 (Bold)
@@ -87,7 +87,7 @@ body: clamp(14px, 2.5vw, 16px)  /* Base text */
 
 ## 📏 Spacing System (8-Point Grid)
 
-```css
+\`\`\`css
 --space-1: 8px
 --space-2: 16px
 --space-3: 24px   /* Base padding */
@@ -96,7 +96,7 @@ body: clamp(14px, 2.5vw, 16px)  /* Base text */
 --space-6: 48px
 --space-8: 64px
 --space-12: 96px  /* Section padding */
-```
+\`\`\`
 
 ### Usage
 - **Component Padding**: 24px (desktop) → 16px (mobile)
@@ -108,39 +108,39 @@ body: clamp(14px, 2.5vw, 16px)  /* Base text */
 
 ## 🔘 Border Radius
 
-```css
+\`\`\`css
 --radius-sm: 8px     /* Small elements */
 --radius-md: 12px    /* Buttons, inputs */
 --radius-lg: 16px    /* Cards */
 --radius-xl: 24px    /* Large cards */
 --radius-full: 9999px  /* Pills, avatars */
-```
+\`\`\`
 
 ---
 
 ## 🌑 Shadows
 
-```css
+\`\`\`css
 --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.12)
 --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.16)
 --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.24)
 --shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.32)
-```
+\`\`\`
 
 ### Light Theme Shadows
-```css
+\`\`\`css
 --shadow-md: 0 2px 8px rgba(90, 56, 37, 0.12)
 --shadow-lg: 0 4px 16px rgba(90, 56, 37, 0.18)
-```
+\`\`\`
 
 ---
 
 ## ⚡ Animation & Easing
 
-```css
+\`\`\`css
 --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1)  /* Material smooth */
 --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1)  /* Spring bounce */
-```
+\`\`\`
 
 ### Timing
 - **Micro-interactions**: 150-250ms
@@ -153,7 +153,7 @@ body: clamp(14px, 2.5vw, 16px)  /* Base text */
 ## 🧩 Component Classes
 
 ### Buttons
-```css
+\`\`\`css
 .btn-primary
   - Gradient background (#C44569 → #A03355)
   - White text, Poppins SemiBold
@@ -164,10 +164,10 @@ body: clamp(14px, 2.5vw, 16px)  /* Base text */
   - Transparent background
   - Border: 2px solid var(--border-medium)
   - Hover: Glass effect + Raspberry border
-```
+\`\`\`
 
 ### Cards
-```css
+\`\`\`css
 .glass-card
   - Background: var(--surface-glass)
   - Backdrop blur: 20px
@@ -177,32 +177,32 @@ body: clamp(14px, 2.5vw, 16px)  /* Base text */
 .surface-elevated
   - Background: var(--surface-elevated)
   - Border + shadow
-```
+\`\`\`
 
 ### Text Effects
-```css
+\`\`\`css
 .gradient-text
   - Linear gradient: #C44569 → #F8EBD7
   - WebKit background clip
-```
+\`\`\`
 
 ---
 
 ## 📱 Responsive Breakpoints
 
-```css
+\`\`\`css
 Mobile:   375px - 767px   (4-column grid)
 Tablet:   768px - 1023px  (8-column grid)
 Desktop:  1024px - 1439px (12-column grid)
 Wide:     1440px+         (max-width container)
-```
+\`\`\`
 
 ### Container
-```css
+\`\`\`css
 .container
   - Max-width: 1440px
   - Padding: 24px (mobile) → 48px (tablet) → 64px (desktop)
-```
+\`\`\`
 
 ---
 
@@ -218,11 +218,11 @@ Wide:     1440px+         (max-width container)
 - **Spacing**: 8px between interactive elements
 
 ### Focus States
-```css
+\`\`\`css
 *:focus-visible
   - Outline: 2px solid var(--accent-raspberry)
   - Outline-offset: 2px
-```
+\`\`\`
 
 ### Semantic HTML
 - Proper heading hierarchy (H1 → H6)
@@ -235,45 +235,45 @@ Wide:     1440px+         (max-width container)
 ## 🏗️ Application Structure
 
 ### Public Pages
-```
+\`\`\`
 /           → Home (hero, features, testimonials)
 /shop       → Product catalog with filters
 /builder    → 4-step custom cake builder
 /gallery    → Portfolio with lightbox
 /about      → Emily's story, team, values
 /contact    → Contact form + info
-```
+\`\`\`
 
 ### Admin Pages
-```
+\`\`\`
 /dashboard  → KPIs, charts, quick actions
 /orders     → Order management table
 /customers  → Customer cards + analytics
 /products   → Product catalog + customization
 /reports    → Revenue charts + metrics
 /settings   → Business config + preferences
-```
+\`\`\`
 
 ### Routing Flow
-```
+\`\`\`
 1. Welcome Screen (3s animation)
 2. Public Site (default)
 3. Staff Login → Admin Portal
 4. Logout → Back to Public
-```
+\`\`\`
 
 ---
 
 ## 🎭 Motion Design Principles
 
 ### Entrance Animations
-```javascript
+\`\`\`javascript
 fadeInUp: {
   initial: { opacity: 0, y: 30 },
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] }
 }
-```
+\`\`\`
 
 ### Hover Effects
 - **Lift**: translateY(-2px to -4px)
@@ -289,18 +289,18 @@ fadeInUp: {
 ## 🔧 Component Patterns
 
 ### Card Hover
-```css
+\`\`\`css
 transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
 hover: border-color: var(--accent-raspberry);
 hover: box-shadow: var(--shadow-lg);
-```
+\`\`\`
 
 ### Input Focus
-```css
+\`\`\`css
 border: 1px solid var(--border-medium);
 focus: border-color: var(--accent-raspberry);
 focus: box-shadow: 0 0 0 3px rgba(196, 69, 105, 0.15);
-```
+\`\`\`
 
 ### Loading States
 - Spinner rotation: 360deg, 1s linear infinite
@@ -311,7 +311,7 @@ focus: box-shadow: 0 0 0 3px rgba(196, 69, 105, 0.15);
 
 ## 📦 File Organization
 
-```
+\`\`\`
 /components
   /ui              → shadcn components
   PublicLayout.tsx → Public navigation
@@ -328,7 +328,7 @@ focus: box-shadow: 0 0 0 3px rgba(196, 69, 105, 0.15);
   globals.css      → Design tokens + utilities
 
 App.tsx            → Routing logic
-```
+\`\`\`
 
 ---
 

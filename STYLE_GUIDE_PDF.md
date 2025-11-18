@@ -17,9 +17,9 @@
    - Right-click this file → "Markdown PDF: Export (pdf)"
    
 2. **Pandoc Method:**
-   ```bash
+   \`\`\`bash
    pandoc STYLE_GUIDE_PDF.md -o Emily-Bakes-Cakes-Style-Guide.pdf --pdf-engine=wkhtmltopdf
-   ```
+   \`\`\`
 
 3. **Online Method:**
    - Copy content to markdown-to-pdf.com
@@ -133,14 +133,14 @@ RGB: 255, 255, 255<br>
 
 ### Responsive Typography
 All typography uses `clamp()` for fluid sizing:
-```css
+\`\`\`css
 font-size: clamp(minimum, preferred, maximum);
-```
+\`\`\`
 
 Example:
-```css
+\`\`\`css
 h1 { font-size: clamp(40px, 5vw, 48px); }
-```
+\`\`\`
 
 ---
 
@@ -163,7 +163,7 @@ All spacing follows a strict 8-point grid system:
 | `--space-12` | 96px | Hero section padding |
 
 ### Visual Grid
-```
+\`\`\`
 8px   ■
 16px  ■■
 24px  ■■■         ← Standard card padding
@@ -171,7 +171,7 @@ All spacing follows a strict 8-point grid system:
 48px  ■■■■■■      ← Input heights
 64px  ■■■■■■■■
 96px  ■■■■■■■■■■■■
-```
+\`\`\`
 
 ---
 
@@ -195,7 +195,7 @@ All spacing follows a strict 8-point grid system:
 
 ### Shadow Tokens
 
-```css
+\`\`\`css
 /* Card Shadow */
 --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08);
 /* Default card shadow */
@@ -215,7 +215,7 @@ All spacing follows a strict 8-point grid system:
 /* Focus Shadow */
 --shadow-focus: 0 0 0 3px rgba(196, 69, 105, 0.15);
 /* Focus ring glow */
-```
+\`\`\`
 
 ---
 
@@ -369,7 +369,7 @@ All spacing follows a strict 8-point grid system:
 
 ### Quick Reference
 
-```json
+\`\`\`json
 {
   "colors": {
     "raspberry": "#C44569",
@@ -399,7 +399,7 @@ All spacing follows a strict 8-point grid system:
     "smooth": "300ms"
   }
 }
-```
+\`\`\`
 
 ---
 

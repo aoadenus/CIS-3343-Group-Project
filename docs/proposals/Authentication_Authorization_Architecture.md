@@ -34,7 +34,7 @@
 
 ### **JWT Structure**
 
-```
+\`\`\`
 HEADER.PAYLOAD.SIGNATURE
 
 {                                    {                           HMACSHA256(
@@ -45,11 +45,11 @@ HEADER.PAYLOAD.SIGNATURE
                                       "iat": 1699564800,
                                       "exp": 1699651200
                                     }
-```
+\`\`\`
 
 ### **Token Generation**
 
-```typescript
+\`\`\`typescript
 // server/auth/jwt.ts
 
 import jwt from 'jsonwebtoken';
@@ -102,7 +102,7 @@ export function verifyAccessToken(token: string): JWTPayload {
     throw new Error('Invalid token');
   }
 }
-```
+\`\`\`
 
 ### **Refresh Token Strategy**
 
@@ -110,7 +110,7 @@ export function verifyAccessToken(token: string): JWTPayload {
 
 **Solution:** Refresh tokens with longer expiration (7 days) stored securely.
 
-```typescript
+\`\`\`typescript
 // shared/schema.ts
 
 export const refreshTokens = pgTable('refresh_tokens', {
@@ -121,9 +121,9 @@ export const refreshTokens = pgTable('refresh_tokens', {
   createdAt: timestamp('created_at').defaultNow(),
   revokedAt: timestamp('revoked_at')
 });
-```
+\`\`\`
 
-```typescript
+\`\`\`typescript
 // server/auth/refreshToken.ts
 
 import { randomBytes } from 'crypto';
@@ -168,7 +168,7 @@ export async function refreshAccessToken(refreshToken: string): Promise<string |
   
   return generateAccessToken(employee);
 }
-```
+\`\`\`
 
 ---
 
@@ -176,7 +176,7 @@ export async function refreshAccessToken(refreshToken: string): Promise<string |
 
 ### **Hashing Strategy: bcrypt**
 
-```typescript
+\`\`\`typescript
 // server/auth/password.ts
 
 import bcrypt from 'bcrypt';
@@ -223,7 +223,7 @@ export function validatePasswordStrength(password: string): {
     errors
   };
 }
-```
+\`\`\`
 
 ---
 
@@ -233,18 +233,18 @@ export function validatePasswordStrength(password: string): {
 
 #### **Role Hierarchy**
 
-```
+\`\`\`
 Owner (Emily)
     ↓
 Manager (James)
     ↓
 ├─────────┬──────────┬──────────┐
 Sales    Baker    Decorator   Accountant
-```
+\`\`\`
 
 #### **Permission Matrix**
 
-```typescript
+\`\`\`typescript
 // server/auth/permissions.ts
 
 export const PERMISSIONS = {
@@ -361,13 +361,13 @@ export function hasPermission(userPermissions: string[], requiredPermission: str
   
   return userPermissions.includes(requiredPermission);
 }
-```
+\`\`\`
 
 ---
 
 ## 🚪 AUTHENTICATION MIDDLEWARE
 
-```typescript
+\`\`\`typescript
 // server/middleware/auth.ts
 
 import { Request, Response, NextFunction } from 'express';
@@ -419,13 +419,13 @@ export function authMiddleware(req: AuthRequest, res: Response, next: NextFuncti
     });
   }
 }
-```
+\`\`\`
 
 ---
 
 ## 🔒 AUTHORIZATION MIDDLEWARE
 
-```typescript
+\`\`\`typescript
 // server/middleware/authorization.ts
 
 export function requireRole(allowedRoles: string[]) {
@@ -482,7 +482,7 @@ export function requireAnyPermission(permissions: string[]) {
     next();
   };
 }
-```
+\`\`\`
 
 ---
 
@@ -490,7 +490,7 @@ export function requireAnyPermission(permissions: string[]) {
 
 ### **Protected Route Examples**
 
-```typescript
+\`\`\`typescript
 // server/routes/orders.ts
 
 import { authMiddleware, requireRole, requirePermission } from '../middleware';
@@ -555,7 +555,7 @@ router.patch('/api/orders/:id/status',
     // Update order status...
   }
 );
-```
+\`\`\`
 
 ---
 
@@ -563,7 +563,7 @@ router.patch('/api/orders/:id/status',
 
 ### **1. Password Reset Flow**
 
-```typescript
+\`\`\`typescript
 // server/routes/auth.ts
 
 router.post('/api/auth/forgot-password', async (req, res) => {
@@ -642,15 +642,15 @@ router.post('/api/auth/reset-password', async (req, res) => {
   
   res.json({ success: true });
 });
-```
+\`\`\`
 
 ### **2. Rate Limiting**
 
-```bash
+\`\`\`bash
 npm install express-rate-limit
-```
+\`\`\`
 
-```typescript
+\`\`\`typescript
 // server/middleware/rateLimiting.ts
 
 import rateLimit from 'express-rate-limit';
@@ -665,11 +665,11 @@ export const loginLimiter = rateLimit({
 
 // Apply to login route
 app.use('/api/auth/login', loginLimiter);
-```
+\`\`\`
 
 ### **3. CORS Configuration**
 
-```typescript
+\`\`\`typescript
 // server/index.ts
 
 import cors from 'cors';
@@ -680,15 +680,15 @@ app.use(cors({
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
-```
+\`\`\`
 
 ### **4. Security Headers**
 
-```bash
+\`\`\`bash
 npm install helmet
-```
+\`\`\`
 
-```typescript
+\`\`\`typescript
 // server/index.ts
 
 import helmet from 'helmet';
@@ -707,13 +707,13 @@ app.use(helmet({
     includeSubDomains: true
   }
 }));
-```
+\`\`\`
 
 ---
 
 ## 📊 AUDIT LOGGING
 
-```typescript
+\`\`\`typescript
 // server/middleware/auditLog.ts
 
 export function auditMiddleware(req: AuthRequest, res: Response, next: NextFunction) {
@@ -741,7 +741,7 @@ export function auditMiddleware(req: AuthRequest, res: Response, next: NextFunct
   
   next();
 }
-```
+\`\`\`
 
 ---
 

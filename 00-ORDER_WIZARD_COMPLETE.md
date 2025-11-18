@@ -127,20 +127,20 @@ Optional sticky sidebar for live pricing:
 Removed all "Coming Soon" placeholders and imported real components:
 
 **Before:**
-```typescript
+\`\`\`typescript
 const CustomizationStep = () => <div>Coming Soon</div>;
 const PricingStep = () => <div>Coming Soon</div>;
 const SchedulingStep = () => <div>Coming Soon</div>;
 const ReviewStep = () => <div>Coming Soon</div>;
-```
+\`\`\`
 
 **After:**
-```typescript
+\`\`\`typescript
 import { CustomizationStep } from './CustomizationStep';
 import { PricingStep } from './PricingStep';
 import { SchedulingStep } from './SchedulingStep';
 import { ReviewStep } from './ReviewStep';
-```
+\`\`\`
 
 Also cleaned up unused imports.
 
@@ -251,7 +251,7 @@ Also cleaned up unused imports.
 
 In any page/component:
 
-```typescript
+\`\`\`typescript
 import { OrderWizardDialog } from '@/components/orderWizard/OrderWizard';
 
 function YourPage() {
@@ -274,7 +274,7 @@ function YourPage() {
     </>
   );
 }
-```
+\`\`\`
 
 ### Keyboard Shortcuts (Already Implemented)
 - `Ctrl + Enter` = Next step (if valid)
@@ -292,7 +292,7 @@ function YourPage() {
 
 All files created in correct locations:
 
-```
+\`\`\`
 src/components/orderWizard/
 ├── OrderWizard.tsx           (Updated)
 ├── CustomerSelectionStep.tsx (Existing)
@@ -304,7 +304,7 @@ src/components/orderWizard/
 ├── PricingSidebar.tsx        ✨ NEW
 ├── WizardProgress.tsx        (Existing)
 └── WizardNavigation.tsx      (Existing)
-```
+\`\`\`
 
 No dependencies added - uses existing UI library.
 

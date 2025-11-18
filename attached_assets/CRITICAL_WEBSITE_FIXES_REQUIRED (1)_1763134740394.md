@@ -65,10 +65,10 @@ Replace current categories with:
 
 **Fix Required:**
 Add breadcrumb trail to all pages:
-```
+\`\`\`
 Home > Shop > Chocolate Cakes
 Home > Admin > Orders > Create Order
-```
+\`\`\`
 
 ---
 
@@ -95,13 +95,13 @@ Home > Admin > Orders > Create Order
 - Make demo credentials MUCH LARGER
 - Use prominent styling (maybe a box or card)
 - Format clearly:
-  ```
+  \`\`\`
   🔐 DEMO CREDENTIALS FOR TESTING
   Email: emily@emilybakes.com
   Password: DemoPass123
   
   (6 staff accounts available - see documentation)
-  ```
+  \`\`\`
 
 ---
 

@@ -31,7 +31,7 @@ Diagnose and fix the rendering logic so that:
 1. Ensure Framer Motion import is correct: `import { motion, AnimatePresence } from "framer-motion";`
 2. Check that AnimatePresence isn’t nested unnecessarily.
 3. If needed, wrap your main content section inside one AnimatePresence block like:
-   ```tsx
+   \`\`\`tsx
    <AnimatePresence mode="wait">
      <motion.div key={appMode} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
        {appMode === 'public' && <PublicLayout><PublicHome /></PublicLayout>}
@@ -39,7 +39,7 @@ Diagnose and fix the rendering logic so that:
        {appMode === 'admin' && <AdminLayout />}
      </motion.div>
    </AnimatePresence>
-   ```
+   \`\`\`
 
 ### **PHASE 4: COMPONENT INTEGRITY AUDIT**
 1. Check that all components imported into `App.tsx` actually exist and export correctly:

@@ -191,7 +191,7 @@ You have **5 comprehensive documentation files**:
 ## 🚀 HOW TO RUN FOR PRESENTATION
 
 ### Simplest Method (Recommended):
-```bash
+\`\`\`bash
 # 1. Install dependencies
 npm install
 
@@ -204,7 +204,7 @@ npm run dev
 #    Owner: emily@emilybakescakes.com / password
 #    Sales: sales@emilybakescakes.com / password
 #    Baker: baker@emilybakescakes.com / password
-```
+\`\`\`
 
 ### Why This Works:
 - ✅ No backend setup required

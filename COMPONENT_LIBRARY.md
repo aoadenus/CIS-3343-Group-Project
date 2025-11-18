@@ -22,29 +22,29 @@
 ## 🔘 StandardButton
 
 ### Import
-```tsx
+\`\`\`tsx
 import { StandardButton } from './components/StandardButton';
-```
+\`\`\`
 
 ### Variants
 
 #### Primary
-```tsx
+\`\`\`tsx
 <StandardButton variant="primary">
   Order Now
 </StandardButton>
-```
+\`\`\`
 **Style:**
 - Background: #C44569 (Raspberry Pink)
 - Text: White
 - Hover: Scale 1.05 + shadow
 
 #### Secondary
-```tsx
+\`\`\`tsx
 <StandardButton variant="secondary">
   Learn More
 </StandardButton>
-```
+\`\`\`
 **Style:**
 - Background: White
 - Text: #5A3825 (Chocolate Brown)
@@ -52,11 +52,11 @@ import { StandardButton } from './components/StandardButton';
 - Hover: Lift + border → Raspberry Pink
 
 #### Ghost
-```tsx
+\`\`\`tsx
 <StandardButton variant="ghost">
   Cancel
 </StandardButton>
-```
+\`\`\`
 **Style:**
 - Background: Transparent
 - Text: #C44569 (Raspberry Pink)
@@ -66,11 +66,11 @@ import { StandardButton } from './components/StandardButton';
 
 ### Sizes
 
-```tsx
+\`\`\`tsx
 <StandardButton size="sm">Small</StandardButton>
 <StandardButton size="md">Medium</StandardButton>
 <StandardButton size="lg">Large</StandardButton>
-```
+\`\`\`
 
 | Size | Height | Padding | Font Size |
 |------|--------|---------|-----------|
@@ -82,7 +82,7 @@ import { StandardButton } from './components/StandardButton';
 
 ### With Icons
 
-```tsx
+\`\`\`tsx
 import { ArrowRight } from 'lucide-react';
 
 <StandardButton 
@@ -91,13 +91,13 @@ import { ArrowRight } from 'lucide-react';
 >
   Continue
 </StandardButton>
-```
+\`\`\`
 
 ---
 
 ### States
 
-```tsx
+\`\`\`tsx
 // Loading
 <StandardButton loading={true}>
   Processing...
@@ -112,26 +112,26 @@ import { ArrowRight } from 'lucide-react';
 <StandardButton fullWidth>
   Submit Order
 </StandardButton>
-```
+\`\`\`
 
 ---
 
 ## 📝 StandardInput
 
 ### Import
-```tsx
+\`\`\`tsx
 import { StandardInput } from './components/StandardInput';
-```
+\`\`\`
 
 ### Basic Usage
 
-```tsx
+\`\`\`tsx
 <StandardInput
   label="Customer Name"
   placeholder="Enter name"
   required
 />
-```
+\`\`\`
 
 **Specs:**
 - Height: 48px
@@ -144,7 +144,7 @@ import { StandardInput } from './components/StandardInput';
 
 ### With Icon
 
-```tsx
+\`\`\`tsx
 import { Mail } from 'lucide-react';
 
 <StandardInput
@@ -152,20 +152,20 @@ import { Mail } from 'lucide-react';
   icon={<Mail size={20} />}
   placeholder="your@email.com"
 />
-```
+\`\`\`
 
 ---
 
 ### With Error
 
-```tsx
+\`\`\`tsx
 <StandardInput
   label="Phone"
   value={phone}
   onChange={(e) => setPhone(e.target.value)}
   error="Please enter a valid phone number"
 />
-```
+\`\`\`
 
 **Error Display:**
 - Red border
@@ -177,69 +177,69 @@ import { Mail } from 'lucide-react';
 
 ### With Helper Text
 
-```tsx
+\`\`\`tsx
 <StandardInput
   label="Password"
   type="password"
   helperText="Must be at least 8 characters"
 />
-```
+\`\`\`
 
 ---
 
 ### Full Width
 
-```tsx
+\`\`\`tsx
 <StandardInput
   label="Message"
   fullWidth
   placeholder="Enter your message..."
 />
-```
+\`\`\`
 
 ---
 
 ## 🏷️ StandardBadge
 
 ### Import
-```tsx
+\`\`\`tsx
 import { StandardBadge, CustomBadge } from './components/StandardBadge';
-```
+\`\`\`
 
 ### Status Variants
 
 #### Pending
-```tsx
+\`\`\`tsx
 <StandardBadge status="pending" />
-```
+\`\`\`
 - Background: #FEF3C7 (Yellow)
 - Text: #92400E (Brown)
 
 #### In Progress
-```tsx
+\`\`\`tsx
 <StandardBadge status="inProgress" />
-```
+\`\`\`
 - Background: #3B82F6 (Blue)
 - Text: White
 
 #### Completed
-```tsx
+\`\`\`tsx
 <StandardBadge status="completed" />
-```
+\`\`\`
 - Background: #10B981 (Green)
 - Text: White
 
 #### Ready
-```tsx
+\`\`\`tsx
 <StandardBadge status="ready" />
-```
+\`\`\`
 - Background: #C44569 (Raspberry Pink)
 - Text: White
 
 #### Cancelled
-```tsx
+\`\`\`tsx
 <StandardBadge status="cancelled" />
-```
+\`\`\`
 - Background: #6B7280 (Gray)
 - Text: White
 
@@ -247,11 +247,11 @@ import { StandardBadge, CustomBadge } from './components/StandardBadge';
 
 ### Sizes
 
-```tsx
+\`\`\`tsx
 <StandardBadge status="pending" size="sm" />
 <StandardBadge status="pending" size="md" />
 <StandardBadge status="pending" size="lg" />
-```
+\`\`\`
 
 | Size | Font | Padding | Radius |
 |------|------|---------|--------|
@@ -263,64 +263,64 @@ import { StandardBadge, CustomBadge } from './components/StandardBadge';
 
 ### Custom Badge
 
-```tsx
+\`\`\`tsx
 <CustomBadge
   backgroundColor="#8B5CF6"
   textColor="white"
 >
   Premium
 </CustomBadge>
-```
+\`\`\`
 
 ---
 
 ## 🎭 EmptyState
 
 ### Import
-```tsx
+\`\`\`tsx
 import { EmptyState } from './components/EmptyState';
-```
+\`\`\`
 
 ### Pre-defined Types
 
 #### Orders
-```tsx
+\`\`\`tsx
 <EmptyState 
   type="orders"
   onAction={() => navigate('/builder')}
 />
-```
+\`\`\`
 **Display:**
 - Icon: Cake with question mark
 - Title: "No orders yet"
 - CTA: "Create Order"
 
 #### Products
-```tsx
+\`\`\`tsx
 <EmptyState 
   type="products"
   onAction={() => setShowAddProduct(true)}
 />
-```
+\`\`\`
 
 #### Customers
-```tsx
+\`\`\`tsx
 <EmptyState 
   type="customers"
   onAction={() => navigate('/orders')}
 />
-```
+\`\`\`
 
 #### Gallery
-```tsx
+\`\`\`tsx
 <EmptyState 
   type="gallery"
   onAction={() => setShowUpload(true)}
 />
-```
+\`\`\`
 
 #### Custom
-```tsx
+\`\`\`tsx
 <EmptyState 
   type="custom"
   title="No reviews yet"
@@ -328,20 +328,20 @@ import { EmptyState } from './components/EmptyState';
   actionLabel="View Orders"
   onAction={() => navigate('/orders')}
 />
-```
+\`\`\`
 
 ---
 
 ## 🔗 SkipLink
 
 ### Import
-```tsx
+\`\`\`tsx
 import { SkipLink } from './components/SkipLink';
-```
+\`\`\`
 
 ### Usage
 
-```tsx
+\`\`\`tsx
 function App() {
   return (
     <>
@@ -353,7 +353,7 @@ function App() {
     </>
   );
 }
-```
+\`\`\`
 
 **Features:**
 - Hidden until keyboard focus
@@ -366,13 +366,13 @@ function App() {
 ## ❌ NotFound (404 Page)
 
 ### Import
-```tsx
+\`\`\`tsx
 import NotFound from './pages/NotFound';
-```
+\`\`\`
 
 ### Usage
 
-```tsx
+\`\`\`tsx
 import { Routes, Route } from 'react-router-dom';
 
 <Routes>
@@ -381,7 +381,7 @@ import { Routes, Route } from 'react-router-dom';
   {/* ... other routes */}
   <Route path="*" element={<NotFound />} />
 </Routes>
-```
+\`\`\`
 
 **Features:**
 - Playful copy: "This page got eaten! 🍰"
@@ -395,7 +395,7 @@ import { Routes, Route } from 'react-router-dom';
 
 ### CSS Variables
 
-```css
+\`\`\`css
 :root {
   --spacing-xs: 8px;
   --spacing-sm: 16px;
@@ -404,11 +404,11 @@ import { Routes, Route } from 'react-router-dom';
   --spacing-xl: 48px;
   --spacing-2xl: 64px;
 }
-```
+\`\`\`
 
 ### Usage
 
-```tsx
+\`\`\`tsx
 // Inline styles
 <div style={{ padding: '24px', marginBottom: '16px' }}>
   {/* Content */}
@@ -418,7 +418,7 @@ import { Routes, Route } from 'react-router-dom';
 <div className="p-6 mb-4">
   {/* 24px padding, 16px margin */}
 </div>
-```
+\`\`\`
 
 ### Application Guide
 
@@ -437,18 +437,18 @@ import { Routes, Route } from 'react-router-dom';
 
 ### Primary Colors
 
-```tsx
+\`\`\`tsx
 const colors = {
   raspberry: '#C44569',
   cream: '#F8EBD7',
   chocolate: '#5A3825',
   charcoal: '#2B2B2B'
 };
-```
+\`\`\`
 
 ### Status Colors
 
-```tsx
+\`\`\`tsx
 const statusColors = {
   pending: { bg: '#FEF3C7', text: '#92400E' },
   inProgress: { bg: '#3B82F6', text: '#FFFFFF' },
@@ -457,7 +457,7 @@ const statusColors = {
   cancelled: { bg: '#6B7280', text: '#FFFFFF' },
   error: { bg: '#EF4444', text: '#FFFFFF' }
 };
-```
+\`\`\`
 
 ### 60-30-10 Rule
 
@@ -471,31 +471,31 @@ const statusColors = {
 
 ### Font Families
 
-```css
+\`\`\`css
 --font-heading: 'Playfair Display', serif;
 --font-subheading: 'Poppins', sans-serif;
 --font-body: 'Open Sans', sans-serif;
 --font-accent: 'Lucida Handwriting', cursive;
-```
+\`\`\`
 
 ### Semantic Headings
 
-```tsx
+\`\`\`tsx
 <h1>Page Title</h1>          {/* 28px - 48px */}
 <h2>Section Heading</h2>     {/* 24px - 36px */}
 <h3>Subsection</h3>          {/* 20px - 28px */}
 <h4>Card Title</h4>          {/* 18px - 24px */}
 <h5>Minor Heading</h5>       {/* 16px - 20px */}
 <h6>Small Heading</h6>       {/* 14px - 18px */}
-```
+\`\`\`
 
 ### Body Text
 
-```tsx
+\`\`\`tsx
 <p>Body text</p>             {/* 16px, Open Sans */}
 <span>Small text</span>      {/* 14px, Open Sans */}
 <small>Caption</small>       {/* 13px, Open Sans */}
-```
+\`\`\`
 
 ---
 
@@ -503,7 +503,7 @@ const statusColors = {
 
 ### Login Form
 
-```tsx
+\`\`\`tsx
 import { StandardButton, StandardInput } from './components/...';
 
 function LoginForm() {
@@ -555,13 +555,13 @@ function LoginForm() {
     </form>
   );
 }
-```
+\`\`\`
 
 ---
 
 ### Order Status Display
 
-```tsx
+\`\`\`tsx
 import { StandardBadge } from './components/StandardBadge';
 
 function OrderCard({ order }) {
@@ -587,13 +587,13 @@ function OrderCard({ order }) {
     </div>
   );
 }
-```
+\`\`\`
 
 ---
 
 ### Empty Orders List
 
-```tsx
+\`\`\`tsx
 import { EmptyState } from './components/EmptyState';
 
 function OrdersList() {
@@ -616,7 +616,7 @@ function OrdersList() {
     </div>
   );
 }
-```
+\`\`\`
 
 ---
 
@@ -632,7 +632,7 @@ All components include:
 
 ### ARIA Labels
 
-```tsx
+\`\`\`tsx
 // Buttons with icons only
 <button aria-label="Edit order">
   <EditIcon aria-hidden="true" />
@@ -653,7 +653,7 @@ All components include:
 <div id="field-error" role="alert">
   {error}
 </div>
-```
+\`\`\`
 
 ### Keyboard Navigation
 
@@ -669,7 +669,7 @@ All components are keyboard accessible:
 
 ### Breakpoints
 
-```css
+\`\`\`css
 /* Mobile */
 @media (max-width: 767px) {
   .button-group {
@@ -690,7 +690,7 @@ All components are keyboard accessible:
 @media (min-width: 1024px) {
   /* Full desktop experience */
 }
-```
+\`\`\`
 
 ### Touch Targets
 
@@ -749,7 +749,7 @@ All interactive elements:
 ### 1. Install Components
 
 Components are located in:
-```
+\`\`\`
 /components/
 ├── StandardButton.tsx
 ├── StandardInput.tsx
@@ -757,11 +757,11 @@ Components are located in:
 ├── EmptyState.tsx
 ├── SkipLink.tsx
 └── ...
-```
+\`\`\`
 
 ### 2. Import and Use
 
-```tsx
+\`\`\`tsx
 import { 
   StandardButton, 
   StandardInput, 
@@ -778,20 +778,20 @@ function MyComponent() {
     </div>
   );
 }
-```
+\`\`\`
 
 ### 3. Apply Spacing
 
 Use the standardized spacing scale:
-```tsx
+\`\`\`tsx
 <div style={{ padding: '24px', marginBottom: '16px' }}>
   {/* Content */}
 </div>
-```
+\`\`\`
 
 ### 4. Test Accessibility
 
-```tsx
+\`\`\`tsx
 // Always include proper labels
 <button aria-label="Close menu">
   <X />
@@ -800,7 +800,7 @@ Use the standardized spacing scale:
 // Test keyboard navigation
 // Test with screen reader
 // Verify color contrast
-```
+\`\`\`
 
 ---
 

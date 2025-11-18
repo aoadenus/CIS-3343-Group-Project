@@ -9,7 +9,7 @@
 
 ## 🚀 QUICK START FOR PRESENTATION
 
-```bash
+\`\`\`bash
 # 1. Install dependencies
 npm install
 
@@ -17,7 +17,7 @@ npm install
 npm run dev
 
 # 3. Open browser to http://localhost:5173
-```
+\`\`\`
 
 **Test Accounts**:
 - Owner: `emily@emilybakescakes.com` / `password`
@@ -92,13 +92,13 @@ npm run dev
 
 ## 📁 Project Structure
 
-```
+\`\`\`
 src/
 ├── pages/admin/dashboards/    # 6 role-based dashboards
 ├── data/presentationData.ts   # Mock data for demo
 ├── components/                # Reusable UI components
 └── ...
-```
+\`\`\`
 
 ---
 
@@ -118,4 +118,3 @@ This project demonstrates:
 ---
 
 **Original Figma Design**: https://www.figma.com/design/DHNzoytvM360d86MiGe6E7/Emily-Bakes-Cakes-Website
-  

@@ -34,14 +34,14 @@
 
 ### Typography Hierarchy
 
-```
+\`\`\`
 H1: Playfair Display 700 | 40-48px | Hero titles
 H2: Poppins 600 | 28-32px | Section headers
 H3: Poppins 600 | 22-28px | Subsections
 H4: Poppins 600 | 18-24px | Card titles
 Body: Open Sans 400 | 16-18px | Paragraphs
 Accent: Lucida Handwriting | 18-20px | Taglines
-```
+\`\`\`
 
 **Line Heights:** 1.2 (headings) → 1.7 (body)  
 **Letter Spacing:** -0.02em (H1) → 0em (body)
@@ -50,7 +50,7 @@ Accent: Lucida Handwriting | 18-20px | Taglines
 
 ### Spacing System: 8-Point Grid
 
-```
+\`\`\`
 8px   → Base unit (tight spacing)
 16px  → Standard gap
 24px  → Card padding ⭐
@@ -58,7 +58,7 @@ Accent: Lucida Handwriting | 18-20px | Taglines
 48px  → Component height (inputs, buttons)
 64px  → Large section spacing
 96px  → Hero section padding
-```
+\`\`\`
 
 **Border Radius:** 8px (buttons) | **12px (cards)** ⭐ | 16px (hero) | 24px (glass cards)
 
@@ -66,13 +66,13 @@ Accent: Lucida Handwriting | 18-20px | Taglines
 
 ### Shadows & Effects
 
-```css
+\`\`\`css
 Card:      0 2px 8px rgba(0,0,0,0.08)
 Hover:     0 4px 16px rgba(0,0,0,0.12)
 Button:    0 2px 6px rgba(0,0,0,0.12)
 Raspberry: 0 4px 16px rgba(196,69,105,0.3)
 Focus:     0 0 0 3px rgba(196,69,105,0.15)
-```
+\`\`\`
 
 **Transitions:** 150ms (fast) | 200ms (base) | 300ms (smooth)  
 **Easing:** ease-out (micro-interactions) | ease-in-out (animations)
@@ -84,11 +84,11 @@ Focus:     0 0 0 3px rgba(196,69,105,0.15)
 ### Core Components (87 total)
 
 #### **StandardButton** - 3 Variants, 3 Sizes
-```tsx
+\`\`\`tsx
 <StandardButton variant="primary" size="md">
   Order Now
 </StandardButton>
-```
+\`\`\`
 - Primary: Raspberry Pink bg, White text
 - Secondary: White bg, Chocolate border
 - Ghost: Transparent bg, Raspberry text
@@ -96,22 +96,22 @@ Focus:     0 0 0 3px rgba(196,69,105,0.15)
 - Sizes: sm (36px) | md (44px) | lg (48px)
 
 #### **StandardInput** - Consistent Forms
-```tsx
+\`\`\`tsx
 <StandardInput 
   label="Email"
   placeholder="your@email.com"
   error="Please enter valid email"
 />
-```
+\`\`\`
 - Height: 48px (WCAG compliant)
 - Padding: 12px
 - Border: 1px Charcoal, Focus: Raspberry Pink
 - Icon support, Error states, Helper text
 
 #### **StandardBadge** - 5 Status Variants
-```tsx
+\`\`\`tsx
 <StandardBadge status="completed" />
-```
+\`\`\`
 - Pending: Yellow bg, Brown text
 - In Progress: Blue bg, White text
 - Completed: Green bg, White text
@@ -334,7 +334,7 @@ Focus:     0 0 0 3px rgba(196,69,105,0.15)
 ## 📦 Deliverables
 
 ### Design System Package
-```
+\`\`\`
 ├── Design System Audit Report (5000+ lines)
 ├── Design Tokens (JSON + CSS)
 ├── Component Library (87 components)
@@ -342,7 +342,7 @@ Focus:     0 0 0 3px rgba(196,69,105,0.15)
 ├── Documentation (13 guides)
 ├── Export Checklist (complete)
 └── Presentation Summary (this file)
-```
+\`\`\`
 
 ### Component Library
 - Published to team workspace
@@ -490,7 +490,7 @@ Focus:     0 0 0 3px rgba(196,69,105,0.15)
 
 ## Quick Reference Card
 
-```
+\`\`\`
 COLORS:   Raspberry #C44569 | Cream #F8EBD7 | Charcoal #2B2B2B
 FONTS:    Playfair (H1) | Poppins (H2-H6) | Open Sans (Body)
 SPACING:  8px base | 24px cards | 48px inputs | 64px sections
@@ -501,6 +501,6 @@ TOUCH:    44px minimum (48px mobile)
 ANIMATE:  200ms base | 300ms smooth | ease-out
 GRID:     8-point base | 1-2-3 columns responsive
 QUALITY:  96/100 | Zero critical issues
-```
+\`\`\`
 
 **Print this card for quick reference during presentations! 📋**

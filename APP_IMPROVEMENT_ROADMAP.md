@@ -24,7 +24,7 @@ Your Emily Bakes Cakes application has a **solid foundation** with good business
 **Impact**: Slow initial load, poor mobile experience  
 **Solution**: Lazy load routes and heavy components
 
-```typescript
+\`\`\`typescript
 // src/App.tsx - BEFORE
 import OrderCreateWizard from './pages/admin/order-create/WizardContainer';
 import Dashboard from './pages/admin/Dashboard';
@@ -40,7 +40,7 @@ const Reports = lazy(() => import('./pages/admin/Reports'));
     <Route path="/orders/create" element={<OrderCreateWizard />} />
   </Routes>
 </Suspense>
-```
+\`\`\`
 
 **Expected Improvement**: 60-70% reduction in initial bundle size
 
@@ -51,7 +51,7 @@ const Reports = lazy(() => import('./pages/admin/Reports'));
 **Current Issue**: Large product images (1-2MB each)  
 **Solution**: Implement image optimization pipeline
 
-```typescript
+\`\`\`typescript
 // utils/imageOptimization.ts
 export async function optimizeImage(file: File): Promise<File> {
   const options = {
@@ -64,15 +64,15 @@ export async function optimizeImage(file: File): Promise<File> {
   const compressed = await imageCompression(file, options);
   return compressed;
 }
-```
+\`\`\`
 
 **Add to package.json**:
-```json
+\`\`\`json
 "dependencies": {
   "browser-image-compression": "^2.0.2",
   "react-lazy-load-image-component": "^1.6.0"
 }
-```
+\`\`\`
 
 **Implementation**:
 - Convert all images to WebP format
@@ -87,7 +87,7 @@ export async function optimizeImage(file: File): Promise<File> {
 **Current Issue**: Manual caching, duplicate requests  
 **Solution**: Optimize React Query configuration
 
-```typescript
+\`\`\`typescript
 // lib/queryClient.ts - ENHANCED
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -114,10 +114,10 @@ export const queryClient = new QueryClient({
     }
   }
 });
-```
+\`\`\`
 
 **Add Prefetching**:
-```typescript
+\`\`\`typescript
 // Prefetch on hover for better UX
 <Link 
   to="/orders/123"
@@ -125,7 +125,7 @@ export const queryClient = new QueryClient({
 >
   View Order
 </Link>
-```
+\`\`\`
 
 ---
 
@@ -134,7 +134,7 @@ export const queryClient = new QueryClient({
 **Why**: Offline capability, faster repeat visits  
 **Implementation**:
 
-```typescript
+\`\`\`typescript
 // vite.config.ts
 import { VitePWA } from 'vite-plugin-pwa';
 
@@ -168,7 +168,7 @@ export default defineConfig({
     })
   ]
 });
-```
+\`\`\`
 
 **Benefits**: 
 - Works offline for viewing orders
@@ -184,14 +184,14 @@ export default defineConfig({
 **Current Issue**: No code consistency enforcement  
 **Solution**: ESLint + Prettier + Husky
 
-```bash
+\`\`\`bash
 npm install -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
 npm install -D prettier eslint-config-prettier eslint-plugin-prettier
 npm install -D husky lint-staged
-```
+\`\`\`
 
 **`.eslintrc.json`**:
-```json
+\`\`\`json
 {
   "extends": [
     "eslint:recommended",
@@ -206,10 +206,10 @@ npm install -D husky lint-staged
     "react/react-in-jsx-scope": "off"
   }
 }
-```
+\`\`\`
 
 **`.prettierrc`**:
-```json
+\`\`\`json
 {
   "semi": true,
   "singleQuote": true,
@@ -217,10 +217,10 @@ npm install -D husky lint-staged
   "printWidth": 100,
   "trailingComma": "es5"
 }
-```
+\`\`\`
 
 **`package.json`**:
-```json
+\`\`\`json
 {
   "scripts": {
     "lint": "eslint . --ext .ts,.tsx",
@@ -233,7 +233,7 @@ npm install -D husky lint-staged
     "*.{css,md}": ["prettier --write"]
   }
 }
-```
+\`\`\`
 
 ---
 
@@ -242,7 +242,7 @@ npm install -D husky lint-staged
 **Current Issue**: Single error boundary, no granular error handling  
 **Solution**: Multi-level error boundaries
 
-```typescript
+\`\`\`typescript
 // components/ErrorBoundary/FeatureErrorBoundary.tsx
 export function FeatureErrorBoundary({ 
   children, 
@@ -276,7 +276,7 @@ export function FeatureErrorBoundary({
 <FeatureErrorBoundary featureName="OrderWizard">
   <WizardContainer />
 </FeatureErrorBoundary>
-```
+\`\`\`
 
 ---
 
@@ -285,7 +285,7 @@ export function FeatureErrorBoundary({
 **Current Issue**: New components not documented  
 **Solution**: Create stories for all UI components
 
-```typescript
+\`\`\`typescript
 // components/ui/FormField.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
 import { FormField } from './FormField';
@@ -324,7 +324,7 @@ export const WithSuccess: Story = {
     children: <input type="date" />
   }
 };
-```
+\`\`\`
 
 **Run**: `npm run storybook`
 
@@ -333,7 +333,7 @@ export const WithSuccess: Story = {
 ### 🟢 **Nice to Have - Add GitHub Actions CI/CD**
 
 **`.github/workflows/ci.yml`**:
-```yaml
+\`\`\`yaml
 name: CI/CD
 
 on:
@@ -369,7 +369,7 @@ jobs:
       - uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
-```
+\`\`\`
 
 ---
 
@@ -380,7 +380,7 @@ jobs:
 **Current Issue**: Users don't know how many steps remain  
 **Solution**: Visual progress bar
 
-```typescript
+\`\`\`typescript
 // components/orderWizard/ProgressBar.tsx
 export function WizardProgressBar({ 
   currentStep, 
@@ -433,7 +433,7 @@ export function WizardProgressBar({
     </div>
   );
 }
-```
+\`\`\`
 
 ---
 
@@ -442,7 +442,7 @@ export function WizardProgressBar({
 **Current Issue**: Users lose progress if they navigate away  
 **Solution**: Auto-save to localStorage + cloud
 
-```typescript
+\`\`\`typescript
 // hooks/useAutoSave.ts
 export function useAutoSave<T>(
   data: T,
@@ -489,10 +489,10 @@ export function WizardProvider({ children }) {
     {children}
   </WizardContext.Provider>
 }
-```
+\`\`\`
 
 **Database Migration**:
-```sql
+\`\`\`sql
 CREATE TABLE order_drafts (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID REFERENCES staff_users(id),
@@ -500,7 +500,7 @@ CREATE TABLE order_drafts (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
-```
+\`\`\`
 
 ---
 
@@ -509,7 +509,7 @@ CREATE TABLE order_drafts (
 **Why**: Power users expect keyboard navigation  
 **Implementation**:
 
-```typescript
+\`\`\`typescript
 // hooks/useKeyboardShortcuts.ts
 export function useKeyboardShortcuts(actions: Record<string, () => void>) {
   useEffect(() => {
@@ -550,10 +550,10 @@ useKeyboardShortcuts({
   cancel: () => navigate(-1),
   undo: () => undoLastChange()
 });
-```
+\`\`\`
 
 **Show shortcuts help**:
-```typescript
+\`\`\`typescript
 <TooltipProvider>
   <Tooltip>
     <TooltipTrigger asChild>
@@ -573,14 +573,14 @@ useKeyboardShortcuts({
     </TooltipContent>
   </Tooltip>
 </TooltipProvider>
-```
+\`\`\`
 
 ---
 
 ### 🟡 **High - Add Undo/Redo Functionality**
 
 **Implementation**:
-```typescript
+\`\`\`typescript
 // hooks/useUndoRedo.ts
 export function useUndoRedo<T>(initialState: T) {
   const [history, setHistory] = useState<T[]>([initialState]);
@@ -612,7 +612,7 @@ export function useUndoRedo<T>(initialState: T) {
   
   return { state: currentState, setState, undo, redo, canUndo, canRedo };
 }
-```
+\`\`\`
 
 ---
 
@@ -621,7 +621,7 @@ export function useUndoRedo<T>(initialState: T) {
 **Why**: Creating multiple orders is tedious  
 **Implementation**:
 
-```typescript
+\`\`\`typescript
 // pages/admin/orders/BulkCreate.tsx
 export function BulkOrderCreate() {
   const [orders, setOrders] = useState<BulkOrder[]>([]);
@@ -657,7 +657,7 @@ export function BulkOrderCreate() {
     </div>
   );
 }
-```
+\`\`\`
 
 ---
 
@@ -674,7 +674,7 @@ export function BulkOrderCreate() {
 2. Migrate WizardContainer logic to use the steps
 3. Delete duplicate code
 
-```typescript
+\`\`\`typescript
 // src/pages/admin/order-create/index.tsx - UNIFIED
 export default function OrderCreatePage() {
   return (
@@ -690,7 +690,7 @@ export default function OrderCreatePage() {
 
 // All steps use same pattern
 // Step1Customer.tsx, Step2Product.tsx, etc.
-```
+\`\`\`
 
 ---
 
@@ -700,7 +700,7 @@ export default function OrderCreatePage() {
 **Problem**: Hard to test, tight coupling  
 **Solution**: API service layer
 
-```typescript
+\`\`\`typescript
 // services/api/orders.ts
 export const ordersAPI = {
   async getAll(filters?: OrderFilters) {
@@ -757,7 +757,7 @@ const { data: orders } = useQuery({
   queryKey: ['orders', filters],
   queryFn: () => ordersAPI.getAll(filters)
 });
-```
+\`\`\`
 
 **Benefits**:
 - Easy to mock for testing
@@ -769,7 +769,7 @@ const { data: orders } = useQuery({
 
 ### 🟡 **High - Add Request/Response DTOs**
 
-```typescript
+\`\`\`typescript
 // types/dto/order.dto.ts
 export interface CreateOrderDTO {
   customer_id: string;
@@ -820,14 +820,14 @@ export function toOrderDTO(formData: WizardFormData): CreateOrderDTO {
     created_by: getCurrentUser().id
   };
 }
-```
+\`\`\`
 
 ---
 
 ### 🟢 **Nice to Have - Implement Domain-Driven Design**
 
 **Structure**:
-```
+\`\`\`
 src/
   domain/
     orders/
@@ -846,7 +846,7 @@ src/
       entities/
       repositories/
       services/
-```
+\`\`\`
 
 ---
 
@@ -857,7 +857,7 @@ src/
 **Current**: Vitest setup but minimal tests  
 **Solution**: Comprehensive test coverage
 
-```typescript
+\`\`\`typescript
 // components/ui/FormField.test.tsx
 import { render, screen } from '@testing-library/react';
 import { FormField } from './FormField';
@@ -895,10 +895,10 @@ describe('FormField', () => {
     expect(screen.getByText('Looks good!')).toBeInTheDocument();
   });
 });
-```
+\`\`\`
 
 **Validation Tests**:
-```typescript
+\`\`\`typescript
 // utils/validation.test.ts
 describe('isPickupTimeValid', () => {
   beforeEach(() => {
@@ -927,7 +927,7 @@ describe('isPickupTimeValid', () => {
     expect(result.valid).toBe(false);
   });
 });
-```
+\`\`\`
 
 **Target**: 80% code coverage
 
@@ -936,13 +936,13 @@ describe('isPickupTimeValid', () => {
 ### 🟡 **High - Add E2E Tests**
 
 **Install Playwright**:
-```bash
+\`\`\`bash
 npm install -D @playwright/test
 npx playwright install
-```
+\`\`\`
 
 **E2E Test Example**:
-```typescript
+\`\`\`typescript
 // e2e/order-creation.spec.ts
 import { test, expect } from '@playwright/test';
 
@@ -992,7 +992,7 @@ test.describe('Order Creation Wizard', () => {
     await expect(page.getByText(/at least 4 hours/)).toBeVisible();
   });
 });
-```
+\`\`\`
 
 **Run**: `npx playwright test`
 
@@ -1000,7 +1000,7 @@ test.describe('Order Creation Wizard', () => {
 
 ### 🟢 **Nice to Have - Visual Regression Testing**
 
-```typescript
+\`\`\`typescript
 // e2e/visual-regression.spec.ts
 test('wizard steps match snapshots', async ({ page }) => {
   await page.goto('/orders/create');
@@ -1013,7 +1013,7 @@ test('wizard steps match snapshots', async ({ page }) => {
   
   // ... etc
 });
-```
+\`\`\`
 
 ---
 
@@ -1024,7 +1024,7 @@ test('wizard steps match snapshots', async ({ page }) => {
 **Current Issue**: No protection against abuse  
 **Solution**: Rate limiting on order creation
 
-```typescript
+\`\`\`typescript
 // middleware/rateLimit.ts
 import rateLimit from 'express-rate-limit';
 
@@ -1041,7 +1041,7 @@ export const orderCreationLimiter = rateLimit({
 app.post('/api/orders', orderCreationLimiter, async (req, res) => {
   // ... create order
 });
-```
+\`\`\`
 
 **For Supabase**: Use Supabase Edge Functions with rate limiting
 
@@ -1049,7 +1049,7 @@ app.post('/api/orders', orderCreationLimiter, async (req, res) => {
 
 ### 🟡 **High - Add Input Sanitization**
 
-```typescript
+\`\`\`typescript
 // utils/sanitize.ts
 import DOMPurify from 'dompurify';
 
@@ -1072,13 +1072,13 @@ export function sanitizeOrderData(data: any): any {
     adminNotes: sanitizeInput(data.adminNotes)
   };
 }
-```
+\`\`\`
 
 ---
 
 ### 🟡 **High - Add CSRF Protection**
 
-```typescript
+\`\`\`typescript
 // For Supabase, use secure cookies with SameSite
 const { data, error } = await supabase.auth.signInWithPassword({
   email,
@@ -1091,7 +1091,7 @@ const { data, error } = await supabase.auth.signInWithPassword({
     }
   }
 });
-```
+\`\`\`
 
 ---
 
@@ -1101,7 +1101,7 @@ const { data, error } = await supabase.auth.signInWithPassword({
 
 **Why**: Track who changed what and when
 
-```sql
+\`\`\`sql
 -- Database migration
 CREATE TABLE order_audit_log (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -1114,10 +1114,10 @@ CREATE TABLE order_audit_log (
 
 CREATE INDEX idx_order_audit_order_id ON order_audit_log(order_id);
 CREATE INDEX idx_order_audit_timestamp ON order_audit_log(timestamp DESC);
-```
+\`\`\`
 
 **Implementation**:
-```typescript
+\`\`\`typescript
 // services/orderAuditService.ts
 export async function logOrderChange(
   orderId: string,
@@ -1154,7 +1154,7 @@ export async function updateOrder(id: string, updates: any) {
   
   return { data, error };
 }
-```
+\`\`\`
 
 ---
 
@@ -1162,7 +1162,7 @@ export async function updateOrder(id: string, updates: any) {
 
 **Why**: Multiple staff editing same order
 
-```typescript
+\`\`\`typescript
 // Optimistic locking with version field
 CREATE TABLE orders (
   id UUID PRIMARY KEY,
@@ -1217,7 +1217,7 @@ export async function updateOrderWithVersionCheck(
   
   return data;
 }
-```
+\`\`\`
 
 ---
 
@@ -1225,7 +1225,7 @@ export async function updateOrderWithVersionCheck(
 
 **Why**: Reduce no-shows, improve customer service
 
-```typescript
+\`\`\`typescript
 // Supabase Edge Function: send-reminders
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from '@supabase/supabase-js';
@@ -1253,7 +1253,7 @@ serve(async (req) => {
 
 // Schedule with cron: daily at 9 AM
 // In Supabase dashboard: create cron job
-```
+\`\`\`
 
 ---
 
@@ -1262,11 +1262,11 @@ serve(async (req) => {
 ### 🟡 **High - Add Error Tracking**
 
 **Install Sentry**:
-```bash
+\`\`\`bash
 npm install @sentry/react
-```
+\`\`\`
 
-```typescript
+\`\`\`typescript
 // main.tsx
 import * as Sentry from '@sentry/react';
 
@@ -1284,13 +1284,13 @@ Sentry.init({
 
 // Wrap app
 const SentryApp = Sentry.withProfiler(App);
-```
+\`\`\`
 
 ---
 
 ### 🟡 **High - Add Analytics**
 
-```typescript
+\`\`\`typescript
 // utils/analytics.ts
 export const analytics = {
   trackEvent(event: string, properties?: any) {
@@ -1322,13 +1322,13 @@ const handleSubmit = async () => {
   const order = await createOrder(formData);
   analytics.trackOrderCreation(order);
 };
-```
+\`\`\`
 
 ---
 
 ### 🟢 **Nice to Have - Add Performance Monitoring**
 
-```typescript
+\`\`\`typescript
 // utils/performance.ts
 export function measurePerformance(metricName: string) {
   return {
@@ -1354,7 +1354,7 @@ export function measurePerformance(metricName: string) {
 const perf = measurePerformance('order_creation');
 await createOrder(data);
 perf.end();
-```
+\`\`\`
 
 ---
 

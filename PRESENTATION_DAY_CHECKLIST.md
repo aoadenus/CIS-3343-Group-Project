@@ -45,12 +45,12 @@
 ## 🔍 DAY BEFORE PRESENTATION
 
 ### Test Installation (30 minutes)
-```bash
+\`\`\`bash
 # Fresh install test
 rm -rf node_modules package-lock.json
 npm install
 npm run dev
-```
+\`\`\`
 
 **Verify**:
 - [ ] No installation errors
@@ -137,7 +137,7 @@ npm run dev
 ## 🎯 PRESENTATION MORNING
 
 ### Computer Setup (15 minutes before)
-```bash
+\`\`\`bash
 # 1. Open terminal
 cd path/to/CIS-3343-Group-Project
 
@@ -149,7 +149,7 @@ npm run dev
 
 # 4. Test login
 # Use: emily@emilybakescakes.com / password
-```
+\`\`\`
 
 **Browser Preparation**:
 - [ ] Close all other tabs
@@ -318,9 +318,9 @@ Your presentation is successful if you:
 ## 🏆 FINAL PRE-FLIGHT CHECK
 
 **30 Minutes Before Presentation**:
-```bash
+\`\`\`bash
 npm run dev
-```
+\`\`\`
 - [ ] Server starts without errors
 - [ ] Browser opens to login page
 - [ ] Can login as Owner

@@ -17,7 +17,7 @@ This document defines the complete information architecture for the Emily Bakes 
 
 ### Primary Flow: Creating a Custom Cake Order
 
-```
+\`\`\`
 1. LOGIN
    ↓
 2. DASHBOARD (Staff sees orders and quick actions)
@@ -81,7 +81,7 @@ This document defines the complete information architecture for the Emily Bakes 
     ├─ All layers with customizations
     ├─ Design images embedded
     └─ Notes for baker/decorator
-```
+\`\`\`
 
 ---
 
@@ -89,7 +89,7 @@ This document defines the complete information architecture for the Emily Bakes 
 
 ### Sitemap (Information Hierarchy)
 
-```
+\`\`\`
 EMILY BAKES CAKES (Internal Staff Application) **NOTE - Double check, havong this perfect is key!**
 │
 ├── DASHBOARD 
@@ -185,7 +185,7 @@ EMILY BAKES CAKES (Internal Staff Application) **NOTE - Double check, havong thi
     ├── Tutorials
     ├── Contact Support - Averium Solutions, include logo. **NOTE - Clarity**
     └── System Status
-```
+\`\`\`
 
 ---
 
@@ -369,7 +369,7 @@ Elements:
 
 ### Customer → Order → Customization Flow
 
-```
+\`\`\`
 Customer Record (PK: Cust_ID)
 │
 ├─ Contact Info (email, phone, address)
@@ -393,7 +393,7 @@ Customer Record (PK: Cust_ID)
             ├─ Writing Color (FK: Option_ID)
             ├─ Special Notes
             └─ Layer Images (stored in ORDER_ATTACHMENT) **NOTE - Clarity**
-```
+\`\`\`
 
 ---
 **NOTE - Clarity**

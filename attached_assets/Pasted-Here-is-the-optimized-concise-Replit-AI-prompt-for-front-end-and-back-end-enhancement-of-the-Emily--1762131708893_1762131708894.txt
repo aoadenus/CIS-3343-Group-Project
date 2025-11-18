@@ -133,4 +133,3 @@ Deploy via CI/CD pipelines to Vercel and backend hosts
 Prepare demo mode toggles and documentation
 
 Run this prompt to perform a comprehensive audit, polish, automate, and enhance the Emily Bakes Cakes web app end-to-end — from UI to backend API — with realistic data, robust security, and high-tech polish, while respecting the bakery's visual and functional identity.
-

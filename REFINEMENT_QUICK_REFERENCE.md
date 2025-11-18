@@ -8,7 +8,7 @@
 ## 🎨 1. Public Homepage Visual Hierarchy
 
 ### Hero Section
-```tsx
+\`\`\`tsx
 // 85vh full-bleed
 height: '85vh'
 
@@ -19,10 +19,10 @@ color: '#C44569'
 
 // Overlay gradient
 background: 'linear-gradient(to bottom, transparent 0%, rgba(248, 235, 215, 0.3) 100%)'
-```
+\`\`\`
 
 ### CTA Button
-```tsx
+\`\`\`tsx
 background: '#C44569'
 color: 'white'
 padding: '16px 48px'
@@ -31,15 +31,15 @@ boxShadow: '0 4px 16px rgba(196, 69, 105, 0.35)'
 
 // Hover: scale 1.05
 onHover: transform: 'scale(1.05) translateY(-2px)'
-```
+\`\`\`
 
 ### Carousel Cards
-```tsx
+\`\`\`tsx
 background: 'white'
 borderRadius: '12px'
 boxShadow: '0 4px 8px rgba(90, 56, 37, 0.12)'
 autoRotate: 4000ms // 4 seconds
-```
+\`\`\`
 
 ### 60-30-10 Color Rule
 - **60%** Cream Vanilla (#F8EBD7) - Backgrounds
@@ -51,7 +51,7 @@ autoRotate: 4000ms // 4 seconds
 ## 📊 2. Dashboard Data Density
 
 ### KPI Cards
-```tsx
+\`\`\`tsx
 // Large number
 fontFamily: 'Poppins'
 fontSize: '36px'
@@ -69,18 +69,18 @@ color: '#2B2B2B' // Charcoal Gray
 
 // Padding
 padding: '24px'
-```
+\`\`\`
 
 ### Kanban Board
-```tsx
+\`\`\`tsx
 // Drag-drop visual cue
 border: '2px dashed #C44569'
 transition: 'all 300ms ease'
 background: 'rgba(196, 69, 105, 0.08)'
-```
+\`\`\`
 
 ### Activity Feed
-```tsx
+\`\`\`tsx
 // Icon
 size: 24
 strokeWidth: 1.5
@@ -91,14 +91,14 @@ fontFamily: 'Open Sans'
 fontSize: '12px'
 color: '#2B2B2B'
 opacity: 0.7 // Charcoal Gray 70%
-```
+\`\`\`
 
 ---
 
 ## 📱 3. Mobile-First Responsive
 
 ### Breakpoints
-```css
+\`\`\`css
 /* Mobile */
 @media (max-width: 768px) {
   h1 { font-size: 28px; }
@@ -114,7 +114,7 @@ opacity: 0.7 // Charcoal Gray 70%
 @media (min-width: 1024px) {
   .grid { grid-template-columns: repeat(3, 1fr); }
 }
-```
+\`\`\`
 
 ### Mobile Features
 - ✅ Hamburger menu (animated 3-line)
@@ -128,17 +128,17 @@ opacity: 0.7 // Charcoal Gray 70%
 ## ✨ 4. Micro-Interactions
 
 ### Button Hover
-```css
+\`\`\`css
 .cta-button-hover {
   transition: all 200ms ease-out;
 }
 .cta-button-hover:hover {
   transform: scale(1.05) translateY(-2px);
 }
-```
+\`\`\`
 
 ### Card Lift
-```css
+\`\`\`css
 .card-lift {
   box-shadow: 0 2px 8px rgba(90, 56, 37, 0.12);
   transition: all 200ms ease-out;
@@ -147,10 +147,10 @@ opacity: 0.7 // Charcoal Gray 70%
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(90, 56, 37, 0.18);
 }
-```
+\`\`\`
 
 ### Form Input Focus
-```css
+\`\`\`css
 .input-focus-animation::after {
   content: '';
   position: absolute;
@@ -164,10 +164,10 @@ opacity: 0.7 // Charcoal Gray 70%
 .input-focus-animation:focus::after {
   width: 100%;
 }
-```
+\`\`\`
 
 ### Price Pulse
-```css
+\`\`\`css
 @keyframes pricePulse {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.08); }
@@ -175,10 +175,10 @@ opacity: 0.7 // Charcoal Gray 70%
 .price-pulse {
   animation: pricePulse 600ms ease-in-out;
 }
-```
+\`\`\`
 
 ### Nav Underline
-```css
+\`\`\`css
 .nav-link-underline::after {
   content: '';
   width: 0;
@@ -189,10 +189,10 @@ opacity: 0.7 // Charcoal Gray 70%
 .nav-link-underline:hover::after {
   width: 100%;
 }
-```
+\`\`\`
 
 ### Loading Skeleton
-```css
+\`\`\`css
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
@@ -207,40 +207,40 @@ opacity: 0.7 // Charcoal Gray 70%
   );
   background-size: 200% 100%;
 }
-```
+\`\`\`
 
 ---
 
 ## 📋 Quick Implementation
 
 ### Add Button Hover
-```tsx
+\`\`\`tsx
 <button className="cta-button-hover">
   Click Me
 </button>
-```
+\`\`\`
 
 ### Add Card Lift
-```tsx
+\`\`\`tsx
 <div className="card-lift">
   {/* Card content */}
 </div>
-```
+\`\`\`
 
 ### Add Input Animation
-```tsx
+\`\`\`tsx
 <input className="input-focus-animation" />
-```
+\`\`\`
 
 ### Add Nav Link
-```tsx
+\`\`\`tsx
 <a href="#" className="nav-link-underline">
   About
 </a>
-```
+\`\`\`
 
 ### Add Price Pulse
-```tsx
+\`\`\`tsx
 const [price, setPrice] = useState(50);
 
 <span 
@@ -249,7 +249,7 @@ const [price, setPrice] = useState(50);
 >
   ${price}
 </span>
-```
+\`\`\`
 
 ---
 
@@ -303,30 +303,30 @@ const [price, setPrice] = useState(50);
 ## ♿ Accessibility
 
 ### Reduced Motion
-```css
+\`\`\`css
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;
     transition: none !important;
   }
 }
-```
+\`\`\`
 
 ### Touch Targets
-```css
+\`\`\`css
 .touch-target {
   min-width: 44px;
   min-height: 44px;
 }
-```
+\`\`\`
 
 ### Focus Indicators
-```css
+\`\`\`css
 :focus-visible {
   outline: 2px solid #C44569;
   outline-offset: 2px;
 }
-```
+\`\`\`
 
 ---
 

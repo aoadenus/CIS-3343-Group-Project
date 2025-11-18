@@ -11,7 +11,7 @@ Perform a **complete visual and color-based diagnostic** across all pages and mo
 
 #### **PHASE 1 – DISCOVERY**
 1. Detect all route paths or major pages:
-   ```
+   \`\`\`
    /
    /shop
    /builder
@@ -20,7 +20,7 @@ Perform a **complete visual and color-based diagnostic** across all pages and mo
    /contact
    /login
    /admin
-   ```
+   \`\`\`
 2. For each path, open both:
    - **Preview mode** (internal Replit iframe)
    - **Network Host mode** (external .replit.dev URL)
@@ -30,13 +30,13 @@ Perform a **complete visual and color-based diagnostic** across all pages and mo
    - Wait for all animations or loaders to complete (≈ 5 seconds each)
    - Capture a full-page screenshot in **PNG** format for both modes
    - Name files:
-     ```
+     \`\`\`
      diagnostics/preview_home.png
      diagnostics/network_home.png
      diagnostics/preview_shop.png
      diagnostics/network_shop.png
      ...
-     ```
+     \`\`\`
 2. Save screenshots in a `diagnostics` folder for user download.
 
 #### **PHASE 3 – COLOR & VISUAL ANALYSIS**

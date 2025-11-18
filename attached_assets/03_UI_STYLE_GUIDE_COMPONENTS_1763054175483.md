@@ -75,7 +75,7 @@
 
 **Variants:**
 
-```jsx
+\`\`\`jsx
 // Primary (Raspberry background)
 <Button variant="primary">Save Order</Button>
 
@@ -90,7 +90,7 @@
 
 // Loading
 <Button loading>Saving...</Button>
-```
+\`\`\`
 
 **Specs:**
 - Height: 40px or 48px (touch-friendly)
@@ -117,7 +117,7 @@
 ### Form Input
 
 **Structure:**
-```jsx
+\`\`\`jsx
 <div className="form-group">
   <label htmlFor="cake-flavor">Cake Flavor</label>
   <input 
@@ -129,7 +129,7 @@
   <p id="flavor-help" className="help-text">Choose from available flavors</p>
   <p role="alert" className="error-text">This field is required</p>
 </div>
-```
+\`\`\`
 
 **Specs:**
 - Height: 40px
@@ -171,7 +171,7 @@
 **Purpose:** Allow staff to add/remove/customize up to 7 layers **Note-no max**
 
 **Structure:**
-```jsx
+\`\`\`jsx
 <div className="layer-repeater">
   <div className="layer-header">
     <h3>Layer 1 (Bottom)</h3>
@@ -191,7 +191,7 @@
 <button className="add-layer" disabled={layers.length >= 7}>
   + Add Layer
 </button>
-```
+\`\`\`
 
 **Validation:**
 - Maximum 7 layers **no max**
@@ -236,12 +236,12 @@
 ### Status Badge
 
 **Variants:**
-```jsx
+\`\`\`jsx
 <StatusBadge status="in_baking">In Baking</StatusBadge>
 <StatusBadge status="decorating">Decorating</StatusBadge>
 <StatusBadge status="ready">Ready for Pickup</StatusBadge>
 <StatusBadge status="cancelled">Cancelled</StatusBadge>
-```
+\`\`\`
 
 **Styling:**
 - Pill shape (border-radius: 20px)
@@ -262,14 +262,14 @@
 ### KPI Stat Card
 
 **Structure:**
-```jsx
+\`\`\`jsx
 <StatCard>
   <div className="stat-label">Total Revenue</div>
   <div className="stat-value">$2,450</div>
   <div className="stat-period">This Month</div>
   <div className="stat-trend">↑ 12% from last month</div>
 </StatCard>
-```
+\`\`\`
 
 **Specs:**
 - Minimum width: 200px
@@ -283,7 +283,7 @@
 ### Modal Dialog
 
 **Structure:**
-```jsx
+\`\`\`jsx
 <Modal title="Confirm Cancellation" open={isOpen}>
   <p>Are you sure you want to cancel this order? This cannot be undone.</p>
   <div className="modal-actions">
@@ -291,7 +291,7 @@
     <Button variant="danger" onClick={handleConfirm}>Confirm</Button>
   </div>
 </Modal>
-```
+\`\`\`
 
 **Specs:**
 - Overlay: Black 50% opacity
@@ -307,12 +307,12 @@
 ### Toast/Alert Notification
 
 **Variants:**
-```jsx
+\`\`\`jsx
 <Toast type="success">Order saved successfully!</Toast>
 <Toast type="error">Failed to save order. Try again.</Toast>
 <Toast type="warning">Pickup date is in 2 days</Toast>
 <Toast type="info">Order updated by another user</Toast>
-```
+\`\`\`
 
 **Specs:**
 - Position: Fixed bottom-right
@@ -423,7 +423,7 @@
 
 ## Design Tokens (CSS Variables)
 
-```css
+\`\`\`css
 :root {
   /* Colors */
   --color-primary: #C44569;
@@ -454,7 +454,7 @@
   --radius-md: 8px;
   --radius-lg: 16px;
 }
-```
+\`\`\`
 
 ---
 
@@ -462,7 +462,7 @@
 
 ### React Button Component
 
-```jsx
+\`\`\`jsx
 export const Button = ({
   variant = 'primary',
   size = 'md',
@@ -495,7 +495,7 @@ export const Button = ({
     </button>
   );
 };
-```
+\`\`\`
 
 ---
 

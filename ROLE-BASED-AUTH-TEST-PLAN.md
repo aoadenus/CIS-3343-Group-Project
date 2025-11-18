@@ -32,7 +32,7 @@ The Login component (`src/pages/admin/Login.tsx`) was **NOT calling the real aut
 - [x] Check all accounts are active (`is_active = true`)
 
 **Results:**
-```sql
+\`\`\`sql
 id | email                         | name             | role       | is_active
 1  | emily@emilybakes.com          | Emily Baker      | owner      | t
 2  | manager@emilybakes.com        | James Wilson     | manager    | t
@@ -40,7 +40,7 @@ id | email                         | name             | role       | is_active
 4  | baker@emilybakes.com          | Tom Anderson     | baker      | t
 5  | decorator@emilybakes.com      | Lisa Chen        | decorator  | t
 6  | accountant@emilybakes.com     | Dan Roberts      | accountant | t
-```
+\`\`\`
 
 ### Phase 2: Backend API Verification ✅
 - [x] Test `/api/auth/staff-login` endpoint with each account
@@ -102,10 +102,10 @@ id | email                         | name             | role       | is_active
 For each of the 6 demo accounts, perform the following:
 
 1. **Clear browser state:**
-   ```javascript
+   \`\`\`javascript
    localStorage.clear();
    // Refresh page
-   ```
+   \`\`\`
 
 2. **Navigate to login:**
    - Click "Login" button in navigation
@@ -113,10 +113,10 @@ For each of the 6 demo accounts, perform the following:
    - Verify all 6 demo credentials are displayed
 
 3. **Enter credentials:**
-   ```
+   \`\`\`
    Email: [account]@emilybakes.com
    Password: DemoPass123!
-   ```
+   \`\`\`
 
 4. **Submit login:**
    - Click "Sign In" button
@@ -190,7 +190,7 @@ None - all critical issues have been fixed.
 
 To test in browser console:
 
-```javascript
+\`\`\`javascript
 // Check current token
 const token = localStorage.getItem('token');
 console.log('Token:', token);
@@ -206,7 +206,7 @@ if (token) {
 // Clear and test fresh login
 localStorage.clear();
 location.reload();
-```
+\`\`\`
 
 ---
 

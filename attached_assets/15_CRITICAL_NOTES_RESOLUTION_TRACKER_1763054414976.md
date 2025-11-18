@@ -114,7 +114,7 @@ Your project contains **42 documented notes** across 9 files. These fall into 4 
 **Status:** 🟡 SEMI-BLOCKING - Pricing validation cannot be tested without this
 
 **Current Understanding:**
-```
+\`\`\`
 Total Price = Base Cake Price + Sum(Layer Adjustments)
 
 Example:
@@ -123,7 +123,7 @@ Example:
 - Layer 2: Vanilla ($0)
 - Layer 3: Strawberry (+$3)
 Total: $33.00
-```
+\`\`\`
 
 **Action:**
 - ✅ Confirm this formula with Emily/Professor

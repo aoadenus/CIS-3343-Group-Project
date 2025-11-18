@@ -81,17 +81,17 @@
 ## 📊 DOCUMENT SUMMARY
 
 ### QUICK_START_PRESENTATION.md (10 pages)
-```
+\`\`\`
 ✓ Test accounts for all 6 roles
 ✓ 5-minute demo walkthrough script
 ✓ Presentation talking points
 ✓ Troubleshooting guide
 ✓ Mobile demo instructions
 ✓ Backup plans if tech fails
-```
+\`\`\`
 
 ### PRESENTATION_READY_SUMMARY.md (17 pages)
-```
+\`\`\`
 ✓ Complete project overview
 ✓ 6 role dashboards explained
 ✓ 14 signature cakes list
@@ -100,20 +100,20 @@
 ✓ Technical architecture
 ✓ Page-by-page walkthrough
 ✓ Metrics and impact
-```
+\`\`\`
 
 ### PRESENTATION_BUILD_PLAN.md (4 pages)
-```
+\`\`\`
 ✓ Current state analysis
 ✓ What needed enhancement
 ✓ Build strategy
 ✓ Implementation checklist
 ✓ Brand identity guidelines
 ✓ Success criteria
-```
+\`\`\`
 
 ### PRESENTATION_DAY_CHECKLIST.md (12 pages)
-```
+\`\`\`
 ✓ Before/during/after checklists
 ✓ Test procedures for all roles
 ✓ Computer setup instructions
@@ -121,10 +121,10 @@
 ✓ Anticipated Q&A responses
 ✓ Emergency backup plans
 ✓ Post-presentation follow-up
-```
+\`\`\`
 
 ### PRESENTATION_QUICK_REFERENCE.md (8 pages)
-```
+\`\`\`
 ✓ One-page overview
 ✓ Problem/solution summary
 ✓ 6 role dashboard highlights
@@ -133,10 +133,10 @@
 ✓ Tech stack summary
 ✓ Test accounts table
 ✓ 5-minute demo flow
-```
+\`\`\`
 
 ### 00-BUILD_COMPLETE.md (12 pages)
-```
+\`\`\`
 ✓ Project status summary
 ✓ What was built (complete list)
 ✓ How it solves business problem
@@ -147,7 +147,7 @@
 ✓ Presentation structure
 ✓ Key talking points
 ✓ Success indicators
-```
+\`\`\`
 
 ---
 
@@ -178,7 +178,7 @@
 
 ## 💻 TECHNICAL QUICK START
 
-```bash
+\`\`\`bash
 # Clone/navigate to project
 cd CIS-3343-Group-Project
 
@@ -194,7 +194,7 @@ http://localhost:5173
 # Login as Owner
 Email: emily@emilybakescakes.com
 Password: password
-```
+\`\`\`
 
 ---
 

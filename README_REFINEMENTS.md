@@ -183,7 +183,7 @@
 
 ## 📂 File Structure
 
-```
+\`\`\`
 /
 ├── README_REFINEMENTS.md              ← You are here
 ├── COMPLETE_REFINEMENT_SUMMARY.md     ← Start here
@@ -228,7 +228,7 @@
 │
 └── styles/
     └── globals.css                    ← +350 lines
-```
+\`\`\`
 
 ---
 
@@ -309,15 +309,15 @@
    - [COMPONENT_LIBRARY.md](./COMPONENT_LIBRARY.md)
 
 3. **Implement Components**
-   ```tsx
+   \`\`\`tsx
    import { StandardButton, StandardInput, StandardBadge } from './components/...'
-   ```
+   \`\`\`
 
 4. **Add Accessibility**
-   ```tsx
+   \`\`\`tsx
    import { SkipLink } from './components/SkipLink'
    // Add to top of App
-   ```
+   \`\`\`
 
 5. **Test Everything**
    - Keyboard navigation

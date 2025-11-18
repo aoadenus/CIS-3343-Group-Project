@@ -9,7 +9,7 @@ The application is designed to work **with or without** a backend server thanks 
 
 ### Option 1: Frontend Only (Recommended for Quick Demo)
 
-```bash
+\`\`\`bash
 # 1. Install dependencies
 npm install
 
@@ -17,7 +17,7 @@ npm install
 npm run dev
 
 # 3. Open browser to http://localhost:5173
-```
+\`\`\`
 
 **That's it!** The app will use mock data from `src/data/presentationData.ts` and display complete dashboards for all 6 roles.
 
@@ -133,20 +133,20 @@ Use these credentials to log in as different roles:
 ## 🔧 TROUBLESHOOTING
 
 ### Port Already in Use
-```bash
+\`\`\`bash
 # Kill process on port 5173
 npx kill-port 5173
 
 # Or use different port
 npm run dev -- --port 3000
-```
+\`\`\`
 
 ### Dependencies Not Installing
-```bash
+\`\`\`bash
 # Clear cache and reinstall
 rm -rf node_modules package-lock.json
 npm install
-```
+\`\`\`
 
 ### Mock Data Not Showing
 - Check browser console for errors
@@ -196,38 +196,38 @@ The application is fully responsive! To demo on mobile:
 If you want to demo with real database:
 
 ### 1. Setup Supabase
-```bash
+\`\`\`bash
 # Create account at supabase.com
 # Create new project
 # Copy connection strings
-```
+\`\`\`
 
 ### 2. Environment Variables
 Create `.env.local`:
-```
+\`\`\`
 VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_ANON_KEY=your_anon_key
 DATABASE_URL=your_postgres_connection_string
 JWT_SECRET=your_secret_key
-```
+\`\`\`
 
 ### 3. Initialize Database
-```bash
+\`\`\`bash
 # Run schema
 npm run db:push
 
 # Seed with sample data
 npm run db:seed
-```
+\`\`\`
 
 ### 4. Start Both Servers
-```bash
+\`\`\`bash
 # Terminal 1: Backend
 npm run server:dev
 
 # Terminal 2: Frontend
 npm run dev
-```
+\`\`\`
 
 **Note**: For presentation, frontend-only with mock data is simpler and just as impressive!
 
@@ -264,11 +264,11 @@ Have these ready:
 3. **Printed documentation** (this guide + PRESENTATION_READY_SUMMARY.md)
 
 Create video backup:
-```bash
+\`\`\`bash
 # Use screen recording software
 # Record 3-minute walkthrough
 # Show login → dashboards → features → business value
-```
+\`\`\`
 
 ---
 

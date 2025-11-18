@@ -136,7 +136,7 @@ All 6 role-based dashboards now implement a **hybrid approach**:
 
 ### Pattern Used in All Dashboards
 
-```typescript
+\`\`\`typescript
 const fetchMetrics = async () => {
   try {
     const token = localStorage.getItem('token');
@@ -163,7 +163,7 @@ const fetchMetrics = async () => {
     setLoading(false);
   }
 };
-```
+\`\`\`
 
 ### Mock Data Source
 **File**: `src/data/presentationData.ts`
@@ -203,7 +203,7 @@ const fetchMetrics = async () => {
 ## 🎯 HOW TO USE
 
 ### For Class Presentation (No Backend)
-```bash
+\`\`\`bash
 # Just start the frontend
 npm run dev
 
@@ -212,12 +212,12 @@ Owner: emily@emilybakescakes.com / password
 Sales: sales@emilybakescakes.com / password
 
 # All dashboards will use mock data automatically
-```
+\`\`\`
 
 **Result**: Fully functional dashboards with realistic data
 
 ### With Backend (Production Mode)
-```bash
+\`\`\`bash
 # Setup Supabase (one-time)
 # 1. Create .env with SUPABASE_URL and SUPABASE_ANON_KEY
 # 2. Run database migrations
@@ -228,7 +228,7 @@ npm run server:dev  # Terminal 1
 npm run dev         # Terminal 2
 
 # Login - dashboards will use real API
-```
+\`\`\`
 
 **Result**: Live data from database, fallback to mock if API fails
 

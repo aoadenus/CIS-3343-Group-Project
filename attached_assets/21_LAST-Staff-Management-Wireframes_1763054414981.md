@@ -32,7 +32,7 @@
 
 ## Wireframe
 
-```
+\`\`\`
 ┌──────────────────────────────────────────────────────────────┐
 │ STAFF PERFORMANCE DASHBOARD                    [← Admin]     │
 │                                                              │
@@ -218,7 +218,7 @@
 │ └──────────────────────────────────────────────────────┘   │
 │                                                              │
 └──────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ## Component Specifications
 
@@ -234,7 +234,7 @@
 
 ## Data Source
 
-```sql
+\`\`\`sql
 SELECT 
   e.EmployeeID,
   e.Name,
@@ -251,7 +251,7 @@ LEFT JOIN reviews r ON o.OrderID = r.OrderID
 WHERE WEEK(o.OrderedDate) = WEEK(CURDATE())
 GROUP BY e.EmployeeID, e.Name, e.Role
 ORDER BY e.Role, CompletionRate DESC
-```
+\`\`\`
 
 ## Real-Time Updates
 
@@ -271,7 +271,7 @@ ORDER BY e.Role, CompletionRate DESC
 
 ## Wireframe
 
-```
+\`\`\`
 ┌──────────────────────────────────────────────────────────────┐
 │ PRODUCTION CALENDAR                                [← Back]   │
 │                                                              │
@@ -437,7 +437,7 @@ ORDER BY e.Role, CompletionRate DESC
 │ └──────────────────────────────────────────────────────┘   │
 │                                                              │
 └──────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ## Interactive Features
 
@@ -468,7 +468,7 @@ ORDER BY e.Role, CompletionRate DESC
 
 ## Wireframe
 
-```
+\`\`\`
 ┌──────────────────────────────────────────────────────────────┐
 │ STAFF SCHEDULE MANAGEMENT                      [← Admin]     │
 │                                                              │
@@ -612,7 +612,7 @@ ORDER BY e.Role, CompletionRate DESC
 │ └──────────────────────────────────────────────────────┘   │
 │                                                              │
 └──────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ## Shift Types
 
@@ -643,7 +643,7 @@ ORDER BY e.Role, CompletionRate DESC
 
 ## Wireframe
 
-```
+\`\`\`
 ┌──────────────────────────────────────────────────────────────┐
 │ NOTIFICATION CENTER                          [← Back]        │
 │                                                              │
@@ -792,7 +792,7 @@ ORDER BY e.Role, CompletionRate DESC
 │ └──────────────────────────────────────────────────────┘   │
 │                                                              │
 └──────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ## Notification Types & Priorities
 
@@ -823,7 +823,7 @@ ORDER BY e.Role, CompletionRate DESC
 
 ## Wireframe
 
-```
+\`\`\`
 ┌──────────────────────────────────────────────────────────────┐
 │ SYSTEM LOGS & AUDIT TRAIL                      [← Admin]     │
 │                                                              │
@@ -1025,7 +1025,7 @@ ORDER BY e.Role, CompletionRate DESC
 │ └──────────────────────────────────────────────────────┘   │
 │                                                              │
 └──────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ## Log Record Fields
 
@@ -1057,7 +1057,7 @@ ORDER BY e.Role, CompletionRate DESC
 
 ### Data Dependencies
 
-```
+\`\`\`
 Performance Dashboard (Page 34)
     ↓ (reads from)
 Order System, Employee Records, QC Logs
@@ -1087,7 +1087,7 @@ Audit Trail (Page 40)
 Every action from all pages
     ↓ (references)
 Compliance reporting, security
-```
+\`\`\`
 
 ### Real-Time Sync Points
 
@@ -1105,7 +1105,7 @@ Compliance reporting, security
 
 ## Complete Workflow Example
 
-```
+\`\`\`
 1. Customer places RUSH order (Page 4: New Order Wizard)
    ↓
 2. Notification sent to Manager & Sales (Page 39)
@@ -1131,7 +1131,7 @@ Compliance reporting, security
 12. Customer notified via tracking page (Page 21)
    ↓
 13. All data reflected in reports & logs
-```
+\`\`\`
 
 ---
 
@@ -1140,4 +1140,3 @@ Compliance reporting, security
 **Production Readiness:** All pages implementation-ready  
 **Integration Level:** Fully compatible with core application  
 **Last Updated:** November 6, 2025
-

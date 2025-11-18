@@ -13,12 +13,12 @@ Successfully converted the entire application to **mobile-first responsive desig
 **Location**: `/components/HamburgerIcon.tsx`
 
 **Animated 3-Line Icon**:
-```typescript
+\`\`\`typescript
 // Top line: rotates +45° when open
 // Middle line: fades out when open
 // Bottom line: rotates -45° when open
 // Smooth 300ms cubic-bezier transition
-```
+\`\`\`
 
 **Specifications**:
 - **Width**: 44px (touch-friendly)
@@ -41,12 +41,12 @@ Successfully converted the entire application to **mobile-first responsive desig
 **Location**: `/components/MobileNav.tsx`
 
 **Slide-in Animation**:
-```typescript
+\`\`\`typescript
 initial={{ x: '100%' }}
 animate={{ x: 0 }}
 exit={{ x: '100%' }}
 transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-```
+\`\`\`
 
 **Panel Specifications**:
 - **Position**: Fixed, right side
@@ -56,13 +56,13 @@ transition={{ type: 'spring', damping: 30, stiffness: 300 }}
 - **Backdrop**: Black/60 with blur
 
 **Navigation Items**:
-```css
+\`\`\`css
 padding: 16px 20px;
 min-height: 44px; /* Touch-friendly */
 font-family: 'Poppins';
 font-size: 16px;
 border-radius: 12px;
-```
+\`\`\`
 
 **Active State**:
 - Background: rgba(196, 69, 105, 0.1)
@@ -82,7 +82,7 @@ border-radius: 12px;
 **Location**: `/components/StickyBottomCTA.tsx`
 
 **Specifications**:
-```css
+\`\`\`css
 position: fixed;
 bottom: 0;
 left: 0;
@@ -91,10 +91,10 @@ z-index: 40;
 height: 60px;
 background: #C44569; /* Raspberry Pink */
 box-shadow: 0 -4px 16px rgba(90, 56, 37, 0.2);
-```
+\`\`\`
 
 **Button Styling**:
-```css
+\`\`\`css
 background: white;
 color: #C44569;
 font-family: 'Poppins';
@@ -105,7 +105,7 @@ border-radius: 12px;
 width: 100%;
 max-width: 400px;
 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-```
+\`\`\`
 
 **Features**:
 - ✅ Only visible on mobile (<768px)
@@ -116,11 +116,11 @@ box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 - ✅ Centered button with 48px height
 
 **Animation**:
-```typescript
+\`\`\`typescript
 initial={{ y: 100 }}
 animate={{ y: 0 }}
 transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-```
+\`\`\`
 
 ---
 
@@ -138,10 +138,10 @@ transition={{ type: 'spring', damping: 25, stiffness: 200 }}
 ### Accordion Step Structure
 
 **Step Header** (72px min-height):
-```
+\`\`\`
 [Circle Icon] [Step Title + Description] [Expand Icon]
   44-52px      Step N of 5                 44x44px
-```
+\`\`\`
 
 **Circle Specifications**:
 - **Size**: clamp(44px, 10vw, 52px)
@@ -160,18 +160,18 @@ transition={{ type: 'spring', damping: 25, stiffness: 200 }}
 ### Progress Bar
 
 **Top of Page**:
-```css
+\`\`\`css
 height: 8px;
 background: rgba(196, 69, 105, 0.15);
 border-radius: 8px;
-```
+\`\`\`
 
 **Fill**:
-```css
+\`\`\`css
 background: linear-gradient(90deg, #C44569 0%, #A03355 100%);
 width: calculated percentage (e.g., "60%");
 transition: 500ms ease-out;
-```
+\`\`\`
 
 **Text Indicators**:
 - Left: "Progress: X of 5 completed"
@@ -188,12 +188,12 @@ transition: 500ms ease-out;
 - Cursor: not-allowed
 
 **Open/Close Animation**:
-```typescript
+\`\`\`typescript
 initial={{ height: 0, opacity: 0 }}
 animate={{ height: 'auto', opacity: 1 }}
 exit={{ height: 0, opacity: 0 }}
 transition={{ duration: 0.3, ease: 'easeInOut' }}
-```
+\`\`\`
 
 **Auto-Progress**:
 - When step completed, automatically opens next step
@@ -248,20 +248,20 @@ transition={{ duration: 0.3, ease: 'easeInOut' }}
 - ✅ CTA buttons (48px+ height)
 
 **CSS Rule**:
-```css
+\`\`\`css
 button, a, input[type="button"], input[type="submit"] {
   min-height: 44px;
   min-width: 44px;
 }
-```
+\`\`\`
 
 **Mobile Enhancement** (<768px):
-```css
+\`\`\`css
 button, a[role="button"] {
   min-height: 48px;
   padding: 12px 20px;
 }
-```
+\`\`\`
 
 ---
 
@@ -270,14 +270,14 @@ button, a[role="button"] {
 ### H1 Heading
 
 **Before**:
-```css
+\`\`\`css
 font-size: clamp(40px, 8vw, 72px);
-```
+\`\`\`
 
 **After (Mobile-First)**:
-```css
+\`\`\`css
 font-size: clamp(28px, 6vw, 72px);
-```
+\`\`\`
 
 **Breakpoints**:
 - **375px**: 28px
@@ -310,13 +310,13 @@ font-size: clamp(28px, 6vw, 72px);
 ### Implementation: Motion/React Drag
 
 **Drag Configuration**:
-```typescript
+\`\`\`typescript
 drag="x"
 dragConstraints={{ left: 0, right: 0 }}
 dragElastic={0.2}
 onDragStart={() => setIsDragging(true)}
 onDragEnd={handleDragEnd}
-```
+\`\`\`
 
 **Swipe Threshold**: 50px horizontal drag
 
@@ -344,38 +344,38 @@ onDragEnd={handleDragEnd}
 ### Breakpoint System
 
 **375px - Small Mobile**:
-```css
+\`\`\`css
 body { font-size: 14px; }
 .container { padding-left: 16px; padding-right: 16px; }
-```
+\`\`\`
 
 **376px-767px - Medium Mobile**:
-```css
+\`\`\`css
 .container { padding-left: 20px; padding-right: 20px; }
 /* Single column layouts */
-```
+\`\`\`
 
 **768px - Tablet**:
-```css
+\`\`\`css
 .container { padding-left: 48px; padding-right: 48px; }
 /* 2-column layouts start appearing */
 /* Desktop navigation replaces hamburger */
 /* Sticky CTA bar hidden */
-```
+\`\`\`
 
 **1024px - Desktop**:
-```css
+\`\`\`css
 .container { padding-left: 64px; padding-right: 64px; }
 /* 3-4 column layouts */
 /* Full navigation visible */
-```
+\`\`\`
 
 ---
 
 ### Layout Transformations at <768px
 
 **Multi-Column → Single Column**:
-```css
+\`\`\`css
 @media (max-width: 767px) {
   .grid-cols-2,
   .grid-cols-3,
@@ -384,7 +384,7 @@ body { font-size: 14px; }
     grid-template-columns: 1fr !important;
   }
 }
-```
+\`\`\`
 
 **Applied to**:
 - ✅ Feature cards (3 columns → 1)
@@ -400,17 +400,17 @@ body { font-size: 14px; }
 ### Mobile-Specific Animations
 
 **Touch Feedback**:
-```typescript
+\`\`\`typescript
 onTouchStart={(e) => {
   e.currentTarget.style.transform = 'scale(0.98)';
 }}
 onTouchEnd={(e) => {
   e.currentTarget.style.transform = 'scale(1)';
 }}
-```
+\`\`\`
 
 **Reduced Motion Support**:
-```css
+\`\`\`css
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -421,7 +421,7 @@ onTouchEnd={(e) => {
     scroll-behavior: auto !important;
   }
 }
-```
+\`\`\`
 
 ---
 

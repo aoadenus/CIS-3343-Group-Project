@@ -29,7 +29,7 @@ Perfect! Now I have the complete context. Let me answer all **6 critical questio
 **ANSWER: Option A (Same app, different routes) WITH public website as base**
 
 **Structure:**
-``````
+\`\`\````
 PUBLIC WEBSITE: emilybakes.com (Replit main app)
 ├── /login (Customer login)
 ├── /customer/dashboard (Customer orders)
@@ -45,7 +45,7 @@ STAFF PORTAL: (same app, hidden routes)
 ├── /orders (CRUD)
 ├── /admin/* (Manager/Admin only)
 └── /reports
-```
+\`\`\`
 
 **Why:** 
 - Single deployment on Replit
@@ -72,10 +72,10 @@ STAFF PORTAL: (same app, hidden routes)
 **Trigger:** When staff creates order → send email to customer with unique tracking link
 
 **Tracking Link Example:**
-``````
+\`\`\````
 https://emilybakes.com/track/TRK-Q1-001
 Shows: Pickup time/day + auto-cycling status bar (updates every 2 min for demo)
-```
+\`\`\`
 
 ***
 
@@ -84,7 +84,7 @@ Shows: Pickup time/day + auto-cycling status bar (updates every 2 min for demo)
 **ANSWER: Option B (Manual tracking only, NO Stripe)**
 
 **Implementation:**
-```javascript```
+\`\`\`javascript```
 // In order form:
 - Deposit Amount: [input field]
 - Payment Method: [Cash / Debit / Credit]
@@ -97,7 +97,7 @@ ORDER table adds:
 ├── Deposit_Paid CHAR(1) DEFAULT 'N'
 ├── Payment_Method VARCHAR(20)
 ├── Balance_Due (calculated field)
-```
+\`\`\`
 
 **No Stripe integration** (staff enters payment info manually in form)
 
@@ -157,7 +157,7 @@ ORDER table adds:
 
 Copy/paste this:
 
-``````
+\`\`\````
 YOU ARE BUILDING: Emily Bakes Cakes
 Internal staff order management system + Public website with customer login
 
@@ -209,7 +209,7 @@ DEFER (Phase 2):
 ⏸️ Payment gateway integration (Stripe)
 
 BUILD NOW. Questions? Ask before you start.
-```
+\`\`\`
 
 ***
 

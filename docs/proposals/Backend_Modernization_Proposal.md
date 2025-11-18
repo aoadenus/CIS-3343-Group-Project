@@ -83,7 +83,7 @@ This proposal outlines a comprehensive plan to modernize the Emily Bakes Cakes b
 
 ### **High-Level System Architecture**
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────────────┐
 │                    CLIENT LAYER (React/TypeScript)              │
 ├─────────────┬──────────────┬──────────────┬────────────────────┤
@@ -151,7 +151,7 @@ This proposal outlines a comprehensive plan to modernize the Emily Bakes Cakes b
 │  │  (Payments)  │  (Text Msg)  │  (Email)      │ (Cache)  │   │
 │  └──────────────┴──────────────┴───────────────┴──────────┘   │
 └─────────────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ---
 
@@ -161,7 +161,7 @@ This proposal outlines a comprehensive plan to modernize the Emily Bakes Cakes b
 
 #### **1. Employees Table** (Critical Priority)
 
-```typescript
+\`\`\`typescript
 employees: {
   id: serial('id').primaryKey(),
   email: varchar('email', { length: 255 }).notNull().unique(),
@@ -180,11 +180,11 @@ employees: {
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow()
 }
-```
+\`\`\`
 
 #### **2. Product Options Table** (High Priority)
 
-```typescript
+\`\`\`typescript
 product_options: {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 100 }).notNull(),
@@ -199,11 +199,11 @@ product_options: {
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow()
 }
-```
+\`\`\`
 
 #### **3. Employee Assignments Table**
 
-```typescript
+\`\`\`typescript
 employee_assignments: {
   id: serial('id').primaryKey(),
   orderId: integer('order_id').references(() => orders.id).notNull(),
@@ -215,11 +215,11 @@ employee_assignments: {
   hoursSpent: decimal('hours_spent', { precision: 5, scale: 2 }),
   notes: text('notes')
 }
-```
+\`\`\`
 
 #### **4. Business Rules Configuration**
 
-```typescript
+\`\`\`typescript
 business_rules: {
   id: serial('id').primaryKey(),
   ruleKey: varchar('rule_key', { length: 100 }).notNull().unique(),
@@ -231,11 +231,11 @@ business_rules: {
   lastModifiedBy: integer('last_modified_by').references(() => employees.id),
   updatedAt: timestamp('updated_at').defaultNow()
 }
-```
+\`\`\`
 
 #### **5. Email Queue Table**
 
-```typescript
+\`\`\`typescript
 email_queue: {
   id: serial('id').primaryKey(),
   toEmail: varchar('to_email', { length: 255 }).notNull(),
@@ -250,11 +250,11 @@ email_queue: {
   templateKey: varchar('template_key', { length: 50 }),
   createdAt: timestamp('created_at').defaultNow()
 }
-```
+\`\`\`
 
 #### **6. Audit Log Table**
 
-```typescript
+\`\`\`typescript
 audit_log: {
   id: serial('id').primaryKey(),
   tableName: varchar('table_name', { length: 50 }).notNull(),
@@ -266,13 +266,13 @@ audit_log: {
   ipAddress: varchar('ip_address', { length: 45 }),
   userAgent: varchar('user_agent', { length: 255 })
 }
-```
+\`\`\`
 
 ### **Schema Updates to Existing Tables**
 
 #### **Customers Table Enhancements**
 
-```typescript
+\`\`\`typescript
 // ADD these fields to existing customers table:
 customerType: varchar('customer_type', { length: 20 }).default('retail'), // 'retail' | 'corporate'
 companyName: varchar('company_name', { length: 255 }),
@@ -282,11 +282,11 @@ city: varchar('city', { length: 60 }),
 state: varchar('state', { length: 50 }),
 zipCode: varchar('zip_code', { length: 10 }),
 taxId: varchar('tax_id', { length: 50 })
-```
+\`\`\`
 
 #### **Orders Table Enhancements**
 
-```typescript
+\`\`\`typescript
 // ADD these fields to existing orders table:
 salesStaffId: integer('sales_staff_id').references(() => employees.id),
 lastEmployeeId: integer('last_employee_id').references(() => employees.id),
@@ -294,7 +294,7 @@ finalApprovalId: integer('final_approval_id').references(() => employees.id),
 approvedAt: timestamp('approved_at'),
 isRushOrder: boolean('is_rush_order').default(false),
 completionDeadline: timestamp('completion_deadline') // eventDate - 4 hours
-```
+\`\`\`
 
 ---
 
@@ -306,7 +306,7 @@ completionDeadline: timestamp('completion_deadline') // eventDate - 4 hours
 
 #### **JWT Structure**
 
-```typescript
+\`\`\`typescript
 interface JWTPayload {
   userId: number;
   email: string;
@@ -315,11 +315,11 @@ interface JWTPayload {
   iat: number; // issued at
   exp: number; // expiration (24 hours)
 }
-```
+\`\`\`
 
 #### **Authentication Flow**
 
-```typescript
+\`\`\`typescript
 // 1. Login
 POST /api/auth/login
 {
@@ -348,7 +348,7 @@ Headers: {
 
 // 3. Logout
 POST /api/auth/logout
-```
+\`\`\`
 
 ### **Role-Based Permissions Matrix**
 
@@ -396,7 +396,7 @@ POST /api/auth/logout
 
 #### **Authentication Endpoints**
 
-```typescript
+\`\`\`typescript
 POST   /api/auth/register           // Create employee account (Owner/Manager only)
 POST   /api/auth/login              // Login with email/password
 POST   /api/auth/logout             // Logout and invalidate token
@@ -404,11 +404,11 @@ GET    /api/auth/me                 // Get current user info
 POST   /api/auth/refresh            // Refresh JWT token
 POST   /api/auth/forgot-password    // Request password reset
 POST   /api/auth/reset-password     // Reset password with token
-```
+\`\`\`
 
 #### **Employee Endpoints**
 
-```typescript
+\`\`\`typescript
 GET    /api/employees               // List all employees
 GET    /api/employees/:id           // Get employee details
 POST   /api/employees               // Create employee (Owner/Manager)
@@ -416,22 +416,22 @@ PATCH  /api/employees/:id           // Update employee
 DELETE /api/employees/:id           // Deactivate employee
 GET    /api/employees/:id/orders    // Get employee's assigned orders
 GET    /api/employees/:id/stats     // Employee productivity stats
-```
+\`\`\`
 
 #### **Employee Assignment Endpoints**
 
-```typescript
+\`\`\`typescript
 GET    /api/assignments                    // List all assignments
 POST   /api/assignments                    // Assign employee to order
 PATCH  /api/assignments/:id/start          // Mark work started
 PATCH  /api/assignments/:id/complete       // Mark work completed
 DELETE /api/assignments/:id                // Remove assignment
 GET    /api/assignments/workload           // Get workload by employee
-```
+\`\`\`
 
 #### **Product Options Endpoints**
 
-```typescript
+\`\`\`typescript
 GET    /api/options                 // Get all options (filterable by type)
 GET    /api/options/:id             // Get option details
 POST   /api/options                 // Create option (Manager only)
@@ -439,47 +439,47 @@ PATCH  /api/options/:id             // Update option
 DELETE /api/options/:id             // Deactivate option
 PATCH  /api/options/:id/toggle      // Toggle seasonal availability
 POST   /api/options/reorder         // Reorder display sequence
-```
+\`\`\`
 
 #### **Business Rules Endpoints**
 
-```typescript
+\`\`\`typescript
 GET    /api/rules                   // List all business rules
 GET    /api/rules/:key              // Get rule by key
 PATCH  /api/rules/:key              // Update rule value (Owner/Manager)
 GET    /api/rules/validate          // Validate rule changes
-```
+\`\`\`
 
 #### **Email & Notification Endpoints**
 
-```typescript
+\`\`\`typescript
 GET    /api/emails/queue            // View email queue
 POST   /api/emails/send             // Send immediate email
 GET    /api/emails/:id              // Get email details
 POST   /api/emails/test             // Send test email
-```
+\`\`\`
 
 #### **Analytics & Reporting Endpoints**
 
-```typescript
+\`\`\`typescript
 GET    /api/analytics/dashboard     // Dashboard metrics
 GET    /api/analytics/revenue       // Revenue analytics
 GET    /api/analytics/orders        // Order analytics
 GET    /api/analytics/employees     // Employee productivity
 GET    /api/analytics/customers     // Customer insights
 POST   /api/analytics/custom        // Custom report query
-```
+\`\`\`
 
 #### **Audit Log Endpoints**
 
-```typescript
+\`\`\`typescript
 GET    /api/audit                   // Get audit logs (filterable)
 GET    /api/audit/:id               // Get specific audit entry
-```
+\`\`\`
 
 ### **Enhanced Existing Endpoints**
 
-```typescript
+\`\`\`typescript
 // All endpoints now include:
 // - Authentication required (except public pages)
 // - Permission checking based on role
@@ -496,7 +496,7 @@ PATCH  /api/orders/:id
 // 4. If decorator, can only update status to 'decorating'/'decorating_complete'
 // 5. Validates business rules (e.g., can't cancel after baking started)
 // 6. Logs change to audit_log table
-```
+\`\`\`
 
 ---
 
@@ -508,7 +508,7 @@ PATCH  /api/orders/:id
 
 #### **Default Business Rules Configuration**
 
-```json
+\`\`\`json
 {
   "deposit_percentage_required": {
     "value": 50,
@@ -559,11 +559,11 @@ PATCH  /api/orders/:id
     "validation": "enum: pending,preparing,baking,decorating"
   }
 }
-```
+\`\`\`
 
 #### **Rules Validation Service**
 
-```typescript
+\`\`\`typescript
 // server/services/rulesEngine.ts
 
 export class RulesEngine {
@@ -595,7 +595,7 @@ export class RulesEngine {
     };
   }
 }
-```
+\`\`\`
 
 ---
 
@@ -603,7 +603,7 @@ export class RulesEngine {
 
 ### **Testing Pyramid**
 
-```
+\`\`\`
                     ▲
                    / \
                   /   \
@@ -617,11 +617,11 @@ export class RulesEngine {
           /                   \
          /    Unit Tests       \  (60%) - Function-level tests
         /_______________________\
-```
+\`\`\`
 
 ### **Test Suite Structure**
 
-```
+\`\`\`
 tests/
 ├── unit/
 │   ├── services/
@@ -648,11 +648,11 @@ tests/
     ├── orderFlow.test.ts
     ├── employeeWorkflow.test.ts
     └── adminOperations.test.ts
-```
+\`\`\`
 
 ### **Sample Test Cases**
 
-```typescript
+\`\`\`typescript
 // tests/integration/api/orders.test.ts
 
 describe('Order API - Role-Based Access', () => {
@@ -694,7 +694,7 @@ describe('Order API - Role-Based Access', () => {
     expect(response.body.error).toContain('at least 50%');
   });
 });
-```
+\`\`\`
 
 ---
 
@@ -752,7 +752,7 @@ describe('Order API - Role-Based Access', () => {
 
 ### **Continuous Integration/Deployment (CI/CD)**
 
-```yaml
+\`\`\`yaml
 # .github/workflows/backend-deploy.yml
 
 name: Backend CI/CD
@@ -780,7 +780,7 @@ jobs:
     steps:
       - run: npm run db:push
       - run: npm run deploy
-```
+\`\`\`
 
 ---
 
@@ -815,7 +815,7 @@ jobs:
 
 ### **ROI Calculation**
 
-```
+\`\`\`
 Total Annual Benefit = Savings + Revenue
                      = $23,340 + $30,400
                      = $53,740
@@ -827,7 +827,7 @@ ROI = (Benefit - Investment) / Investment
 Payback Period = Investment / Annual Benefit
                = $24,500 / $53,740
                = 0.46 years (5.5 months)
-```
+\`\`\`
 
 ---
 

@@ -26,7 +26,7 @@
 
 **Implementation:**
 
-```typescript
+\`\`\`typescript
 // shared/schema.ts - ADD THIS TABLE
 
 export const employees = pgTable('employees', {
@@ -58,11 +58,11 @@ export const orders = pgTable('orders', {
   isRushOrder: boolean('is_rush_order').default(false).notNull(),
   completionDeadline: timestamp('completion_deadline')
 });
-```
+\`\`\`
 
 **Seed Data:**
 
-```typescript
+\`\`\`typescript
 // server/seeds/employees.ts
 
 export const initialEmployees = [
@@ -112,17 +112,17 @@ export const initialEmployees = [
     role: 'accountant'
   }
 ];
-```
+\`\`\`
 
 **Migration Command:**
 
-```bash
+\`\`\`bash
 npm run db:push
-```
+\`\`\`
 
 **API Endpoints:**
 
-```typescript
+\`\`\`typescript
 // server/index.ts - ADD THESE ROUTES
 
 // Employee endpoints
@@ -147,7 +147,7 @@ app.post('/api/employees', authMiddleware, requireRole(['owner', 'manager']), as
   
   res.json(employee);
 });
-```
+\`\`\`
 
 #### **Day 3-4: Product Options Database Migration**
 
@@ -159,7 +159,7 @@ app.post('/api/employees', authMiddleware, requireRole(['owner', 'manager']), as
 
 **Implementation:**
 
-```typescript
+\`\`\`typescript
 // shared/schema.ts
 
 export const productOptions = pgTable('product_options', {
@@ -176,11 +176,11 @@ export const productOptions = pgTable('product_options', {
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow()
 });
-```
+\`\`\`
 
 **Migration Script:**
 
-```typescript
+\`\`\`typescript
 // server/migrations/migrateOptions.ts
 
 import { flavors, fillings, icings } from '../src/data/cakeOptions';
@@ -220,7 +220,7 @@ async function migrateOptions() {
 }
 
 // Run: npm run migrate:options
-```
+\`\`\`
 
 #### **Day 5: Customer Enhancements**
 
@@ -229,7 +229,7 @@ async function migrateOptions() {
 2. Add address fields
 3. Update customer forms
 
-```typescript
+\`\`\`typescript
 // shared/schema.ts - UPDATE customers table
 
 export const customers = pgTable('customers', {
@@ -243,7 +243,7 @@ export const customers = pgTable('customers', {
   zipCode: varchar('zip_code', { length: 10 }),
   taxId: varchar('tax_id', { length: 50 })
 });
-```
+\`\`\`
 
 ---
 
@@ -253,14 +253,14 @@ export const customers = pgTable('customers', {
 
 **Install Dependencies:**
 
-```bash
+\`\`\`bash
 npm install jsonwebtoken bcrypt cookie-parser
 npm install --save-dev @types/jsonwebtoken @types/bcrypt @types/cookie-parser
-```
+\`\`\`
 
 **Implementation:**
 
-```typescript
+\`\`\`typescript
 // server/auth/jwt.ts
 
 import jwt from 'jsonwebtoken';
@@ -283,11 +283,11 @@ export function generateToken(payload: JWTPayload): string {
 export function verifyToken(token: string): JWTPayload {
   return jwt.verify(token, JWT_SECRET) as JWTPayload;
 }
-```
+\`\`\`
 
 **Auth Middleware:**
 
-```typescript
+\`\`\`typescript
 // server/middleware/auth.ts
 
 import { Request, Response, NextFunction } from 'express';
@@ -319,11 +319,11 @@ export function authMiddleware(req: AuthRequest, res: Response, next: NextFuncti
     return res.status(401).json({ error: 'Invalid token' });
   }
 }
-```
+\`\`\`
 
 #### **Day 3-4: Login/Logout Endpoints**
 
-```typescript
+\`\`\`typescript
 // server/routes/auth.ts
 
 import express from 'express';
@@ -399,11 +399,11 @@ router.get('/me', authMiddleware, async (req, res) => {
 });
 
 export default router;
-```
+\`\`\`
 
 #### **Day 5: Role-Based Access Control**
 
-```typescript
+\`\`\`typescript
 // server/middleware/permissions.ts
 
 const rolePermissions = {
@@ -449,7 +449,7 @@ export function requirePermission(permission: string) {
     next();
   };
 }
-```
+\`\`\`
 
 ---
 
@@ -457,7 +457,7 @@ export function requirePermission(permission: string) {
 
 #### **Day 1-2: Rules Configuration Table**
 
-```typescript
+\`\`\`typescript
 // shared/schema.ts
 
 export const businessRules = pgTable('business_rules', {
@@ -471,11 +471,11 @@ export const businessRules = pgTable('business_rules', {
   lastModifiedBy: integer('last_modified_by').references(() => employees.id),
   updatedAt: timestamp('updated_at').defaultNow()
 });
-```
+\`\`\`
 
 **Seed Rules:**
 
-```typescript
+\`\`\`typescript
 // server/seeds/businessRules.ts
 
 export const defaultRules = [
@@ -508,11 +508,11 @@ export const defaultRules = [
     description: 'Hours before pickup that cake must be completed'
   }
 ];
-```
+\`\`\`
 
 #### **Day 3-5: Rules Validation Service**
 
-```typescript
+\`\`\`typescript
 // server/services/rulesEngine.ts
 
 export class RulesEngine {
@@ -578,11 +578,11 @@ export class RulesEngine {
 // Initialize
 export const rulesEngine = new RulesEngine();
 await rulesEngine.loadRules();
-```
+\`\`\`
 
 **Use in Order Creation:**
 
-```typescript
+\`\`\`typescript
 // server/routes/orders.ts
 
 router.post('/api/orders/custom', authMiddleware, async (req, res) => {
@@ -598,7 +598,7 @@ router.post('/api/orders/custom', authMiddleware, async (req, res) => {
   
   // Create order...
 });
-```
+\`\`\`
 
 ---
 
@@ -608,14 +608,14 @@ router.post('/api/orders/custom', authMiddleware, async (req, res) => {
 
 #### **Install Dependencies:**
 
-```bash
+\`\`\`bash
 npm install nodemailer
 npm install --save-dev @types/nodemailer
-```
+\`\`\`
 
 #### **Email Queue Table:**
 
-```typescript
+\`\`\`typescript
 // shared/schema.ts
 
 export const emailQueue = pgTable('email_queue', {
@@ -632,11 +632,11 @@ export const emailQueue = pgTable('email_queue', {
   templateKey: varchar('template_key', { length: 50 }),
   createdAt: timestamp('created_at').defaultNow()
 });
-```
+\`\`\`
 
 #### **Email Service:**
 
-```typescript
+\`\`\`typescript
 // server/services/emailService.ts
 
 import nodemailer from 'nodemailer';
@@ -701,7 +701,7 @@ export async function processEmailQueue() {
 
 // Run every minute
 setInterval(processEmailQueue, 60000);
-```
+\`\`\`
 
 ---
 
@@ -709,14 +709,14 @@ setInterval(processEmailQueue, 60000);
 
 **Install Dependencies:**
 
-```bash
+\`\`\`bash
 npm install socket.io
 npm install --save-dev @types/socket.io
-```
+\`\`\`
 
 **Implementation:**
 
-```typescript
+\`\`\`typescript
 // server/websocket.ts
 
 import { Server } from 'socket.io';
@@ -754,7 +754,7 @@ export function broadcastOrderUpdate(io: Server, order: any) {
   // Notify specific roles
   io.to('role:baker').emit('order:new_to_bake', order);
 }
-```
+\`\`\`
 
 ---
 
@@ -764,14 +764,14 @@ export function broadcastOrderUpdate(io: Server, order: any) {
 
 **Setup:**
 
-```bash
+\`\`\`bash
 npm install vitest supertest
 npm install --save-dev @types/supertest
-```
+\`\`\`
 
 **Test Structure:**
 
-```typescript
+\`\`\`typescript
 // tests/integration/auth.test.ts
 
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
@@ -803,7 +803,7 @@ describe('Authentication API', () => {
     expect(response.status).toBe(401);
   });
 });
-```
+\`\`\`
 
 ---
 
@@ -811,11 +811,11 @@ describe('Authentication API', () => {
 
 **OpenAPI/Swagger Documentation:**
 
-```bash
+\`\`\`bash
 npm install swagger-jsdoc swagger-ui-express
-```
+\`\`\`
 
-```typescript
+\`\`\`typescript
 // server/swagger.ts
 
 import swaggerJsDoc from 'swagger-jsdoc';
@@ -836,7 +836,7 @@ const swaggerOptions = {
 };
 
 export const swaggerSpec = swaggerJsDoc(swaggerOptions);
-```
+\`\`\`
 
 ---
 

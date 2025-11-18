@@ -64,4 +64,3 @@ Friendly empty states wherever data lists can be empty.
 Clearly explain disabled or unavailable states with tooltips.
 
 Confirm destructive actions, provide summaries or next steps after each workflow.
-

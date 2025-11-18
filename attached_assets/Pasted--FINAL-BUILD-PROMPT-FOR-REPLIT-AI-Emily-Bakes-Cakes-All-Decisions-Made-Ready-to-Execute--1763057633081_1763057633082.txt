@@ -12,7 +12,7 @@
 
 ### 🎯 YOUR 4-TIER SYSTEM (All Decisions Confirmed)
 
-```
+\`\`\`
 TIER 1: PUBLIC WEBSITE
 - Homepage (hero + featured cakes)
 - Menu (product grid)
@@ -52,7 +52,7 @@ PostgreSQL with tables:
 - order_layer (order_id, layer_number, flavor_id, filling_id, icing_id, color_id, special_notes)
 - order_status_history (id, order_id, old_status, new_status, updated_by, created_at)
 - contact_messages (id, name, email, phone, message, created_at)
-```
+\`\`\`
 
 ---
 
@@ -60,7 +60,7 @@ PostgreSQL with tables:
 
 ### 1. GOOGLE MAPS ON CONTACT PAGE
 **Decision:** Embed (no API key, fastest)
-```html
+\`\`\`html
 <iframe 
   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.1234567890!2d-118.2437!3d34.0522!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c75ddc27d001%3A0x0!2sEmily%20Bakes%20Cakes!5e0!3m2!1sen!2sus!4v..."
   width="100%" 
@@ -69,23 +69,23 @@ PostgreSQL with tables:
   allowFullScreen="" 
   loading="lazy"
 />
-```
+\`\`\`
 **Replace coordinates with:** Your actual bakery address (or hardcode: "123 Baker St, Your City")
 
 ### 2. CONTACT FORM STORAGE
 **Decision:** Email + Database
-```typescript
+\`\`\`typescript
 // On form submit:
 1. Validate all fields
 2. Save to database: contact_messages table
 3. Send email via Resend to: your-email@gmail.com
 4. Show success message: "✓ Message sent! We'll be in touch."
 5. Optionally: Enable staff to view messages in /admin/contact-messages page
-```
+\`\`\`
 
 ### 3. TRACKING PAGE AUTO-CYCLE
 **Decision:** 2 minutes per status
-```
+\`\`\`
 Timeline:
 Received (0:00-2:00) → 
 Baking (2:00-4:00) → 
@@ -95,11 +95,11 @@ Ready for Pickup (7:00+)
 
 Total cycle: ~7 minutes, then stays at "Ready"
 Refresh on page: Show current status based on time calculation
-```
+\`\`\`
 
 ### 4. TRACKING PAGE TIMERS
 **Decision:** Real elapsed time + estimated completion
-```
+\`\`\`
 Display format:
 "⏱️ Elapsed: 45 minutes
  ⏳ Estimated Complete: 2:30 PM (1 hour 15 min remaining)"
@@ -108,7 +108,7 @@ Logic:
 - Start time: When baker clicked "Start Baking" (from database)
 - Est. completion: based on cake size + layer count (hardcoded estimates)
 - Update every 10 seconds in real-time
-```
+\`\`\`
 
 ### 5. STAFF PERMISSIONS
 **Decision:** 
@@ -116,7 +116,7 @@ Logic:
 - Baker/Decorator NO revenue KPIs (only see their assigned orders)
 - Accountant/Manager see everything
 
-```typescript
+\`\`\`typescript
 // Permission Matrix:
 Permission              | Sales | Baker | Decorator | Accountant | Manager
 Create Orders           | ✓     | ✗     | ✗         | ✗          | ✓
@@ -126,11 +126,11 @@ Edit Order Status       | ✗     | ✓*    | ✓*        | ✗          | ✓
 (*own only)
 View Revenue/KPIs       | ✗     | ✗     | ✗         | ✓          | ✓
 Manage Staff/Products   | ✗     | ✗     | ✗         | ✗          | ✓
-```
+\`\`\`
 
 ### 6. EMAIL NOTIFICATIONS
 **Decision:** On order creation
-```
+\`\`\`
 Trigger: When Sales staff clicks "Confirm & Create Order"
 
 Email to customer:
@@ -158,11 +158,11 @@ Body:
   Questions? Call (555) 123-4567
 
 Method: Resend API (already installed in your project)
-```
+\`\`\`
 
 ### 7. CAKE LAYER FLEXIBILITY
 **Decision:** Completely flexible (any combination)
-```
+\`\`\`
 Rules:
 - Min layers: 1
 - Max layers: 7 (no limit per case study, but 7 is practical max)
@@ -173,11 +173,11 @@ Rules:
   * Color: (White, Pink, Blue, Gold, Green, Purple, Red, Yellow)
 - No restrictions (manager can override if needed)
 - All combinations allowed
-```
+\`\`\`
 
 ### 8. DEPOSIT CALCULATION
 **Decision:** Auto-calculate 50% (enforces business rule)
-```typescript
+\`\`\`typescript
 // Logic:
 firmPrice = user_entered_value (e.g., $95)
 depositRequired = firmPrice * 0.5  // Auto-calculated: $47.50
@@ -190,11 +190,11 @@ balanceDue = firmPrice - depositRequired
 - Deposit Amount: [_$_] (editable, but highlights 50% suggestion)
 - Validation error if: depositAmount < (firmPrice * 0.5)
 - Balance calculated automatically
-```
+\`\`\`
 
 ### 9. CUSTOMER PHOTOS
 **Decision:** URL/link only (teammate handles upload later)
-```typescript
+\`\`\`typescript
 // In order form, Step 3 (Customization):
 Label: "Reference Images (optional)"
 Field: Text input for URL
@@ -204,11 +204,11 @@ Example: "https://drive.google.com/file/d/1ABC123/view"
 // Storage: Save URL as TEXT in orders table
 // Display: In order details, show as clickable link
 // Phase 2: Replace with actual file upload to AWS S3 / Cloudinary
-```
+\`\`\`
 
 ### 10. MOBILE RESPONSIVENESS
 **Decision:** FULL mobile support (not just desktop/tablet)
-```
+\`\`\`
 Breakpoints:
 - Mobile: 375px - 768px (Tailwind: sm, md)
 - Tablet: 768px - 1024px (Tailwind: md, lg)
@@ -226,13 +226,13 @@ Key mobile considerations:
 - Images: responsive with srcset
 - Tables: card layout on mobile
 - Test: Use Chrome DevTools device emulation
-```
+\`\`\`
 
 ---
 
 ## 🔐 DEMO CREDENTIALS (6 Staff Accounts)
 
-```
+\`\`\`
 All passwords: DemoPass123!
 
 1. emily@emilybakes.com (Owner/Admin)
@@ -258,7 +258,7 @@ All passwords: DemoPass123!
 6. accountant@emilybakes.com (Accountant - Dan)
    Role: accountant
    Full Name: Dan Accountant
-```
+\`\`\`
 
 ---
 
@@ -414,7 +414,7 @@ All passwords: DemoPass123!
 
 ## 🎬 10-MINUTE DEMO SCRIPT (For Saturday)
 
-```
+\`\`\`
 DEMO WALKTHROUGH (10 minutes)
 
 INTRO (30 sec):
@@ -461,7 +461,7 @@ CLOSING (30 sec):
 - Mobile app for staff"
 
 Q&A (if time)
-```
+\`\`\`
 
 ---
 

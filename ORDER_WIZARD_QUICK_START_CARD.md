@@ -11,14 +11,14 @@ All 4 missing wizard steps built and working!
 
 ## 📂 NEW FILES CREATED (Today)
 
-```
+\`\`\`
 src/components/orderWizard/
 ├── CustomizationStep.tsx    ✨ NEW (13KB)
 ├── PricingStep.tsx           ✨ NEW (10.7KB)
 ├── SchedulingStep.tsx        ✨ NEW (12.6KB)
 ├── ReviewStep.tsx            ✨ NEW (14.4KB)
 └── PricingSidebar.tsx        ✨ NEW (5.6KB)
-```
+\`\`\`
 
 **Total:** 56.3 KB of production code, 1,630+ lines
 
@@ -75,7 +75,7 @@ src/components/orderWizard/
 
 ## 💡 HOW TO USE
 
-```typescript
+\`\`\`typescript
 import { OrderWizardDialog } from '@/components/orderWizard/OrderWizard';
 
 <OrderWizardDialog
@@ -85,7 +85,7 @@ import { OrderWizardDialog } from '@/components/orderWizard/OrderWizard';
     console.log('Created:', orderId);
   }}
 />
-```
+\`\`\`
 
 ---
 

@@ -17,11 +17,11 @@ The application is properly configured for Replit's external network host enviro
 ## 🔍 PHASE 1: ENVIRONMENT & PROXY AUDIT
 
 ### Replit Domain Detection
-```bash
+\`\`\`bash
 REPLIT_DEV_DOMAIN: a721f5a2-26f7-49c5-8928-423f82d41ffd-00-26tii9ec4y849.janeway.replit.dev
 REPL_OWNER: aoadenus
 REPL_SLUG: workspace
-```
+\`\`\`
 
 ### External URLs
 - **Preview (iframe)**: https://a721f5a2-26f7-49c5-8928-423f82d41ffd-00-26tii9ec4y849.janeway.replit.dev/
@@ -37,7 +37,7 @@ REPL_SLUG: workspace
 ## ⚙️ PHASE 2: CONFIGURATION VERIFICATION
 
 ### vite.config.ts ✅ OPTIMAL
-```typescript
+\`\`\`typescript
 export default defineConfig({
   plugins: [react()],
   base: './',  // ✅ Ensures relative asset paths in proxy
@@ -56,7 +56,7 @@ export default defineConfig({
     ],
   },
 })
-```
+\`\`\`
 
 **Analysis:**
 - ✅ All settings are optimal for Replit external HTTPS proxy
@@ -65,7 +65,7 @@ export default defineConfig({
 - ✅ Allowed hosts includes all Replit domains
 
 ### .replit ✅ CONFIGURED
-```toml
+\`\`\`toml
 modules = ["nodejs-20", "web"]
 
 [workflows.workflow.metadata]
@@ -75,7 +75,7 @@ waitForPort = 5000
 [[ports]]
 localPort = 5000
 externalPort = 80  # Maps to HTTPS port 443 externally
-```
+\`\`\`
 
 **Analysis:**
 - ✅ Workflow correctly waits for port 5000
@@ -89,7 +89,7 @@ externalPort = 80  # Maps to HTTPS port 443 externally
 ### Environment Detection (Working ✅)
 The app now includes environment detection logging:
 
-```javascript
+\`\`\`javascript
 🌐 Emily Bakes Cakes - Environment Detection
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 URL: https://a721f5a2-26f7-49c5-8928-423f82d41ffd-00-26tii9ec4y849.janeway.replit.dev/
@@ -98,7 +98,7 @@ Protocol: https:
 Is Replit External: true
 Is Preview (iframe): true
 Screen Size: 798x660
-```
+\`\`\`
 
 This logging confirms:
 - ✅ App loads from Replit external domain
@@ -107,7 +107,7 @@ This logging confirms:
 - ✅ React application is initializing
 
 ### AnimatePresence Architecture
-```typescript
+\`\`\`typescript
 // Fixed structure (single child at a time)
 <AnimatePresence mode="wait">
   {showWelcome ? (
@@ -118,17 +118,17 @@ This logging confirms:
     </motion.div>
   )}
 </AnimatePresence>
-```
+\`\`\`
 
 **Status:** ✅ Fixed - No blank screen issues
 
 ### Session Storage Logic
-```typescript
+\`\`\`typescript
 const [showWelcome, setShowWelcome] = useState(() => {
   const welcomeDone = sessionStorage.getItem('welcomeDone');
   return welcomeDone !== 'true';
 });
-```
+\`\`\`
 
 **Status:** ✅ Working - Welcome animation plays once per session
 
@@ -137,13 +137,13 @@ const [showWelcome, setShowWelcome] = useState(() => {
 ## 🌐 PHASE 4: NETWORK & CONSOLE STATUS
 
 ### Browser Console Logs (Latest)
-```
+\`\`\`
 [vite] connecting...
 [vite] connected.
 🌐 Emily Bakes Cakes - Environment Detection
 Protocol: https:
 Is Replit External: true
-```
+\`\`\`
 
 **Analysis:**
 - ✅ Vite HMR successfully connected
@@ -153,9 +153,9 @@ Is Replit External: true
 - ⚠️ Expected HMR WebSocket warnings (non-blocking)
 
 ### Known Non-Blocking Warnings
-```
+\`\`\`
 WebSocket connection to 'wss://127.0.0.1/?token=...' failed
-```
+\`\`\`
 
 **Explanation:**  
 This is expected behavior in Replit's proxy environment. Vite attempts to connect to localhost first, then falls back to the correct proxy WebSocket. This does not affect functionality.
@@ -220,11 +220,11 @@ Since automated screenshot tools can only access localhost (not the external Rep
 1. Open Developer Tools (F12 or Right-click → Inspect)
 2. Go to Console tab
 3. Look for environment detection logs:
-   ```
+   \`\`\`
    🌐 Emily Bakes Cakes - Environment Detection
    URL: https://[replit-url]
    Is Replit External: true
-   ```
+   \`\`\`
 4. Verify NO red errors (HMR warnings are OK)
 
 ### Test 3: Navigation Test

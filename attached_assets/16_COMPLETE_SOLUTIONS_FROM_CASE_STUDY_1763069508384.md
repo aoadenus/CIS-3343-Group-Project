@@ -39,13 +39,13 @@ From Case Study (Page 7-9):
 14. Cookies and Cream Cake
 
 **Store in Database:**
-```sql
+\`\`\`sql
 INSERT INTO STANDARD_CAKES VALUES
 (1, 'Birthday Celebration', 'Classic celebration cake'),
 (2, 'Almond Delight', 'Almond-based cake'),
 (3, 'Lemon and Cream Cheese', 'Lemon flavor with cream cheese filling'),
 ...etc
-```
+\`\`\`
 
 **Note Resolution:**
 - ~~"**note - stnd menu"~~ ✅ **RESOLVED:** Use list above from Case Study page 7
@@ -63,7 +63,7 @@ INSERT INTO STANDARD_CAKES VALUES
 6. Chocolate
 
 **Database Implementation:**
-```sql
+\`\`\`sql
 CREATE TABLE CAKE_FLAVOR (
   Flavor_ID INT PRIMARY KEY AUTO_INCREMENT,
   Flavor_Name VARCHAR(50) NOT NULL UNIQUE,
@@ -79,7 +79,7 @@ INSERT INTO CAKE_FLAVOR VALUES
 (4, 'Devil''s Food Chocolate', 'Rich chocolate', 1.00, 'Y'),
 (5, 'Strawberry', 'Strawberry flavored', 2.50, 'Y'),
 (6, 'Chocolate', 'Chocolate cake', 1.00, 'Y');
-```
+\`\`\`
 
 **Note Resolution:**
 - ~~"**note - clarity**~~ ✅ **RESOLVED:** Case Study specifies exactly 6 flavors
@@ -104,7 +104,7 @@ INSERT INTO CAKE_FLAVOR VALUES
 15. Mango Mousse
 
 **Database Implementation:**
-```sql
+\`\`\`sql
 CREATE TABLE FILLING_FLAVOR (
   Filling_ID INT PRIMARY KEY AUTO_INCREMENT,
   Filling_Name VARCHAR(50) NOT NULL UNIQUE,
@@ -128,7 +128,7 @@ INSERT INTO FILLING_FLAVOR VALUES
 (13, 'Raspberry Mousse', 2.00, 'Y'),
 (14, 'White Chocolate Mousse', 2.50, 'Y'),
 (15, 'Mango Mousse', 2.50, 'Y');
-```
+\`\`\`
 
 ---
 
@@ -141,7 +141,7 @@ INSERT INTO FILLING_FLAVOR VALUES
 6. Chocolate Ganache
 
 **Database Implementation:**
-```sql
+\`\`\`sql
 CREATE TABLE ICING_FLAVOR (
   Icing_ID INT PRIMARY KEY AUTO_INCREMENT,
   Icing_Name VARCHAR(50) NOT NULL UNIQUE,
@@ -156,7 +156,7 @@ INSERT INTO ICING_FLAVOR VALUES
 (4, 'White Chocolate Buttercream', 1.50, 'Y'),
 (5, 'Cream Cheese', 1.50, 'Y'),
 (6, 'Chocolate Ganache', 2.00, 'Y');
-```
+\`\`\`
 
 ---
 
@@ -170,7 +170,7 @@ INSERT INTO ICING_FLAVOR VALUES
 **Total: 40 colors**
 
 **Database Implementation:**
-```sql
+\`\`\`sql
 CREATE TABLE ICING_COLOR (
   Color_ID INT PRIMARY KEY AUTO_INCREMENT,
   Color_Name VARCHAR(50) NOT NULL UNIQUE,
@@ -219,7 +219,7 @@ INSERT INTO ICING_COLOR VALUES
 (31, 'Gray/Silver', '#808080', 'Other', 0.00, 'Y'),
 (32, 'Black', '#000000', 'Other', 0.00, 'Y'),
 (33, 'White', '#FFFFFF', 'Other', 0.00, 'Y');
-```
+\`\`\`
 
 **Note Resolution:**
 - ~~"**note - drop down menus"~~ ✅ **RESOLVED:** 33 colors from Case Study (see image)
@@ -227,7 +227,7 @@ INSERT INTO ICING_COLOR VALUES
 ---
 
 #### Cake Sizes & Pricing (From Case Study Page 8)
-```sql
+\`\`\`sql
 CREATE TABLE CAKE_SIZE (
   Size_ID INT PRIMARY KEY AUTO_INCREMENT,
   Size_Name VARCHAR(50) NOT NULL UNIQUE,
@@ -250,7 +250,7 @@ INSERT INTO CAKE_SIZE VALUES
 (7, '1/4 Sheet', '1/4 Sheet', 2, 15, 20, 40.00, 8.00, 'Y'),
 (8, '1/2 Sheet', '1/2 Sheet', 2, 30, 50, 100.00, 15.00, 'Y'),
 (9, 'Full Sheet', 'Full Sheet', 2, 90, 100, 200.00, 30.00, 'Y');
-```
+\`\`\`
 
 **Note Resolution:**
 - ~~"**note - layer pricing"~~ ✅ **RESOLVED:** All 9 sizes + prices from Case Study page 8
@@ -271,7 +271,7 @@ Case Study lists 40+ decoration options including:
 - And 20+ more...
 
 **Database Implementation:**
-```sql
+\`\`\`sql
 CREATE TABLE DECORATION_OPTION (
   Decoration_ID INT PRIMARY KEY AUTO_INCREMENT,
   Decoration_Name VARCHAR(100) NOT NULL UNIQUE,
@@ -334,7 +334,7 @@ INSERT INTO DECORATION_OPTION VALUES
 (51, 'Rainbows', 'Decorations', 3.00, 'Y'),
 (52, 'Plastic Star Explosion Insert', 'Explosions', 2.00, 'Y'),
 (53, 'Paper Parasols', 'Parasols', 1.50, 'Y');
-```
+\`\`\`
 
 ---
 
@@ -352,7 +352,7 @@ From Case Study Page 4-5, these are the business roles:
 
 **Demo Credentials Implementation:**
 
-```sql
+\`\`\`sql
 CREATE TABLE DEMO_ACCOUNTS (
   Email VARCHAR(100) PRIMARY KEY,
   Password_Hash VARCHAR(255),
@@ -382,10 +382,10 @@ INSERT INTO DEMO_ACCOUNTS VALUES
 
 -- ACCOUNTANT
 ('accountant@emilybakes.com', 'HASHED_DemoPass123!', 'Dan (CPA/Accountant)', 4, 'Accounting', 'Y');
-```
+\`\`\`
 
 **Documentation in Login Page:**
-```
+\`\`\`
 === DEMO CREDENTIALS ===
 
 Manager:
@@ -409,7 +409,7 @@ Email: accountant@emilybakes.com
 Password: DemoPass123!
 
 (Note: All demo passwords are identical for ease of testing)
-```
+\`\`\`
 
 **Note Resolution:**
 - ~~"**NOTE - demo cred"~~ ✅ **RESOLVED:** Use 9 demo accounts above
@@ -644,7 +644,7 @@ From Case Study: "Dan...provides weekly and monthly reports to James and Emily"
 ### ✅ SOLUTION: From Professor's ERD Enhancement Notes (06-UPDATE-_PROFESSOR_ERD_ENHANCEMENT_NOTES.md)
 
 **Layer Status Tracking:**
-```sql
+\`\`\`sql
 CREATE TABLE LAYER_STATUS (
   LayerStatusID INT PRIMARY KEY AUTO_INCREMENT,
   StatusCode INT UNIQUE,
@@ -662,7 +662,7 @@ INSERT INTO LAYER_STATUS VALUES
 (7, 7, 'Assembled', 'Layer stacked into final cake'),
 (8, 8, 'On Hold', 'Waiting for decision or ingredient'),
 (9, 9, 'Cancelled', 'Layer cancelled');
-```
+\`\`\`
 
 **Note Resolution:**
 - ~~"**note - layer status tracking"~~ ✅ **RESOLVED:** Use 9 statuses above

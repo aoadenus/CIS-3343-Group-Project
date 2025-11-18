@@ -29,7 +29,7 @@
 
 ## Entity Relationship Diagram (Text)
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────────────────┐
 │                     EMILY BAKES CAKES - ERD                         │
 └─────────────────────────────────────────────────────────────────────┘
@@ -97,7 +97,7 @@ ORDER_STATUS            PRODUCT (optional)
                        │ Is_Customizable  │
                        │ Is_Active        │
                        └──────────────────┘
-```
+\`\`\`
 
 ---
 
@@ -105,7 +105,7 @@ ORDER_STATUS            PRODUCT (optional)
 
 ## File: `database/migrations/001_initial_schema.sql`
 
-```sql
+\`\`\`sql
 -- ============================================================================
 -- EMILY BAKES CAKES - DATABASE MIGRATION
 -- Version: 1.0
@@ -307,7 +307,7 @@ CREATE INDEX idx_order_status ON CUSTOM_ORDER(Order_Status_ID);
 -- 2. Add demo data via seed scripts
 -- 3. Test all foreign key relationships
 -- ============================================================================
-```
+\`\`\`
 
 ---
 
@@ -315,7 +315,7 @@ CREATE INDEX idx_order_status ON CUSTOM_ORDER(Order_Status_ID);
 
 ## File: `database/seeds/001_status_enums.sql`
 
-```sql
+\`\`\`sql
 -- ============================================================================
 -- EMILY BAKES CAKES - SEED SCRIPT 1: STATUS ENUMERATIONS
 -- ============================================================================
@@ -369,11 +369,11 @@ INSERT INTO LAYER_STATUS (Status_ID, Code, Label, Description) VALUES
 (3, 'COOLING', 'Cooling', 'Layer finished baking; cooling'),
 (4, 'DECORATING', 'Decorating', 'Layer ready for and being decorated'),
 (5, 'DONE', 'Done', 'Layer complete and ready for assembly/delivery');
-```
+\`\`\`
 
 ## File: `database/seeds/002_demo_data_all_statuses.sql`
 
-```sql
+\`\`\`sql
 -- ============================================================================
 -- EMILY BAKES CAKES - SEED SCRIPT 2: DEMO DATA (ALL STATUSES)
 -- ============================================================================
@@ -560,7 +560,7 @@ VALUES
 -- - 5 Products (standard offerings)
 -- - 9 Employees (various roles for audit trail)
 -- ============================================================================
-```
+\`\`\`
 
 ---
 
@@ -568,7 +568,7 @@ VALUES
 
 ## File: `src/types/database.types.ts`
 
-```typescript
+\`\`\`typescript
 // ============================================================================
 // EMILY BAKES CAKES - TYPESCRIPT ENTITY TYPES
 // ============================================================================
@@ -705,7 +705,7 @@ export enum LayerStatusCode {
   DECORATING = 'DECORATING',
   DONE = 'DONE',
 }
-```
+\`\`\`
 
 ---
 
@@ -713,7 +713,7 @@ export enum LayerStatusCode {
 
 ## File: `backend/models/database_models.py`
 
-```python
+\`\`\`python
 # ============================================================================
 # EMILY BAKES CAKES - PYTHON DATACLASS MODELS
 # ============================================================================
@@ -864,7 +864,7 @@ class OrderLayer:
     Baking_End_Time: Optional[datetime] = None
     Estimated_Decoration_Minutes: int = 30
     Notes: Optional[str] = None
-```
+\`\`\`
 
 ---
 
@@ -872,7 +872,7 @@ class OrderLayer:
 
 ## File: `backend/models/index.js` (Sequelize Setup)
 
-```javascript
+\`\`\`javascript
 // ============================================================================
 // EMILY BAKES CAKES - SEQUELIZE ORM MODELS
 // ============================================================================
@@ -1352,7 +1352,7 @@ module.exports = {
   Product,
   OrderLayer,
 };
-```
+\`\`\`
 
 ---
 
@@ -1360,7 +1360,7 @@ module.exports = {
 
 ## For PostgreSQL
 
-```bash
+\`\`\`bash
 # ============================================================================
 # POSTGRESQL SETUP & MIGRATION
 # ============================================================================
@@ -1398,11 +1398,11 @@ SELECT COUNT(*) FROM ORDER_LAYER;        -- Should be 9
 SELECT * FROM ORDER_STATUS LIMIT 5;      -- See statuses
 
 \q
-```
+\`\`\`
 
 ## For MySQL
 
-```bash
+\`\`\`bash
 # ============================================================================
 # MYSQL SETUP & MIGRATION
 # ============================================================================
@@ -1439,11 +1439,11 @@ SELECT COUNT(*) FROM ORDER_LAYER;        -- Should be 9
 SELECT * FROM ORDER_STATUS LIMIT 5;      -- See statuses
 
 EXIT;
-```
+\`\`\`
 
 ## Node.js / Express Setup
 
-```bash
+\`\`\`bash
 # ============================================================================
 # EXPRESS.JS BACKEND SETUP
 # ============================================================================
@@ -1476,7 +1476,7 @@ sequelize.sync({ alter: true })
 # 4. Test connection
 npm start
 # Should see: "✅ Database connected to emily_bakes_cakes"
-```
+\`\`\`
 
 ---
 
@@ -1484,7 +1484,7 @@ npm start
 
 ## File: `backend/routes/orders.js` (Example Express Routes)
 
-```javascript
+\`\`\`javascript
 // ============================================================================
 // EMILY BAKES CAKES - REST API ENDPOINTS
 // ============================================================================
@@ -1663,7 +1663,7 @@ function generateTrackingToken() {
 }
 
 module.exports = router;
-```
+\`\`\`
 
 ---
 
@@ -1671,7 +1671,7 @@ module.exports = router;
 
 ## File: `data/demo-orders.json`
 
-```json
+\`\`\`json
 {
   "quarter": "Q3_FULL_CYCLE",
   "description": "Complete order status cycle for 2-minute demo tracker",
@@ -1710,7 +1710,7 @@ module.exports = router;
     }
   ]
 }
-```
+\`\`\`
 
 ---
 

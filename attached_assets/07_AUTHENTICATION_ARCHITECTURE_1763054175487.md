@@ -57,7 +57,7 @@ Your current implementation embeds staff authentication within the customer-faci
 4. **Business Reality**: Emily Bakes Cakes is a small bakery. Integrated auth is appropriate for their scale (currently ~10-15 staff members).
 
 **BUT**: Consider adding strategic hiding:
-```typescript
+\`\`\`typescript
 // Only show staff login button if user agent suggests employee access
 // Or: Add button only on internal network IP ranges
 // Or: Move button to footer with small "Staff Portal" text
@@ -66,7 +66,7 @@ Your current implementation embeds staff authentication within the customer-faci
 {process.env.REACT_APP_SHOW_STAFF_LOGIN === 'true' && (
   <StaffLoginButton />
 )}
-```
+\`\`\`
 
 ---
 
@@ -79,7 +79,7 @@ Your current implementation embeds staff authentication within the customer-faci
 ### Current State (Based on Your Codebase)
 
 Your application structure:
-```
+\`\`\`
 App.tsx (routing hub)
 ├── pages/public/
 │   ├── Home.tsx
@@ -100,7 +100,7 @@ App.tsx (routing hub)
 │   └── AdminLayout.tsx
 └── styles/
     └── globals.css (shared)
-```
+\`\`\`
 
 **This is "monolithic" but "feature-isolated"** — you can extract it with effort.
 
@@ -119,7 +119,7 @@ App.tsx (routing hub)
 
 **Current best practice**: Use feature flags to logically separate public/admin without physical separation.
 
-```typescript
+\`\`\`typescript
 // src/config/features.ts
 export const FEATURES = {
   SHOW_PUBLIC_SITE: true,
@@ -149,7 +149,7 @@ function App() {
     </Routes>
   );
 }
-```
+\`\`\`
 
 **Advantages:**
 - ✅ Zero refactoring required NOW
@@ -203,7 +203,7 @@ This is a **UX problem** and a **security problem**.
 
 #### Step 1: Define Roles in Database
 
-```sql
+\`\`\`sql
 CREATE TABLE Role (
   RoleID INT PRIMARY KEY,
   RoleName VARCHAR(50) NOT NULL,
@@ -225,11 +225,11 @@ CREATE TABLE Employee (
   RoleID INT,
   FOREIGN KEY (RoleID) REFERENCES Role(RoleID)
 );
-```
+\`\`\`
 
 #### Step 2: Create Role-Based Dashboard Components
 
-```typescript
+\`\`\`typescript
 // src/pages/admin/Dashboard.tsx
 import { useDashboard } from '../../hooks/useDashboard';
 import SalesDashboard from './dashboards/SalesDashboard';
@@ -251,7 +251,7 @@ export function Dashboard() {
 
   return dashboards[user.role] || <NotAuthorized />;
 }
-```
+\`\`\`
 
 #### Step 3: Implement Each Dashboard
 
@@ -295,7 +295,7 @@ export function Dashboard() {
 
 #### Step 4: Add Role-Based Access Control (RBAC)
 
-```typescript
+\`\`\`typescript
 // src/hooks/useAuth.ts
 export function useAuth() {
   const [user, setUser] = useState(null);
@@ -317,11 +317,11 @@ export function useAuth() {
     }
   };
 }
-```
+\`\`\`
 
 #### Step 5: Protect Routes
 
-```typescript
+\`\`\`typescript
 // src/pages/admin/AccountantPortal.tsx
 export function AccountantPortal() {
   const { user, hasRole } = useAuth();
@@ -338,7 +338,7 @@ export function AccountantPortal() {
     </>
   );
 }
-```
+\`\`\`
 
 ### Why This Matters for Your Project
 
@@ -392,7 +392,7 @@ Dan (the accountant) is a **part-time, external resource** (CPA, Emily's cousin)
 
 ### Recommendation: **Option B - Restricted Financial Dashboard**
 
-```typescript
+\`\`\`typescript
 // src/pages/admin/dashboards/AccountantDashboard.tsx
 import { useAuth } from '../../../hooks/useAuth';
 
@@ -428,7 +428,7 @@ export function AccountantDashboard() {
     </div>
   );
 }
-```
+\`\`\`
 
 ---
 
@@ -466,7 +466,7 @@ Include:
 - ✅ Future scalability notes
 
 **Excerpt from your doc:**
-```
+\`\`\`
 ## Authentication Strategy
 
 ### Decision: Keep Integrated Staff Login
@@ -485,7 +485,7 @@ Include:
 - Feature flags enable future separation
 - Shared database is appropriate
 - Single deployment simplifies DevOps
-```
+\`\`\`
 
 ---
 

@@ -6,7 +6,7 @@
 ## 🔴 CRITICAL ISSUE #1: Create Order Button
 
 ### ❌ CURRENT STATE (BROKEN)
-```
+\`\`\`
 [Staff Dashboard] 
   ↓
 [Click "Create Order" button]
@@ -14,10 +14,10 @@
 🚨 ERROR PAGE 🚨
 "Oops! Something went wrong"
 "TypeError: cannot destruct property basename..."
-```
+\`\`\`
 
 ### ✅ REQUIRED STATE
-```
+\`\`\`
 [Staff Dashboard] 
   ↓
 [Click "Create Order" button]
@@ -31,7 +31,7 @@
   ↓
 [Order created successfully]
 [Tracking email sent ✉️]
-```
+\`\`\`
 
 **IMPACT:** 🚨 CORE FUNCTIONALITY COMPLETELY BROKEN  
 **FIX TIME:** 2-4 hours (debug + test)
@@ -41,7 +41,7 @@
 ## 🔴 CRITICAL ISSUE #2: Shop Page Categories
 
 ### ❌ CURRENT STATE (WRONG)
-```
+\`\`\`
 ┌─────────────────────────────────────────┐
 │  EMILY BAKES CAKES - SHOP               │
 │                                         │
@@ -53,10 +53,10 @@
 │  ❌ Don't match case study              │
 │  ❌ Products can't be filtered          │
 └─────────────────────────────────────────┘
-```
+\`\`\`
 
 ### ✅ REQUIRED STATE (Option A: Match Case Study)
-```
+\`\`\`
 ┌─────────────────────────────────────────┐
 │  EMILY BAKES CAKES - SHOP               │
 │                                         │
@@ -68,10 +68,10 @@
 │  ✓ Products can be filtered             │
 │  ✓ Clear navigation                     │
 └─────────────────────────────────────────┘
-```
+\`\`\`
 
 ### ✅ REQUIRED STATE (Option B: Remove Filter)
-```
+\`\`\`
 ┌─────────────────────────────────────────┐
 │  EMILY BAKES CAKES - SHOP               │
 │                                         │
@@ -81,7 +81,7 @@
 │  📞 To order: Call (555) 123-4567       │
 │  ✉️ Email: orders@emilybakes.com        │
 └─────────────────────────────────────────┘
-```
+\`\`\`
 
 **IMPACT:** 🚨 VIOLATES CASE STUDY REQUIREMENTS  
 **FIX TIME:** 1-2 hours
@@ -93,7 +93,7 @@
 ### ❌ CURRENT STATE (WRONG ARCHITECTURE)
 
 **Home Page:**
-```
+\`\`\`
 ┌──────────────────────────────────────┐
 │         HERO SECTION                 │
 │   "Create Your Dream Cake"           │
@@ -103,10 +103,10 @@
 │                                      │
 │   ❌ Suggests customers can order    │
 └──────────────────────────────────────┘
-```
+\`\`\`
 
 **Gallery Page:**
-```
+\`\`\`
 ┌──────────────────────────────────────┐
 │      CAKE GALLERY                    │
 │   [Beautiful cake images]            │
@@ -115,12 +115,12 @@
 │                                      │
 │   ❌ Implies online ordering         │
 └──────────────────────────────────────┘
-```
+\`\`\`
 
 ### ✅ REQUIRED STATE (STAFF-ONLY SYSTEM)
 
 **Home Page:**
-```
+\`\`\`
 ┌──────────────────────────────────────┐
 │         HERO SECTION                 │
 │   "Handcrafted European Cakes"       │
@@ -131,10 +131,10 @@
 │                                      │
 │   ✓ Clear: Customers must call      │
 └──────────────────────────────────────┘
-```
+\`\`\`
 
 **Gallery Page:**
-```
+\`\`\`
 ┌──────────────────────────────────────┐
 │      CAKE GALLERY                    │
 │   [Beautiful cake images]            │
@@ -144,7 +144,7 @@
 │                                      │
 │   ✓ No online ordering implied       │
 └──────────────────────────────────────┘
-```
+\`\`\`
 
 **IMPACT:** 🚨 VIOLATES CORE ARCHITECTURE  
 **FIX TIME:** 1 hour per page (3 pages = 3 hours)
@@ -154,7 +154,7 @@
 ## 🟠 HIGH PRIORITY: Demo Credentials
 
 ### ❌ CURRENT STATE (TOO SMALL)
-```
+\`\`\`
 ┌─────────────────────────────────────┐
 │       LOGIN PAGE                    │
 │                                     │
@@ -167,10 +167,10 @@
 │                                     │
 │ DemoPass123 ← ❌ Tiny text          │
 └─────────────────────────────────────┘
-```
+\`\`\`
 
 ### ✅ REQUIRED STATE (PROMINENT)
-```
+\`\`\`
 ┌─────────────────────────────────────┐
 │       LOGIN PAGE                    │
 │                                     │
@@ -189,7 +189,7 @@
 │  │   6 staff accounts available│    │
 │  └────────────────────────────┘    │
 └─────────────────────────────────────┘
-```
+\`\`\`
 
 **IMPACT:** 🚨 PROFESSOR CAN'T SEE HOW TO LOGIN  
 **FIX TIME:** 15 minutes
@@ -199,7 +199,7 @@
 ## 🟠 HIGH PRIORITY: Contact Page Layout
 
 ### ❌ CURRENT STATE (POOR HIERARCHY)
-```
+\`\`\`
 ┌──────────────────────────────────────┐
 │      CONTACT US                      │
 │                                      │
@@ -223,10 +223,10 @@
 │  ✉️ Email: orders@emilybakes.com     │
 │  🏪 Address: 123 Main St             │
 └──────────────────────────────────────┘
-```
+\`\`\`
 
 ### ✅ REQUIRED STATE (BALANCED)
-```
+\`\`\`
 ┌────────────────────────────────────────┐
 │      CONTACT US                        │
 │                                        │
@@ -251,7 +251,7 @@
 │                                        │
 │  [Google Maps Embed] ← ⚠️ MISSING     │
 └────────────────────────────────────────┘
-```
+\`\`\`
 
 **IMPACT:** 🟠 CUSTOMERS CAN'T FIND CONTACT INFO  
 **FIX TIME:** 1 hour
@@ -261,7 +261,7 @@
 ## 🟠 HIGH PRIORITY: Employee Page
 
 ### ❌ CURRENT STATE ("LACKLUSTER")
-```
+\`\`\`
 ┌────────────────────────────────────┐
 │  EMPLOYEE MANAGEMENT               │
 │                                    │
@@ -279,10 +279,10 @@
 │  ❌ No details                     │
 │  ❌ Unprofessional                 │
 └────────────────────────────────────┘
-```
+\`\`\`
 
 ### ✅ REQUIRED STATE (PROFESSIONAL)
-```
+\`\`\`
 ┌────────────────────────────────────┐
 │  STAFF DIRECTORY                   │
 │  [Search] [Filter by Role]         │
@@ -315,7 +315,7 @@
 │  ✓ Key metrics                     │
 │  ✓ Professional                    │
 └────────────────────────────────────┘
-```
+\`\`\`
 
 **IMPACT:** 🟠 USER SPECIFICALLY UPSET ABOUT THIS  
 **FIX TIME:** 2-3 hours
@@ -325,16 +325,16 @@
 ## 📊 NAVIGATION COMPARISON
 
 ### ❌ CURRENT STATE (LOGIN EXPOSED)
-```
+\`\`\`
 Public Website Navigation:
 ┌─────────────────────────────────────────┐
 │ [Home] [Shop] [Gallery] [About]         │
 │ [Contact] [Login] ← ❌ EXPOSED          │
 └─────────────────────────────────────────┘
-```
+\`\`\`
 
 ### ✅ REQUIRED STATE (LOGIN HIDDEN)
-```
+\`\`\`
 Public Website Navigation:
 ┌─────────────────────────────────────────┐
 │ [Home] [Shop] [Gallery] [About]         │
@@ -348,7 +348,7 @@ Expandable Menu (☰):
 │ • Contact    │
 │ • Staff Login│ ← Hidden here
 └──────────────┘
-```
+\`\`\`
 
 **IMPACT:** 🔴 SECURITY - DON'T EXPOSE ADMIN  
 **FIX TIME:** 30 minutes
@@ -358,7 +358,7 @@ Expandable Menu (☰):
 ## 📧 EMAIL NOTIFICATION
 
 ### ⚠️ CURRENT STATE (MISSING)
-```
+\`\`\`
 [Staff creates order]
   ↓
 [Order saved to database]
@@ -366,10 +366,10 @@ Expandable Menu (☰):
 ❌ NO EMAIL SENT
   ↓
 Customer never receives tracking link
-```
+\`\`\`
 
 ### ✅ REQUIRED STATE (WORKING)
-```
+\`\`\`
 [Staff creates order]
   ↓
 [Order saved to database]
@@ -396,7 +396,7 @@ Customer never receives tracking link
 │  Deposit: $50 paid ✓             │
 │  Balance: $50 due at pickup      │
 └──────────────────────────────────┘
-```
+\`\`\`
 
 **IMPACT:** 🟠 KEY FEATURE FOR TRACKING  
 **FIX TIME:** 2-3 hours (setup + testing)
@@ -406,7 +406,7 @@ Customer never receives tracking link
 ## 📈 REPORTS STATUS
 
 ### ⚠️ CURRENT STATE (INCOMPLETE)
-```
+\`\`\`
 Reports Page:
 ├── ❓ Order Summary (status unknown)
 ├── ❓ Customer List (status unknown)
@@ -418,10 +418,10 @@ Reports Page:
 ❌ Unknown which are completed
 ❌ Unknown if Recharts working
 ❌ Unknown if exports work
-```
+\`\`\`
 
 ### ✅ REQUIRED STATE (ALL 6 COMPLETE)
-```
+\`\`\`
 Reports Page:
 ├── ✅ Order Summary 
 │   └── Bar chart + CSV/PDF export
@@ -440,7 +440,7 @@ Reports Page:
 ✓ Recharts rendering correctly
 ✓ Role-based access enforced
 ✓ Export functionality tested
-```
+\`\`\`
 
 **IMPACT:** 🟠 REQUIRED DELIVERABLE  
 **FIX TIME:** 4-6 hours (6 reports @ 1 hour each)
@@ -450,7 +450,7 @@ Reports Page:
 ## 🎯 CASE STUDY ALIGNMENT
 
 ### ❌ CURRENT VIOLATIONS
-```
+\`\`\`
 Case Study Says:
 "Staff enter ALL orders"
   └─> ❌ Public pages suggest customer ordering
@@ -470,10 +470,10 @@ Case Study Says:
 
 "2-day advance ordering"
   └─> ⚠️ Need to verify date validation
-```
+\`\`\`
 
 ### ✅ REQUIRED COMPLIANCE
-```
+\`\`\`
 Case Study Requirements:
 "Staff enter ALL orders"
   └─> ✓ No customer ordering on public pages
@@ -492,7 +492,7 @@ Case Study Requirements:
 
 "2-day advance ordering"
   └─> ✓ Date picker enforces 2-day minimum
-```
+\`\`\`
 
 ---
 

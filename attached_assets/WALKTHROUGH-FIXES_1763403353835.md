@@ -37,7 +37,7 @@ This document specifies exact fixes for all 43 identified issues from the walkth
 - Hover State: Background darkens to `#A63D54`, shadow increases to `0 4px 12px rgba(196, 69, 105, 0.35)`
 
 **HTML/JSX Example:**
-```jsx
+\`\`\`jsx
 <a 
   href="/admin/login"
   className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#C44569] text-white rounded-lg text-sm font-semibold hover:bg-[#A63D54] transition-all shadow-md hover:shadow-lg"
@@ -45,7 +45,7 @@ This document specifies exact fixes for all 43 identified issues from the walkth
   <LockIcon size={14} />
   Staff Login
 </a>
-```
+\`\`\`
 
 **Placement:** 
 - Top-right corner of header/navigation
@@ -80,9 +80,9 @@ This is solved by ISSUE 1.1's fix. The compact pink CTA button achieves balance 
 
 **Positioning Context:**
 Typical navbar structure should be:
-```
+\`\`\`
 [LOGO] [HOME] [SHOP] [GALLERY] [ABOUT] [CONTACT] [Staff Login Button] [Cart Icon]
-```
+\`\`\`
 
 The Staff Login button sits at same hierarchy level as other account items (cart), making it discoverable but not prominent to casual browsers.
 
@@ -104,17 +104,17 @@ The Staff Login button sits at same hierarchy level as other account items (cart
 Remove all `bg-gray-100` or background styling from demo credential username/password cells.
 
 **Before:**
-```jsx
+\`\`\`jsx
 <td className="px-4 py-2 bg-gray-100 text-sm font-mono">demo.sales@emilyb.com</td>
-```
+\`\`\`
 
 **After:**
-```jsx
+\`\`\`jsx
 <td className="px-4 py-2 text-sm font-mono text-gray-700">demo.sales@emilyb.com</td>
-```
+\`\`\`
 
 **Full Credentials Table Example:**
-```jsx
+\`\`\`jsx
 <table className="w-full text-sm">
   <thead>
     <tr className="border-b border-gray-200">
@@ -131,7 +131,7 @@ Remove all `bg-gray-100` or background styling from demo credential username/pas
     </tr>
   </tbody>
 </table>
-```
+\`\`\`
 
 **Why This Works:**
 - Cleaner visual appearance
@@ -154,14 +154,14 @@ Remove all `bg-gray-100` or background styling from demo credential username/pas
 **Layout Restructuring:**
 
 **Current Layout (Vertical Stack):**
-```
+\`\`\`
 [Header]
 [Login Form]
 [Long Demo Credentials Table - REQUIRES SCROLL]
-```
+\`\`\`
 
 **New Layout (Two-Column Grid):**
-```
+\`\`\`
 ┌─────────────────────────────────────┐
 │         LOGIN PAGE HEADER           │
 ├────────────────┬────────────────────┤
@@ -170,10 +170,10 @@ Remove all `bg-gray-100` or background styling from demo credential username/pas
 │  (Compact)     │  (Condensed Table) │
 │                │                    │
 └────────────────┴────────────────────┘
-```
+\`\`\`
 
 **Implementation Code:**
-```jsx
+\`\`\`jsx
 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto px-4 py-8">
   {/* Left Column: Login Form */}
   <div className="flex flex-col justify-center">
@@ -187,21 +187,21 @@ Remove all `bg-gray-100` or background styling from demo credential username/pas
     <CredentialsTable compact={true} />
   </div>
 </div>
-```
+\`\`\`
 
 **Tablet/Mobile Breakpoint:**
 - On screens < 768px: Stack vertically (collapse back to 1 column)
 - Credentials remain accessible but not blocking login flow
 
 **Container Constraints:**
-```css
+\`\`\`css
 .login-container {
   max-width: 1200px;
   min-height: 100vh; /* Full viewport height, no scroll needed */
   display: flex;
   align-items: center;
 }
-```
+\`\`\`
 
 **Why This Works:**
 - Both login form and credentials visible without scrolling
@@ -225,7 +225,7 @@ Remove all `bg-gray-100` or background styling from demo credential username/pas
 **Component:** `CredentialsToggle`
 
 **Implementation:**
-```jsx
+\`\`\`jsx
 import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
@@ -258,7 +258,7 @@ export function CredentialsToggle() {
     </div>
   );
 }
-```
+\`\`\`
 
 **Behavior:**
 - Collapsed by default (not shown on initial page load)
@@ -289,21 +289,21 @@ export function CredentialsToggle() {
 
 #### Exact Fix
 **Before:**
-```jsx
+\`\`\`jsx
 <a href="/" className="text-gray-400 hover:text-gray-600 text-sm">
   ← Back to site
 </a>
-```
+\`\`\`
 
 **After:**
-```jsx
+\`\`\`jsx
 <a 
   href="/" 
   className="inline-flex items-center gap-2 text-gray-700 font-medium hover:text-gray-900 hover:underline transition-colors"
 >
   ← Back to site
 </a>
-```
+\`\`\`
 
 **Key Changes:**
 - Font weight increased to `font-medium` (from default weight)
@@ -333,7 +333,7 @@ export function CredentialsToggle() {
 **Component:** `AccountActionDropdown`
 
 **Implementation:**
-```jsx
+\`\`\`jsx
 import { ChevronDown, LogOut, Repeat2 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -394,10 +394,10 @@ export function AccountActionDropdown() {
     </div>
   );
 }
-```
+\`\`\`
 
 **Dropdown Menu Structure:**
-```
+\`\`\`
 ┌─────────────────────────┐
 │ Logged in as:           │
 │ Sarah Chen              │ ← Current user name
@@ -407,7 +407,7 @@ export function AccountActionDropdown() {
 │ 🔄 Switch Account       │
 │ 🚪 Log Out              │ ← Red text
 └─────────────────────────┘
-```
+\`\`\`
 
 **Behavior:**
 - Appears on hover or click of "Back" button
@@ -439,7 +439,7 @@ export function AccountActionDropdown() {
 **Component:** `SignInButton`
 
 **Implementation:**
-```jsx
+\`\`\`jsx
 import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -485,7 +485,7 @@ export function LoginForm() {
     </form>
   );
 }
-```
+\`\`\`
 
 **Visual States:**
 | State | Display | Icon | Disabled |
@@ -547,7 +547,7 @@ This is addressed by combining ISSUE 2.2 (two-column layout) + ISSUE 2.3 (toggle
 **Container Restructuring:**
 
 **Before (Current - Spacing Too Generous):**
-```
+\`\`\`
 [Header: 80px]
 [Vertical Gap: 40px]
 [KPI Cards: 120px (4 cards in row)]
@@ -555,10 +555,10 @@ This is addressed by combining ISSUE 2.2 (two-column layout) + ISSUE 2.3 (toggle
 [Quick Actions: 60px]
 [Vertical Gap: 40px]
 [Recent Orders: variable]
-```
+\`\`\`
 
 **After (Optimized - Compact but Organized):**
-```
+\`\`\`
 [Header: 80px]
 [Vertical Gap: 24px] ← Reduced from 40px
 [KPI Cards: 100px (compact styling)]
@@ -566,10 +566,10 @@ This is addressed by combining ISSUE 2.2 (two-column layout) + ISSUE 2.3 (toggle
 [Quick Actions: 50px] ← Compact horizontal bar
 [Vertical Gap: 20px] ← Reduced from 40px
 [Recent Orders: variable] ← Now fits above fold
-```
+\`\`\`
 
 **Implementation Code:**
-```jsx
+\`\`\`jsx
 export function SalesDashboard() {
   return (
     <div className="min-h-screen bg-gray-50">
@@ -609,26 +609,26 @@ export function SalesDashboard() {
     </div>
   );
 }
-```
+\`\`\`
 
 **Spacing Variable Changes:**
-```css
+\`\`\`css
 /* Update Tailwind spacing in components */
 :root {
   --section-gap: 1.5rem; /* Was 2.5rem (40px), now 24px */
   --card-gap: 1rem; /* Was 1.5rem (24px), now 16px */
   --vertical-padding: 0.75rem; /* Card internal padding */
 }
-```
+\`\`\`
 
 **Card Width Optimization:**
-```jsx
+\`\`\`jsx
 // Previous: card took full width of container (too wide)
 // New: max-width constraint to prevent excessive whitespace
 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl">
   {/* Cards now constrained and more compact */}
 </div>
-```
+\`\`\`
 
 **Why This Works:**
 - Reduces scrolling (critical information above fold)
@@ -668,7 +668,7 @@ export function SalesDashboard() {
 - Clicking page content closes sidebar
 
 **Implementation Code:**
-```jsx
+\`\`\`jsx
 export function DashboardLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
@@ -728,10 +728,10 @@ export function DashboardLayout() {
     </div>
   );
 }
-```
+\`\`\`
 
 **Sidebar Navigation Structure:**
-```jsx
+\`\`\`jsx
 export function SalesNavigation() {
   return (
     <nav className="p-4 space-y-2">
@@ -761,7 +761,7 @@ export function SalesNavigation() {
     </nav>
   );
 }
-```
+\`\`\`
 
 **Why This Works:**
 - Desktop staff never lose navigation context
@@ -785,7 +785,7 @@ export function SalesNavigation() {
 **Placement - Two Locations:**
 
 **1. Header CTA (Always Visible at Top):**
-```jsx
+\`\`\`jsx
 <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
   <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
     <DashboardTitle />
@@ -800,10 +800,10 @@ export function SalesNavigation() {
     </a>
   </div>
 </header>
-```
+\`\`\`
 
 **2. Footer CTA (Always Visible at Bottom):**
-```jsx
+\`\`\`jsx
 <footer className="bg-white border-t border-gray-200 mt-12 py-6">
   <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
     <DashboardFooterInfo />
@@ -818,10 +818,10 @@ export function SalesNavigation() {
     </a>
   </div>
 </footer>
-```
+\`\`\`
 
 **Alternative: Floating Action Button (More Modern):**
-```jsx
+\`\`\`jsx
 export function FloatingCreateOrderButton() {
   return (
     <a
@@ -834,7 +834,7 @@ export function FloatingCreateOrderButton() {
     </a>
   );
 }
-```
+\`\`\`
 
 **Implementation Choice:**
 - **Header + Footer approach:** Traditional, discoverable, works with all devices
@@ -870,7 +870,7 @@ export function FloatingCreateOrderButton() {
 - Color: Very light gray (#F8F8F8) or subtle pink tint (#FFF5F5)
 
 **SVG Pattern Implementation:**
-```jsx
+\`\`\`jsx
 export function BakeryPattern() {
   return (
     <svg width="200" height="200" viewBox="0 0 200 200" style={{ opacity: 0.03 }}>
@@ -935,10 +935,10 @@ export function DashboardHeader() {
     </div>
   );
 }
-```
+\`\`\`
 
 **CSS Approach (Simpler Alternative):**
-```css
+\`\`\`css
 .dashboard-header {
   background: linear-gradient(135deg, #F8F8F8 0%, #FFFFFF 100%);
   background-image: 
@@ -948,7 +948,7 @@ export function DashboardHeader() {
   opacity: 0.05;
   position: relative;
 }
-```
+\`\`\`
 
 **Why This Works:**
 - Very subtle (3-5% opacity doesn't distract)
@@ -973,7 +973,7 @@ export function DashboardHeader() {
 #### Exact Fix
 **Complete Header Component:**
 
-```jsx
+\`\`\`jsx
 export function EnhancedDashboardHeader() {
   const currentUser = useAuth().user;
   const currentDate = new Date();
@@ -1083,17 +1083,17 @@ export function EnhancedDashboardHeader() {
     </header>
   );
 }
-```
+\`\`\`
 
 **Visual Layout:**
-```
+\`\`\`
 ┌────────────────────────────────────────────────────────┐
 │ [Logo] Sales Dashboard          Staff Name             │
 │        Mon, Nov 17, 2024        Sarah Chen  [logout]   │
 ├────────────────────────────────────────────────────────┤
 │ 🔴 3 overdue  ⏰ 5 pending deposits  ✅ Jump to 8 pickups │
 └────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 **Key Elements:**
 - Logo (Emily Bakes circular badge)
@@ -1123,7 +1123,7 @@ export function EnhancedDashboardHeader() {
 #### Exact Fix
 **Logo Component:**
 
-```jsx
+\`\`\`jsx
 export function EmilyBakesLogo() {
   return (
     <div className="flex items-center gap-3">
@@ -1146,7 +1146,7 @@ export function EmilyBakesLogo() {
     </div>
   );
 }
-```
+\`\`\`
 
 **Styling Details:**
 - Size: 10x10 (px) circular badge
@@ -1174,7 +1174,7 @@ export function EmilyBakesLogo() {
 #### Exact Fix
 **Component (Already included in Issue 4.1):**
 
-```jsx
+\`\`\`jsx
 <div className="text-right">
   <p className="text-sm font-semibold text-gray-900">{currentUser.name}</p>
   <p className="text-xs text-gray-500">{currentUser.role}</p>
@@ -1183,7 +1183,7 @@ export function EmilyBakesLogo() {
 <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white font-bold">
   {currentUser.name.charAt(0)}
 </div>
-```
+\`\`\`
 
 **Position:** Top-right of header, next to logout button
 
@@ -1200,7 +1200,7 @@ export function EmilyBakesLogo() {
 #### Exact Fix
 **Implementation (Already in Issue 4.1):**
 
-```jsx
+\`\`\`jsx
 <p className="text-xs text-gray-500">
   {new Date().toLocaleDateString('en-US', { 
     weekday: 'long', 
@@ -1209,7 +1209,7 @@ export function EmilyBakesLogo() {
     year: 'numeric' 
   })}
 </p>
-```
+\`\`\`
 
 **Output Example:**
 - "Monday, Nov 17, 2024"
@@ -1231,7 +1231,7 @@ export function EmilyBakesLogo() {
 #### Exact Fix
 **Component:** `UrgencyIndicator`
 
-```jsx
+\`\`\`jsx
 export function OverdueOrdersIndicator() {
   const { overdueOrders } = useDashboardMetrics();
   
@@ -1259,7 +1259,7 @@ export function OverdueOrdersIndicator() {
     </div>
   );
 }
-```
+\`\`\`
 
 **Definition of "Overdue":**
 - Pickup date/time < current date/time
@@ -1267,13 +1267,13 @@ export function OverdueOrdersIndicator() {
 - Visible indicator in header AND in recent orders cards
 
 **Logic:**
-```javascript
+\`\`\`javascript
 const isOverdue = (order) => {
   const pickupTime = new Date(order.pickupDateTime);
   const now = new Date();
   return pickupTime < now && order.status !== 'PICKED_UP';
 };
-```
+\`\`\`
 
 ---
 
@@ -1289,7 +1289,7 @@ const isOverdue = (order) => {
 #### Exact Fix
 **Component:** `PickupsQuickJump` (included in Issue 4.1)
 
-```jsx
+\`\`\`jsx
 export function PickupsQuickJump() {
   const { pickupsToday } = useDashboardMetrics();
   
@@ -1317,7 +1317,7 @@ export function PickupsQuickJump() {
     </button>
   );
 }
-```
+\`\`\`
 
 **Behavior:**
 - Shows number of ready pickups
@@ -1339,7 +1339,7 @@ export function PickupsQuickJump() {
 #### Exact Fix
 **Component:** `ApprovalsBadge`
 
-```jsx
+\`\`\`jsx
 export function PendingApprovalsNotification() {
   const { pendingApprovals } = useDashboardMetrics();
   
@@ -1376,7 +1376,7 @@ export function PendingApprovalsNotification() {
     </div>
   );
 }
-```
+\`\`\`
 
 **Badge Styling:**
 - Red background (indicates action needed)
@@ -1406,7 +1406,7 @@ export function PendingApprovalsNotification() {
 #### Exact Fix
 **Component:** `LogoutButton`
 
-```jsx
+\`\`\`jsx
 export function LogoutButton() {
   const router = useRouter();
   const { logout } = useAuth();
@@ -1438,7 +1438,7 @@ export function LogoutButton() {
     </button>
   );
 }
-```
+\`\`\`
 
 **Placement:** Top-right of header, after staff name/avatar
 
@@ -1481,7 +1481,7 @@ export function LogoutButton() {
 
 **KPI Card Component:**
 
-```jsx
+\`\`\`jsx
 export function KPICard({ 
   icon: Icon, 
   title, 
@@ -1591,10 +1591,10 @@ export function KPICardsGrid() {
     </div>
   );
 }
-```
+\`\`\`
 
 **Visual Layout:**
-```
+\`\`\`
 ┌──────────────┬──────────────┬──────────────┬──────────────┐
 │ 💰 Today's   │ ⚠️  Pending  │ ✅ Ready     │ 🔴 Overdue   │
 │ Revenue      │ Deposits     │ for Pickup   │ Orders       │
@@ -1602,7 +1602,7 @@ export function KPICardsGrid() {
 │ $1,240       │ $1,850       │ 8            │ 2            │
 │ Target:$2000 │ Target: $0   │              │ Target: 0    │
 └──────────────┴──────────────┴──────────────┴──────────────┘
-```
+\`\`\`
 
 **Why This Works:**
 - Each KPI directly impacts sales (revenue, cash flow, pickup workflow)
@@ -1625,20 +1625,20 @@ export function KPICardsGrid() {
 **Compact KPI Styling:**
 
 **Before (Current - Too Large):**
-```
+\`\`\`
 Height per card: 160px
 Total 4 cards: 160px height + 24px gaps = ~184px
-```
+\`\`\`
 
 **After (Optimized - Compact):**
-```
+\`\`\`
 Height per card: 120px
 Total 4 cards: 120px height + 16px gaps = ~156px
 Reduction: ~28px saved
-```
+\`\`\`
 
 **CSS Changes:**
-```jsx
+\`\`\`jsx
 // Before
 <div className="p-8"> {/* Large padding */}
   <p className="text-4xl font-bold"> {/* Large font */}
@@ -1646,10 +1646,10 @@ Reduction: ~28px saved
 // After
 <div className="p-4"> {/* Reduced padding */}
   <p className="text-2xl font-bold"> {/* Smaller font */}
-```
+\`\`\`
 
 **Implementation:**
-```jsx
+\`\`\`jsx
 export function KPICard({ ... }) {
   return (
     <button className="rounded-lg p-4 text-left border-l-4 cursor-pointer transition-all hover:shadow-md">
@@ -1668,14 +1668,14 @@ export function KPICard({ ... }) {
     </button>
   );
 }
-```
+\`\`\`
 
 **Grid Layout Optimization:**
-```jsx
+\`\`\`jsx
 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3"> {/* Was gap-4 */}
   {/* KPI Cards */}
 </div>
-```
+\`\`\`
 
 **Result:**
 - Cards still visible and readable
@@ -1739,7 +1739,7 @@ export function KPICard({ ... }) {
 
 Each KPI card is now **clickable and filters dashboard data**:
 
-```jsx
+\`\`\`jsx
 // Example: Clicking "Pending Deposits" card
 const handlePendingDepositsClick = () => {
   // Filter recent orders to show ONLY those with pending deposits
@@ -1754,11 +1754,11 @@ const handlePendingDepositsClick = () => {
   // Highlight the filtered section
   addHighlight('filtered-orders', 2000);
 };
-```
+\`\`\`
 
 **Complete Click Handlers:**
 
-```jsx
+\`\`\`jsx
 const kpiClickHandlers = {
   todayRevenue: () => {
     // Show orders from today only, grouped by product
@@ -1784,11 +1784,11 @@ const kpiClickHandlers = {
     scrollToSection('recent-orders');
   }
 };
-```
+\`\`\`
 
 **Card Click Behavior:**
 
-```jsx
+\`\`\`jsx
 <button
   onClick={kpiClickHandlers[metric.id]}
   className="group relative overflow-hidden rounded-lg p-4 cursor-pointer transition-all hover:shadow-lg"
@@ -1801,7 +1801,7 @@ const kpiClickHandlers = {
     Click to view details →
   </p>
 </button>
-```
+\`\`\`
 
 **Why This Works:**
 - Cards become entry points to detailed views
@@ -1823,7 +1823,7 @@ const kpiClickHandlers = {
 #### Exact Fix
 **Included in Issue 5.1 - KPI Card Implementation**
 
-```jsx
+\`\`\`jsx
 <KPICard
   icon={TrendingUp}
   title="Today's Revenue"
@@ -1833,11 +1833,11 @@ const kpiClickHandlers = {
   color="green"
   onClick={() => filterByRevenue()}
 />
-```
+\`\`\`
 
 **Calculation Logic:**
 
-```javascript
+\`\`\`javascript
 const calculateTodayRevenue = () => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -1851,7 +1851,7 @@ const calculateTodayRevenue = () => {
     .filter(order => ['PAID', 'PARTIAL'].includes(order.paymentStatus))
     .reduce((sum, order) => sum + order.total, 0);
 };
-```
+\`\`\`
 
 **Display Format:**
 - Currency symbol ($)
@@ -1872,7 +1872,7 @@ const calculateTodayRevenue = () => {
 #### Exact Fix
 **Included in Issue 5.1 - KPI Card Implementation**
 
-```jsx
+\`\`\`jsx
 <KPICard
   icon={AlertTriangle}
   title="Overdue Orders"
@@ -1882,11 +1882,11 @@ const calculateTodayRevenue = () => {
   color="red"
   onClick={() => filterByStatus('overdue')}
 />
-```
+\`\`\`
 
 **Calculation Logic:**
 
-```javascript
+\`\`\`javascript
 const calculateOverdueOrders = () => {
   const now = new Date();
   
@@ -1898,7 +1898,7 @@ const calculateOverdueOrders = () => {
     return isOverdue && isNotPickedUp;
   }).length;
 };
-```
+\`\`\`
 
 **Visual Indicator:**
 - Red background + icon
@@ -1930,14 +1930,14 @@ This is more practical because:
 - Can still see at a glance via color-coded badges
 
 **Implementation (See Issue 8.1):**
-```jsx
+\`\`\`jsx
 // In Recent Orders Card
 {order.isRush && (
   <div className="px-2 py-1 bg-red-100 text-red-700 text-xs font-bold rounded">
     🚨 RUSH
   </div>
 )}
-```
+\`\`\`
 
 ---
 
@@ -1972,13 +1972,13 @@ Each card filters/navigates to relevant data view:
 #### Exact Fix
 **Grid Configuration:**
 
-```jsx
+\`\`\`jsx
 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
   {/* 4 KPI cards in a row on large screens */}
   {/* 2 cards per row on tablets */}
   {/* 1 card per row on mobile */}
 </div>
-```
+\`\`\`
 
 **Responsive Behavior:**
 
@@ -1989,12 +1989,12 @@ Each card filters/navigates to relevant data view:
 | Desktop > 1024px | 4 columns | 4 | 1x height |
 
 **Implementation:**
-```jsx
+\`\`\`jsx
 // Tailwind classes
 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl"
 
 // Each card grows/shrinks to fill available width
-```
+\`\`\`
 
 **Result:**
 - Compact on all screen sizes
@@ -2019,13 +2019,13 @@ className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl"
 
 **New Dashboard Layout Order:**
 
-```
+\`\`\`
 1. Header (sticky)
 2. [NEW] Quick Actions Bar ← MOVED TO TOP
 3. KPI Cards
 4. Recent Orders / Pickups
 5. Footer
-```
+\`\`\`
 
 **Rationale:**
 - Sales staff spend 88% of time creating orders
@@ -2034,7 +2034,7 @@ className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl"
 
 **Component:** `QuickActionsBar`
 
-```jsx
+\`\`\`jsx
 export function QuickActionsBar() {
   return (
     <div className="bg-white border-b border-gray-200 py-4">
@@ -2084,11 +2084,11 @@ export function QuickActionsBar() {
     </div>
   );
 }
-```
+\`\`\`
 
 **Visual Layout:**
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────┐
 │ Quick Actions                                           │
 │ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐    │
@@ -2096,10 +2096,10 @@ export function QuickActionsBar() {
 │ │ (PINK)       │ │ (GRAY)       │ │ (BLUE)       │    │
 │ └──────────────┘ └──────────────┘ └──────────────┘    │
 └─────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 **Mobile Responsive:**
-```jsx
+\`\`\`jsx
 // Mobile: Stack vertically
 className="flex flex-wrap gap-3 md:flex-row"
 
@@ -2107,7 +2107,7 @@ className="flex flex-wrap gap-3 md:flex-row"
 <span className="hidden sm:inline">Create Order</span>
 // Show icon only on mobile
 <span className="sm:hidden">➕</span>
-```
+\`\`\`
 
 **Why This Works:**
 - Immediately visible after login
@@ -2137,14 +2137,14 @@ className="flex flex-wrap gap-3 md:flex-row"
 | Workflow/Process | Purple | Operations | #F3E8FF | bg-purple-50 |
 
 **Implementation:**
-```jsx
+\`\`\`jsx
 const buttonStyles = {
   primary: "bg-[#C44569] text-white hover:bg-[#A63D54] shadow-md",
   secondary: "bg-gray-100 text-gray-900 hover:bg-gray-200",
   tertiary: "bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200",
   workflow: "bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200"
 };
-```
+\`\`\`
 
 **Why This Works:**
 - Pink immediately recognizable as primary action
@@ -2165,7 +2165,7 @@ const buttonStyles = {
 #### Exact Fix
 **Size Differentiation:**
 
-```jsx
+\`\`\`jsx
 {/* Primary - LARGER */}
 <a
   href="/admin/order-create"
@@ -2183,7 +2183,7 @@ const buttonStyles = {
   <Search size={18} />
   <span>View All Orders</span>
 </a>
-```
+\`\`\`
 
 **Size Comparison:**
 - Primary: 18px font, 6 padding (6px horizontal), 3 padding (12px vertical)
@@ -2242,7 +2242,7 @@ Blue background, tertiary styling, smaller than primary/secondary
 #### Exact Fix
 **Order Card Enhancement with Urgency Visualization:**
 
-```jsx
+\`\`\`jsx
 export function OrderCard({ order }) {
   const urgencyLevel = calculateUrgency(order);
   
@@ -2270,7 +2270,7 @@ const calculateUrgency = (order) => {
   if (hoursUntilPickup < 6) return 'medium'; // Yellow
   return 'normal'; // Blue
 };
-```
+\`\`\`
 
 **Urgency Color Legend:**
 | Status | Hours Left | Color | Severity | Action |
@@ -2303,21 +2303,21 @@ const calculateUrgency = (order) => {
 **Compact Card Styling:**
 
 **Before:**
-```
+\`\`\`
 Order Card Height: 180px
 Spacing Between: 24px
 5 cards total: ~1,080px (requires scrolling)
-```
+\`\`\`
 
 **After:**
-```
+\`\`\`
 Order Card Height: 100px (compact)
 Spacing Between: 12px
 10 cards visible: ~1,120px but fits with smart layout
-```
+\`\`\`
 
 **Implementation:**
-```jsx
+\`\`\`jsx
 export function OrderCard({ order }) {
   return (
     <div className="border-l-4 rounded-lg p-3 bg-white shadow-sm hover:shadow-md transition-all">
@@ -2352,7 +2352,7 @@ export function OrderCard({ order }) {
     </div>
   );
 }
-```
+\`\`\`
 
 **Layout Changes:**
 - Padding: 24px → 12px
@@ -2388,7 +2388,7 @@ export function OrderCard({ order }) {
 
 **Order Name Generation Logic:**
 
-```javascript
+\`\`\`javascript
 const generateOrderName = (items) => {
   // Get all products from items
   const productNames = items.map(item => 
@@ -2422,11 +2422,11 @@ generateOrderName([
   ]}
 ]);
 // Returns: "1x Round Cake 8 in + Buttercream + Photo"
-```
+\`\`\`
 
 **Implementation in Order Display:**
 
-```jsx
+\`\`\`jsx
 // In database schema
 {
   id: "order_12345",
@@ -2441,7 +2441,7 @@ generateOrderName([
 <h3 className="font-semibold text-sm text-gray-900">
   {order.description} {/* Now shows "2 Layer Cookies/Cream Chocolate + CD" */}
 </h3>
-```
+\`\`\`
 
 **Customization Abbreviations:**
 | Full Name | Short Code |
@@ -2474,7 +2474,7 @@ generateOrderName([
 #### Exact Fix
 **Increase Display + Add Scroll:**
 
-```jsx
+\`\`\`jsx
 export function RecentOrdersSection() {
   const [displayCount, setDisplayCount] = useState(10); // Was 5
   const orders = useDashboardOrders().slice(0, displayCount);
@@ -2511,7 +2511,7 @@ export function RecentOrdersSection() {
     </section>
   );
 }
-```
+\`\`\`
 
 **Improvements:**
 - Shows 10 orders instead of 5
@@ -2543,7 +2543,7 @@ Visual elements per order card:
 
 **Complete Order Card:**
 
-```jsx
+\`\`\`jsx
 export function OrderCard({ order }) {
   const urgencyLevel = calculateUrgency(order);
   const timeRemaining = getTimeRemaining(order.pickupDateTime);
@@ -2630,7 +2630,7 @@ export function OrderCard({ order }) {
     </div>
   );
 }
-```
+\`\`\`
 
 ---
 
@@ -2646,7 +2646,7 @@ export function OrderCard({ order }) {
 #### Exact Fix
 **Sorting Controls:**
 
-```jsx
+\`\`\`jsx
 export function RecentOrdersSection() {
   const [sortBy, setSortBy] = useState('pickup-time-asc');
   
@@ -2715,7 +2715,7 @@ const sortOrders = (orders, sortBy) => {
       return sorted;
   }
 };
-```
+\`\`\`
 
 **Sorting Options:**
 - **Pickup Time (Soon First)** - Default, shows urgent pickups
@@ -2764,7 +2764,7 @@ Final order card includes:
 
 All order card details are specified in the component below:
 
-```jsx
+\`\`\`jsx
 export function OrderCardDetailed({ order }) {
   const urgencyLevel = calculateUrgency(order);
   const timeRemaining = getTimeRemaining(order.pickupDateTime);
@@ -2943,11 +2943,11 @@ export function OrderCardDetailed({ order }) {
     </div>
   );
 }
-```
+\`\`\`
 
 **Visual Result:**
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────┐
 │ ■■ Sarah Chen                              [🚨 RUSH] [READY] │
 │    2 Layer Cookies/Cream Chocolate + CD                 │
@@ -2959,7 +2959,7 @@ export function OrderCardDetailed({ order }) {
 │ [View Details] [Update Status] [Update Pickup]          │
 │                                          [✓ Mark Picked] │
 └─────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ---
 
@@ -2977,7 +2977,7 @@ export function OrderCardDetailed({ order }) {
 #### Exact Fix
 **Friendly Empty State Component:**
 
-```jsx
+\`\`\`jsx
 export function EmptyOrdersState() {
   return (
     <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
@@ -3018,7 +3018,7 @@ export function EmptyOrdersState() {
     </div>
   );
 }
-```
+\`\`\`
 
 **Styling Details:**
 - Green circle background (indicates positive/success)
@@ -3051,7 +3051,7 @@ export function EmptyOrdersState() {
 #### Exact Fix
 **Dashboard Footer Component:**
 
-```jsx
+\`\`\`jsx
 export function DashboardFooter() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const { lastUpdated, refresh } = useDashboardMetrics();
@@ -3111,7 +3111,7 @@ export function DashboardFooter() {
     </footer>
   );
 }
-```
+\`\`\`
 
 **Footer Elements:**
 
@@ -3143,7 +3143,7 @@ export function DashboardFooter() {
 #### Exact Fix
 **Container Max-Width Constraints:**
 
-```jsx
+\`\`\`jsx
 export function DashboardLayout() {
   return (
     <div className="min-h-screen bg-gray-50">
@@ -3161,10 +3161,10 @@ export function DashboardLayout() {
     </div>
   );
 }
-```
+\`\`\`
 
 **CSS Configuration:**
-```css
+\`\`\`css
 .dashboard-container {
   max-width: 80rem; /* 1280px - standard professional width */
   margin: 0 auto;
@@ -3177,14 +3177,14 @@ export function DashboardLayout() {
     max-width: 100%;
   }
 }
-```
+\`\`\`
 
 **Tailwind Implementation:**
-```
+\`\`\`
 max-w-7xl /* Sets max width to 80rem (1280px) */
 mx-auto   /* Centers container */
 px-4      /* 16px horizontal padding */
-```
+\`\`\`
 
 ---
 
@@ -3200,7 +3200,7 @@ px-4      /* 16px horizontal padding */
 #### Exact Fix
 **Subtle Card Enhancement:**
 
-```jsx
+\`\`\`jsx
 export function Card({ children, className }) {
   return (
     <div className={`
@@ -3212,10 +3212,10 @@ export function Card({ children, className }) {
     </div>
   );
 }
-```
+\`\`\`
 
 **Card Styling Details:**
-```css
+\`\`\`css
 /* Base Card */
 background: white
 border: 1px solid #f3f4f6 (very subtle)
@@ -3228,7 +3228,7 @@ transition: all 200ms ease-in-out
 
 /* Alternative: Elevated Card */
 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08)
-```
+\`\`\`
 
 **Why This Works:**
 - Subtle shadow creates depth without loudness
@@ -3250,7 +3250,7 @@ box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08)
 #### Exact Fix
 **Left Border Implementation (Already done in ISSUE 7.1)**
 
-```jsx
+\`\`\`jsx
 export function CardWithAccent({ order, variant = 'normal' }) {
   return (
     <div className={`
@@ -3264,7 +3264,7 @@ export function CardWithAccent({ order, variant = 'normal' }) {
     </div>
   );
 }
-```
+\`\`\`
 
 **Left Border Specification:**
 - Width: 4px
@@ -3294,7 +3294,7 @@ export function CardWithAccent({ order, variant = 'normal' }) {
 #### Exact Fix
 **Icon + Header Component:**
 
-```jsx
+\`\`\`jsx
 export function SectionHeader({ icon: Icon, title, count }) {
   return (
     <div className="flex items-center gap-3 mb-4">
@@ -3327,7 +3327,7 @@ export function SectionHeader({ icon: Icon, title, count }) {
   icon={Zap} 
   title="Quick Actions"
 />
-```
+\`\`\`
 
 **Icon Selection:**
 | Section | Icon | Rationale |
@@ -3372,7 +3372,7 @@ export function SectionHeader({ icon: Icon, title, count }) {
 
 **Implementation:**
 
-```jsx
+\`\`\`jsx
 export function OptimizedDashboardLayout() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -3408,10 +3408,10 @@ export function OptimizedDashboardLayout() {
     </div>
   );
 }
-```
+\`\`\`
 
 **Viewport Calculation:**
-```
+\`\`\`
 Desktop (1280px wide, 720px viewport height):
 Header: 80px
 Quick Actions: 50px
@@ -3427,7 +3427,7 @@ KPI Cards: 240px (2 cols, 2 rows)
 Spacing: 30px
 Recent Orders: ~200px (with scroll)
 Total above fold: ~650px (mostly visible)
-```
+\`\`\`
 
 ---
 

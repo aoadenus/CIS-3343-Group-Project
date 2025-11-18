@@ -377,7 +377,7 @@ Emily Bakes Cakes is a dual-interface web application featuring:
 ## 🔧 TECHNICAL IMPLEMENTATION NOTES
 
 ### **Current Architecture**
-```
+\`\`\`
 ┌─────────────────────────────────────────────┐
 │           CLIENT (React + Vite)             │
 │  ┌──────────────────┬───────────────────┐  │
@@ -416,7 +416,7 @@ Emily Bakes Cakes is a dual-interface web application featuring:
 │  │  - payments (9 attributes)           │  │
 │  └──────────────────────────────────────┘  │
 └─────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### **Key Design Patterns**
 1. **Soft Delete:** Preserves audit trail, allows data recovery
@@ -434,7 +434,7 @@ Emily Bakes Cakes is a dual-interface web application featuring:
 
 ## 📂 FILE STRUCTURE
 
-```
+\`\`\`
 emily-bakes-cakes/
 ├── docs/                              # 📚 This documentation suite
 │   ├── README.md                      # Overview (this file)
@@ -461,7 +461,7 @@ emily-bakes-cakes/
 ├── package.json                       # Dependencies
 ├── vite.config.ts                     # Vite configuration
 └── replit.md                          # Project overview
-```
+\`\`\`
 
 ---
 
@@ -515,23 +515,23 @@ For CIS 3343 submission, this documentation suite provides:
 ## 📞 SUPPORT & MAINTENANCE
 
 ### **Database Migrations**
-```bash
+\`\`\`bash
 # Push schema changes to database
 npm run db:push
 
 # Force push if needed (be careful!)
 npm run db:push --force
-```
+\`\`\`
 
 ### **Development Workflow**
-```bash
+\`\`\`bash
 # Start both servers (backend + frontend)
 # Workflow: backend-server (port 8080)
 # Workflow: dev-server (port 5000)
 
 # Frontend runs on port 5000 (required for Replit)
 # Backend API runs on port 8080
-```
+\`\`\`
 
 ### **Common Issues**
 

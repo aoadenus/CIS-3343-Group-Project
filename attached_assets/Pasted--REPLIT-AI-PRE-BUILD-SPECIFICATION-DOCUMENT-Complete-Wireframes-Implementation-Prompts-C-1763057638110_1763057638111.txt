@@ -22,7 +22,7 @@
 
 ### 4-Tier System Architecture
 
-```
+\`\`\`
 TIER 1: PUBLIC WEBSITE (Customer-Facing)
 ├── Homepage (Gallery + Hero)
 ├── About Page
@@ -52,7 +52,7 @@ TIER 4: DATABASE (PostgreSQL)
 ├── Staff/Employees table
 ├── Order_Status_History table
 └── Products/Inventory table
-```
+\`\`\`
 
 ---
 
@@ -63,7 +63,7 @@ TIER 4: DATABASE (PostgreSQL)
 ## PAGE 1: PUBLIC HOMEPAGE
 
 ### Wireframe (ASCII)
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │                   EMILY BAKES CAKES                  │
 │                  🍰 Beautiful Custom Cakes           │
@@ -93,7 +93,7 @@ TIER 4: DATABASE (PostgreSQL)
 ├─────────────────────────────────────────────────────┤
 │  FOOTER: Contact info, social links, hours         │
 └─────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### Specifications
 
@@ -118,7 +118,7 @@ TIER 4: DATABASE (PostgreSQL)
 ## PAGE 2: MENU PAGE
 
 ### Wireframe (ASCII)
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │                    MENU                              │
 ├─────────────────────────────────────────────────────┤
@@ -141,7 +141,7 @@ TIER 4: DATABASE (PostgreSQL)
 │  Vanilla, Chocolate, Red Velvet, Lemon, etc.       │
 │  (Not orderable directly - customers call)         │
 └─────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### Specifications
 
@@ -162,7 +162,7 @@ TIER 4: DATABASE (PostgreSQL)
 ## PAGE 3: GALLERY PAGE
 
 ### Wireframe (ASCII)
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │                    GALLERY                           │
 │          SHOWCASE OF PAST CREATIONS                  │
@@ -186,7 +186,7 @@ TIER 4: DATABASE (PostgreSQL)
 │  LIGHTBOX on image click (view full size)           │
 │  Navigation arrows, close button                    │
 └─────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### Specifications
 
@@ -207,7 +207,7 @@ TIER 4: DATABASE (PostgreSQL)
 ## PAGE 4: CONTACT PAGE
 
 ### Wireframe (ASCII)
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │                    CONTACT US                        │
 ├─────────────────────────────────────────────────────┤
@@ -238,7 +238,7 @@ TIER 4: DATABASE (PostgreSQL)
 │                                                      │
 │  SOCIAL LINKS: Facebook, Instagram, TikTok         │
 └─────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### Specifications
 
@@ -270,7 +270,7 @@ TIER 4: DATABASE (PostgreSQL)
 ## PAGE 5: STAFF LOGIN PAGE
 
 ### Wireframe (ASCII)
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │                                                      │
 │                   EMILY BAKES CAKES                  │
@@ -290,7 +290,7 @@ TIER 4: DATABASE (PostgreSQL)
 │                                                      │
 │            Authorized staff only                    │
 └─────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### Specifications
 
@@ -313,7 +313,7 @@ TIER 4: DATABASE (PostgreSQL)
 ## PAGE 6: SALES DASHBOARD
 
 ### Wireframe (ASCII)
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │  EMILY BAKES CAKES | Sales Dashboard | [Logout]    │
 ├─────────────────────────────────────────────────────┤
@@ -341,7 +341,7 @@ TIER 4: DATABASE (PostgreSQL)
 │  CHART: Revenue Last 7 Days (Bar chart)             │
 │  [Recharts Line chart]                              │
 └─────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### Specifications
 
@@ -363,7 +363,7 @@ TIER 4: DATABASE (PostgreSQL)
 ## PAGE 7: BAKER DASHBOARD
 
 ### Wireframe (ASCII)
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │  EMILY BAKES CAKES | Baker Queue | [Logout]        │
 ├─────────────────────────────────────────────────────┤
@@ -391,7 +391,7 @@ TIER 4: DATABASE (PostgreSQL)
 │  CHART: Cakes Baked This Week                       │
 │  [Recharts area chart]                              │
 └─────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### Specifications
 
@@ -412,7 +412,7 @@ TIER 4: DATABASE (PostgreSQL)
 ## PAGE 8: DECORATOR DASHBOARD
 
 ### Wireframe (ASCII)
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │  EMILY BAKES CAKES | Decorator Queue | [Logout]    │
 ├─────────────────────────────────────────────────────┤
@@ -435,7 +435,7 @@ TIER 4: DATABASE (PostgreSQL)
 │  CHART: Designs Completed (Weekly)                  │
 │  [Recharts column chart]                            │
 └─────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### Specifications
 
@@ -455,7 +455,7 @@ TIER 4: DATABASE (PostgreSQL)
 ## PAGE 9: ACCOUNTANT DASHBOARD
 
 ### Wireframe (ASCII)
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │  EMILY BAKES CAKES | Financial Reports | [Logout]  │
 ├─────────────────────────────────────────────────────┤
@@ -482,7 +482,7 @@ TIER 4: DATABASE (PostgreSQL)
 │                                                      │
 │  [VIEW ALL REPORTS] [EXPORT CSV]                    │
 └─────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### Specifications
 
@@ -498,7 +498,7 @@ TIER 4: DATABASE (PostgreSQL)
 ## PAGE 10: MANAGER DASHBOARD
 
 ### Wireframe (ASCII)
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │  EMILY BAKES CAKES | Manager Dashboard | [Logout]  │
 ├─────────────────────────────────────────────────────┤
@@ -530,7 +530,7 @@ TIER 4: DATABASE (PostgreSQL)
 │                                                      │
 │  [APPROVE ORDERS] [VIEW REPORTS] [SETTINGS]        │
 └─────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### Specifications
 
@@ -546,7 +546,7 @@ TIER 4: DATABASE (PostgreSQL)
 ## PAGE 11: ORDER TRACKING PAGE (Public, No Login)
 
 ### Wireframe (ASCII)
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │                 EMILY BAKES CAKES                    │
 │              Your Order is Being Made! 🍰            │
@@ -580,7 +580,7 @@ TIER 4: DATABASE (PostgreSQL)
 ├─────────────────────────────────────────────────────┤
 │  [REFRESH]  [CONTACT BAKERY]  [PRINT RECEIPT]      │
 └─────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### Specifications
 
@@ -605,7 +605,7 @@ TIER 4: DATABASE (PostgreSQL)
 
 ### STEP 1: Select Customer
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │  NEW ORDER - STEP 1 OF 4: SELECT CUSTOMER          │
 ├─────────────────────────────────────────────────────┤
@@ -624,11 +624,11 @@ TIER 4: DATABASE (PostgreSQL)
 │                                                      │
 │  [BACK] [NEXT: CAKE DETAILS]                        │
 └─────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### STEP 2: Cake Configuration
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │  NEW ORDER - STEP 2 OF 4: CAKE CONFIGURATION        │
 ├─────────────────────────────────────────────────────┤
@@ -654,11 +654,11 @@ TIER 4: DATABASE (PostgreSQL)
 │  [+ ADD ANOTHER LAYER]                              │
 │  [BACK] [NEXT: CUSTOMIZATION]                       │
 └─────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### STEP 3: Customization & Notes
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │  NEW ORDER - STEP 3 OF 4: CUSTOMIZATION             │
 ├─────────────────────────────────────────────────────┤
@@ -684,11 +684,11 @@ TIER 4: DATABASE (PostgreSQL)
 │                                                      │
 │  [BACK] [NEXT: REVIEW]                              │
 └─────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### STEP 4: Review & Confirm
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │  NEW ORDER - STEP 4 OF 4: REVIEW & CONFIRM          │
 ├─────────────────────────────────────────────────────┤
@@ -718,7 +718,7 @@ TIER 4: DATABASE (PostgreSQL)
 │  🔗 Tracking link: emilybakes.com/track/TRK-Q1-001 │
 │  💾 Order saved to dashboard                        │
 └─────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### Key Questions
 - [ ] Should all layers be same cake type or can they vary?
@@ -731,7 +731,7 @@ TIER 4: DATABASE (PostgreSQL)
 
 ### Report 1: Daily Revenue Summary
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────┐
 │  REPORT 1: DAILY REVENUE SUMMARY                    │
 ├─────────────────────────────────────────────────────┤
@@ -752,7 +752,7 @@ TIER 4: DATABASE (PostgreSQL)
 │                                                      │
 │  [EXPORT CSV] [PRINT]                               │
 └─────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### Report 2-6: Other Reports
 
@@ -768,7 +768,7 @@ TIER 4: DATABASE (PostgreSQL)
 
 ## PROMPT TEMPLATE: Complete Architecture Setup
 
-```
+\`\`\`
 YOU ARE BUILDING: Emily Bakes Cakes
 
 4-TIER SYSTEM:
@@ -835,7 +835,7 @@ DELIVERABLES BY SATURDAY:
 ✅ Demo data seeded
 
 START WITH: Database setup (migrations + seed data) → Backend API → Frontend → Integration
-```
+\`\`\`
 
 ---
 

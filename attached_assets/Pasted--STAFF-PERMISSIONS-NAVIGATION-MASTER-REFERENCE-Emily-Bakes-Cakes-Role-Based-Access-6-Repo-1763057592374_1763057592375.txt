@@ -81,13 +81,13 @@ Each report displays specific data + filters + charts + export options.
 ## SALES STAFF
 
 **Navigation Menu:**
-```
+\`\`\`
 🏠 Dashboard
 📋 Orders (create new, view all)
 👥 Customers (add, edit, search)
 🎂 Products (view only)
 🚪 Logout
-```
+\`\`\`
 
 **Permissions - Can DO:**
 - ✅ Create new orders
@@ -127,12 +127,12 @@ Each report displays specific data + filters + charts + export options.
 ## BAKER
 
 **Navigation Menu:**
-```
+\`\`\`
 🏠 Dashboard
 📋 My Orders (assigned to baker only)
 🎂 Products (standard recipes)
 🚪 Logout
-```
+\`\`\`
 
 **Permissions - Can DO:**
 - ✅ View orders assigned to them
@@ -179,12 +179,12 @@ Each report displays specific data + filters + charts + export options.
 ## DECORATOR
 
 **Navigation Menu:**
-```
+\`\`\`
 🏠 Dashboard
 📋 My Orders (assigned to decorator only)
 🖼️ Gallery (reference photos, inspiration)
 🚪 Logout
-```
+\`\`\`
 
 **Permissions - Can DO:**
 - ✅ View orders assigned to them
@@ -228,14 +228,14 @@ Each report displays specific data + filters + charts + export options.
 ## ACCOUNTANT
 
 **Navigation Menu:**
-```
+\`\`\`
 🏠 Dashboard (with revenue KPIs)
 📋 Orders (view all, read-only)
 👥 Customers (view all, read-only)
 📊 Reports (all 6 reports)
 📈 Analytics (financial charts)
 🚪 Logout
-```
+\`\`\`
 
 **Permissions - Can DO:**
 - ✅ View ALL orders (read-only)
@@ -273,7 +273,7 @@ Each report displays specific data + filters + charts + export options.
 ## MANAGER / OWNER (JAMES or EMILY)
 
 **Navigation Menu:**
-```
+\`\`\`
 🏠 Dashboard (full KPIs + charts)
 📋 Orders (view all, edit, assign)
 👥 Customers (full CRUD)
@@ -283,7 +283,7 @@ Each report displays specific data + filters + charts + export options.
 📈 Analytics (all charts)
 ⚙️ Settings (system config)
 🚪 Logout
-```
+\`\`\`
 
 **Permissions - Can DO:**
 - ✅ EVERYTHING (full system access)
@@ -325,7 +325,7 @@ Each report displays specific data + filters + charts + export options.
 
 All navigation collapses to hamburger menu (☰):
 
-```
+\`\`\`
 Tap ☰ to expand:
 
 ┌──────────────────────────────┐
@@ -344,7 +344,7 @@ Tap ☰ to expand:
 │ ❓ Help                      │
 │ 🚪 Logout                    │
 └──────────────────────────────┘
-```
+\`\`\`
 
 **Tap item → Navigate**
 **Tap ☰ again → Close menu**

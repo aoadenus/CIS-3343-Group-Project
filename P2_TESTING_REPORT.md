@@ -31,7 +31,7 @@ This report documents the comprehensive P2 testing of the Emily Bakes Cakes Orde
 - ✅ All 6 reports access
 
 **Code Verification:**
-```typescript
+\`\`\`typescript
 // From src/App.tsx
 case 'owner':
   return <ManagerDashboard onNavigate={setActivePage} />;
@@ -43,7 +43,7 @@ case 'staff-management':
   }
 
 // All 6 Reports Access Verified in App.tsx Lines 211-245
-```
+\`\`\`
 
 **Result:** ✅ **PASS** - Owner has full access to all features including all 6 reports and staff management.
 
@@ -56,14 +56,14 @@ case 'staff-management':
 - ✅ All 6 reports access
 
 **Code Verification:**
-```typescript
+\`\`\`typescript
 // From src/App.tsx
 case 'manager':
 case 'owner':
   return <ManagerDashboard onNavigate={setActivePage} />;
 
 // Identical permissions to Owner role
-```
+\`\`\`
 
 **Result:** ✅ **PASS** - Manager has identical permissions to Owner.
 
@@ -78,7 +78,7 @@ case 'owner':
 - ✅ NO Staff Management
 
 **Code Verification:**
-```typescript
+\`\`\`typescript
 // From src/App.tsx Lines 211-245
 // Sales has access to:
 ✅ 'order-summary-report' (Line 213)
@@ -88,7 +88,7 @@ case 'owner':
 ❌ 'revenue-report' (NOT in allowed roles - Line 225)
 ❌ 'product-inventory-report' (NOT in allowed roles - Line 243)
 ❌ 'staff-management' (NOT in allowed roles - Line 250)
-```
+\`\`\`
 
 **Result:** ✅ **PASS** - Sales role correctly restricted to 4 reports with NO access to financial/inventory reports or staff management.
 
@@ -103,14 +103,14 @@ case 'owner':
 - ✅ NO Staff Management
 
 **Code Verification:**
-```typescript
+\`\`\`typescript
 // From src/App.tsx
 case 'baker':
   return <BakerDashboard onNavigate={setActivePage} />;
 
 // Baker has access to BakerDashboard (includes baking queue)
 // Report access identical to Sales role (verified above)
-```
+\`\`\`
 
 **Result:** ✅ **PASS** - Baker has Sales permissions plus baking queue access.
 
@@ -125,14 +125,14 @@ case 'baker':
 - ✅ NO Staff Management
 
 **Code Verification:**
-```typescript
+\`\`\`typescript
 // From src/App.tsx
 case 'decorator':
   return <DecoratorDashboard onNavigate={setActivePage} />;
 
 // Decorator has access to DecoratorDashboard (includes decoration queue)
 // Report access identical to Sales role (verified above)
-```
+\`\`\`
 
 **Result:** ✅ **PASS** - Decorator has Sales permissions plus decoration queue access.
 
@@ -147,12 +147,12 @@ case 'decorator':
 - ✅ NO Staff Management
 
 **CRITICAL ISSUE IDENTIFIED:**
-```
+\`\`\`
 ❌ RBAC BUG: Accountant role only had access to 1 of 6 reports (Revenue Report only)
-```
+\`\`\`
 
 **Original Implementation (INCORRECT):**
-```typescript
+\`\`\`typescript
 // From src/App.tsx (BEFORE FIX)
 case 'order-summary-report':
   if (['sales', 'baker', 'decorator', 'manager', 'owner'].includes(userRole || '')) {
@@ -163,10 +163,10 @@ case 'revenue-report':
   if (['accountant', 'manager', 'owner'].includes(userRole || '')) {
     // ✅ Only report Accountant could access
   }
-```
+\`\`\`
 
 **RESOLUTION APPLIED:**
-```typescript
+\`\`\`typescript
 // From src/App.tsx (AFTER FIX - Lines 211-245)
 case 'order-summary-report':
   if (['sales', 'baker', 'decorator', 'accountant', 'manager', 'owner'].includes(userRole || '')) {
@@ -197,15 +197,15 @@ case 'product-inventory-report':
   if (['accountant', 'manager', 'owner'].includes(userRole || '')) {
     return <ProductInventoryReport />;  // ✅ FIXED
   }
-```
+\`\`\`
 
 **Additional Fix Applied to Reports.tsx:**
-```typescript
+\`\`\`typescript
 // Updated UI descriptions to reflect Accountant access
 // Line 120: "Available to Sales, Baker, Decorator, Accountant, Manager, and Owner roles"
 // Line 192: Added Accountant to inventory reports access check
 // Line 201: "Available to Accountant, Manager, and Owner roles (Financial & Inventory Data)"
-```
+\`\`\`
 
 **Result:** ✅ **PASS** - Accountant now has access to all 6 reports as required.
 
@@ -239,13 +239,13 @@ All 6 reports are implemented and functional:
 ### ✅ **Test Status: PASSED**
 
 #### **1. LSP Diagnostics** - ✅ NO ERRORS
-```
+\`\`\`
 Result: No LSP diagnostics found.
 Status: ✅ PASS - Clean code with no TypeScript errors
-```
+\`\`\`
 
 #### **2. Workflow Logs** - ✅ RUNNING WITHOUT ERRORS
-```
+\`\`\`
 Workflow: backend-server
 Status: RUNNING
 Port: 3000
@@ -261,19 +261,19 @@ Output:
   - ✅ VITE v6.3.5 ready in 250ms
   - ✅ Local: http://localhost:5000/
   - ✅ Network: http://172.31.77.98:5000/
-```
+\`\`\`
 
 **Status:** ✅ **PASS** - Both workflows running successfully
 
 #### **3. Browser Console Logs** - ✅ NO CRITICAL ERRORS
-```
+\`\`\`
 Console Output:
   - [vite] connecting...
   - [vite] connected.
   - [vite] hot updated: /src/App.tsx
   - [vite] hot updated: /src/pages/Reports.tsx
   - 🌐 Emily Bakes Cakes - Loaded
-```
+\`\`\`
 
 **Status:** ✅ **PASS** - Only standard Vite HMR messages, no errors
 

@@ -14,16 +14,16 @@
 
 ## ISSUE 1: HOME PAGE - Invalid CTA Buttons
 ### ❌ CURRENT (INVALID):
-```
+\`\`\`
 "Ready to Create Something Extraordinary?
 Let's design your perfect cake together. Start our interactive 
 custom cake builder or connect with Emily to discuss your vision.
 
 [Start Building] [Contact Emily]"
-```
+\`\`\`
 
 ### ✅ REQUIRED CHANGE:
-```
+\`\`\`
 "Ready to Order Your Custom Cake?
 
 Emily creates beautiful, personalized cakes for every occasion. 
@@ -35,7 +35,7 @@ CALL US: (555) XXX-XXXX
 📧 Email Your Order: emily@emilybakes.com
 
 [Visit Us Today] [Call to Order]"
-```
+\`\`\`
 
 ### Rationale:
 - ❌ "Start Building" button removed (customers don't order online)
@@ -49,22 +49,22 @@ CALL US: (555) XXX-XXXX
 
 ## ISSUE 2: HERO SECTION - "Start Building" Button
 ### ❌ CURRENT:
-```
+\`\`\`
 "Love What You See?
 These are just a few examples of our work. Let's create something 
 unique for your special occasion.
 
 [Start Custom Builder] [Contact Emily]"
-```
+\`\`\`
 
 ### ✅ REQUIRED CHANGE:
-```
+\`\`\`
 "Love What You See?
 These are just a few examples of our work. Let's create something 
 unique for your special occasion.
 
 [Visit Us Today] [Call to Order Now]"
-```
+\`\`\`
 
 ### Rationale:
 - ❌ Remove "Start Custom Builder" (invalid CTA)
@@ -77,22 +77,22 @@ unique for your special occasion.
 
 ## ISSUE 3: HERO SECTION - "Start Your Order" Button
 ### ❌ CURRENT:
-```
+\`\`\`
 "Experience Parisian Artistry
 Let's create a masterpiece together. From Paris to your celebration— 
 handcrafted with European precision and Texas heart.
 
 [Start Your Order]"
-```
+\`\`\`
 
 ### ✅ REQUIRED CHANGE:
-```
+\`\`\`
 "Experience Parisian Artistry
 Let's create a masterpiece together. From Paris to your celebration— 
 handcrafted with European precision and Texas heart.
 
 [Call Us to Order] [Visit Our Shop]"
-```
+\`\`\`
 
 ### Rationale:
 - ❌ "Start Your Order" implies online ordering (invalid)
@@ -110,7 +110,7 @@ handcrafted with European precision and Texas heart.
 3. ❌ Shop page structure implies self-service ordering
 
 ### ✅ REQUIRED CHANGES:
-```
+\`\`\`
 SHOP PAGE RESTRUCTURE:
 
 SECTION 1: Menu Showcase
@@ -138,7 +138,7 @@ SECTION 4: Contact Section
 - Store hours
 - Physical address
 - "Call or visit us today to place your order"
-```
+\`\`\`
 
 ### Action: Restructure Shop.tsx - remove inquiry forms, revise copy
 
@@ -146,14 +146,14 @@ SECTION 4: Contact Section
 
 ## ISSUE 5: GALLERY PAGE - "Start Custom Builder" Button
 ### ❌ CURRENT:
-```
+\`\`\`
 Gallery of past cakes with text:
 "Love What You See?
 [Start Custom Builder]"
-```
+\`\`\`
 
 ### ✅ REQUIRED CHANGE:
-```
+\`\`\`
 Gallery of past cakes with text:
 "Love What You See? Interested in something similar?
 
@@ -161,7 +161,7 @@ Gallery of past cakes with text:
 
 Tell us what you're celebrating, and let's create 
 your perfect cake together!"
-```
+\`\`\`
 
 ### Rationale:
 - ❌ "Start Custom Builder" (not valid ordering path)
@@ -194,14 +194,14 @@ your perfect cake together!"
 ## ISSUE 7: NAVIGATION - "Start Building" CTA
 ### ❌ CURRENT:
 Various pages have:
-```
+\`\`\`
 "Prefer to Order Online?
 Use our custom cake builder to design your perfect cake in minutes.
 [Start Building Your Cake]"
-```
+\`\`\`
 
 ### ✅ REQUIRED CHANGE:
-```
+\`\`\`
 "Ready to Order?
 
 Emily's bakery works exclusively with direct contact 
@@ -212,7 +212,7 @@ to ensure perfection.
 📧 EMAIL: emily@emilybakes.com
 
 We'll work with you to create your perfect cake!"
-```
+\`\`\`
 
 ### Action: Search and replace all instances of this section across all pages
 
@@ -228,7 +228,7 @@ We'll work with you to create your perfect cake!"
 ### ✅ REQUIRED CHANGES:
 
 #### Add Demo Credentials on Login Page:
-```
+\`\`\`
 [LOGIN FORM]
 
 DEMO CREDENTIALS (for testing):
@@ -255,7 +255,7 @@ DEMO CREDENTIALS (for testing):
 ✅ Owner Role:
    Email: emily@emilybakes.com
    Password: DemoPass123!
-```
+\`\`\`
 
 #### Fix Menu Labeling:
 - ❌ "Business Analytics" label (confusing)
@@ -284,48 +284,48 @@ The "Occasion" field (Birthday, Wedding, Anniversary, etc.) exists in admin buil
 ### ✅ REQUIRED CHANGES:
 
 #### Step 1: Customer Selection
-```
+\`\`\`
 ✅ Search Existing Customer OR Create New
 (unchanged - correct)
-```
+\`\`\`
 
 #### Step 2: Order Details
-```
+\`\`\`
 REMOVE: "Occasion" field (not in new scope)
-```
+\`\`\`
 
 #### Step 3: Build Cake Layers
-```
+\`\`\`
 ✅ Flavor selection
 ✅ Fillings (Max 2, $1 each)
 ✅ Special notes per layer
 ✅ Add another layer button
 (unchanged - correct)
-```
+\`\`\`
 
 #### ❌ DELETE ENTIRELY: "4. Design Style" Section
-```
+\`\`\`
 REASON: The design style should NOT be a separate step.
 It should be integrated into layer building or handled separately.
 Current implementation is unclear and doesn't match case study.
-```
+\`\`\`
 
 #### Step 5 (formerly 5, now 4): Event Information
-```
+\`\`\`
 ✅ Event Date
 ✅ Servings
 ✅ Cake Message (optional)
 ✅ Customer Notes (optional)
 (correct - keep as is)
-```
+\`\`\`
 
 #### Step 6 (formerly 6, now 5): Admin Management Settings
-```
+\`\`\`
 ✅ Order Status (Pending, In Progress, Ready, etc.)
 ✅ Priority Level (Low, Medium, High, Urgent)
 ✅ Internal Management Notes (staff only)
 (correct - keep as is)
-```
+\`\`\`
 
 #### EMPHASIS CHANGES:
 - ✅ Redesign section headers with clear visual hierarchy
@@ -342,7 +342,7 @@ Current implementation is unclear and doesn't match case study.
 Vague contact info, doesn't emphasize ordering process
 
 ### ✅ REQUIRED CHANGES:
-```
+\`\`\`
 CONTACT PAGE STRUCTURE:
 
 SECTION 1: Contact Information
@@ -386,7 +386,7 @@ SECTION 3: Frequently Asked Questions
 SECTION 4: Google Maps Embed
 - Interactive map showing location
 - Directions link
-```
+\`\`\`
 
 ### Action: Redesign Contact.tsx with clear ordering emphasis
 

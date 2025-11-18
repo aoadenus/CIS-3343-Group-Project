@@ -20,11 +20,11 @@ Integrate modern, performance-focused loading states to enhance perceived speed 
 
 #### Product Card Skeleton
 
-```tsx
+\`\`\`tsx
 import { SkeletonCard } from '../components/Loading/SkeletonCard';
 
 <SkeletonCard variant="customer" type="product" />
-```
+\`\`\`
 
 **Visual Structure:**
 - Rectangular placeholder for image (200px height)
@@ -32,14 +32,14 @@ import { SkeletonCard } from '../components/Loading/SkeletonCard';
 - Small bar for price (30% width)
 
 **Shimmer Animation:**
-```css
+\`\`\`css
 linear-gradient(
   90deg,
   rgba(248, 235, 215, 0.3) 0%,      /* Cream Vanilla */
   rgba(196, 69, 105, 0.1) 50%,      /* Raspberry Pink */
   rgba(248, 235, 215, 0.3) 100%     /* Cream Vanilla */
 )
-```
+\`\`\`
 
 **Animation:** 1.5s linear infinite left-to-right sweep
 
@@ -49,7 +49,7 @@ linear-gradient(
 
 **Component:** `/components/Loading/LazyImage.tsx`
 
-```tsx
+\`\`\`tsx
 import { LazyImage } from '../components/Loading/LazyImage';
 
 <LazyImage
@@ -58,7 +58,7 @@ import { LazyImage } from '../components/Loading/LazyImage';
   thumbnail="https://example.com/thumbnail.jpg" // Optional 10px wide
   onLoad={() => handleImageLoad()}
 />
-```
+\`\`\`
 
 **How It Works:**
 
@@ -91,7 +91,7 @@ import { LazyImage } from '../components/Loading/LazyImage';
 
 #### Determinate Progress Bar
 
-```tsx
+\`\`\`tsx
 import { ProgressBar } from '../components/Loading/ProgressBar';
 
 const [progress, setProgress] = useState(0);
@@ -101,7 +101,7 @@ const [progress, setProgress] = useState(0);
   variant="customer"
   showPercentage={true}
 />
-```
+\`\`\`
 
 **Visual Design:**
 - **Position:** Fixed top, 3px height
@@ -118,11 +118,11 @@ const [progress, setProgress] = useState(0);
 
 #### Indeterminate Progress Bar
 
-```tsx
+\`\`\`tsx
 import { IndeterminateProgressBar } from '../components/Loading/ProgressBar';
 
 <IndeterminateProgressBar variant="customer" />
-```
+\`\`\`
 
 **Animation:** 30% width bar sweeps left to right (1.5s infinite)
 
@@ -135,7 +135,7 @@ import { IndeterminateProgressBar } from '../components/Loading/ProgressBar';
 
 ### 4. Implementation Example - Shop Page
 
-```tsx
+\`\`\`tsx
 import { useState, useEffect } from 'react';
 import { LazyImage } from '../components/Loading/LazyImage';
 import { SkeletonCard } from '../components/Loading/SkeletonCard';
@@ -178,7 +178,7 @@ export function Shop() {
     </div>
   );
 }
-```
+\`\`\`
 
 ---
 
@@ -188,9 +188,9 @@ export function Shop() {
 
 #### KPI Card Skeleton
 
-```tsx
+\`\`\`tsx
 <SkeletonCard variant="admin" type="kpi" />
-```
+\`\`\`
 
 **Visual Structure:**
 - Label placeholder (50% width, 14px height)
@@ -198,22 +198,22 @@ export function Shop() {
 - Mini chart placeholder (100% width, 40px height)
 
 **Shimmer Colors:**
-```css
+\`\`\`css
 linear-gradient(
   90deg,
   rgba(240, 240, 240, 0.15) 0%,
   rgba(255, 255, 255, 0.05) 50%,
   rgba(240, 240, 240, 0.15) 100%
 )
-```
+\`\`\`
 
 **Gray-toned, professional, non-distracting**
 
 #### Table Skeleton
 
-```tsx
+\`\`\`tsx
 <SkeletonCard variant="admin" type="table" />
-```
+\`\`\`
 
 **Visual Structure:**
 - Header row (4 columns)
@@ -227,9 +227,9 @@ linear-gradient(
 
 #### Chart Skeleton
 
-```tsx
+\`\`\`tsx
 <SkeletonCard variant="admin" type="chart" />
-```
+\`\`\`
 
 **Visual Structure:**
 - Title placeholder (40% width)
@@ -237,7 +237,7 @@ linear-gradient(
 - Loading pulse effect around card border
 
 **Pulse Animation:**
-```css
+\`\`\`css
 @keyframes pulse-border {
   0%, 100% {
     border-color: rgba(196, 69, 105, 0.2);
@@ -248,7 +248,7 @@ linear-gradient(
     box-shadow: 0 0 0 4px rgba(196, 69, 105, 0.1);
   }
 }
-```
+\`\`\`
 
 **Duration:** 2s ease-in-out infinite
 
@@ -256,7 +256,7 @@ linear-gradient(
 
 ### 2. Fade-In Transitions for Data
 
-```tsx
+\`\`\`tsx
 <motion.div
   className="fade-in-content"
   initial={{ opacity: 0, y: 8 }}
@@ -265,10 +265,10 @@ linear-gradient(
 >
   {/* Dashboard content */}
 </motion.div>
-```
+\`\`\`
 
 **CSS Alternative:**
-```css
+\`\`\`css
 .fade-in-content {
   animation: fadeIn 200ms ease-out;
 }
@@ -283,7 +283,7 @@ linear-gradient(
     transform: translateY(0);
   }
 }
-```
+\`\`\`
 
 **Effect:** Content slides up 8px while fading in over 200ms
 
@@ -293,17 +293,17 @@ linear-gradient(
 
 ### 3. Progressive Rendering
 
-```tsx
+\`\`\`tsx
 <div className="grid grid-cols-4 gap-6">
   <div className="progressive-content">{/* KPI 1 */}</div>
   <div className="progressive-content">{/* KPI 2 */}</div>
   <div className="progressive-content">{/* KPI 3 */}</div>
   <div className="progressive-content">{/* KPI 4 */}</div>
 </div>
-```
+\`\`\`
 
 **CSS:**
-```css
+\`\`\`css
 .progressive-content {
   opacity: 0;
   animation: fadeIn 300ms ease-out forwards;
@@ -313,7 +313,7 @@ linear-gradient(
 .progressive-content:nth-child(2) { animation-delay: 50ms; }
 .progressive-content:nth-child(3) { animation-delay: 100ms; }
 .progressive-content:nth-child(4) { animation-delay: 150ms; }
-```
+\`\`\`
 
 **Effect:** 
 - Show structure first (layout)
@@ -325,7 +325,7 @@ linear-gradient(
 
 ### 4. Implementation Example - Dashboard
 
-```tsx
+\`\`\`tsx
 import { useState, useEffect } from 'react';
 import { SkeletonCard } from '../components/Loading/SkeletonCard';
 
@@ -361,7 +361,7 @@ export function Dashboard() {
     </div>
   );
 }
-```
+\`\`\`
 
 ---
 
@@ -393,20 +393,20 @@ export function Dashboard() {
 - `margin`, `padding`
 
 **All animations use:**
-```css
+\`\`\`css
 will-change: transform, opacity;
 transform: translateZ(0); /* Force GPU layer */
-```
+\`\`\`
 
 ### 3. Shimmer Optimization
 
 **Background Position Animation:**
-```css
+\`\`\`css
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
-```
+\`\`\`
 
 **Why?** 
 - `background-position` is cheaper than `transform: translateX()`
@@ -420,22 +420,22 @@ transform: translateZ(0); /* Force GPU layer */
 ### 1. Screen Reader Support
 
 **Hide Skeleton Content:**
-```tsx
+\`\`\`tsx
 <div className="skeleton-card" aria-hidden="true">
   {/* Skeleton content */}
 </div>
-```
+\`\`\`
 
 **Announce Loading:**
-```tsx
+\`\`\`tsx
 <div role="status" aria-live="polite" className="sr-only">
   {isLoading ? 'Loading products...' : 'Products loaded'}
 </div>
-```
+\`\`\`
 
 ### 2. Reduced Motion Support
 
-```css
+\`\`\`css
 @media (prefers-reduced-motion: reduce) {
   .skeleton-shimmer {
     animation: none;
@@ -452,7 +452,7 @@ transform: translateZ(0); /* Force GPU layer */
     animation: none;
   }
 }
-```
+\`\`\`
 
 **Effect:**
 - Users with motion sensitivity see static placeholders
@@ -463,7 +463,7 @@ transform: translateZ(0); /* Force GPU layer */
 ### 3. Focus Management
 
 **During Loading:**
-```tsx
+\`\`\`tsx
 {isLoading ? (
   <div aria-busy="true" aria-label="Loading content">
     <SkeletonCard />
@@ -473,7 +473,7 @@ transform: translateZ(0); /* Force GPU layer */
     {/* Actual content with proper focus order */}
   </div>
 )}
-```
+\`\`\`
 
 **After Loading:**
 - Focus returns to logical next element
@@ -486,12 +486,12 @@ transform: translateZ(0); /* Force GPU layer */
 
 ### SkeletonCard
 
-```tsx
+\`\`\`tsx
 interface SkeletonCardProps {
   variant?: 'customer' | 'admin';  // Default: 'customer'
   type?: 'product' | 'kpi' | 'table' | 'chart';  // Default: 'product'
 }
-```
+\`\`\`
 
 **Variants:**
 - `customer` - Cream vanilla shimmer, warm colors
@@ -505,7 +505,7 @@ interface SkeletonCardProps {
 
 ### LazyImage
 
-```tsx
+\`\`\`tsx
 interface LazyImageProps {
   src: string;              // Full-resolution image URL
   alt: string;              // Alt text for accessibility
@@ -514,7 +514,7 @@ interface LazyImageProps {
   style?: React.CSSProperties;  // Inline styles
   onLoad?: () => void;      // Callback when image loads
 }
-```
+\`\`\`
 
 **Intersection Observer Settings:**
 - `rootMargin: '50px'` - Start loading 50px before viewport
@@ -522,13 +522,13 @@ interface LazyImageProps {
 
 ### ProgressBar
 
-```tsx
+\`\`\`tsx
 interface ProgressBarProps {
   progress: number;          // 0-100
   variant?: 'customer' | 'admin';  // Default: 'customer'
   showPercentage?: boolean;  // Default: false
 }
-```
+\`\`\`
 
 **Variants:**
 - `customer` - Raspberry gradient with glow
@@ -540,7 +540,7 @@ interface ProgressBarProps {
 
 ### Customer Site Loading Sequence
 
-```
+\`\`\`
 Time: 0ms
 ┌─────────────────────────────────┐
 │  [Navigation loads instantly]   │
@@ -563,11 +563,11 @@ Time: 800ms
 │  │Title │ │Title │ │Title │     │
 │  └──────┘ └──────┘ └──────┘     │
 └─────────────────────────────────┘
-```
+\`\`\`
 
 ### Admin Dashboard Loading Sequence
 
-```
+\`\`\`
 Time: 0ms
 ┌─────────────────────────────────┐
 │  [Sidebar + header load]        │
@@ -590,7 +590,7 @@ Time: 800ms
 │  │  ↑3  │ │  ↓2  │ │  ↑5  │     │
 │  └──────┘ └──────┘ └──────┘     │
 └─────────────────────────────────┘
-```
+\`\`\`
 
 ---
 
@@ -606,41 +606,41 @@ Already created:
 
 ### Step 2: Add Loading State
 
-```tsx
+\`\`\`tsx
 const [isLoading, setIsLoading] = useState(true);
 
 useEffect(() => {
   fetchData().then(() => setIsLoading(false));
 }, []);
-```
+\`\`\`
 
 ### Step 3: Conditionally Render
 
-```tsx
+\`\`\`tsx
 {isLoading ? (
   <SkeletonCard variant="customer" type="product" />
 ) : (
   <ProductCard {...data} />
 )}
-```
+\`\`\`
 
 ### Step 4: Use Lazy Images
 
-```tsx
+\`\`\`tsx
 <LazyImage
   src={product.imageUrl}
   alt={product.name}
   thumbnail={product.thumbnailUrl}
 />
-```
+\`\`\`
 
 ### Step 5: Add Progress Bar (Optional)
 
-```tsx
+\`\`\`tsx
 {isSubmitting && (
   <ProgressBar progress={uploadProgress} variant="customer" />
 )}
-```
+\`\`\`
 
 ---
 

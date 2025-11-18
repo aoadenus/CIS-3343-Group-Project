@@ -325,4 +325,3 @@ function OrderCard({ order }: { order: any }) {
     </Card>
   );
 }
-

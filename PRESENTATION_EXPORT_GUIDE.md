@@ -91,7 +91,7 @@ All annotations are 12px Open Sans, 70% opacity:
 #### Option A: Screen Recording (Recommended)
 
 **macOS (QuickTime Player):**
-```bash
+\`\`\`bash
 1. Open QuickTime Player
 2. File → New Screen Recording
 3. Select recording area: 1920×1080
@@ -99,10 +99,10 @@ All annotations are 12px Open Sans, 70% opacity:
 5. Record full presentation walkthrough
 6. File → Export As → 1080p (60fps if available)
 7. Trim to ≤ 2 minutes
-```
+\`\`\`
 
 **Windows (Xbox Game Bar):**
-```bash
+\`\`\`bash
 1. Press Win + G
 2. Click "Capture" → Screen
 3. Navigate to http://localhost:5173/presentation
@@ -110,19 +110,19 @@ All annotations are 12px Open Sans, 70% opacity:
 5. Record full presentation
 6. Stop recording (Win + Alt + R)
 7. Trim in Photos app to ≤ 2 minutes
-```
+\`\`\`
 
 #### Option B: OBS Studio (Professional)
 
 **Settings:**
-```
+\`\`\`
 Canvas Resolution: 1920×1080
 Output Resolution: 1920×1080
 Frame Rate: 60 FPS
 Encoder: H.264
 Bitrate: 10,000 Kbps (high quality)
 File Format: MP4
-```
+\`\`\`
 
 **Recording Steps:**
 1. Add Source → Window Capture
@@ -182,7 +182,7 @@ File Format: MP4
 5. PDF generated automatically
 
 **Settings (Optional):**
-```json
+\`\`\`json
 {
   "markdown-pdf.outputDirectory": "./exports",
   "markdown-pdf.styles": ["./styles/pdf-styles.css"],
@@ -190,12 +190,12 @@ File Format: MP4
   "markdown-pdf.headerTemplate": "<div style='font-size: 10px; text-align: center; width: 100%;'>Emily Bakes Cakes - Style Guide</div>",
   "markdown-pdf.footerTemplate": "<div style='font-size: 10px; text-align: center; width: 100%;'><span class='pageNumber'></span> / <span class='totalPages'></span></div>"
 }
-```
+\`\`\`
 
 #### Option B: Pandoc (Command Line)
 
 **Install Pandoc:**
-```bash
+\`\`\`bash
 # macOS
 brew install pandoc wkhtmltopdf
 
@@ -204,10 +204,10 @@ choco install pandoc wkhtmltopdf
 
 # Linux
 sudo apt install pandoc wkhtmltopdf
-```
+\`\`\`
 
 **Generate PDF:**
-```bash
+\`\`\`bash
 pandoc STYLE_GUIDE_PDF.md \
   -o Emily-Bakes-Cakes-Style-Guide.pdf \
   --pdf-engine=wkhtmltopdf \
@@ -215,7 +215,7 @@ pandoc STYLE_GUIDE_PDF.md \
   --toc-depth=2 \
   -V geometry:margin=1in \
   -V fontsize=11pt
-```
+\`\`\`
 
 #### Option C: Online Converter
 
@@ -265,7 +265,7 @@ pandoc STYLE_GUIDE_PDF.md \
 **Before Sharing:**
 
 1. **Organize Figma File**
-   ```
+   \`\`\`
    📁 Emily Bakes Cakes - CIS 3343
    │
    ├── 📄 00-Cover Page
@@ -303,7 +303,7 @@ pandoc STYLE_GUIDE_PDF.md \
    │
    └── 📄 05-Component Library
        └── Published components
-   ```
+   \`\`\`
 
 2. **Clean Up Unused Elements**
    - Delete draft layers
@@ -327,9 +327,9 @@ pandoc STYLE_GUIDE_PDF.md \
 4. Test link in incognito window
 
 **Link Format:**
-```
+\`\`\`
 https://www.figma.com/file/[FILE_ID]/Emily-Bakes-Cakes-CIS-3343?type=design&node-id=0%3A1&mode=design&t=[TOKEN]
-```
+\`\`\`
 
 **Permissions:**
 - ✅ Can view
@@ -357,9 +357,9 @@ https://www.figma.com/file/[FILE_ID]/Emily-Bakes-Cakes-CIS-3343?type=design&node
 - Transitions: Smart Animate, 300ms ease-in-out
 
 **Prototype Link Format:**
-```
+\`\`\`
 https://www.figma.com/proto/[FILE_ID]/Emily-Bakes-Cakes-CIS-3343?type=design&node-id=1-2&scaling=min-zoom&page-id=0%3A1
-```
+\`\`\`
 
 ### Submit Both Links
 
@@ -400,7 +400,7 @@ https://www.figma.com/proto/[FILE_ID]/Emily-Bakes-Cakes-CIS-3343?type=design&nod
 
 ### Recommended Folder Structure
 
-```
+\`\`\`
 Emily-Bakes-Cakes-CIS-3343/
 │
 ├── 📁 1-Presentation/
@@ -428,7 +428,7 @@ Emily-Bakes-Cakes-CIS-3343/
     ├── screenshots/
     ├── logos/
     └── Attributions.md
-```
+\`\`\`
 
 ---
 
@@ -487,23 +487,23 @@ Emily-Bakes-Cakes-CIS-3343/
 ### Deliverable Files
 
 **1. Video (Required)**
-```
+\`\`\`
 📄 Emily-Bakes-Cakes-Presentation-Walkthrough.mp4
    Size: < 100 MB
    Duration: ≤ 2 minutes
    Resolution: 1920×1080 @ 60fps
-```
+\`\`\`
 
 **2. PDF (Required)**
-```
+\`\`\`
 📄 Emily-Bakes-Cakes-Style-Guide.pdf
    Size: < 10 MB
    Pages: 15-20
    Content: Color + Typography + Components
-```
+\`\`\`
 
 **3. Figma Links (Required)**
-```
+\`\`\`
 📄 Figma-Links.txt
 
 Design File (View-Only):
@@ -511,16 +511,16 @@ https://www.figma.com/file/[ID]/Emily-Bakes-Cakes-CIS-3343
 
 Prototype (Interactive):
 https://www.figma.com/proto/[ID]/Emily-Bakes-Cakes-CIS-3343
-```
+\`\`\`
 
 **4. Documentation (Optional but Recommended)**
-```
+\`\`\`
 📁 Documentation-Package/
    ├── 00-START_HERE.md
    ├── DESIGN_SYSTEM_AUDIT_REPORT.md
    ├── COMPONENT_LIBRARY.md
    └── [other MD files]
-```
+\`\`\`
 
 ### Upload Instructions
 

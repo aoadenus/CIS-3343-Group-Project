@@ -46,7 +46,7 @@ This is an operational policy about ingredient sourcing, not a system constraint
 The system enforces email uniqueness, ensuring each person (identified by email) is stored once. The `findOrCreateCustomer()` function checks for existing records before creating new ones.
 
 **Evidence:**
-```typescript
+\`\`\`typescript
 // shared/schema.ts
 customers: {
   email: varchar('email', { length: 255 }).notNull().unique()
@@ -60,7 +60,7 @@ export async function findOrCreateCustomer(data) {
   }
   return customer;
 }
-```
+\`\`\`
 
 **Compliance:** ✅ 100%
 
@@ -87,7 +87,7 @@ The database does not distinguish between Retail and Corporate customers. There 
 **Recommendation:** **HIGH PRIORITY - P1**
 
 **Suggested Implementation:**
-```typescript
+\`\`\`typescript
 // Add to customers table
 customerType: varchar('customer_type', { length: 20 })
   .notNull()
@@ -98,7 +98,7 @@ customerType: varchar('customer_type', { length: 20 })
 if (customerType === 'corporate' && !companyName) {
   throw new Error('Corporate customers must have company name');
 }
-```
+\`\`\`
 
 **Compliance:** ❌ 0%
 
@@ -117,11 +117,11 @@ if (customerType === 'corporate' && !companyName) {
 The `customers.isVip` boolean field exists to flag preferred customers, but there is no automated 10% discount calculation in the order pricing system.
 
 **Current Implementation:**
-```typescript
+\`\`\`typescript
 customers: {
   isVip: boolean('is_vip').default(false).notNull()
 }
-```
+\`\`\`
 
 **Missing:**
 - No discount field on orders table
@@ -132,7 +132,7 @@ customers: {
 **Recommendation:** **MEDIUM PRIORITY - P2**
 
 **Suggested Enhancement:**
-```typescript
+\`\`\`typescript
 orders: {
   // Add these fields
   discountPercentage: integer('discount_percentage').default(0), // 0-100
@@ -147,7 +147,7 @@ const discountAmount = customer.isVip
   ? Math.floor(subtotal * 0.10) 
   : 0;
 const finalTotal = subtotal - discountAmount;
-```
+\`\`\`
 
 **Compliance:** 🟡 40% (flag exists, calculation missing)
 
@@ -176,7 +176,7 @@ The current schema has a single address structure (no address fields at all curr
 **Recommendation:** **HIGH PRIORITY - P1 (for B2B sales)**
 
 **Suggested Implementation:**
-```typescript
+\`\`\`typescript
 customer_locations: {
   id: serial('id').primaryKey(),
   customerId: integer('customer_id').references(() => customers.id).notNull(),
@@ -197,7 +197,7 @@ orders: {
   deliveryLocationId: integer('delivery_location_id')
     .references(() => customer_locations.id)
 }
-```
+\`\`\`
 
 **Compliance:** ❌ 0%
 
@@ -219,14 +219,14 @@ The order schema is designed for one cake per order. There is no `order_items` j
 - One event date, one message, etc.
 
 **Evidence:**
-```typescript
+\`\`\`typescript
 orders: {
   layers: text('layers'), // Single JSONB array for one cake
   productName: varchar('product_name', { length: 255 }), // Single product
   // No quantity field
   // No line items table
 }
-```
+\`\`\`
 
 To order multiple cakes, a customer would create multiple orders.
 
@@ -247,7 +247,7 @@ To order multiple cakes, a customer would create multiple orders.
 The system tracks deposit requirements and compliance through multiple fields:
 
 **Evidence:**
-```typescript
+\`\`\`typescript
 orders: {
   depositAmount: integer('deposit_amount'), // Actual deposit received
   depositRequired: integer('deposit_required'), // Calculated 50% minimum
@@ -261,7 +261,7 @@ if (depositAmount < totalAmount * 0.5) {
     error: 'Deposit must be at least 50% of total amount' 
   });
 }
-```
+\`\`\`
 
 **Admin Order Form:**  
 The admin can set deposit amount, and the system validates it meets the 50% requirement.
@@ -283,7 +283,7 @@ The admin can set deposit amount, and the system validates it meets the 50% requ
 The payment tracking system validates payment methods:
 
 **Evidence:**
-```typescript
+\`\`\`typescript
 // server/index.ts - Payment recording endpoint
 const validPaymentTypes = ['credit_card', 'cash', 'check'];
 if (!validPaymentTypes.includes(paymentType)) {
@@ -296,7 +296,7 @@ orders: {
   paymentMethod: varchar('payment_method', { length: 50 })
   // Accepted values: 'stripe', 'square', 'cash', 'check'
 }
-```
+\`\`\`
 
 **Note:** "Debit" is handled as `credit_card` (card payment processing). "Check" is included as additional option.
 
@@ -373,7 +373,7 @@ The system supports cupcakes as products, but there is no specialized cupcake cu
 The system does not enforce a minimum 2-day advance notice. Customers can theoretically select an event date tomorrow or even today.
 
 **Missing Logic:**
-```typescript
+\`\`\`typescript
 // Should validate in custom builder
 const orderDate = new Date();
 const eventDate = new Date(formData.date);
@@ -385,7 +385,7 @@ if (daysDifference < 2) {
   order.requiresManagerApproval = true;
   order.rushOrder = true;
 }
-```
+\`\`\`
 
 **Recommendation:** **MEDIUM PRIORITY - P2**
 
@@ -412,14 +412,14 @@ if (daysDifference < 2) {
 The Custom Cake Builder displays layers in order, with the first layer representing the bottom tier. The JSONB array structure preserves order:
 
 **Evidence:**
-```typescript
+\`\`\`typescript
 // Layers array index 0 = bottom layer
 layers: [
   { flavor: "Vanilla", fillings: [...] }, // Layer 1 (bottom)
   { flavor: "Chocolate", fillings: [...] }, // Layer 2
   { flavor: "Strawberry", fillings: [...] } // Layer 3 (top)
 ]
-```
+\`\`\`
 
 The UI displays layers vertically with Layer 1 at the bottom/first position visually.
 
@@ -440,12 +440,12 @@ The UI displays layers vertically with Layer 1 at the bottom/first position visu
 Each product has exactly one category field:
 
 **Evidence:**
-```typescript
+\`\`\`typescript
 products: {
   category: varchar('category', { length: 100 }).notNull()
   // Single string, not array - can only be one category
 }
-```
+\`\`\`
 
 **Categories Supported:**
 - Cakes
@@ -475,7 +475,7 @@ products: {
 The system enforces "max 2 fillings per layer" through multiple validation points:
 
 **Evidence:**
-```typescript
+\`\`\`typescript
 // Client-side (Builder.tsx)
 if (layer.fillings.length >= 2) {
   showToast('error', 'Maximum 2 fillings per layer');
@@ -490,7 +490,7 @@ for (const layer of layers) {
     });
   }
 }
-```
+\`\`\`
 
 **Interpretation Note:**  
 The rule says "at most two layers of the same filling." The implementation interprets this as "at most 2 fillings (of any type) per layer," which is more permissive than requiring the same filling twice.
@@ -528,12 +528,12 @@ The system has two pricing approaches:
 - No formal negotiation workflow
 
 **Current Implementation:**
-```typescript
+\`\`\`typescript
 // Auto-calculation
 const totalPrice = calculateTotalPrice(layers);
 // Admin can override:
 totalAmount: integer // Manual entry allowed
-```
+\`\`\`
 
 **Gap:**  
 There is no negotiation workflow, pricing approval, or quote system. The rule implies prices should vary based on complexity, but the customer builder uses a fixed formula.
@@ -568,7 +568,7 @@ The system tracks `eventDate` (pickup date/time) and order status, but does not 
 - No automated alerts for "4 hours before deadline"
 
 **Missing:**
-```typescript
+\`\`\`typescript
 // Should check:
 const completionDeadline = eventDate - (4 * 60 * 60 * 1000); // 4 hours
 const now = new Date();
@@ -577,7 +577,7 @@ if (order.status !== 'ready' && now > completionDeadline) {
   // Send urgent alert to manager
   // Flag order as at-risk
 }
-```
+\`\`\`
 
 **Recommendation:** **MEDIUM PRIORITY - P2**
 
@@ -604,13 +604,13 @@ if (order.status !== 'ready' && now > completionDeadline) {
 The schema supports approval tracking but is not fully utilized:
 
 **Current Implementation:**
-```typescript
+\`\`\`typescript
 orders: {
   status: varchar('status', { length: 50 })
   // Workflow: pending → preparing → ready → completed
   // No distinct "awaiting_approval" status
 }
-```
+\`\`\`
 
 **Missing:**
 - No `approvedBy` field (Employee FK)
@@ -621,7 +621,7 @@ orders: {
 **Recommendation:** **MEDIUM-HIGH PRIORITY - P2**
 
 **Suggested Enhancement:**
-```typescript
+\`\`\`typescript
 orders: {
   finalApprovalId: integer('final_approval_id')
     .references(() => employees.id),
@@ -636,7 +636,7 @@ orders: {
 if (order.status === 'decorating_complete') {
   requireApproval(order.id);
 }
-```
+\`\`\`
 
 **Compliance:** 🟡 50% (status tracking exists, formal approval missing)
 
@@ -655,14 +655,14 @@ if (order.status === 'decorating_complete') {
 The system supports cancellation but not decoration modification:
 
 **Cancellation (Implemented):**
-```typescript
+\`\`\`typescript
 // POST /api/orders/:id/cancel
 orders: {
   cancellationReason: text('cancellation_reason'),
   cancelledAt: timestamp('cancelled_at'),
   cancelledBy: varchar('cancelled_by', { length: 255 })
 }
-```
+\`\`\`
 
 **Cancellation Endpoint:**  
 ✅ Allows cancellation with reason tracking  
@@ -684,7 +684,7 @@ orders: {
 4. Require customer approval for price changes
 
 **Suggested Schema:**
-```typescript
+\`\`\`typescript
 order_revisions: {
   id: serial PK
   orderId: integer FK
@@ -696,7 +696,7 @@ order_revisions: {
   approvedBy: varchar
   createdAt: timestamp
 }
-```
+\`\`\`
 
 **Compliance:** 🟡 55% (cancellation works, modification missing)
 
@@ -715,7 +715,7 @@ order_revisions: {
 The system fully supports inspiration image uploads and evaluation:
 
 **Evidence:**
-```typescript
+\`\`\`typescript
 orders: {
   inspirationImages: text('inspiration_images') // JSON array of URLs
 }
@@ -727,7 +727,7 @@ inquiries: {
 contact_messages: {
   inspirationImages: text('inspiration_images') // JSON array
 }
-```
+\`\`\`
 
 **Custom Builder:**
 - ✅ Upload up to 5 inspiration images
@@ -744,12 +744,12 @@ contact_messages: {
 No formal "feasibility decision" workflow (approve/reject inspiration)
 
 **Enhancement Suggestion:**
-```typescript
+\`\`\`typescript
 // Add to orders
 inspirationFeasibility: varchar // 'pending_review', 'feasible', 'not_feasible', 'modified'
 feasibilityNotes: text // Decorator's assessment
 reviewedByDecorator: integer FK // Employee ID
-```
+\`\`\`
 
 **Compliance:** ✅ 90% (uploads work, formal approval workflow could be added)
 

@@ -46,10 +46,10 @@ Successfully refined the public front-end homepage to follow the **60-30-10 colo
 ### ✅ Layout Requirements Met
 
 **Height**: 85vh (minimum 600px)
-```css
+\`\`\`css
 height: 85vh;
 min-height: 600px;
-```
+\`\`\`
 
 **Full-Bleed Image**:
 - Background: Lifestyle celebration cake from Unsplash
@@ -57,13 +57,13 @@ min-height: 600px;
 - Responsive scaling across all viewports
 
 **Gradient Overlay**:
-```css
+\`\`\`css
 background: linear-gradient(
   to bottom, 
   transparent 0%, 
   rgba(248, 235, 215, 0.3) 100%
 );
-```
+\`\`\`
 - Starts fully transparent at top
 - Fades to 30% Cream Vanilla at bottom
 - Ensures text legibility
@@ -71,27 +71,27 @@ background: linear-gradient(
 ### ✅ Typography
 
 **H1 "Sweetness from the Heart"**:
-```css
+\`\`\`css
 font-family: 'Lucida Handwriting', cursive;
 font-size: 28px;
 color: #C44569; /* Raspberry Pink */
 text-align: center;
 text-shadow: 0 2px 8px rgba(255, 255, 255, 0.8);
-```
+\`\`\`
 
 **Supporting Text**:
-```css
+\`\`\`css
 font-family: 'Open Sans', sans-serif;
 font-size: 18px;
 color: #5A3825; /* Chocolate Brown */
 line-height: 1.6;
 max-width: 600px;
-```
+\`\`\`
 
 ### ✅ Primary CTA Button
 
 **Specifications**:
-```css
+\`\`\`css
 background: #C44569; /* Raspberry Pink */
 color: white;
 font-family: 'Poppins', sans-serif;
@@ -100,14 +100,14 @@ font-size: 16px;
 padding: 16px 48px; /* 16px vertical */
 border-radius: 12px;
 box-shadow: 0 4px 12px rgba(196, 69, 105, 0.3);
-```
+\`\`\`
 
 **Hover State**:
-```css
+\`\`\`css
 transform: translateY(-2px);
 box-shadow: 0 6px 20px rgba(196, 69, 105, 0.4);
 transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
-```
+\`\`\`
 
 **Label**: "Order Custom Cake" with arrow icon
 
@@ -118,15 +118,15 @@ transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
 ### ✅ Card Component Specifications
 
 **Container**:
-```css
+\`\`\`css
 background: white;
 border-radius: 12px;
 box-shadow: 0 4px 8px rgba(90, 56, 37, 0.12);
 border: none;
-```
+\`\`\`
 
 **Auto-Rotation**:
-```javascript
+\`\`\`javascript
 useEffect(() => {
   const timer = setInterval(() => {
     setCurrentSlide((prev) => (prev + 1) % spotlightCakes.length);
@@ -134,7 +134,7 @@ useEffect(() => {
   
   return () => clearInterval(timer);
 }, []);
-```
+\`\`\`
 
 **Layout**:
 - Grid: 2-column layout on desktop (image | content)
@@ -152,14 +152,14 @@ useEffect(() => {
 ### ✅ Navigation Controls
 
 **Arrow Buttons**:
-```css
+\`\`\`css
 width: 48px;
 height: 48px;
 border-radius: 50%;
 background: white;
 border: 2px solid #C44569;
 box-shadow: 0 2px 8px rgba(90, 56, 37, 0.1);
-```
+\`\`\`
 
 **Hover**: Background changes to #C44569
 
@@ -204,18 +204,18 @@ box-shadow: 0 2px 8px rgba(90, 56, 37, 0.1);
 
 ### Header (Sticky/Transparent)
 **Default State** (transparent):
-```css
+\`\`\`css
 background: transparent;
 text-shadow: 0 2px 8px rgba(255, 255, 255, 0.8);
-```
+\`\`\`
 
 **Scrolled State**:
-```css
+\`\`\`css
 background: rgba(248, 235, 215, 0.98);
 backdrop-filter: blur(20px);
 border-bottom: 1px solid rgba(90, 56, 37, 0.15);
 box-shadow: 0 2px 8px rgba(90, 56, 37, 0.1);
-```
+\`\`\`
 
 **Navigation Text**:
 - Default: rgba(90, 56, 37, 0.9) with white shadow
@@ -223,13 +223,13 @@ box-shadow: 0 2px 8px rgba(90, 56, 37, 0.1);
 - Active: #C44569
 
 **Staff Login Button**:
-```css
+\`\`\`css
 background: #C44569;
 color: white;
 padding: 12px 24px;
 border-radius: 8px;
 box-shadow: 0 2px 8px rgba(196, 69, 105, 0.25);
-```
+\`\`\`
 
 ### Mobile Menu
 **Background**: White (not dark)
@@ -281,7 +281,7 @@ box-shadow: 0 2px 8px rgba(196, 69, 105, 0.25);
 
 ## 🎨 Visual Hierarchy Flow
 
-```
+\`\`\`
 Hero (85vh)
   ↓
 H1 Tagline (Lucida 28px Raspberry)
@@ -300,7 +300,7 @@ Testimonials (White BG → Cream Cards)
 Final CTA (Cream BG → White Card)
   ↓
 Footer (White)
-```
+\`\`\`
 
 ---
 
