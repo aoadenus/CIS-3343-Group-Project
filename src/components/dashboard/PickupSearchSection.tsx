@@ -69,21 +69,25 @@ export function PickupSearchSection({ orders, onOrderClick }: PickupSearchSectio
       <div style={{
         marginBottom: '20px'
       }}>
-        <h2 style={{
-          fontFamily: 'Poppins, sans-serif',
-          fontSize: '18px',
+        <h3 style={{
+          fontFamily: 'Playfair Display, serif',
+          fontSize: '24px',
           fontWeight: 700,
           color: '#2B2B2B',
-          marginBottom: '8px'
+          marginBottom: '4px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px'
         }}>
-          Order Pickup Search
-        </h2>
+          <span role="img" aria-label="search" style={{ fontSize: '20px' }}>🔍</span>
+          Quick Pickup Search
+        </h3>
         <p style={{
           fontFamily: 'Open Sans, sans-serif',
-          fontSize: '13px',
-          color: '#6B7280'
+          fontSize: '14px',
+          color: '#5A3825'
         }}>
-          Search by customer name, order number, or occasion
+          Find customer orders for today's pickups
         </p>
       </div>
 
@@ -110,7 +114,7 @@ export function PickupSearchSection({ orders, onOrderClick }: PickupSearchSectio
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder="Enter customer name or order number..."
+            placeholder="Search by last name (e.g., Chen)..."
             style={{
               width: '100%',
               height: '52px',
