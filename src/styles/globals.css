@@ -1450,3 +1450,588 @@ h1, h2, h3, h4, h5, h6 {
   padding-left: clamp(12px, 3vw, 24px);
   padding-right: clamp(12px, 3vw, 24px);
 }
+
+/* ========================================
+   DARK MODE THEME SYSTEM
+   Comprehensive dark mode styles
+   ======================================== */
+
+/* === DARK MODE CSS VARIABLES === */
+.dark-mode {
+  /* Core dark mode colors */
+  --bg-base: #1A1A1A;
+  --bg-card: #2B2B2B;
+  --bg-elevated: #333333;
+  --bg-surface: #3A3A3A;
+  --text-primary: #FFFFFF;
+  --text-secondary: #E0E0E0;
+  --text-muted: #999999;
+  --accent: #C44569;
+  --accent-light: #E36B86;
+  --border: #3A3A3A;
+  --border-light: #4A4A4A;
+
+  /* Override light mode variables */
+  --color-cream: #1A1A1A;
+  --color-white: #2B2B2B;
+  --color-charcoal: #F8EBD7;
+  --color-soft-gray: #3A3A3A;
+  --text-on-light: #FFFFFF;
+  --text-muted-light: rgba(255, 255, 255, 0.75);
+  --border-light: #3A3A3A;
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-button: 0 2px 6px rgba(0, 0, 0, 0.3);
+
+  /* Toast colors for dark mode */
+  --toast-info-bg: #2B2B2B;
+  --toast-info-border: #3A3A3A;
+  --toast-info-text: #FFFFFF;
+}
+
+/* === SMOOTH TRANSITIONS === */
+.dark-mode,
+.dark-mode *,
+.dark-mode *::before,
+.dark-mode *::after {
+  transition: background-color 250ms ease-out,
+              border-color 250ms ease-out,
+              color 250ms ease-out,
+              box-shadow 250ms ease-out;
+}
+
+/* === BODY STYLES === */
+.dark-mode body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+}
+
+/* === TYPOGRAPHY === */
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode h5,
+.dark-mode h6 {
+  color: var(--text-primary);
+}
+
+.dark-mode p {
+  color: var(--text-secondary);
+}
+
+.dark-mode a {
+  color: var(--accent-light);
+}
+
+.dark-mode a:hover {
+  color: var(--accent);
+}
+
+.dark-mode .text-muted,
+.dark-mode .text-charcoal {
+  color: var(--text-secondary) !important;
+}
+
+/* === CARDS === */
+.dark-mode .card,
+.dark-mode [class*="Card"],
+.dark-mode .bg-white,
+.dark-mode [class*="bg-white"] {
+  background: var(--bg-card) !important;
+  border-color: var(--border) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+.dark-mode .card:hover,
+.dark-mode [class*="Card"]:hover {
+  box-shadow: 0 0 20px rgba(196, 69, 105, 0.3) !important;
+}
+
+/* === BUTTONS === */
+.dark-mode .btn-primary {
+  background: var(--accent);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(196, 69, 105, 0.3);
+}
+
+.dark-mode .btn-primary:hover {
+  background: var(--accent-light);
+  box-shadow: 0 4px 16px rgba(196, 69, 105, 0.4);
+}
+
+.dark-mode .btn-secondary {
+  background: transparent;
+  color: var(--accent-light);
+  border-color: var(--accent);
+}
+
+.dark-mode .btn-secondary:hover {
+  background: rgba(196, 69, 105, 0.15);
+  box-shadow: 0 0 12px rgba(196, 69, 105, 0.3);
+}
+
+/* Generic button styles */
+.dark-mode button:not(.btn-primary):not(.btn-secondary) {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+.dark-mode button:hover {
+  box-shadow: 0 0 12px rgba(196, 69, 105, 0.4);
+}
+
+/* === INPUT FIELDS === */
+.dark-mode .input-field,
+.dark-mode input,
+.dark-mode textarea,
+.dark-mode select {
+  background: var(--bg-elevated) !important;
+  border-color: var(--border) !important;
+  color: var(--text-primary) !important;
+}
+
+.dark-mode .input-field::placeholder,
+.dark-mode input::placeholder,
+.dark-mode textarea::placeholder {
+  color: var(--text-muted) !important;
+}
+
+.dark-mode .input-field:focus,
+.dark-mode input:focus,
+.dark-mode textarea:focus,
+.dark-mode select:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(196, 69, 105, 0.2) !important;
+  outline: none;
+}
+
+/* Checkbox and radio styling */
+.dark-mode input[type="checkbox"],
+.dark-mode input[type="radio"] {
+  accent-color: var(--accent);
+}
+
+/* === TABLES === */
+.dark-mode table {
+  background: var(--bg-card) !important;
+  border-color: var(--border) !important;
+}
+
+.dark-mode th {
+  background: var(--bg-elevated) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+}
+
+.dark-mode td {
+  color: var(--text-secondary) !important;
+  border-color: var(--border) !important;
+}
+
+.dark-mode tr {
+  border-color: var(--border) !important;
+}
+
+.dark-mode tr:hover {
+  background: var(--bg-elevated) !important;
+}
+
+.dark-mode tbody tr:nth-child(even) {
+  background: rgba(58, 58, 58, 0.5) !important;
+}
+
+/* === NAVIGATION & SIDEBAR === */
+.dark-mode nav,
+.dark-mode aside,
+.dark-mode header,
+.dark-mode footer {
+  background: var(--bg-card) !important;
+  border-color: var(--border) !important;
+}
+
+.dark-mode nav a,
+.dark-mode aside a {
+  color: var(--text-secondary);
+}
+
+.dark-mode nav a:hover,
+.dark-mode aside a:hover,
+.dark-mode nav a.active,
+.dark-mode aside a.active {
+  color: var(--accent-light);
+  background: rgba(196, 69, 105, 0.1);
+}
+
+/* === MODALS & DIALOGS === */
+.dark-mode [role="dialog"],
+.dark-mode [role="alertdialog"],
+.dark-mode .modal,
+.dark-mode [class*="modal"],
+.dark-mode [class*="Modal"],
+.dark-mode [class*="dialog"],
+.dark-mode [class*="Dialog"] {
+  background: var(--bg-card) !important;
+  border-color: var(--border) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Modal overlay */
+.dark-mode [class*="overlay"],
+.dark-mode [class*="Overlay"] {
+  background: rgba(0, 0, 0, 0.7) !important;
+}
+
+/* === DROPDOWN MENUS === */
+.dark-mode [class*="dropdown"],
+.dark-mode [class*="Dropdown"],
+.dark-mode [class*="menu"],
+.dark-mode [class*="Menu"],
+.dark-mode [role="menu"],
+.dark-mode [role="listbox"] {
+  background: var(--bg-elevated) !important;
+  border-color: var(--border) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+}
+
+.dark-mode [role="menuitem"],
+.dark-mode [role="option"] {
+  color: var(--text-secondary) !important;
+}
+
+.dark-mode [role="menuitem"]:hover,
+.dark-mode [role="option"]:hover {
+  background: rgba(196, 69, 105, 0.15) !important;
+  color: var(--text-primary) !important;
+}
+
+/* === TOOLTIPS === */
+.dark-mode [class*="tooltip"],
+.dark-mode [class*="Tooltip"],
+.dark-mode [role="tooltip"] {
+  background: var(--bg-surface) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+}
+
+/* === BADGES & TAGS === */
+.dark-mode [class*="badge"],
+.dark-mode [class*="Badge"],
+.dark-mode [class*="tag"],
+.dark-mode [class*="Tag"] {
+  background: var(--bg-elevated) !important;
+  color: var(--text-secondary) !important;
+  border-color: var(--border) !important;
+}
+
+/* === CHARTS (Recharts) === */
+.dark-mode .recharts-cartesian-grid-horizontal line,
+.dark-mode .recharts-cartesian-grid-vertical line {
+  stroke: var(--border) !important;
+}
+
+.dark-mode .recharts-text,
+.dark-mode .recharts-label {
+  fill: var(--text-secondary) !important;
+}
+
+.dark-mode .recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: var(--bg-elevated) !important;
+  border-color: var(--border) !important;
+}
+
+.dark-mode .recharts-legend-item-text {
+  color: var(--text-secondary) !important;
+}
+
+/* === SCROLLBAR === */
+.dark-mode ::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+
+.dark-mode ::-webkit-scrollbar-thumb {
+  background: var(--border);
+}
+
+.dark-mode ::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* === SELECTION === */
+.dark-mode ::selection {
+  background-color: rgba(196, 69, 105, 0.4);
+  color: #FFFFFF;
+}
+
+/* === DIVIDERS & BORDERS === */
+.dark-mode hr,
+.dark-mode .divider,
+.dark-mode [class*="divider"],
+.dark-mode [class*="Divider"] {
+  border-color: var(--border) !important;
+  background-color: var(--border) !important;
+}
+
+/* === BACKGROUND UTILITIES === */
+.dark-mode .bg-cream,
+.dark-mode [class*="bg-cream"] {
+  background-color: var(--bg-base) !important;
+}
+
+.dark-mode .bg-charcoal,
+.dark-mode [class*="bg-charcoal"] {
+  background-color: var(--bg-elevated) !important;
+}
+
+.dark-mode .bg-soft-gray,
+.dark-mode [class*="bg-soft-gray"] {
+  background-color: var(--bg-surface) !important;
+}
+
+/* === SURFACE PANELS === */
+.dark-mode .surface-dark {
+  background: var(--bg-elevated);
+}
+
+/* === SKELETON LOADING === */
+.dark-mode .skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--bg-elevated) 25%,
+    var(--bg-surface) 50%,
+    var(--bg-elevated) 75%
+  );
+}
+
+/* === ALERTS & NOTIFICATIONS === */
+.dark-mode [class*="alert"],
+.dark-mode [class*="Alert"],
+.dark-mode [role="alert"] {
+  background: var(--bg-elevated) !important;
+  border-color: var(--border) !important;
+  color: var(--text-primary) !important;
+}
+
+/* === FORM LABELS === */
+.dark-mode label {
+  color: var(--text-secondary);
+}
+
+/* === CODE BLOCKS === */
+.dark-mode code,
+.dark-mode pre {
+  background: var(--bg-elevated) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+}
+
+/* === ACCORDION/COLLAPSIBLE === */
+.dark-mode [class*="accordion"],
+.dark-mode [class*="Accordion"],
+.dark-mode [class*="collapsible"],
+.dark-mode [class*="Collapsible"] {
+  background: var(--bg-card) !important;
+  border-color: var(--border) !important;
+}
+
+/* === TABS === */
+.dark-mode [role="tablist"] {
+  border-color: var(--border) !important;
+}
+
+.dark-mode [role="tab"] {
+  color: var(--text-muted) !important;
+}
+
+.dark-mode [role="tab"][aria-selected="true"],
+.dark-mode [role="tab"]:hover {
+  color: var(--accent-light) !important;
+  border-color: var(--accent) !important;
+}
+
+.dark-mode [role="tabpanel"] {
+  background: var(--bg-card) !important;
+  border-color: var(--border) !important;
+}
+
+/* === PROGRESS BARS === */
+.dark-mode progress,
+.dark-mode [class*="progress"],
+.dark-mode [class*="Progress"] {
+  background: var(--bg-elevated) !important;
+}
+
+.dark-mode progress::-webkit-progress-bar {
+  background: var(--bg-elevated);
+}
+
+.dark-mode progress::-webkit-progress-value {
+  background: var(--accent);
+}
+
+/* === BREADCRUMBS === */
+.dark-mode [class*="breadcrumb"],
+.dark-mode [class*="Breadcrumb"] {
+  color: var(--text-muted);
+}
+
+.dark-mode [class*="breadcrumb"] a,
+.dark-mode [class*="Breadcrumb"] a {
+  color: var(--text-secondary);
+}
+
+/* === KPI CARDS === */
+.dark-mode [class*="kpi"],
+.dark-mode [class*="KPI"],
+.dark-mode [class*="stat"],
+.dark-mode [class*="Stat"] {
+  background: var(--bg-card) !important;
+  border-color: var(--border) !important;
+}
+
+/* === ADMIN GRADIENT OVERRIDES === */
+.dark-mode .admin-gradient-bg {
+  background: linear-gradient(
+    135deg,
+    #1A1A1A 0%,
+    #2B2B2B 100%
+  );
+}
+
+.dark-mode .admin-card-gradient {
+  background: var(--bg-card);
+}
+
+.dark-mode .admin-card-gradient::before {
+  background: linear-gradient(
+    135deg,
+    rgba(196, 69, 105, 0.4) 0%,
+    rgba(58, 58, 58, 0.6) 50%,
+    rgba(196, 69, 105, 0.3) 100%
+  );
+}
+
+/* === FOCUS INDICATORS === */
+.dark-mode *:focus-visible {
+  outline-color: var(--accent);
+}
+
+/* === ICON COLORS === */
+.dark-mode svg:not([fill="none"]) {
+  color: var(--text-secondary);
+}
+
+.dark-mode .text-raspberry svg,
+.dark-mode svg.text-raspberry {
+  color: var(--accent-light) !important;
+}
+
+/* === EMPTY STATES === */
+.dark-mode [class*="empty"],
+.dark-mode [class*="Empty"],
+.dark-mode [class*="placeholder"],
+.dark-mode [class*="Placeholder"] {
+  color: var(--text-muted) !important;
+}
+
+/* === DATEPICKERS & CALENDARS === */
+.dark-mode [class*="calendar"],
+.dark-mode [class*="Calendar"],
+.dark-mode [class*="datepicker"],
+.dark-mode [class*="DatePicker"] {
+  background: var(--bg-card) !important;
+  border-color: var(--border) !important;
+  color: var(--text-primary) !important;
+}
+
+/* === FILE UPLOAD AREAS === */
+.dark-mode [class*="dropzone"],
+.dark-mode [class*="Dropzone"],
+.dark-mode [class*="upload"],
+.dark-mode [class*="Upload"] {
+  background: var(--bg-elevated) !important;
+  border-color: var(--border) !important;
+  color: var(--text-secondary) !important;
+}
+
+.dark-mode [class*="dropzone"]:hover,
+.dark-mode [class*="Upload"]:hover {
+  border-color: var(--accent) !important;
+  background: rgba(196, 69, 105, 0.1) !important;
+}
+
+/* === PAGINATION === */
+.dark-mode [class*="pagination"],
+.dark-mode [class*="Pagination"] {
+  background: var(--bg-card);
+}
+
+.dark-mode [class*="pagination"] button,
+.dark-mode [class*="Pagination"] button {
+  background: var(--bg-elevated) !important;
+  color: var(--text-secondary) !important;
+  border-color: var(--border) !important;
+}
+
+.dark-mode [class*="pagination"] button:hover,
+.dark-mode [class*="Pagination"] button:hover {
+  background: rgba(196, 69, 105, 0.2) !important;
+  color: var(--accent-light) !important;
+}
+
+/* === ANIMATED GRADIENT HERO DARK MODE === */
+.dark-mode .animated-gradient-hero .gradient-layer-1 {
+  background: linear-gradient(135deg,
+    #1A1A1A 0%,
+    #2B2B2B 50%,
+    #3A3A3A 100%
+  );
+}
+
+.dark-mode .animated-gradient-hero .gradient-layer-2 {
+  background: radial-gradient(circle at 30% 50%,
+    rgba(196, 69, 105, 0.2) 0%,
+    transparent 50%
+  );
+}
+
+.dark-mode .animated-gradient-hero .gradient-layer-3 {
+  background: radial-gradient(circle at 70% 50%,
+    rgba(196, 69, 105, 0.15) 0%,
+    transparent 50%
+  );
+}
+
+/* === GRADIENT CARD DEPTH DARK MODE === */
+.dark-mode .card-with-gradient-depth::before {
+  background: radial-gradient(
+    circle at center,
+    rgba(196, 69, 105, 0.2) 0%,
+    transparent 70%
+  );
+}
+
+/* === PRINT STYLES DARK MODE === */
+@media print {
+  .dark-mode body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .dark-mode * {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+  }
+}
+
+/* === ACCESSIBILITY: Disable dark mode transitions for reduced motion === */
+@media (prefers-reduced-motion: reduce) {
+  .dark-mode,
+  .dark-mode *,
+  .dark-mode *::before,
+  .dark-mode *::after {
+    transition: none !important;
+  }
+}

@@ -25,8 +25,9 @@ export function Header({ onMenuClick }: HeaderProps) {
       <button
         onClick={onMenuClick}
         className="lg:hidden p-2 hover:bg-[#F8EBD7] rounded-lg transition-colors"
+        aria-label="Open navigation menu"
       >
-        <Menu size={24} color="#C44569" />
+        <Menu size={24} color="#C44569" aria-hidden="true" />
       </button>
 
       {/* LEFT SECTION - Enhanced Logo */}
@@ -71,6 +72,7 @@ export function Header({ onMenuClick }: HeaderProps) {
           placeholder="Search orders, customers, products..."
           onFocus={() => setSearchFocused(true)}
           onBlur={() => setSearchFocused(false)}
+          aria-label="Search orders, customers, and products"
           style={{
             width: '100%',
             height: '100%',
@@ -107,8 +109,11 @@ export function Header({ onMenuClick }: HeaderProps) {
       </div>
 
       {/* Mobile Search Button - Only on Mobile */}
-      <button className="md:hidden p-2 hover:bg-[#F8EBD7] rounded-lg transition-colors">
-        <Search size={20} color="#C44569" />
+      <button
+        className="md:hidden p-2 hover:bg-[#F8EBD7] rounded-lg transition-colors"
+        aria-label="Open search"
+      >
+        <Search size={20} color="#C44569" aria-hidden="true" />
       </button>
 
       {/* RIGHT SECTION - Premium User Controls */}
@@ -131,8 +136,9 @@ export function Header({ onMenuClick }: HeaderProps) {
           onMouseLeave={(e) => {
             e.currentTarget.style.boxShadow = '0px 2px 8px rgba(196, 69, 105, 0.3)';
           }}
+          aria-label="Quick actions menu"
         >
-          <Plus size={20} color="white" strokeWidth={2.5} />
+          <Plus size={20} color="white" strokeWidth={2.5} aria-hidden="true" />
         </motion.button>
 
         {/* 2. Notifications Bell */}
@@ -146,10 +152,11 @@ export function Header({ onMenuClick }: HeaderProps) {
             alignItems: 'center',
             justifyContent: 'center',
           }}
+          aria-label="Notifications, 3 unread"
         >
           {/* Bell Icon */}
-          <Bell size={24} color="#2B2B2B" strokeWidth={1.5} />
-          
+          <Bell size={24} color="#2B2B2B" strokeWidth={1.5} aria-hidden="true" />
+
           {/* Notification Badge */}
           <div
             className="absolute flex items-center justify-center"
@@ -161,6 +168,7 @@ export function Header({ onMenuClick }: HeaderProps) {
               borderRadius: '50%',
               backgroundColor: '#C44569',
             }}
+            aria-hidden="true"
           >
             <span
               style={{
@@ -182,6 +190,7 @@ export function Header({ onMenuClick }: HeaderProps) {
           style={{
             filter: 'drop-shadow(0px 2px 8px rgba(90, 56, 37, 0.12))',
           }}
+          aria-label="User profile menu"
         >
           {/* Avatar Circle */}
           <div
@@ -193,6 +202,7 @@ export function Header({ onMenuClick }: HeaderProps) {
               background: '#C44569',
               border: '3px solid white',
             }}
+            aria-hidden="true"
           >
             {/* Initials */}
             <span

@@ -60,13 +60,15 @@ export function Sidebar({ activePage, onNavigate, onCollapsedChange, mobileOpen,
           borderRadius: '8px',
         }}
         title={isCollapsed ? item.label : undefined}
+        aria-label={isCollapsed ? item.label : undefined}
+        aria-current={isActive ? "page" : undefined}
       >
         <div className={cn("flex items-center", isCollapsed ? "" : "gap-3")}>
-          <Icon size={24} color={isActive ? "#FFFFFF" : "#2B2B2B"} strokeWidth={1.5} />
+          <Icon size={24} color={isActive ? "#FFFFFF" : "#2B2B2B"} strokeWidth={1.5} aria-hidden="true" />
           {!isCollapsed && (
-            <span 
-              style={{ 
-                fontFamily: 'Open Sans', 
+            <span
+              style={{
+                fontFamily: 'Open Sans',
                 fontSize: '15px',
                 fontWeight: isActive ? 600 : 400,
                 color: isActive ? '#FFFFFF' : '#5A3825',
@@ -98,16 +100,17 @@ export function Sidebar({ activePage, onNavigate, onCollapsedChange, mobileOpen,
       <button
         onClick={handleToggle}
         className="absolute -right-3 top-8 w-6 h-6 bg-[#C44569] rounded-full flex items-center justify-center hover:bg-[#A63555] transition-colors shadow-bakery z-10"
+        aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
       >
         {isCollapsed ? (
-          <ChevronRight size={14} color="white" />
+          <ChevronRight size={14} color="white" aria-hidden="true" />
         ) : (
-          <ChevronLeft size={14} color="white" />
+          <ChevronLeft size={14} color="white" aria-hidden="true" />
         )}
       </button>
 
       {/* Main Menu Items */}
-      <nav className="flex-1 px-4" style={{ marginTop: '24px' }}>
+      <nav className="flex-1 px-4" style={{ marginTop: '24px' }} aria-label="Main navigation">
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {mainMenuItems.map(renderMenuItem)}
         </div>
@@ -153,12 +156,13 @@ export function Sidebar({ activePage, onNavigate, onCollapsedChange, mobileOpen,
             <button
               onClick={onMobileClose}
               className="absolute right-4 top-4 p-2 hover:bg-[#F8EBD7] rounded-lg transition-colors"
+              aria-label="Close navigation menu"
             >
-              <X size={24} color="#C44569" />
+              <X size={24} color="#C44569" aria-hidden="true" />
             </button>
 
             {/* Main Menu Items */}
-            <nav className="flex-1 px-4" style={{ marginTop: '60px' }}>
+            <nav className="flex-1 px-4" style={{ marginTop: '60px' }} aria-label="Main navigation">
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {mainMenuItems.map((item) => {
                   const Icon = item.icon;

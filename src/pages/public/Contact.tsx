@@ -392,38 +392,43 @@ export function Contact() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block mb-2" style={{ fontSize: '14px', fontWeight: 500, color: 'var(--text-secondary)' }}>
+                    <label htmlFor="contact-name" className="block mb-2" style={{ fontSize: '14px', fontWeight: 500, color: 'var(--text-secondary)' }}>
                       Your Name *
                     </label>
                     <Input
+                      id="contact-name"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="John Doe"
                       className="input-field h-12"
                       required
+                      aria-required="true"
                     />
                   </div>
                   <div>
-                    <label className="block mb-2" style={{ fontSize: '14px', fontWeight: 500, color: 'var(--text-secondary)' }}>
+                    <label htmlFor="contact-email" className="block mb-2" style={{ fontSize: '14px', fontWeight: 500, color: 'var(--text-secondary)' }}>
                       Email Address *
                     </label>
                     <Input
+                      id="contact-email"
                       type="email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="john@example.com"
                       className="input-field h-12"
                       required
+                      aria-required="true"
                     />
                   </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block mb-2" style={{ fontSize: '14px', fontWeight: 500, color: 'var(--text-secondary)' }}>
+                    <label htmlFor="contact-phone" className="block mb-2" style={{ fontSize: '14px', fontWeight: 500, color: 'var(--text-secondary)' }}>
                       Phone Number
                     </label>
                     <Input
+                      id="contact-phone"
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -432,10 +437,11 @@ export function Contact() {
                     />
                   </div>
                   <div>
-                    <label className="block mb-2" style={{ fontSize: '14px', fontWeight: 500, color: 'var(--text-secondary)' }}>
+                    <label htmlFor="contact-subject" className="block mb-2" style={{ fontSize: '14px', fontWeight: 500, color: 'var(--text-secondary)' }}>
                       Subject
                     </label>
                     <Input
+                      id="contact-subject"
                       value={formData.subject}
                       onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                       placeholder="Custom cake inquiry"
@@ -445,16 +451,18 @@ export function Contact() {
                 </div>
 
                 <div>
-                  <label className="block mb-2" style={{ fontSize: '14px', fontWeight: 500, color: 'var(--text-secondary)' }}>
+                  <label htmlFor="contact-message" className="block mb-2" style={{ fontSize: '14px', fontWeight: 500, color: 'var(--text-secondary)' }}>
                     Message *
                   </label>
                   <Textarea
+                    id="contact-message"
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Tell us about your event and what you're looking for..."
                     rows={6}
                     className="input-field"
                     required
+                    aria-required="true"
                   />
                 </div>
 

@@ -281,6 +281,8 @@ export default function Login({ onBackToPublic }: LoginProps) {
                     color: 'var(--text-primary)',
                     fontFamily: 'Open Sans'
                   }}
+                  aria-required="true"
+                  required
                 />
               </div>
             </div>
@@ -318,6 +320,8 @@ export default function Login({ onBackToPublic }: LoginProps) {
                       color: "var(--text-primary)",
                       fontFamily: "Open Sans",
                     }}
+                    aria-required="true"
+                    required
                   />
                   <button
                     type="button"
@@ -332,8 +336,9 @@ export default function Login({ onBackToPublic }: LoginProps) {
             </div>
 
             <div className="flex items-center justify-between text-sm" style={{ marginTop: '12px' }}>
-              <label className="flex items-center gap-2 cursor-pointer">
+              <label htmlFor="remember-me" className="flex items-center gap-2 cursor-pointer">
                 <input
+                  id="remember-me"
                   type="checkbox"
                   className="w-4 h-4 rounded accent-[#C44569]"
                 />
