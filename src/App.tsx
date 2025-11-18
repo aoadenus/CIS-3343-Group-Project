@@ -1,101 +1,62 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { WelcomeScreen } from './components/WelcomeScreen';
-import { PublicLayout } from './components/PublicLayout';
-import { AdminLayout } from './components/AdminLayout';
-import { ToastProvider } from './components/ToastContext';
-import { ErrorBoundary } from './components/ErrorBoundary';
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { WelcomeScreen } from "./components/WelcomeScreen";
+import { PublicLayout } from "./components/PublicLayout";
+import { AdminLayout } from "./components/AdminLayout";
+import { ToastProvider } from "./components/ToastContext";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 
 // Public pages - direct imports
-import { PublicHome } from './pages/public/Home';
-import Menu from './pages/public/Menu';
-import { Gallery } from './pages/public/Gallery';
-import { About } from './pages/public/About';
-import { Contact } from './pages/public/Contact';
-import { TrackOrder } from './pages/public/TrackOrder';
+import { PublicHome } from "./pages/public/Home";
+import Menu from "./pages/public/Menu";
+import { Gallery } from "./pages/public/Gallery";
+import { About } from "./pages/public/About";
+import { Contact } from "./pages/public/Contact";
+import { TrackOrder } from "./pages/public/TrackOrder";
 
 // Admin pages - direct imports
-import Login from './pages/admin/Login';
-import { OrderBoard } from './pages/admin/OrderBoard';
-import { OrderList } from './pages/admin/OrderList';
-import { WizardContainer } from './pages/admin/order-create/WizardContainer';
-import { Builder } from './pages/admin/Builder';
-import { AdminProducts } from './pages/admin/Products';
-import { Orders } from './pages/Orders';
-import { Customers } from './pages/Customers';
-import { Products } from './pages/Products';
-import { Reports } from './pages/Reports';
-import { Settings } from './pages/Settings';
-import { StaffManagement } from './pages/StaffManagement';
+import Login from "./pages/admin/Login";
+import { OrderList } from "./pages/admin/OrderList";
+import { WizardContainer } from "./pages/admin/order-create/WizardContainer";
+import { Builder } from "./pages/admin/Builder";
+import { AdminProducts } from "./pages/admin/Products";
+import { Orders } from "./pages/Orders";
+import { Customers } from "./pages/Customers";
+import { Products } from "./pages/Products";
+import { Reports } from "./pages/Reports";
+import { Settings } from "./pages/Settings";
+import { StaffManagement } from "./pages/StaffManagement";
 
 // Role-based dashboards
-import { SalesDashboard } from './pages/admin/dashboards/SalesDashboard';
-import { BakerDashboard } from './pages/admin/dashboards/BakerDashboard';
-import { DecoratorDashboard } from './pages/admin/dashboards/DecoratorDashboard';
-import { AccountantDashboard } from './pages/admin/dashboards/AccountantDashboard';
-import { ManagerDashboard } from './pages/admin/dashboards/ManagerDashboard';
+import { SalesDashboard } from "./pages/admin/dashboards/SalesDashboard";
+import { BakerDashboard } from "./pages/admin/dashboards/BakerDashboard";
+import { DecoratorDashboard } from "./pages/admin/dashboards/DecoratorDashboard";
+import { AccountantDashboard } from "./pages/admin/dashboards/AccountantDashboard";
+import { ManagerDashboard } from "./pages/admin/dashboards/ManagerDashboard";
 
 // Staff Reports
-import { OrderSummaryReport } from './pages/staff/OrderSummaryReport';
-import { CustomerListReport } from './pages/staff/CustomerListReport';
-import { RevenueReport } from './pages/staff/RevenueReport';
-import { PendingOrdersReport } from './pages/staff/reports/PendingOrdersReport';
-import { CompletedOrdersReport } from './pages/staff/reports/CompletedOrdersReport';
-import { ProductInventoryReport } from './pages/staff/reports/ProductInventoryReport';
+import { OrderSummaryReport } from "./pages/staff/OrderSummaryReport";
+import { CustomerListReport } from "./pages/staff/CustomerListReport";
+import { RevenueReport } from "./pages/staff/RevenueReport";
+import { PendingOrdersReport } from "./pages/staff/reports/PendingOrdersReport";
+import { CompletedOrdersReport } from "./pages/staff/reports/CompletedOrdersReport";
+import { ProductInventoryReport } from "./pages/staff/reports/ProductInventoryReport";
+import { FulfillmentBoard } from "./pages/staff/FulfillmentBoard";
+import { useAuth } from "./context/AuthContext";
 
 type AppMode = 'public' | 'login' | 'admin';
 
 export default function App() {
+  const { isAuthenticated, isLoading: isAuthLoading, user, logout } = useAuth();
   // Disable welcome screen entirely to fix freezing issues
   const [showWelcome] = useState(false);
-  const [appMode, setAppMode] = useState<AppMode>('public');
-  const [activePage, setActivePage] = useState('home');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState<string | null>(null);
-  const [isInitializing, setIsInitializing] = useState(true);
+  const [appMode, setAppMode] = useState<AppMode>(() =>
+    isAuthenticated ? "admin" : "public",
+  );
+  const [activePage, setActivePage] = useState("home");
 
-  // Decode JWT to get user role
-  const getUserRole = (): string => {
-    const token = localStorage.getItem('token');
-    if (!token) return 'sales';
-    
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.role || 'sales';
-    } catch {
-      return 'sales';
-    }
-  };
-
-  // Decode JWT to get user name
-  const getUserName = (): string => {
-    const token = localStorage.getItem('token');
-    if (!token) return 'Guest User';
-    
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.name || 'Guest User';
-    } catch {
-      return 'Guest User';
-    }
-  };
-
-  useEffect(() => {
-    console.log('🌐 Emily Bakes Cakes - Loaded');
-    
-    // Initialize userRole from JWT on page load/refresh
-    const token = localStorage.getItem('token');
-    if (token) {
-      const role = getUserRole();
-      setUserRole(role);
-      setIsAuthenticated(true);
-      setAppMode('admin');
-      setActivePage('analytics-dashboard');
-    } else {
-      setUserRole('sales'); // Default for non-authenticated users
-    }
-    setIsInitializing(false);
-  }, []);
+  const userRole = user?.role ?? "sales";
+  const userName = user?.fullName ?? "Guest User";
 
   // Scroll to top instantly on page change (Y:0 reset)
   useEffect(() => {
@@ -107,26 +68,39 @@ export default function App() {
     setActivePage(page);
   };
 
+  useEffect(() => {
+    if (isAuthLoading) {
+      return;
+    }
+
+    setAppMode((prev) => {
+      if (isAuthenticated) {
+        return "admin";
+      }
+      if (prev === "admin") {
+        return "login";
+      }
+      return prev;
+    });
+  }, [isAuthenticated, isAuthLoading]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
+
+    setActivePage((prev) =>
+      prev === "home" ||
+      prev === "login" ||
+      prev === "public" ||
+      prev === "presentation"
+        ? "analytics-dashboard"
+        : prev,
+    );
+  }, [isAuthenticated]);
+
   // Handle admin access
   const handleAdminAccess = () => {
-    setAppMode('login');
-  };
-
-  // Handle login
-  const handleLogin = () => {
-    setIsAuthenticated(true);
-    setAppMode('admin');
-    const role = getUserRole();
-    setUserRole(role);
-    // Set default page based on role
-    setActivePage('analytics-dashboard');
-  };
-
-  // Handle logout
-  const handleLogout = () => {
-    localStorage.removeItem('token'); // Clear JWT token
-    setIsAuthenticated(false);
-    setUserRole('sales');
     setAppMode('login');
   };
 
@@ -159,7 +133,7 @@ export default function App() {
   // Render admin pages - Professional OMS naming
   const renderAdminPage = () => {
     // Show loading state while role is being determined
-    if (isInitializing || userRole === null) {
+    if (isAuthLoading || userRole === null) {
       return (
         <div className="h-screen flex items-center justify-center" style={{ background: '#F8EBD7' }}>
           <p style={{ fontFamily: 'Open Sans, sans-serif', color: '#5A3825' }}>Loading...</p>
@@ -191,7 +165,7 @@ export default function App() {
       case 'analytics-dashboard':
         return getRoleDashboard();
       case 'fulfillment-board':
-        return <OrderBoard />;
+        return <FulfillmentBoard />;
       case 'order-management':
         return <OrderList onNavigate={setActivePage} />;
       case 'order-create':
@@ -254,7 +228,7 @@ export default function App() {
       case 'analytics':
         return getRoleDashboard();
       case 'order-board':
-        return <OrderBoard />;
+        return <FulfillmentBoard />;
       case 'order-list':
         return <OrderList onNavigate={setActivePage} />;
       case 'products-new':
@@ -313,10 +287,8 @@ export default function App() {
             )}
 
             {appMode === 'login' && (
-              <Login 
-                onLogin={handleLogin}
+              <Login
                 onBackToPublic={handleBackToPublic}
-                onLogout={handleLogout}
               />
             )}
 
@@ -324,9 +296,9 @@ export default function App() {
               <AdminLayout
                 activePage={activePage}
                 onNavigate={setActivePage}
-                onLogout={handleLogout}
-                userName={getUserName()}
-                userRole={getUserRole()}
+                onLogout={logout}
+                userName={userName}
+                userRole={userRole}
               >
                 <div className="light-theme">
                   <AnimatePresence mode="wait">
