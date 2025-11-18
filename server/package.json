@@ -1,0 +1,19 @@
+{
+  "name": "emily-local-api",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "migrate": "node seed.js",
+    "dev": "node index.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^8.0.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "bcryptjs": "^2.4.3"
+  }
+}

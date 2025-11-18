@@ -15,7 +15,7 @@ import { Input } from "../../components/ui/input";
 import { Card } from "../../components/ui/card";
 import { useToast } from "../../components/ToastContext";
 import DevOriginBanner from '../../components/DevOriginBanner';
-import { supabase } from "../../lib/supabaseClient";
+import { api } from "../../lib/apiClient";
 
 const demoAccounts = [
   { role: "Owner", email: "emily@emilybakescakes.com", password: "test" },
@@ -53,13 +53,10 @@ export default function Login({ onBackToPublic }: LoginProps) {
     setIsLoading(true);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email: username.trim().toLowerCase(),
-        password,
-      });
-
-      if (error) {
-        throw new Error(error.message || JSON.stringify(error));
+      const resp = await api.login(username.trim().toLowerCase(), password);
+      // store token for later API calls
+      if (resp?.token) {
+        localStorage.setItem('emily_token', resp.token);
       }
       showToast("success", "Welcome back!", "Login Successful");
     } catch (error) {
