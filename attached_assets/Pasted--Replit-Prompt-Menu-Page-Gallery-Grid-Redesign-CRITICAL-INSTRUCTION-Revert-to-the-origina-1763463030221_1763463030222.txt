@@ -1,0 +1,193 @@
+## Replit Prompt: Menu Page Gallery Grid Redesign
+
+**CRITICAL INSTRUCTION:** Revert to the original shop page design and apply ONLY the upgrades specified below. Do NOT add unnecessary elements, icons, checkmarks, or decorative patterns.
+
+***
+
+### **Objective**
+Redesign the Menu page with a clean, Pinterest-style gallery grid layout that follows the existing Emily Bakes Cakes style guide. Focus on simplicity: **images and short descriptions only**.
+
+---
+
+### **Design Requirements**
+
+#### **1. Page Structure**
+
+**Tab Navigation (Top of Page)**
+- Create 6 filter tabs: Standard Cakes, Cake Flavors, Fillings, Icing Colors, Icing Flavors, Decorations
+- Tab styling from style guide:
+  - Font: Poppins, 15px, weight 600
+  - Active tab: Background #C44569 (Raspberry), text #FAF5F0 (Cream)
+  - Inactive tab: Background transparent, text #5A3825 (Chocolate)
+  - Border radius: 8px
+  - Padding: 12px 24px
+  - Hover: Background rgba(196, 69, 105, 0.1)
+  - Transition: 200ms ease
+
+**Gallery Grid Layout**
+- Responsive grid:
+  - Desktop: 4 columns
+  - Tablet: 3 columns
+  - Mobile: 2 columns
+- Gap between cards: 24px
+- Grid uses CSS Grid with `grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))`
+
+***
+
+#### **2. Card Design (Each Menu Item)**
+
+**Card Container**
+- Background: #FAF5F0 (Cream)
+- Border radius: 12px
+- Box shadow: 0 2px 8px rgba(90, 56, 37, 0.08)
+- Padding: 0 (image fills top)
+- Hover state:
+  - Box shadow: 0 4px 16px rgba(196, 69, 105, 0.15)
+  - Transform: translateY(-4px)
+  - Transition: 200ms ease
+
+**Image Section**
+- Height: 240px (fixed)
+- Width: 100%
+- Object-fit: cover
+- Border radius: 12px 12px 0 0
+- NO icons, NO overlays, NO badges
+
+**Content Section**
+- Padding: 16px
+- Background: #FAF5F0
+
+**Title**
+- Font: Poppins, 18px, weight 600
+- Color: #2B2B2B (Charcoal)
+- Margin bottom: 8px
+- NO icons before or after title
+
+**Description**
+- Font: Open Sans, 14px, weight 400
+- Color: #5A3825 (Chocolate)
+- Line height: 1.5
+- Max 2 lines with ellipsis for overflow
+- Margin: 0
+
+***
+
+#### **3. Elements to REMOVE**
+- ❌ NO checkmarks or "Available" badges
+- ❌ NO icons in titles
+- ❌ NO decorative plus patterns
+- ❌ NO hex code messages or labels
+- ❌ NO unnecessary arrows (>) in buttons
+- ❌ NO status indicators
+
+***
+
+#### **4. Content Structure by Tab**
+
+**Standard Cakes**
+- Image placeholder for cake photo
+- Title: Cake name
+- Description: 1-2 sentence description
+
+**Cake Flavors**
+- Image placeholder for flavor visual
+- Title: Flavor name
+- Description: Brief taste profile
+
+**Fillings**
+- Image placeholder for filling
+- Title: Filling name
+- Description: Short description
+
+**Icing Colors**
+- Image: Color swatch (solid color block, 240px height)
+- Title: Color name
+- Description: Color description ONLY (no hex codes displayed)
+
+**Icing Flavors**
+- Image placeholder for icing flavor
+- Title: Flavor name
+- Description: Brief description
+
+**Decorations**
+- Image placeholder for decoration (LARGER images, no tiny icons)
+- Title: Decoration name
+- Description: Short description
+
+***
+
+#### **5. Responsive Behavior**
+
+**Desktop (≥1024px)**
+- 4 columns
+- Image height: 240px
+- Card max-width: 320px
+
+**Tablet (768-1023px)**
+- 3 columns
+- Image height: 220px
+
+**Mobile (<768px)**
+- 2 columns
+- Image height: 180px
+- Padding: 12px
+- Font sizes: Title 16px, Description 13px
+
+***
+
+#### **6. CTA Section (Bottom of Page)**
+
+**Styling**
+- Background: Linear gradient (135deg, #C44569 0%, #8B1E3E 100%)
+- Padding: 60px 24px
+- Border radius: 0 (full width)
+- Text align: center
+
+**Heading**
+- Font: Playfair Display, 32px, weight 700
+- Color: #FAF5F0
+- Margin bottom: 16px
+
+**Subheading**
+- Font: Open Sans, 16px, weight 400
+- Color: rgba(250, 245, 240, 0.9)
+- Margin bottom: 32px
+
+**CTA Button**
+- Background: #FAF5F0 (Cream)
+- Color: #C44569 (Raspberry)
+- Font: Poppins, 16px, weight 600
+- Padding: 14px 32px
+- Border radius: 8px
+- Hover: Background #F8EBD7, Scale 1.03
+
+***
+
+#### **7. Style Guide Compliance Checklist**
+✅ Use Raspberry (#C44569) for primary actions
+✅ Use Vanilla (#F8EBD7) and Cream (#FAF5F0) for backgrounds
+✅ Use Charcoal (#2B2B2B) for headings
+✅ Use Chocolate (#5A3825) for body text
+✅ 8px grid spacing system
+✅ Poppins for headings, Open Sans for body text
+✅ Box shadows: 0 2px 8px rgba(90, 56, 37, 0.08) default
+✅ Transitions: 200ms ease
+✅ Border radius: 8-12px for cards
+
+***
+
+### **Implementation Notes**
+- Keep the original shop page structure
+- Only update the visual styling and layout
+- Remove all unnecessary decorative elements
+- Focus on clean, minimal design with images and descriptions
+- Ensure proper spacing using 8px grid system
+- Test responsive behavior on all breakpoints
+
+***
+
+**DO NOT:**
+- Add new functionality beyond filtering tabs
+- Include any elements not specified in this document
+- Break the existing style guide
+- Add decorative patterns, icons in titles, or status badges
