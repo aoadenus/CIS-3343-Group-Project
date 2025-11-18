@@ -298,6 +298,43 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
     return '🎂';
   };
 
+  // Helper function to get decoration icons
+  const getDecorationIcon = (decorationId: string) => {
+    if (decorationId.includes('flower')) return '🌸';
+    if (decorationId.includes('fondant')) return '🌷';
+    if (decorationId.includes('butterfly')) return '🦋';
+    if (decorationId.includes('tree')) return '🌲';
+    if (decorationId.includes('palm')) return '🌴';
+    if (decorationId.includes('rainbow')) return '🌈';
+    if (decorationId.includes('dinosaur')) return '🦕';
+    if (decorationId.includes('doll')) return '👗';
+    if (decorationId.includes('train')) return '🚂';
+    if (decorationId.includes('construction')) return '🏗️';
+    if (decorationId.includes('deer') || decorationId.includes('animal')) return '🦌';
+    if (decorationId.includes('graduation')) return '🎓';
+    if (decorationId.includes('balloon')) return '🎈';
+    if (decorationId.includes('firework')) return '🎆';
+    if (decorationId.includes('sport')) return '🏆';
+    if (decorationId.includes('ribbon')) return '🎀';
+    if (decorationId.includes('flag')) return '🇺🇸';
+    if (decorationId.includes('photo')) return '📸';
+    if (decorationId.includes('fleur')) return '⚜️';
+    if (decorationId.includes('candy')) return '🍬';
+    if (decorationId.includes('parasol')) return '☂️';
+    return '✨';
+  };
+
+  // Helper function to get cake category emoji
+  const getCakeEmoji = (category: string) => {
+    const emojiMap: { [key: string]: string } = {
+      'Classic': '🎂',
+      'Premium': '🍰',
+      'Fruity': '🍓',
+      'Chocolate': '🍫'
+    };
+    return emojiMap[category] || '🎂';
+  };
+
   // Calculate totals based on cake size (returns cents)
   const calculateTotal = () => {
     if (cakeType === 'standard') {
@@ -983,19 +1020,54 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
                   <label style={{ display: 'block', fontWeight: 500, fontSize: '14px', marginBottom: '8px' }}>
                     Select Standard Cake <span style={{ color: '#C44569' }}>*</span>
                   </label>
-                  <select
-                    value={selectedStandardCake}
-                    onChange={(e) => setSelectedStandardCake(e.target.value)}
-                    className="w-full p-3 border-2 rounded-lg"
-                    style={{ borderColor: '#E0E0E0', fontSize: '14px' }}
-                  >
-                    <option value="">Choose a cake...</option>
-                    {standardCakes.map(cake => (
-                      <option key={cake.id} value={cake.id}>
-                        {cake.name} (Base: ${cake.basePrice})
-                      </option>
-                    ))}
-                  </select>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {standardCakes.map(cake => {
+                      const isSelected = selectedStandardCake === cake.id;
+                      const cakeEmoji = getCakeEmoji(cake.category || 'Classic');
+                      
+                      return (
+                        <button
+                          key={cake.id}
+                          onClick={() => setSelectedStandardCake(cake.id)}
+                          className="p-4 rounded-lg border-2 transition-all text-left hover:shadow-md"
+                          style={{
+                            borderColor: isSelected ? '#C44569' : '#E0E0E0',
+                            background: isSelected ? 'rgba(196, 69, 105, 0.1)' : 'white'
+                          }}
+                        >
+                          <div className="flex items-start gap-3">
+                            <span style={{ fontSize: '28px' }}>{cakeEmoji}</span>
+                            <div className="flex-1">
+                              <div className="flex items-center justify-between mb-1">
+                                <h4 style={{ fontSize: '14px', fontWeight: 600 }}>{cake.name}</h4>
+                                {isSelected && <CheckCircle2 size={16} style={{ color: '#10B981' }} />}
+                              </div>
+                              {cake.description && (
+                                <p style={{ fontSize: '12px', color: '#666', marginBottom: '8px' }}>
+                                  {cake.description}
+                                </p>
+                              )}
+                              <div className="flex items-center justify-between">
+                                {cake.category && (
+                                  <Badge variant="secondary" style={{ fontSize: '10px' }}>
+                                    {cake.category}
+                                  </Badge>
+                                )}
+                                <span style={{ fontSize: '13px', fontWeight: 600, color: '#C44569' }}>
+                                  +${cake.basePrice}
+                                </span>
+                              </div>
+                              {cake.layers && cake.layers[0] && (
+                                <div style={{ fontSize: '11px', color: '#999', marginTop: '4px' }}>
+                                  {cake.layers[0].flavor} cake • {cake.layers[0].icing} icing
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
             </div>
@@ -1186,20 +1258,31 @@ export function OrderCreate({ onBack, onNavigate }: OrderCreateProps) {
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
               {decorations.map(decoration => {
                 const isSelected = selectedDecorations.includes(decoration.id);
+                const decorIcon = getDecorationIcon(decoration.id);
                 return (
                   <label
                     key={decoration.id}
-                    className="flex items-center gap-2 p-3 rounded-lg border cursor-pointer transition-all"
+                    className="flex items-center gap-2 p-3 rounded-lg border cursor-pointer transition-all hover:shadow-sm"
                     style={{
                       borderColor: isSelected ? '#C44569' : '#E0E0E0',
                       background: isSelected ? 'rgba(196, 69, 105, 0.05)' : 'white'
                     }}
                   >
-                    <Checkbox
-                      checked={isSelected}
-                      onCheckedChange={() => toggleDecoration(decoration.id)}
-                    />
-                    <span style={{ fontSize: '13px' }}>{decoration.name}</span>
+                    <span style={{ fontSize: '20px' }}>{decorIcon}</span>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-1">
+                        <Checkbox
+                          checked={isSelected}
+                          onCheckedChange={() => toggleDecoration(decoration.id)}
+                        />
+                        <span style={{ fontSize: '13px' }}>{decoration.name}</span>
+                      </div>
+                      {decoration.price > 0 && (
+                        <span style={{ fontSize: '11px', color: '#C44569', fontWeight: 600 }}>
+                          +${(decoration.price / 100).toFixed(2)}
+                        </span>
+                      )}
+                    </div>
                   </label>
                 );
               })}
