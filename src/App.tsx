@@ -8,7 +8,7 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 
 // Public pages - direct imports
 import { PublicHome } from './pages/public/Home';
-import { Shop } from './pages/public/Shop';
+import Menu from './pages/public/Menu';
 import { Gallery } from './pages/public/Gallery';
 import { About } from './pages/public/About';
 import { Contact } from './pages/public/Contact';
@@ -141,8 +141,8 @@ export default function App() {
     switch (activePage) {
       case 'home':
         return <PublicHome onNavigate={handlePublicNavigate} />;
-      case 'shop':
-        return <Shop onNavigate={handlePublicNavigate} />;
+      case 'menu':
+        return <Menu />;
       case 'gallery':
         return <Gallery />;
       case 'about':

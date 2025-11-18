@@ -20,15 +20,7 @@ interface NavLink {
 
 const navLinks: NavLink[] = [
   { label: 'Home', path: '/' },
-  { 
-    label: 'Shop', 
-    path: '/shop',
-    dropdown: [
-      { label: 'Wedding Cakes', path: '/shop?category=wedding' },
-      { label: 'Birthday Cakes', path: '/shop?category=birthday' },
-      { label: 'Custom Orders', path: '/shop?category=custom' }
-    ]
-  },
+  { label: 'Menu', path: '/menu' },
   { label: 'Gallery', path: '/gallery' },
   { label: 'About', path: '/about' },
   { label: 'Contact', path: '/contact' }

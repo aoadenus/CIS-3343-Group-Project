@@ -1,7 +1,7 @@
 ## Overview
 "Emily Bakes Cakes" is a CIS 3343 case study project - a **pure staff-only internal order management system**. The system consists of:
 
-1. **Public Marketing Website** - Home, shop (inspiration only), gallery, about, contact with Google Maps (5 pages) - NO customer ordering capability
+1. **Public Marketing Website** - Home, menu (product showcase), gallery, about, contact with Google Maps (5 pages) - NO customer ordering capability
 2. **Public Order Tracking** (no login) - Auto-cycling demo page showing order progress
 3. **Staff Portal** (role-based access) - 5 unique dashboards for Sales, Baker, Decorator, Accountant, Manager with JWT authentication
 4. **Staff Management** - Full employee CRUD (Manager/Owner only) with authentication and password hashing
@@ -11,7 +11,9 @@
 
 **CRITICAL ARCHITECTURE DECISION (Nov 13, 2025):** Pure staff-only system - customers CANNOT order online. All orders are entered manually by staff through the admin portal. Customers call, email, or visit in person to place orders. Public pages serve marketing/awareness purposes only.
 
-**LATEST SESSION (Nov 18, 2025):** Case Study Compliance Realignment - All 6 dashboards aligned to mandatory scope (Priorities 1-3), removed out-of-scope features (inquiries/contact from optional website Priority 4), database schema enhanced with order lifecycle timestamps, all KPIs focused on measurable objectives (time reduction 20→15hrs/week, cost reduction $4800→$960/year, retention growth 700→805/year).
+**LATEST SESSION (Nov 18, 2025):** 
+1. **Case Study Compliance Realignment** - All 6 dashboards aligned to mandatory scope (Priorities 1-3), removed out-of-scope features (inquiries/contact from optional website Priority 4), database schema enhanced with order lifecycle timestamps, all KPIs focused on measurable objectives (time reduction 20→15hrs/week, cost reduction $4800→$960/year, retention growth 700→805/year).
+2. **Menu Page Transformation** - Renamed Shop page to Menu page with 6 informational sections: MenuHero, StandardCakesSection (14 cakes with descriptions/pricing), CustomizationOptionsSection (3-column grid for flavors/fillings/icings), IcingColorsSection (37 color swatches with HEX codes), DecorationsSection (25 decoration options), ContactCTA (call/email buttons). Pure informational display - NO ordering functionality.
 
 ## User Preferences
 - **HOMEPAGE LOCKED**: The homepage design is finalized and stable. No major changes should be made without explicit user clarification and acceptance.
@@ -32,7 +34,7 @@ The application is built with React 18.3.1, TypeScript, Vite 6.3.5, and Tailwind
 - **Design System**: Consistent border radius, shadow system, height standards, and animation timings.
 
 ### Technical Implementations
-- **Public Interface**: Marketing-only pages - home, shop (inspiration), gallery, about, contact with Google Maps embed. NO customer ordering capability. Contact page features two-column layout (50/50 split) with ordering workflow on left and contact info cards stacked vertically on right.
+- **Public Interface**: Marketing-only pages - home, menu (product showcase with 6 sections), gallery, about, contact with Google Maps embed. NO customer ordering capability. Menu page displays 14 standard cakes, customization options (flavors/fillings/icings), 37 icing colors with HEX codes, and 25 decoration options - all informational only with call-to-action to phone/email. Contact page features two-column layout (50/50 split) with ordering workflow on left and contact info cards stacked vertically on right.
 - **Staff Order Creation**: Comprehensive admin form for manual order creation with unlimited layer system, dynamic pricing, status management, priority levels, internal notes, and payment tracking. Staff enter ALL orders.
 - **Staff Management System (Nov 14, 2025)**: Full employee CRUD with Manager/Owner-only access. Features: search, filters, role badges, activate/deactivate, bcrypt password hashing, JWT authentication on all endpoints.
 - **Email Notifications (Nov 14, 2025)**: Resend integration sends professional HTML emails for order confirmations and status updates. Non-blocking error handling. Templates use brand colors with tracking links.

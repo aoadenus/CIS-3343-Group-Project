@@ -14,7 +14,7 @@ interface PublicLayoutProps {
 
 const navItems = [
   { id: 'home', label: 'Home' },
-  { id: 'shop', label: 'Shop' },
+  { id: 'menu', label: 'Menu' },
   { id: 'gallery', label: 'Gallery' },
   { id: 'about', label: 'About' },
   { id: 'contact', label: 'Contact' }
