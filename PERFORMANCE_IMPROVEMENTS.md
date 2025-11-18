@@ -41,7 +41,7 @@ This document outlines the performance optimizations implemented to improve the 
 
 **Implementation**: Added `useDebounce` hook to delay API calls until user stops typing
 
-```typescript
+\`\`\`typescript
 // Before: API call on every keystroke
 useEffect(() => {
   fetchCustomers();
@@ -52,7 +52,7 @@ const debouncedSearchTerm = useDebounce(searchTerm, 300);
 useEffect(() => {
   fetchCustomers();
 }, [filter, debouncedSearchTerm]);
-```
+\`\`\`
 
 **Impact**:
 - ✅ **90% reduction** in API calls during search
@@ -67,7 +67,7 @@ useEffect(() => {
 
 **Implementation**: Replaced useEffect-based filtering with useMemo to cache results
 
-```typescript
+\`\`\`typescript
 // Before: Recalculates on every render
 useEffect(() => {
   let filtered = [...orders];
@@ -81,7 +81,7 @@ const filteredOrders = useMemo(() => {
   // ... filtering logic
   return filtered;
 }, [orders, debouncedSearchQuery, statusFilter, sortBy, sortOrder]);
-```
+\`\`\`
 
 **Impact**:
 - ✅ Eliminates unnecessary recalculations
@@ -95,13 +95,13 @@ const filteredOrders = useMemo(() => {
 
 **Implementation**: Memoized fetch functions to prevent recreation on every render
 
-```typescript
+\`\`\`typescript
 // Before: New function created on every render
 const fetchCustomers = async () => { ... };
 
 // After: Function only recreated when dependencies change
 const fetchCustomers = useCallback(async () => { ... }, [filter, debouncedSearchTerm, showToast]);
-```
+\`\`\`
 
 **Impact**:
 - ✅ Stable function references
@@ -115,7 +115,7 @@ const fetchCustomers = useCallback(async () => { ... }, [filter, debouncedSearch
 
 **Implementation**: Combined filter + map into single reduce operation
 
-```typescript
+\`\`\`typescript
 // Before: Two full array iterations
 const accountantOrders = SAMPLE_ORDERS
   .filter(o => parseFloat(o.balanceDue.toString()) > 0)
@@ -134,7 +134,7 @@ const accountantOrders = SAMPLE_ORDERS.reduce((acc, order) => {
   }
   return acc;
 }, []);
-```
+\`\`\`
 
 **Impact**:
 - ✅ **50% fewer iterations** (2 passes → 1 pass)
@@ -148,7 +148,7 @@ const accountantOrders = SAMPLE_ORDERS.reduce((acc, order) => {
 
 **Implementation**: Replaced multiple filter calls with single forEach loop
 
-```typescript
+\`\`\`typescript
 // Before: 4 separate filter operations (8 total iterations)
 const customOrders = completedOrders.filter(o => o.totalAmount > 50);
 const customSum = customOrders.reduce((sum, o) => sum + o.daysToComplete, 0);
@@ -168,7 +168,7 @@ completedOrders.forEach(o => {
     standardStats.count++;
   }
 });
-```
+\`\`\`
 
 **Impact**:
 - ✅ **75% fewer iterations** (8 passes → 2 passes with accumulation)
